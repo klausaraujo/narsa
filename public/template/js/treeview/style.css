@@ -1,0 +1,36 @@
+.checkbox, .collapsible {
+  cursor: pointer;
+  float: left;
+  padding:0;
+  margin: 3px;
+  background: url("checktree_icon.png") no-repeat;
+  width:14px; height:14px;
+}
+.checkbox{ border-radius:3px; }
+.collapsible{ border-radius:6px; }
+.loading {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  float: left;
+  padding:0;
+  margin: 3px;
+  background: url("loading.gif") no-repeat;
+  background-position: 0 0px;
+  /*border-radius:5px;*/
+}
+.jstreecont { border-radius: 15px;box-shadow:5px 3px 10px 3px #000;padding:25px;margin:auto;background-color:aliceblue/*seashell*/;color:#000/*firebrick*/;height:500px;overflow-y:scroll; }
+/*Checkboxes*/
+.unchecked { background-position: -1px -4px; }
+.checked { background-position: -17px -4px; }
+.mid-checked { background-position: -33px -4px; }
+.ddbb { background-position: -33px -21px; }
+/*Collapsible*/
+.exp { background-position: 0 -22px; }/* + */
+.colap { background-position: -14px -22px; }/* - */
+/*Contenedor y lista*/
+.root { margin: 0; padding: 0 }
+.root li { list-style:none; margin-bottom:5px; }
+.root li ul {/*position:relative;*/top:50px; left: 10px; /*float:left;*/ }
+.root a { padding: 0; margin-left: 1em; border-bottom: dotted #089bab 2px; }
+/*.niveles { display:none }*/
