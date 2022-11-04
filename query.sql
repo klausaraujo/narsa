@@ -10,6 +10,14 @@ DROP TABLE IF EXISTS modulo_rol;
 DROP TABLE IF EXISTS modulo;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS perfil;
+DROP TABLE IF EXISTS guia_entrada_detalle;
+DROP TABLE IF EXISTS guia_entrada_detalle_valorizacion;
+DROP TABLE IF EXISTS transacciones;
+DROP TABLE IF EXISTS tipo_operacion;
+DROP TABLE IF EXISTS guia_entrada;
+DROP TABLE IF EXISTS articulo;
+DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS sucursal;
 
 CREATE TABLE perfil  (
 idperfil smallint(4) NOT NULL AUTO_INCREMENT,
@@ -36,7 +44,7 @@ CREATE TABLE usuarios  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 INSERT INTO usuarios (tipo_dni,dni,avatar,apellidos,nombres,usuario,passwd,idperfil) VALUES (1,'42545573', '000120190310064855.png', 'ARAUJO CUADROS', 'KLAUS JOSEPH', 'admin', 'e4619e8fb50a0aa59ad1b92364f127afad06afe1',1);
-
+INSERT INTO usuarios (tipo_dni,dni,avatar,apellidos,nombres,usuario,passwd,idperfil) VALUES (2,'42253941', '000120190310064855.png', 'TABOADA MARTINEZ', 'SILVIA LETICIA', 'staboada', 'e4619e8fb50a0aa59ad1b92364f127afad06afe1',2);
 
 CREATE TABLE modulo  (
   idmodulo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -120,8 +128,6 @@ CREATE TABLE menu_detalle  (
 	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(1,3,'Reporte 01','#','fa fa-th-list',1);
 	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(2,3,'Reporte 02','#','fa fa-newspaper-o',2);
 
-
-
 CREATE TABLE permisos_menu  (
   idpermisosmenu smallint(4) NOT NULL AUTO_INCREMENT,
   idmenu smallint(4) NOT NULL,
@@ -137,11 +143,9 @@ CREATE TABLE permisos_menu  (
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(4,4,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(5,5,1);
 
-		
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(6,1,2);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(7,2,2);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(8,3,2);
-
 
 CREATE TABLE permisos_menu_detalle  (
   idpermisosmenudetalle smallint(4) NOT NULL AUTO_INCREMENT,
@@ -157,7 +161,6 @@ CREATE TABLE permisos_menu_detalle  (
 
 	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (3,1,2);
 	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (4,2,2);
-
 
 CREATE TABLE permisos_opcion  (
   idpermisoopcion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -202,7 +205,104 @@ INSERT INTO mes (mes) VALUES('OCTUBRE');
 INSERT INTO mes (mes) VALUES('NOVIEMBRE');
 INSERT INTO mes (mes) VALUES('DICIEMBRE');
 
+CREATE TABLE sucursal  (
+idsucursal smallint(4) NOT NULL AUTO_INCREMENT,
+sucursal varchar(15) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idsucursal)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+insert into sucursal (idsucursal,sucursal) values ('1','LA MERCED');
+insert into sucursal (idsucursal,sucursal) values ('2','PICHANAKI');
+insert into sucursal (idsucursal,sucursal) values ('3','VILLA RICA');
+insert into sucursal (idsucursal,sucursal) values ('4','SAN RAMON');
+
+create table articulo(
+idarticulo smallint(4) NOT NULL AUTO_INCREMENT,
+articulo varchar(50) NOT NULL,
+tipo char(1)NOT NULL DEFAULT '1',
+facturable char(1)NOT NULL DEFAULT '1',
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idarticulo)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into articulo(idarticulo,articulo) values (1,'CAFÉ PERGAMINO');
+insert into articulo(idarticulo,articulo) values (2,'CAFÉ CEREZO');
+insert into articulo(idarticulo,articulo) values (3,'CAFÉ BOLA');
+insert into articulo(idarticulo,articulo) values (4,'CAFÉ CACHAZA');
+insert into articulo(idarticulo,articulo) values (5,'CACAO');
+insert into articulo(idarticulo,articulo) values (6,'ACHIOTE');
+insert into articulo(idarticulo,articulo) values (7,'MAIZ');
+insert into articulo(idarticulo,articulo) values (8,'SACHAINCHI');
+
+create table proveedor(
+idproveedor smallint(4) NOT NULL AUTO_INCREMENT,
+DNI varchar(8) NOT NULL,
+RUC varchar(11) NOT NULL,
+nombre varchar(100) NOT NULL,
+domicilio varchar(100)NULL,
+zona varchar(30)NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idproveedor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table tipo_operacion(
+idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
+tipo_operacion VARCHAR(50),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtipooperacion))  ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (1,'PRESTAMOS A PROVEEDORES');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (2,'PAGO A PROVEEDORES');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (3,'COBRO A PROVEEDORES');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (4,'PAGO POR VALORIZACION DE PRODUCTOS');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (5,'PAGOS DE INTERESES A PROVEEDORES');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (6,'COBRO DE INTERESES A PROVEEDORES');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (7,'INGRESO DE PRODUCTOS SIN VALORIZAR');
+
+create table transacciones(
+idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
+idtipooperacion smallint(4) NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+fecha datetime,
+monto decimal(20,2),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtransaccion),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table guia_entrada(
+idguia smallint(4) NOT NULL AUTO_INCREMENT,
+anio_guia smallint(4) NOT NULL,
+numero smallint(4) NOT NULL,
+fecha datetime NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idguia),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table guia_entrada_detalle(
+iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
+idguia smallint(4) NOT NULL,
+idarticulo smallint(4) NOT NULL,
+cantidad decimal(20,2),
+costo decimal(20,2),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (iddetalle),
+FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table guia_entrada_detalle_valorizacion(
+iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
+idguia smallint(4) NOT NULL,
+idarticulo smallint(4) NOT NULL,
+cantidad decimal(20,2),
+costo decimal(20,2),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (iddetalle),
+FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 
 
