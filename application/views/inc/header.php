@@ -1,69 +1,16 @@
-<head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <title><?=TITULO_PRINCIPAL?></title>
-   <meta name="author" content="<?=AUTOR?>">
-   <link rel="shortcut icon" href="<?=base_url()?>public/template/images/favicon.jpg">
-   <link rel="icon" href="<?=base_url()?>public/template/images/favicon.jpg" type="image/x-icon">
-   <link rel="stylesheet" href="<?=base_url()?>public/template/css/bootstrap.min.css">
-   <link rel="stylesheet" href="<?=base_url()?>public/template/css/fontawesome.css">
-   <link rel="stylesheet" href="<?=base_url()?>public/template/css/typography.css">
-   <link rel="stylesheet" href="<?=base_url()?>public/template/css/style.css">
-   <link rel="stylesheet" href="<?=base_url()?>public/template/css/responsive.css">
-   <link rel="stylesheet" href="<?=base_url()?>public/template/js/table/datatable/datatables.min.css" type="text/css">
-
-   <?if($this->uri->segment(1) === 'eventos'){?>
-   
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=default" async ></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async ></script>
-	<!--<script src="<?=base_url()?>public/template/html2canvas/html2canvas.min.js" async ></script>-->
-   <style>
-		input[type=number]::-webkit-inner-spin-button, 
-		input[type=number]::-webkit-outer-spin-button { 
-			-webkit-appearance: none; 
-			margin: 0; 
-	    }
-	    input[type=number] { -moz-appearance:textfield; }
-		table.dataTable tr, th, td{font-size: 0.8rem;}
-		#message, #cargando{text-align:center}
-		.succes{color:#008F39;font-size:1.1rem}
-		.warn{color:#FF0000;font-size:1.1rem}
-		.dashboard__title{ padding-top: 25px; font-size: 12px; }
-		#addModal .modal-dialog{width:550px}
-		
-		/*Cargador de Archivos Dropzone*/
-		#uploader{padding:1em;position:relative}
-		#uploader #uploaderCont #dragandrophandler{flex-direction:column;background:#ebebeb;height:30vh;min-height:180px;
-								border:1px solid #c8c8c8;display:flex;align-items:center;justify-content:center;transition:all 400ms;
-								background-repeat: no-repeat; background-position: center; background-size: auto 95%}
-		#uploader #uploaderCont #dragandrophandler>*{transition:all 400ms}
-		#uploader #uploaderCont #dragandrophandler svg{width:100px;height:3.3em;opacity:0.12;margin-bottom:7px}
-		#uploader #uploaderCont #dragandrophandler label{margin-left:5px;color:#007bff;cursor:pointer}
-		#uploader #uploaderCont #dragandrophandler label:hover{text-decoration:underline}
-		#uploader #uploaderCont #dragandrophandler.active{box-shadow:0 0 18px 2px inset #979797;background:#bbd3ff}
-		#uploader #uploaderCont #dragandrophandler.active svg{transform:translateY(11px);height:3.8em;opacity:1;fill:#fff}
-		#uploader #uploaderCont #dragandrophandler.active span{opacity:0}
-		/*#uploader #uploaderCont .row.fileQueue{padding:1% 0;border-bottom:thin solid #e6e6e6;opacity:0}
-		#uploader #uploaderCont .row.fileQueue>div{display:flex;align-items:center}
-		#uploader #uploaderCont .row.fileQueue>div.name b{overflow:hidden;text-overflow:ellipsis}
-		#uploader #uploaderCont .row.fileQueue>div.remove{margin-left:20px;justify-content:flex-end}*/
-	</style>
-	
-	<?}else if($this->uri->segment(1) === 'usuarios'){?>
-	
-	<link rel="stylesheet" href="<?=base_url()?>public/template/js/treeview/style.css" type="text/css">
-	
-	<?}else if($this->uri->segment(1) === 'mapas'){?>
-	
-	<link rel="stylesheet" href="<?=base_url()?>public/template/mapas/main.css" type="text/css">
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=default" async></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async></script>
-	<style>
-		.formu, .mapa{ margin:0;padding:0;min-height:100vh }
-		.formu{z-index:10}
-		label{margin-top:5px; margin-bottom:2px}
-		.card-body{min-height:100vh;<?=$sombradiv?>;}
-	</style>
-	
-	<?}?>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="shortcut icon" href="<?=base_url()?>/public/images/favicon.jpg"/>
+<link rel="icon" href="<?=base_url()?>/public/images/favicon.jpg" type="image/x-icon">
+<link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/css/typography.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/css/style.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/assets/css/fontawesome.min.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/assets/css/brands.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/assets/css/solid.css">
+<style>
+@media(max-width: 1299px){
+	body.sidebar-main .iq-sidebar { width: 260px; left: 0; z-index: 999; background: rgba(62,26,6,1); background: -moz-linear-gradient(left, rgba(62,26,6,1) 0%, rgba(110,56,24,1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(62,26,6,1)), color-stop(100%, rgba(110,56,24,1))); background: -webkit-linear-gradient(left, rgba(62,26,6,1) 0%, rgba(110,56,24,1) 100%); background: -o-linear-gradient(left, rgba(62,26,6,1) 0%, rgba(110,56,24,1) 100%); background: -ms-linear-gradient(left, rgba(62,26,6,1) 0%, rgba(110,56,24,1) 100%); background: linear-gradient(to right, rgba(62,26,6,1) 0%, rgba(110,56,24,1) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8B4513', endColorstr='#A0522D', GradientType=1); }
+}
+</style>
