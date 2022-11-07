@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS mes;
 DROP TABLE IF EXISTS anio;
+DROP TABLE IF EXISTS mes;
 DROP TABLE IF EXISTS permisos_opcion;
 DROP TABLE IF EXISTS permisos_menu_detalle;
 DROP TABLE IF EXISTS permisos_menu;
@@ -8,16 +8,45 @@ DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS permiso;
 DROP TABLE IF EXISTS modulo_rol;
 DROP TABLE IF EXISTS modulo;
-DROP TABLE IF EXISTS usuarios;
-DROP TABLE IF EXISTS perfil;
-DROP TABLE IF EXISTS guia_entrada_detalle;
-DROP TABLE IF EXISTS guia_entrada_detalle_valorizacion;
 DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS tipo_operacion;
+DROP TABLE IF EXISTS guia_entrada_detalle;
+DROP TABLE IF EXISTS guia_entrada_detalle_valorizacion;
 DROP TABLE IF EXISTS guia_entrada;
 DROP TABLE IF EXISTS articulo;
 DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS usuarios_sucursal;
+DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS tipo_documento;
+DROP TABLE IF EXISTS perfil;
 DROP TABLE IF EXISTS sucursal;
+
+CREATE TABLE anio  (
+idanio smallint(4) NOT NULL AUTO_INCREMENT,
+anio smallint(4) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idanio)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+INSERT INTO anio (anio) VALUES(2022);
+
+CREATE TABLE mes  (
+idmes smallint(4) NOT NULL AUTO_INCREMENT,
+mes varchar(15) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idmes)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+INSERT INTO mes (mes) VALUES('ENERO');
+INSERT INTO mes (mes) VALUES('FEBRERO');
+INSERT INTO mes (mes) VALUES('MARZO');
+INSERT INTO mes (mes) VALUES('ABRIL');
+INSERT INTO mes (mes) VALUES('MAYO');
+INSERT INTO mes (mes) VALUES('JUNIO');
+INSERT INTO mes (mes) VALUES('JULIO');
+INSERT INTO mes (mes) VALUES('AGOSTO');
+INSERT INTO mes (mes) VALUES('SEPTIEMBRE');
+INSERT INTO mes (mes) VALUES('OCTUBRE');
+INSERT INTO mes (mes) VALUES('NOVIEMBRE');
+INSERT INTO mes (mes) VALUES('DICIEMBRE');
 
 CREATE TABLE perfil  (
 idperfil smallint(4) NOT NULL AUTO_INCREMENT,
@@ -28,10 +57,22 @@ PRIMARY KEY (idperfil)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_gene
 insert into perfil (perfil) values('ADMINISTRADOR');
 insert into perfil (perfil) values('ESTANDAR');
 
+create table tipo_documento(
+idtipodocumento smallint(4) NOT NULL AUTO_INCREMENT,
+codigo_curl varchar(2) NOT NULL,
+codigo_sunat varchar(1) NOT NULL,
+tipo_documento varchar(20) NOT NULL,
+longitud smallint(4) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idtipodocumento)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+INSERT INTO tipo_documento(idtipodocumento,codigo_curl,codigo_sunat,tipo_documento,longitud) VALUES(1,'01','1','D.N.I.',8);
+INSERT INTO tipo_documento(idtipodocumento,codigo_curl,codigo_sunat,tipo_documento,longitud) VALUES(2,'03','4','CARNET ETX.',9);
+
 CREATE TABLE usuarios  (
   idusuario smallint(4) NOT NULL AUTO_INCREMENT,
-  tipo_dni smallint(4) default 1,
-  dni varchar(9) NOT NULL,
+  idtipodocumento smallint(4) NOT NULL,
+  numero_documento varchar(10) NOT NULL,
   avatar varchar(30),
   apellidos varchar(50) NOT NULL,
   nombres varchar(50) NOT NULL,
@@ -40,11 +81,12 @@ CREATE TABLE usuarios  (
   idperfil smallint(4) NOT NULL,
   activo char(1) DEFAULT '1',
   PRIMARY KEY (idusuario),
-	FOREIGN KEY (idperfil) REFERENCES perfil (idperfil) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (idperfil) REFERENCES perfil (idperfil) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (idtipodocumento) REFERENCES tipo_documento (idtipodocumento) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-INSERT INTO usuarios (tipo_dni,dni,avatar,apellidos,nombres,usuario,passwd,idperfil) VALUES (1,'42545573', '000120190310064855.png', 'ARAUJO CUADROS', 'KLAUS JOSEPH', 'admin', 'e4619e8fb50a0aa59ad1b92364f127afad06afe1',1);
-INSERT INTO usuarios (tipo_dni,dni,avatar,apellidos,nombres,usuario,passwd,idperfil) VALUES (2,'42253941', '000120190310064855.png', 'TABOADA MARTINEZ', 'SILVIA LETICIA', 'staboada', 'e4619e8fb50a0aa59ad1b92364f127afad06afe1',2);
+INSERT INTO usuarios (idusuario,idtipodocumento,numero_documento,avatar,apellidos,nombres,usuario,passwd,idperfil) VALUES (1,1,'42545573', '000120190310064855.png', 'ARAUJO CUADROS', 'KLAUS JOSEPH', 'admin', 'e4619e8fb50a0aa59ad1b92364f127afad06afe1',1);
+INSERT INTO usuarios (idusuario,idtipodocumento,numero_documento,avatar,apellidos,nombres,usuario,passwd,idperfil) VALUES (2,1,'42253941', '000120190310064855.png', 'TABOADA MARTINEZ', 'SILVIA LETICIA', 'staboada', 'e4619e8fb50a0aa59ad1b92364f127afad06afe1',2);
 
 CREATE TABLE modulo  (
   idmodulo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -178,32 +220,7 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,2,2);
 
 
-CREATE TABLE anio  (
-idanio smallint(4) NOT NULL AUTO_INCREMENT,
-anio smallint(4) NOT NULL,
-activo char(1) DEFAULT '1',
-PRIMARY KEY (idanio)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-INSERT INTO anio (anio) VALUES(2022);
-
-CREATE TABLE mes  (
-idmes smallint(4) NOT NULL AUTO_INCREMENT,
-mes varchar(15) NOT NULL,
-activo char(1) DEFAULT '1',
-PRIMARY KEY (idmes)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
-
-INSERT INTO mes (mes) VALUES('ENERO');
-INSERT INTO mes (mes) VALUES('FEBRERO');
-INSERT INTO mes (mes) VALUES('MARZO');
-INSERT INTO mes (mes) VALUES('ABRIL');
-INSERT INTO mes (mes) VALUES('MAYO');
-INSERT INTO mes (mes) VALUES('JUNIO');
-INSERT INTO mes (mes) VALUES('JULIO');
-INSERT INTO mes (mes) VALUES('AGOSTO');
-INSERT INTO mes (mes) VALUES('SEPTIEMBRE');
-INSERT INTO mes (mes) VALUES('OCTUBRE');
-INSERT INTO mes (mes) VALUES('NOVIEMBRE');
-INSERT INTO mes (mes) VALUES('DICIEMBRE');
 
 CREATE TABLE sucursal  (
 idsucursal smallint(4) NOT NULL AUTO_INCREMENT,
@@ -215,6 +232,20 @@ insert into sucursal (idsucursal,sucursal) values ('1','LA MERCED');
 insert into sucursal (idsucursal,sucursal) values ('2','PICHANAKI');
 insert into sucursal (idsucursal,sucursal) values ('3','VILLA RICA');
 insert into sucursal (idsucursal,sucursal) values ('4','SAN RAMON');
+
+CREATE TABLE usuarios_sucursal(
+idsucursalusuario smallint(4) NOT NULL AUTO_INCREMENT,
+idsucursal smallint(4) NOT NULL,
+idusuario smallint(4) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idsucursalusuario),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+INSERT INTO usuarios_sucursal(idsucursalusuario,idsucursal,idusuario) VALUES(1,1,1);	
+INSERT INTO usuarios_sucursal(idsucursalusuario,idsucursal,idusuario) VALUES(2,2,1);	
+INSERT INTO usuarios_sucursal(idsucursalusuario,idsucursal,idusuario) VALUES(3,3,1);	
+INSERT INTO usuarios_sucursal(idsucursalusuario,idsucursal,idusuario) VALUES(4,4,1);	
 
 create table articulo(
 idarticulo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -235,13 +266,16 @@ insert into articulo(idarticulo,articulo) values (8,'SACHAINCHI');
 
 create table proveedor(
 idproveedor smallint(4) NOT NULL AUTO_INCREMENT,
-DNI varchar(8) NOT NULL,
+idtipodocumento smallint(4) NOT NULL,
+numero_documento varchar(10) NOT NULL,
 RUC varchar(11) NOT NULL,
 nombre varchar(100) NOT NULL,
 domicilio varchar(100)NULL,
 zona varchar(30)NULL,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idproveedor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into proveedor(idproveedor,idtipodocumento,numero_documento,RUC,nombre) values (1,1,'00000000','00000000000','NARSA CENTRAL');
 
 create table tipo_operacion(
 idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -256,6 +290,9 @@ insert into tipo_operacion (idtipooperacion,tipo_operacion) values (4,'PAGO POR 
 insert into tipo_operacion (idtipooperacion,tipo_operacion) values (5,'PAGOS DE INTERESES A PROVEEDORES');
 insert into tipo_operacion (idtipooperacion,tipo_operacion) values (6,'COBRO DE INTERESES A PROVEEDORES');
 insert into tipo_operacion (idtipooperacion,tipo_operacion) values (7,'INGRESO DE PRODUCTOS SIN VALORIZAR');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (8,'PRESTAMOS A LA EMPRESA');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (9,'INGRESO DE EFECTIVO A CAJA');
+insert into tipo_operacion (idtipooperacion,tipo_operacion) values (10,'SALIDA DE EFECTIVO DE CAJA');
 
 create table transacciones(
 idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
