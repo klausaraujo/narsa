@@ -18,7 +18,7 @@
         <!-- Sign in Start -->
         <section class="sign-in-page">
             <div class="container sign-in-page-bg mt-5 p-0">
-                <div class="row no-gutters">
+                <div class="row no-gutters" style="min-height:100vh">
                     <div class="col-md-6 text-center">
                         <div class="sign-in-detail text-white">
                             <a class="sign-in-logo mb-5" href="#"><img src="images/logo-white.png" class="img-fluid" alt="logo"></a>

@@ -13,16 +13,6 @@ class Usuario_model extends CI_Model
 		$this->db->limit(1);
         return $this->db->get();
     }
-	public function anio(){
-		$this->db->select('*');
-		$this->db->from('anio');
-		return $this->db->get();
-	}
-	public function mes(){
-		$this->db->select('*');
-		$this->db->from('mes');
-		return $this->db->get();
-	}
     public function listaModulo($data)
     {
         $this->db->select('modulo.idmodulo,descripcion,menu,icono,url,modulo_rol.activo,imagen,mini');

@@ -4,10 +4,17 @@ if (! defined("BASEPATH"))
 
 class Main extends CI_Controller
 {
-    public function __construct(){ parent::__construct(); $this->load->library('User'); }
+	private $usuario;
+	
+    public function __construct(){
+		parent::__construct();
+		$this->load->library('User');
+		$this->usuario = unserialize($this->session->userdata('user'));
+	}
 
     public function index(){
-		if ($this->session->userdata('user')) $this->load->view('main'); else header('location:'.base_url().'login');
+		if($this->session->userdata('user'))$this->load->view('main');
+		else header('location:'.base_url().'login');
 	}
 	public function login(){
 		$this->load->view('login');
@@ -26,7 +33,7 @@ class Main extends CI_Controller
 			
 			if($usuario->activo === '0') {
                 $this->session->set_flashdata('loginError', 'Usuario deshabilitado');
-                header('location:'.base_url().'login');
+                header('location:' .base_url(). 'login');
             }
 			
 			$usuario->modulos = $this->Usuario_model->listaModulo(['idperfil' => $usuario->idperfil]);
@@ -34,14 +41,22 @@ class Main extends CI_Controller
 			$usuario->submenus = $this->Menu_model->listaSubMenuPermisos(['idusuario' => $usuario->idusuario]);
 			$userialize = serialize($usuario);
 			$this->session->set_userdata('user', $userialize);
-			header('location:' . base_url());
+			header('location:' .base_url());
 		}else {
             $this->session->set_flashdata('loginError', 'Usuario o contrase&ntilde;a incorrectos');
-            header('location:'.base_url().'login');
+            header('location:' .base_url(). 'login');
         }
 	}
+	public function proveedores(){
+		$this->load->model('Proveedores_model');
+		$proveedores = $this->Proveedores_model->listaProveedores();
+		$data = array(
+			'lista' => $proveedores,
+		);
+		$this->load->view('main',$data);
+	}	
 	public function logout(){
 		$this->session->sess_destroy();
-        header('location:'.base_url());
+        header('location:' .base_url());
 	}
 }

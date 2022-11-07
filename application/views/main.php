@@ -25,8 +25,12 @@
 				<?php $this->load->view('inc/nav-top-template',$data); ?>
 				<!-- TOP Nav Bar END -->
 				<div class="container-fluid">
-				   <div class="row">
-					  <div class="col-lg-12">
+					<div class="row mx-1">
+					<?php 
+						if($this->uri->segment(1) == '') $this->load->view('modulos',$data);
+						if($this->uri->segment(1) === 'proveedores') $this->load->view('proveedores/proveedores');
+					?>
+						<!--<div class="col-lg-12">
 						 <!--<div class="row">
 							<div class="col-md-6 col-lg-3">
 							   <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
@@ -80,9 +84,9 @@
 								  </div>
 							   </div>
 							</div>
-						 </div>-->
-					  </div>
-				   </div>
+						 </div>
+						</div>-->
+					</div>
 				</div>
 				<!-- Footer -->
 				<?php $this->load->view('inc/footer-template'); ?>

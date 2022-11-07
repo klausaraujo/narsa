@@ -14,7 +14,7 @@
 				<nav class="iq-sidebar-menu">
 					<ul id="iq-sidebar-toggle" class="iq-menu">
 						<li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Panel de Navegaci&oacute;n</span></li>
-						<li class="<?php echo $this->uri->segment(1) == '' ? 'active': ''; ?>" >
+						<li class="<?php echo $this->uri->segment(1) == '' ? 'active main-active': ''; ?>" >
 							<a href="<?=base_url()?>" class="iq-waves-effect"><i class="ri-home-8-fill"></i><span>Inicio</span></a>
 						</li>
 						<?php 
@@ -44,7 +44,7 @@
 							$lMod = $usuario->modulos;
 							$submenu = $usuario->submenus;
 							
-							$idModulo = "";
+							$idModulo = ""; $i = 0;
 							foreach($lMod as $row): if($row->url === $this->uri->segment(1)) $idModulo = $row->idmodulo; endforeach;
 							if(!empty($lMenu)){
 								foreach($lMenu as $row):

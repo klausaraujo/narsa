@@ -54,6 +54,7 @@ $route['default_controller'] = 'main';
 $route['login'] = 'main/login';
 $route['dologin'] = 'main/doLogin';
 $route['logout'] = 'main/logout';
+$route['proveedores'] = 'main/proveedores';
 /**/
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

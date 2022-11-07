@@ -53,7 +53,7 @@
 								<ul class="navbar-list">
 									<li>
 										<a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-											<img src="<?=base_url()?>/public/images/user.jpg" class="img-fluid rounded mr-3" alt="user">
+											<img src="<?=base_url()?>/public/images/perfil/<?=$usuario->avatar;?>" class="img-fluid rounded mr-3" alt="user">
 											<div class="caption">
 												<h6 class="mb-0 line-height font-size-14"><?=$usuario->nombres." ".$usuario->apellidos?></h6>
 												<span class="font-size-12 font-narsa">Disponible</span>
