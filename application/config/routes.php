@@ -50,53 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 #Formularios de Login
-$route['default_controller'] = 'login';
-$route['login'] = 'login/login';
-$route['doLogin'] = 'login/doLogin';
-
-#funciones generales para todos los modulos
-$route['curl'] = 'main/curl';
-$route['urlCurl'] = 'main/urlCurl';
-$route['eventos'] = 'main/eventos';
-$route['usuarios'] = 'main/usuarios';
-$route['cargarprov'] = 'main/cargarprov';
-$route['cargardis'] = 'main/cargardis';
-$route['cargarLatLng'] = 'main/cargarLatLng';
-$route['fichas'] = 'main/fichas';
-$route['mapas'] = 'main/mapas';
-$route['evtbytipo'] = 'main/cargaEventoByTipo';
-
-#Formularios de Registro y edicion de Eventos
-$route['cargarEvento'] = 'eventos/main/cargarEvento';
-$route['registrarEvento'] = 'eventos/main/index';
-$route['eventosListar'] = 'eventos/main/listar';
-$route['editarEvento'] = 'eventos/main/editarEvento';
-$route['reporteConsolidado'] = 'eventos/main/listaReporteConsolidado';
-
-#Informes
-$route['buscaPreliminar'] = 'eventos/informes/preliminar';
-$route['buscaComplementario'] = 'eventos/informes/complementario';
-$route['borraComplementario'] = 'eventos/informes/borraComplementario';
-$route['buscaVersion'] = 'eventos/informes/traeVersion';
-$route['buscaIE'] = 'eventos/informes/buscaIE';
-$route['registraInforme'] = 'eventos/informes/registrar';
-$route['existeAccion'] = 'eventos/informes/existeAccion';
-$route['informe'] = 'eventos/informes/informe';
-$route['buscaIESPrel'] = 'eventos/informes/buscaIESPrel';
-$route['buscaUGELPrel'] = 'eventos/informes/buscaUGELPrel';
-
-#Gestion de Usuarios
-$route['perfil'] = 'usuario/perfil';
-$route['uploadIMG'] = 'usuario/uploadIMG';
-$route['pass'] = 'usuario/password';
-$route['buscaDRE'] = 'usuarios/main/buscaDRE';
-$route['buscaUGEL'] = 'usuarios/main/buscaUGEL';
-$route['permisos'] = 'usuarios/main/permisos';
-$route['regusuario'] = 'usuarios/main/registrar';
-
-# Mapas interactivos
-$route['buscaEventoMapa'] = 'mapas/main/buscaEventoMapa';
-$route['infoWindowEventos'] = 'mapas/main/infoWindowEventos';
+$route['default_controller'] = 'main';
+$route['login'] = 'main/login';
+$route['dologin'] = 'main/doLogin';
+$route['logout'] = 'main/logout';
 /**/
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
