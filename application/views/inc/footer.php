@@ -40,9 +40,11 @@
 		<script src="<?=base_url()?>/public/js/chart-custom.js"></script>
 		<!-- Custom JavaScript -->
 		<script src="<?=base_url()?>/public/js/custom.js"></script>
+		<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
 			let cols = [], titles = [], botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';
+			const base_url = '<?=base_url()?>';
 			
 			function cabeceras(headersCols){
 				let render = [], imagen = [], j = 0;
@@ -81,6 +83,10 @@
 					{
 						targets: 'no-sort',
 						orderable: false,
+					},
+					{
+						targets: 1,
+						visible: false,
 					}
 				];
 				titles = render.concat(titles);
@@ -90,10 +96,9 @@
 		</script>
 		<!-- Rutinas Javascript por cada uno de los segmentos -->
 		
-		<?php if($this->uri->segment(1) === 'proveedores'){ ?>
-		<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
+		<?php if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == ''){ ?>
 		<script>
-			const headers = [{'idproveedor':'id','DNI':'dni','RUC':'RUC','nombre':'nombre','domicilio':'direccion','zona':'zona','activo':'estado'}];
+			const headers = [{'idproveedor':'id','idtipodocumento':'documento','numero_documento':'numero','RUC':'ruc','nombre':'nombre','domicilio':'direccion','zona':'zona','activo':'estado'}];
 			cabeceras(headers);
 			const lista = JSON.parse('<?=json_encode($lista)?>');
 			const tabla = $('#tablaProveedores').DataTable({

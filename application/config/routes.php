@@ -49,12 +49,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-#Formularios de Login
-$route['default_controller'] = 'main';
-$route['login'] = 'main/login';
-$route['dologin'] = 'main/doLogin';
-$route['logout'] = 'main/logout';
+/* Controlador por defecto */
+$route['default_controller'] = 'login';
+
+/* Formulario de Login */
+$route['login'] = 'login/login';
+$route['dologin'] = 'login/doLogin';
+$route['logout'] = 'login/logout';
+
+/* Programacion en general */
 $route['proveedores'] = 'main/proveedores';
+$route['curl'] = 'main/curl';
+
+
+/* Proveedores */
+//$route['proveedores/proveedores'] = 'main/proveedores';
+$route['nuevoproveedor'] = 'proveedores/main/nuevo';
+$route['proveedores/nuevoproveedor'] = 'proveedores/main/nuevo';
 /**/
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

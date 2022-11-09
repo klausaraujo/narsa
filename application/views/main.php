@@ -28,7 +28,8 @@
 					<div class="row mx-1">
 					<?php 
 						if($this->uri->segment(1) == '') $this->load->view('modulos',$data);
-						if($this->uri->segment(1) === 'proveedores') $this->load->view('proveedores/proveedores');
+						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == '') $this->load->view('proveedores/proveedores');
+						if($this->uri->segment(2) === 'nuevoproveedor') $this->load->view('proveedores/form-new');
 					?>
 						<!--<div class="col-lg-12">
 						 <!--<div class="row">
