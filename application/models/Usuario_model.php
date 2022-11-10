@@ -7,8 +7,9 @@ class Usuario_model extends CI_Model
 	
     public function iniciar($data)
     {
-        $this->db->select('*');
-        $this->db->from('usuarios');
+        $this->db->select('u.*,td.tipo_documento');
+        $this->db->from('usuarios u');
+		$this->db->join('tipo_documento td','u.idtipodocumento = td.idtipodocumento');
         $this->db->where($data);
 		$this->db->limit(1);
         return $this->db->get();

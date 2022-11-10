@@ -3,8 +3,9 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User{
 	public $idusuario;
-	public $tipo_dni;
-	public $dni;
+	public $idtipodocumento;
+	public $tipo_documento;
+	public $numero_documento;
 	public $avatar;
 	public $apellidos;
 	public $nombres;

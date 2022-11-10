@@ -53,7 +53,7 @@
 								<li id="menu<?=$row->idmenu?>">
 								<?  if($row->nivel === '0'){
 										if($row->activo === '1'){ ?>
-									<a href="#" rel="<?=$row->url?>" id="linkAjax">
+									<a href="<?=base_url().$row->url?>" id="linkAjax">
 										<div class="pull-left">
 											<i class="<?=$row->icono?> mr-20"></i>
 											<span class="right-nav-text"><?=$row->descripcion?></span>
