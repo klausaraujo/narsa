@@ -21,22 +21,27 @@
                 <div class="row no-gutters" style="min-height:100vh">
                     <div class="col-md-6 text-center">
                         <div class="sign-in-detail text-white">
-                            <a class="sign-in-logo mb-5" href="#"><img src="images/logo-white.png" class="img-fluid" alt="logo"></a>
+                            <a class="sign-in-logo mb-5" href="#"><img src="<?=base_url()?>/public/images/logo-white.png" class="img-fluid" alt="logo"></a>
                             <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
                                 <div class="item">
-                                    <img src="<?=base_url()?>/public/images/2.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Manage your orders</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <img src="<?=base_url()?>/public/images/1.png" class="img-fluid mb-4" alt="logo">
+                                    <h4 class="mb-1 text-white">Titulo 01</h4>
+                                    <p>Descripcion 01</p>
                                 </div>
                                 <div class="item">
                                     <img src="<?=base_url()?>/public/images/2.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Manage your orders</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <h4 class="mb-1 text-white">Titulo 02</h4>
+                                    <p>Descripcion 02</p>
                                 </div>
                                 <div class="item">
-                                    <img src="<?=base_url()?>/public/images/2.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Manage your orders</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <img src="<?=base_url()?>/public/images/3.png" class="img-fluid mb-4" alt="logo">
+                                    <h4 class="mb-1 text-white">Titulo 03</h4>
+                                    <p>Descripcion 03</p>
+                                </div>
+                                <div class="item">
+                                    <img src="<?=base_url()?>/public/images/4.png" class="img-fluid mb-4" alt="logo">
+                                    <h4 class="mb-1 text-white">Titulo 04</h4>
+                                    <p>Descripcion 04</p>
                                 </div>
                             </div>
                         </div>
