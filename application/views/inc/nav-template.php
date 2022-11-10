@@ -1,6 +1,6 @@
 		<div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
-				<a href="<?=base_url()?>"><img src="images/logo.png" class="img-fluid" alt=""><span>NARSA</span></a>
+				<a href="<?=base_url()?>"><img src="<?=base_url()?>public/images/logo-white.png" class="img-fluid" alt=""><span>NARSA</span></a>
 				<div class="iq-menu-bt-sidebar">
                     <div class="iq-menu-bt align-self-center">
                         <div class="wrapper-menu">

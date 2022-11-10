@@ -12,7 +12,7 @@ $('body').bind('click','a',function(e){
 });
 
 curl.bind('click',function(){
-	let doc = $('.doc').val(), tipodoc = $('.tipodoc').val(); $('.nombres').val('');
+	let doc = $('.doc').val(), tipodoc = $('.tipodoc').val(); $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val('');
 	
 	if(doc !== '' && tipodoc !== ''){
 		if(doc.length < 8){ alert('Debe ingresar un documento válido'); $('#doc').focus(); return}
@@ -46,4 +46,29 @@ curl.bind('click',function(){
 		if(tipodoc === ''){ alert('Debe elegir un tipo de Documento'); $('#tipodoc').focus(); }
 		else{ alert('Debe ingresar un número de documento válido'); $('#doc').focus(); }
 	}
+});
+
+$('#form_proveedor').validate({
+	errorClass: 'form_error',
+	rules: {
+		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
+		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8 },
+		ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },
+		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
+		direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
+		zona: { required: function () { if ($('.zona').css('display') != 'none') return true; else return false; } },
+	},
+	messages: {
+		tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
+		doc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
+		ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },
+		nombres: { required : '&nbsp;&nbsp;Campo Requerido' },
+		direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
+		zona: { required : '&nbsp;&nbsp;Campo Requerido' },
+	},
+	errorPlacement: function (error, element) {
+		if (element.attr('name') == 'doc') {
+			error.insertAfter('.btn_curl');
+		}else error.insertAfter(element);
+	},
 });

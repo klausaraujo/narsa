@@ -41,6 +41,7 @@
 		<!-- Custom JavaScript -->
 		<script src="<?=base_url()?>/public/js/custom.js"></script>
 		<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
+		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
 			let cols = [], titles = [], botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';

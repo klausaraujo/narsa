@@ -65,7 +65,8 @@ $route['curl'] = 'main/curl';
 /* Proveedores */
 //$route['proveedores/proveedores'] = 'main/proveedores';
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
-$route['proveedores/nuevoproveedor'] = 'proveedores/main/nuevo';
+$route['proveedores/nuevo'] = 'proveedores/main/nuevo';
+$route['proveedores/registrar'] = 'proveedores/main/registrar';
 /**/
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

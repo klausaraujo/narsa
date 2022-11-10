@@ -1061,6 +1061,7 @@ Add User Page
 .dashboard__title{ font-size: 1.07em; margin-right: 0.5rem; margin-left: 0.5rem }
 .content-page{ padding: 96px 15px 0; } .fa-address-card-o::before{ content: "\f2bb"; } .fa-money::before { content: "\f0d6"; } .fa-newspaper-o::before { content: "\f1ea"; }
 .no-sort::after{ display: none!important; } .no-sort{ pointer-events: none!important; cursor: default!important; }
+.form_error{ color: #F00; background-color: #FFF; display: flex; align-items: center; }
 *::-moz-selection { background: rgba(139,69,19,1); color: #fff; text-shadow: none; }
 ::-moz-selection { background: rgba(139,69,19,1); color: #fff; text-shadow: none; }
 ::selection { background: rgba(139,69,19,1); color: #fff; text-shadow: none; }
