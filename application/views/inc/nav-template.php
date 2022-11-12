@@ -1,3 +1,4 @@
+		<? $usuario = json_decode($this->session->userdata('user')); ?>
 		<div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
 				<a href="<?=base_url()?>"><img src="<?=base_url()?>public/images/logo-white.png" class="img-fluid" alt=""><span>NARSA</span></a>

@@ -1,3 +1,4 @@
+		<? $usuario = json_decode($this->session->userdata('user')); ?>
 		<div class="iq-top-navbar">
             <div class="iq-navbar-custom">
 				<!--<div class="iq-sidebar-logo">
@@ -53,7 +54,7 @@
 								<ul class="navbar-list">
 									<li>
 										<a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-											<img src="<?=base_url()?>/public/images/perfil/<?=$usuario->avatar;?>" class="img-fluid rounded mr-3" alt="user">
+											<img src="<?=base_url()?>/public/images/perfil/<?=$usuario->avatar;?>" class="img-fluid rounded mr-3 top-avatar" alt="user">
 											<div class="caption">
 												<h6 class="mb-0 line-height font-size-14"><?=$usuario->nombres." ".$usuario->apellidos?></h6>
 												<span class="font-size-12 font-narsa">Disponible</span>
@@ -66,7 +67,7 @@
 														<h5 class="mb-0 text-white line-height"><?=$usuario->nombres." ".$usuario->apellidos?></h5>
 														<span class="text-white font-size-12">Disponible</span>
 													</div>
-													<a href="profile.html" class="iq-sub-card narsa-bg-primary-hover">
+													<a href="<?=base_url();?>usuario/perfil" class="iq-sub-card narsa-bg-primary-hover">
 														<div class="media align-items-center">
 															<div class="rounded iq-card-icon narsa-bg-primary">
 																<i class="ri-file-user-line"></i>
@@ -78,7 +79,7 @@
 														</div>
 													</a>
 													<div class="d-inline-block w-100 text-center p-3">
-														<a class="btn btn-narsa" href="logout" role="button">Cerrar Sesi&oacute;n<i class="ri-login-box-line ml-2"></i></a>
+														<a class="btn btn-narsa" href="<?=base_url()?>logout" role="button">Cerrar Sesi&oacute;n<i class="ri-login-box-line ml-2"></i></a>
 													</div>
 												</div>
 											</div>

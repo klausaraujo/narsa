@@ -60,13 +60,16 @@ $route['logout'] = 'login/logout';
 /* Programacion en general */
 $route['proveedores'] = 'main/proveedores';
 $route['curl'] = 'main/curl';
-
+$route['upload'] = 'main/upload';
+$route['cambiapass'] = 'main/password';
 
 /* Proveedores */
-//$route['proveedores/proveedores'] = 'main/proveedores';
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
 $route['proveedores/registrar'] = 'proveedores/main/registrar';
+
+/* Cambiar perfil del usuario */
+$route['usuario/perfil'] = 'main/perfil';
 /**/
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

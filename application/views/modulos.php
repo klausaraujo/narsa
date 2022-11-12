@@ -10,6 +10,7 @@
 			</div>
 		</div>
 	<?php
+		$usuario = json_decode($this->session->userdata('user'));
 		$listaModulos = $usuario->modulos;
 		foreach($listaModulos as $row): ?>
 		<div class="col-sm-6 col-md-3 dashboard__card">

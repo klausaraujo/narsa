@@ -7,9 +7,8 @@ class Main extends CI_Controller
 	
     public function __construct(){
 		parent::__construct();
-		$this->load->library('User');
-		if($this->session->userdata('user'))
-			$this->usuario = unserialize($this->session->userdata('user'));
+		//$this->load->library('User');
+		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
 		else header('location:' .base_url());
 	}
 
@@ -23,9 +22,10 @@ class Main extends CI_Controller
 		}else header('location:' .base_url(). 'proveedores/nuevo');
 	}
 	public function registrar(){
-		$this->session->set_flashdata('claseMsg', 'warning');
-		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('ruc') != ''){
+		$this->session->set_flashdata('claseMsg', 'danger');
+		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != ''){
 			$this->load->model('Proveedores_model');
+			$this->session->set_flashdata('flashSuccess', 'Prueba de span');
 			$data = array(
 				'idtipodocumento' => $this->input->post('tipodoc'),
 				'numero_documento' => $this->input->post('doc'),

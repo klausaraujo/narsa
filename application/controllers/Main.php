@@ -4,13 +4,15 @@ if (! defined("BASEPATH")) exit("No direct script access allowed");
 class Main extends CI_Controller
 {
 	private $usuario;
+	private $absolutePath;
 	
     public function __construct(){
 		parent::__construct();
-		$this->load->library('User');
-		if($this->session->userdata('user'))
-			$this->usuario = unserialize($this->session->userdata('user'));
-		else header('location:' .base_url());
+		//$this->load->library('User');
+		if($this->session->userdata('user')){
+			$this->usuario = json_decode($this->session->userdata('user'));
+			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
+		}else header('location:' .base_url());
 	}
 
     public function index(){}
@@ -47,4 +49,70 @@ class Main extends CI_Controller
 
         echo $data;
 	}
+	public function perfil(){ $this->load->view('main'); }
+	
+	public function upload(){
+		$path = $this->absolutePath.'public/images/perfil/';
+		$nombre = $_FILES['perfil']['name'];
+		$size = $_FILES['perfil']['size'];
+		
+        $config['upload_path'] = $path;
+        $config['file_name'] = $nombre;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = 0;
+        $config['max_width'] = 0;
+        $config['max_height'] = 0;
+		$config['overwrite'] = true;
+		
+		$this->load->library('upload', $config);
+        
+        if (!$this->upload->do_upload('perfil')) {
+            $data = array('error' => $this->upload->display_errors());
+			//$this->load->view('upload_form', $error);
+        }else{
+			$resp = (object)$this->upload->data();
+			$error_resize = 0; $avatar = 0;
+			if($resp->image_width > 460){
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = $path.$nombre;
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['width'] = 400;
+				//$config['height'] = 320;
+				//$error_resize = 'Entro en resize';
+				$this->load->library('image_lib', $config);
+				if(! $this->image_lib->resize()) $error_resize = $this->image_lib->display_errors();
+			}
+			$this->load->model('Usuario_model');
+			$this->Usuario_model->setAvatar($nombre);
+			$avatar = $this->Usuario_model->avatar(['idusuario' => $this->usuario->idusuario]);
+			if($avatar === 1){ $this->usuario->avatar = $nombre; $this->session->set_userdata('user', json_encode($this->usuario)); }
+			
+			$data = array('upload_data' => $resp, 'resize' => $error_resize, 'avatar' => $this->usuario->avatar);
+		}
+		echo json_encode($data);
+	}
+	public function password()
+    {
+        $this->load->model('Usuario_model');
+        
+        $actual = $this->input->post('old_password');
+        $password = $this->input->post('password');
+        $id = $this->input->post('cod_usuario');
+		$status = 500;
+        $message = 'Contrase&ntilde;a actual no coincide';
+		
+		$this->Usuario_model->setPassword($actual);
+		$validacion = $this->Usuario_model->validar_password(['idusuario' => $this->usuario->idusuario]);
+		
+		if($validacion === 1){
+			$message = 'No se pudo actualizar la contrase&ntilde;a';
+			$this->Usuario_model->setPassword($password);            
+            if ($this->Usuario_model->password(['idusuario' => $id]) === 1){
+                $message = 'La contrase&ntilde;a ha sido actualizada';
+                $status = 200;
+            }
+        }
+        echo json_encode(array('status'=>$status,'message'=>$message));
+    }
 }

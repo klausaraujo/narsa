@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User{
+class User implements Serializable{
 	public $idusuario;
 	public $idtipodocumento;
 	public $tipo_documento;
@@ -16,4 +16,17 @@ class User{
 	public $modulos;
 	public $menus;
 	public $submenus;
+	
+	public function __construct(){
+		//parent::__construct();
+	}
+	public function jsonSerialize(){
+		return get_object_vars($this);
+	}
+	public function serialize() {
+        return serialize($this->datos);
+    }
+    public function unserialize($datos) {
+        $this->datos = unserialize($datos);
+    }
 }

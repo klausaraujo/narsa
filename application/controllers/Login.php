@@ -37,8 +37,8 @@ class Login extends CI_Controller
 			$usuario->modulos = $this->Usuario_model->listaModulo(['idperfil' => $usuario->idperfil]);
 			$usuario->menus = $this->Menu_model->listaMenuPermisos(['idusuario' => $usuario->idusuario]);
 			$usuario->submenus = $this->Menu_model->listaSubMenuPermisos(['idusuario' => $usuario->idusuario]);
-			$userialize = serialize($usuario);
-			$this->session->set_userdata('user', $userialize);
+			//$userialize = serialize($usuario);
+			$this->session->set_userdata('user', json_encode($usuario));
 			header('location:' .base_url());
 		}else {
             $this->session->set_flashdata('loginError', 'Usuario o contrase&ntilde;a incorrectos');

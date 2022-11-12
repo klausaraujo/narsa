@@ -15,21 +15,21 @@
 		<!-- loader END -->
 		<!-- Wrapper Start -->
 		<div class="wrapper bg-narsa">
-			<?php $data = array('usuario' => unserialize($this->session->userdata('user'))); ?>
 			<!-- Sidebar  -->
-			<?php $this->load->view('inc/nav-template',$data); ?>
+			<?php $this->load->view('inc/nav-template'); ?>
 			<!-- Sidebar END -->
 			<!-- Page Content  -->
 			<div id="content-page" class="content-page">
 				<!-- TOP Nav Bar -->
-				<?php $this->load->view('inc/nav-top-template',$data); ?>
+				<?php $this->load->view('inc/nav-top-template'); ?>
 				<!-- TOP Nav Bar END -->
 				<div class="container-fluid">
 					<div class="row mx-1">
 					<?php 
-						if($this->uri->segment(1) == '') $this->load->view('modulos',$data);
+						if($this->uri->segment(1) == '') $this->load->view('modulos');
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == '') $this->load->view('proveedores/proveedores');
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'nuevo') $this->load->view('proveedores/form-new');
+						if($this->uri->segment(2) === 'perfil') $this->load->view('usuario/perfil');
 					?>
 						<!--<div class="col-lg-12">
 						 <!--<div class="row">

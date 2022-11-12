@@ -54,7 +54,7 @@
 							<div class="col-sm-12"><h5 id="message" class="succes"></h5></div>
 							<div class="col-sm-12 mx-auto pb-2">
 								<button type="submit" class="btn btn-narsa mx-3" id="btnEnviar">Guardar registro</button>
-								<button class="btn btn-narsa" id="btnCancelar" name="btnCancelar">Cancelar</button>
+								<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
 							</div>
 						</form>
 						</div>

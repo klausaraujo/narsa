@@ -44,9 +44,15 @@
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
-			let cols = [], titles = [], botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';
-			const base_url = '<?=base_url()?>';
-			
+			let cols = [], titles = [], botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip', btnAccion;
+			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>';		
+			const lngDataTable = {
+				'emptyTable': 'Actualmente no hay registros para mostrar',
+				'info': 'Mostrando _START_ a _END_ de _TOTAL_ Entradas', 'infoEmpty': 'Mostrando 0 a 0 de 0 Entradas','infoFiltered': '(Filtrado de _MAX_ total entradas)',
+				'infoPostFix': '',"thousands": ',', 'lengthMenu': 'Mostrando  _MENU_  Entradas', 'loadingRecords': 'Cargando Registros ...',
+				'processing': 'Procesando...', 'search': 'Buscar:', 'zeroRecords': 'No se encontraron resultados',
+				'paginate': { 'first': 'Primero', 'last': 'Ultimo', 'next': 'Siguiente', 'previous': 'Anterior' },
+			}
 			function cabeceras(headersCols){
 				let render = [], imagen = [], j = 0;
 				cols.push({data:null,className:'no_sort'});j++;
@@ -66,20 +72,10 @@
 						title: 'Acciones',
 						targets: 0,
 						orderable: false,
+						collapse: false,
+						collapsible: false,
 						data: null,
-						render: function (data, type, row, meta) {
-							const btnDel = '<button class="btn btn-warning btn-circle btn-sm actionDelete" title="Eliminar" '+
-								'style="margin-right:5px;padding:1px;padding-left:3px" ><i class="fa fa-trash" aria-hidden="true"></i></button>';
-							const btnEdit = '<button class="btn btn-warning btn-circle btn-sm actionEdit" title="Editar Registro" type="button" '+
-								'style="margin-right:5px;padding:1px;padding-left:3px" ><i class="fa fa-pencil-square" aria-hidden="true"></i></button>'
-							const btnPreliminar = '<button class="btn btn-warning btn-circle btn-sm actionInforme" title="Acciones" type="button"'+
-								'style="margin-right:5px;padding:1px;padding-left:3px" ><i class="fa fa-file" aria-hidden="true"></i></button>';
-							const btnPdf = '<button class="btn btn-warning btn-circle btn-sm actionReport" title="Ver Reporte" type="button"'+
-								'style="margin-right:5px;padding:1px;padding-left:3px" ><i class="fa fa-file-pdf" aria-hidden="true"></i></button>';
-							const btnHome = '<button class="btn btn-warning btn-circle btn-sm actionComp" title="Complementarios" type="button"'+
-								'style="margin-right:5px;padding:1px;padding-left:3px" ><i class="fa fa-home" aria-hidden="true"></i></button>';
-							return btnEdit+btnPreliminar+btnHome+btnPdf;
-						}
+						render: function (data, type, row, meta) { return btnAccion; }
 					},
 					{
 						targets: 'no-sort',
@@ -100,17 +96,19 @@
 		<?php if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = [{'idproveedor':'id','idtipodocumento':'documento','numero_documento':'numero','RUC':'ruc','nombre':'nombre','domicilio':'direccion','zona':'zona','activo':'estado'}];
+			btnAccion =
+			'<button class="btn btn-warning btn-circle btn-sm actionEdit" title="Editar Registro" type="button" style="margin-right:5px;padding:1px;padding-left:3px" >'+
+			'<i class="fa fa-pencil-square" aria-hidden="true"></i></button>'+
+			'<button class="btn btn-warning btn-circle btn-sm actionComp" title="Complementarios" type="button" style="margin-right:5px;padding:1px;padding-left:3px" >'+
+			'<i class="fa fa-home" aria-hidden="true"></i></button>';			
 			cabeceras(headers);
+			
 			const lista = JSON.parse('<?=json_encode($lista)?>');
+			
 			const tabla = $('#tablaProveedores').DataTable({
 				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
 				'columns':cols, 'columnDefs':titles, 'dom': botones, 'buttons':{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-				'copy','csv','excel','pdf','print']},order: [], language:{ 'emptyTable': 'Actualmente no hay registros para mostrar',
-				'info': 'Mostrando _START_ a _END_ de _TOTAL_ Entradas', 'infoEmpty': 'Mostrando 0 a 0 de 0 Entradas','infoFiltered': '(Filtrado de _MAX_ total entradas)',
-				'infoPostFix': '',"thousands": ',', 'lengthMenu': 'Mostrando  _MENU_  Entradas', 'loadingRecords': 'Cargando Registros ...',
-				'processing': 'Procesando...', 'search': 'Buscar:', 'zeroRecords': 'No se encontraron resultados',
-				'paginate': { 'first': 'Primero', 'last': 'Ultimo', 'next': 'Siguiente', 'previous': 'Anterior' },
-			},
+				'copy','csv','excel','pdf','print']},order: [], language:{ lngDataTable },
 			});
 		</script>
 		<?}?>
