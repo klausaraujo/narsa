@@ -1,17 +1,44 @@
-$(document).ready(function (){ $('html, body').animate({ scrollTop: 0 }, 'fast'); });
+let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upload-button'), file = $('.file-upload'), imgperfil = $('.profile-pic'), perfiltop = $('.top-avatar');
 
-let curl = $('.btn_curl');
+$(document).ready(function (){
+	$('html, body').animate({ scrollTop: 0 }, 'fast');
+	setTimeout(function () { $('.msg').hide('slow'); }, 700);
+});
 
 $('body').bind('click','a',function(e){
-	let evt = e || e.target, el = evt.target, rel = $(el).closest('a').attr('rel');
-	if(rel === 'proveedores'){
+	let evt = e || e.target, el = evt.target;/*, rel = $(el).closest('a').attr('rel');*/
+	/*if(rel === 'proveedores'){
 		$(location).attr('href','proveedores');
 	}else if(rel === 'Nuevo Registro'){
 		
-	}
+	}*/
 });
 
-curl.bind('click',function(){
+btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });
+upload.bind('click',function(e){ file.trigger('click'); });
+
+file.bind('change',function(){
+	var e = e || window.event;
+	let file = e.target.files;
+	let img = URL.createObjectURL(file[0]);
+	let formData = new FormData($('.uploadFileAjax')[0]);
+	$.ajax({
+        url: base_url + 'upload',
+        type: 'post',
+        dataType: 'html',
+        data: formData,
+        cache: false,
+        contentType: false,
+	    processData: false
+	}).done(function(data){
+		console.log(data);
+		imgperfil.attr( 'src', img );
+		perfiltop.attr( 'src', img );
+	});
+	
+});
+
+btnCurl.bind('click',function(){
 	let doc = $('.doc').val(), tipodoc = $('.tipodoc').val(); $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val('');
 	
 	if(doc !== '' && tipodoc !== ''){
@@ -25,12 +52,12 @@ curl.bind('click',function(){
 			url: base_url + 'curl',
 			method: 'POST',
 			dataType: 'json',
-			error: function (xhr) { curl.removeAttr('disabled'); curl.html('<i class="fa fa-search aria-hidden="true"></i>'); },
-			beforeSend: function () { curl.html('<i class="fa fa-spinner fa-pulse"></i>'); curl.attr('disabled', 'disabled'); },
+			error: function (xhr) { btnCurl.removeAttr('disabled'); btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>'); },
+			beforeSend: function () { btnCurl.html('<i class="fa fa-spinner fa-pulse"></i>'); btnCurl.attr('disabled', 'disabled'); },
 			success: function (data) {
 				let msg = data.errors? data.errors[0].detail : '';
-				curl.html('<i class="fa fa-search aria-hidden="true"></i>');
-				curl.removeAttr("disabled");
+				btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>');
+				btnCurl.removeAttr("disabled");
 				if(msg === ''){
 					console.log(data);
 					if(tipodoc === '01' || tipodoc === '03'){
@@ -40,7 +67,7 @@ curl.bind('click',function(){
 				}else alert(msg);
 			}
 		}).fail( function( jqXHR, textStatus, errorThrown ) {
-			curl.html('<i class="fa fa-search aria-hidden="true"></i>'); curl.removeAttr("disabled"); alert(jqXHR + ",  " + textStatus + ",  " + errorThrown);
+			btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>'); btnCurl.removeAttr("disabled"); alert(jqXHR + ",  " + textStatus + ",  " + errorThrown);
 		});
 	}else{ 
 		if(tipodoc === ''){ alert('Debe elegir un tipo de Documento'); $('#tipodoc').focus(); }
@@ -48,27 +75,46 @@ curl.bind('click',function(){
 	}
 });
 
-$('#form_proveedor').validate({
+$('#formPassword').validate({
 	errorClass: 'form_error',
 	rules: {
-		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
-		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8 },
-		ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },
-		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
-		direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
-		zona: { required: function () { if ($('.zona').css('display') != 'none') return true; else return false; } },
+		old_password: { required: true },
+		password: { required: true, minlength: 6 },
+		re_password: { required: true, equalTo: "#password" }
 	},
 	messages: {
-		tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
-		doc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
-		ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },
-		nombres: { required : '&nbsp;&nbsp;Campo Requerido' },
-		direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
-		zona: { required : '&nbsp;&nbsp;Campo Requerido' },
+		old_password: { required: '&nbsp;&nbsp;Ingrese la contrase\xf1a actual' },
+		password: { required: '&nbsp;&nbsp;Ingrese la nueva contrase\xf1a', minlength: '&nbsp;&nbsp;Por lo menos 6 caracteres' },
+		re_password: { required: '&nbsp;&nbsp;Ingrese nuevamente la contrase\xf1a', equalTo: '&nbsp;&nbsp;Las contrase\xf1as deben ser iguales' }
 	},
-	errorPlacement: function (error, element) {
-		if (element.attr('name') == 'doc') {
-			error.insertAfter('.btn_curl');
-		}else error.insertAfter(element);
+	errorPlacement: function(error, element) {
+		error.insertAfter(element);
 	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		$.ajax({
+			data: $('#formPassword').serialize(),
+			url: base_url + 'cambiapass',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function () {
+				//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
+				$('#formPassword button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#formPassword button[type=submit]').addClass('disabled');
+			},
+			success: function (data) {
+				$('.resp').html('');
+				$('#formPassword button[type=submit]').html('Realizar Cambio');
+				$('#formPassword button[type=submit]').removeClass('disabled');
+				//console.log(data);
+				if (parseInt(data.status) === 200) {
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
+				}else {
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
+				}
+			}
+		});
+	}
 });
