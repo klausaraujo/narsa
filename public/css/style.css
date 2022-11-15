@@ -1059,7 +1059,8 @@ Add User Page
 .disable span{ white-space: nowrap; padding: 0; display: inline-block; float: left; -webkit-transition: all 0.3s ease-out 0s; -moz-transition: all 0.3s ease-out 0s; -ms-transition: all 0.3s ease-out 0s; -o-transition: all 0.3s ease-out 0s; transition: all 0.3s ease-out 0s; transition: none; }
 .iq-card-body-elements{ background: rgba(221,95,26,1); height : 230px; border-radius:20px; padding-top: 15px; text-align: center!important; }
 .dashboard__title{ font-size: 1.07em; margin-right: 0.5rem; margin-left: 0.5rem }
-.content-page{ padding: 96px 15px 0; } .fa-address-card-o::before{ content: "\f2bb"; } .fa-money::before { content: "\f0d6"; } .fa-newspaper-o::before { content: "\f1ea"; }
+.content-page{ padding: 96px 15px 0; } /*.fa-address-card-o::before{ content: "\f2bb"; } .fa-money::before { content: "\f0d6"; } .fa-newspaper-o::before { content: "\f1ea"; }
+.fa-pencil-square-o::before { content: "\f14b"; }*/
 .no-sort::after{ display: none!important; } .no-sort{ pointer-events: none!important; cursor: default!important; }
 .form_error{ color: #F00; background-color: #FFF; display: flex; align-items: center; }
 .tab-perfil{ border-radius: 20px; }

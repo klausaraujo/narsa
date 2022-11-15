@@ -2,7 +2,7 @@ let tabla = null;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
-		tabla = $('#tablaProveedores').DataTable({
+		tabla = $('#tablaUsuarios').DataTable({
 			'data':lista, 'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
 			'columns':[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
@@ -11,20 +11,29 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Editar Proveedor" href="'+base_url+'proveedores/editar?id='+data.idproveedor+'" class="bg-warning btnTable editar">'+
-							'<i class="far fa-pencil" aria-hidden="true"></i></a>'+
-						'<a title="Transacciones" href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'" class="bg-success btnTable acciones">'+
-							'<i class="far fa-house" aria-hidden="true"></i></a>';
+						'<a title="Editar Usuario" href="'+base_url+'usuarios/editar?id='+data.idusuario+'" class="bg-warning btnTable editar">'+
+							'<i class="far fa-pencil" aria-hidden="true"></i></a>'
 						return btnAccion;
 					}
 				},
-				{ data: 'idproveedor' },
+				{ data: 'idusuario' },
 				{ data: 'idtipodocumento' },
 				{ data: 'numero_documento' },
-				{ data: 'RUC' },
-				{ data: 'nombre' },
-				{ data: 'domicilio' },
-				{ data: 'zona' },
+				{ data: 'avatar' },
+				{ data: 'apellidos' },
+				{ data: 'nombres' },
+				{ data: 'usuario' },
+				{ 
+					data: 'idperfil',
+					render: function(data){
+						let var_perfil = '';
+						switch(data){
+							case '1': var_perfil = 'ADMINISTRADOR'; break;
+							case '2': var_perfil = 'EST&Aacute;NDAR'; break;
+						}
+						return var_perfil;
+					}
+				},
 				{
 					data: 'activo',
 					render: function(data){
@@ -47,7 +56,7 @@ $('body').bind('click','a',function(e){
 	
 });
 
-$('#form_proveedor').validate({
+$('#form_usuario').validate({
 	errorClass: 'form_error',
 	rules: {
 		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
