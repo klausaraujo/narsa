@@ -58,4 +58,13 @@ class Usuario_model extends CI_Model
         if ($this->db->update('usuarios')) return 1;
         else { $error = $this->db->error(); return $error['code']; }
     }
+	public function sucursales($data){
+		$this->db->select('suc.idsucursal,sucursal');
+		$this->db->from('sucursal suc');
+		$this->db->join('usuarios_sucursal us', 'us.idsucursal = suc.idsucursal');
+		$this->db->where($data);
+        $this->db->order_by('suc.idsucursal', 'asc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }

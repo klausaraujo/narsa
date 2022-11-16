@@ -56,23 +56,23 @@ $('body').bind('click','a',function(e){
 	
 });
 
-$('#form_usuario').validate({
+$('#form_usuarios').validate({
 	errorClass: 'form_error',
 	rules: {
 		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
 		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8 },
-		/*ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },*/
+		apellidos: { required: function () { if ($('.apellidos').css('display') != 'none') return true; else return false; } },
 		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
-		direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
-		zona: { required: function () { if ($('.zona').css('display') != 'none') return true; else return false; } },
+		usuario: { required: function () { if ($('.usuario').css('display') != 'none') return true; else return false; } },
+		perfil: { required: function () { if ($('.perfil').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
 		doc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
-		/*ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },*/
+		apellidos: { required : '&nbsp;&nbsp;Campo Requerido' },
 		nombres: { required : '&nbsp;&nbsp;Campo Requerido' },
-		direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
-		zona: { required : '&nbsp;&nbsp;Campo Requerido' },
+		usuario: { required : '&nbsp;&nbsp;Campo Requerido' },
+		perfil: { required : '&nbsp;&nbsp;Campo Requerido' },
 	},
 	errorPlacement: function(error, element) {
 		if (element.attr('name') == 'doc') {
@@ -83,12 +83,4 @@ $('#form_usuario').validate({
 		//alert('Enviando');
 		return true;
 	}
-});
-
-$('#form_ingresos').validate({
-	errorClass: 'form_error',
-});
-
-$('#form_valorizaciones').validate({
-	errorClass: 'form_error',
 });

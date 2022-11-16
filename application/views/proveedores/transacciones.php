@@ -1,3 +1,4 @@
+					<? $usuario = json_decode($this->session->userdata('user')); ?>
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
 							<div class="iq-header-title"><h4><b><?=ucwords(strtolower($this->input->get('name')))?></b> (Transacciones Financieras)</h4></div>
@@ -6,16 +7,58 @@
 							<div class="row">
 								<!-- Nav pills -->
 								<div class="nav nav-pills" id="nav-tab" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#pill-ingresos">Ingresos de Caf&eacute;</a>
+									<a class="nav-item nav-link active" data-toggle="tab" href="#pill-ingresos">Registro de Operaciones</a>
 									<a class="nav-item nav-link" data-toggle="tab" href="#pill-valorizaciones">Valorizaciones</a>
+									<a class="nav-item nav-link" data-toggle="tab" href="#pill-3">Tab 3</a>
 								</div>
 							</div>
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane container active" id="pill-ingresos">
-									<div class="row"><h5 class="col-12 my-3">Ingresos</h5></div>
 									<form method="post" id="form_ingresos">
-										
+										<div class="row">
+											<div class="col-10 mx-auto">
+												<div class="row">
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="tipoop">Tipo de Operaci&oacute;n:</label></span>
+														</div>
+														<div class="row">
+															<select class="form-control col-sm-11 tipoop" name="tipoop" id="tipoop">
+																<option value="">--Seleccione--</option>
+														<?
+														foreach($tipo_op as $row):	?>
+																<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>
+													<?	endforeach;	?>
+															</select>
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Sucursal:</label></span>
+														</div>
+														<div class="row">
+															<select class="form-control col-sm-9 sucursal" name="sucursal" id="sucursal">
+																<option value="">--Seleccione--</option>
+														<?
+														foreach($usuario->sucursales as $row):	?>
+																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
+													<?	endforeach;	?>
+															</select>
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Monto Operaci&oacute;n:</label></span>
+														</div>
+														<div class="row">
+															<input type="text" class="form-control col-sm-6 monto" name="monto" id="monto" autocomplete="off" />
+															<div class="col-sm-5 ml-auto" style="display:flex;align-items:center"><button class="btn btn-narsa">Ejecutar</button></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</form>
 									<div class="container-fluid my-2">
 										<div class="row">
@@ -40,6 +83,7 @@
 										</div>
 									</div>
 								</div>
+								<div class="tab-pane container fade" id="pill-3">Tab 3</div>
 							</div>
 						</div>
 					</div>

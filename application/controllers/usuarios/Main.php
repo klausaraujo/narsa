@@ -17,12 +17,15 @@ class Main extends CI_Controller
 	public function nuevo(){
 		if($this->uri->segment(2) === 'nuevo'){
 			$this->load->model('Proveedores_model');
+			$this->load->model('Usuarios_model');
 			$tipodoc = $this->Proveedores_model->tipodoc();
-			$this->load->view('main',['tipodoc' => $tipodoc]);
-		}else header('location:' .base_url(). 'proveedores/nuevo');
+			$perfil = $this->Usuarios_model->perfil();
+			$this->load->view('main',['tipodoc' => $tipodoc, 'perfil' => $perfil]);
+			//echo 'Nuevo Usuario';
+		}else header('location:' .base_url(). 'usuarios/nuevo');
 	}
 	public function registrar(){
-		$this->session->set_flashdata('claseMsg', 'danger');
+		/*$this->session->set_flashdata('claseMsg', 'danger');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != ''){
 			$this->load->model('Proveedores_model');
 			$this->session->set_flashdata('flashSuccess', 'Prueba de span');
@@ -44,12 +47,7 @@ class Main extends CI_Controller
 		}else{
 			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
 		}
-		header('location:'.base_url().'proveedores');
-	}
-	public function transacciones(){
-		$this->load->model('Proveedores_model');
-		$tipo = $this->Proveedores_model->tipoOperacion();
-		$id = $this->input->get('id');
-		$this->load->view('main',['tipo_op' => $tipo]);
+		header('location:'.base_url().'proveedores');*/
+		echo 'Usuario Registrado';
 	}
 }

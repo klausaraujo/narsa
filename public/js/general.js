@@ -39,7 +39,7 @@ file.bind('change',function(){
 });
 
 btnCurl.bind('click',function(){
-	let doc = $('.doc').val(), tipodoc = $('.tipodoc').val(); $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val('');
+	let doc = $('.doc').val(), tipodoc = $('.tipodoc').val(); $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val(''); $('.apellidos').val('');
 	
 	if(doc !== '' && tipodoc !== ''){
 		if(doc.length < 8){ alert('Debe ingresar un documento válido'); $('#doc').focus(); return}
@@ -61,8 +61,13 @@ btnCurl.bind('click',function(){
 				if(msg === ''){
 					console.log(data);
 					if(tipodoc === '01' || tipodoc === '03'){
-						$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
-						$('.direccion').val(data.data.attributes.domicilio_direccion);
+						if(segmento === 'proveedores'){
+							$('.direccion').val(data.data.attributes.domicilio_direccion);
+							$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
+						}else if(segmento === 'usuarios'){
+							$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);
+							$('.nombres').val(data.data.attributes.nombres);
+						}
 					}else console.log(data);
 				}else alert(msg);
 			}

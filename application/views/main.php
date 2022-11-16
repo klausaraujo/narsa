@@ -31,6 +31,7 @@
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'nuevo') $this->load->view('proveedores/form-new');
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones') $this->load->view('proveedores/transacciones');
 						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == '') $this->load->view('usuarios/usuarios');
+						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == 'nuevo') $this->load->view('usuarios/form-new');
 						if($this->uri->segment(2) === 'perfil') $this->load->view('usuario/perfil');
 					?>
 						<!--<div class="col-lg-12">

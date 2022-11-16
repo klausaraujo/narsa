@@ -70,6 +70,11 @@ $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
 $route['proveedores/registrar'] = 'proveedores/main/registrar';
 $route['proveedores/transacciones'] = 'proveedores/main/transacciones';
 
+/* Usuarios */
+$route['nuevousuario'] = 'usuarios/main/nuevo';
+$route['usuarios/nuevo'] = 'usuarios/main/nuevo';
+$route['usuarios/registrar'] = 'usuarios/main/registrar';
+
 /* Cambiar perfil del usuario */
 $route['usuario/perfil'] = 'main/perfil';
 /**/

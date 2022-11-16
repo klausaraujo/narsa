@@ -13,6 +13,7 @@ class User implements Serializable{
 	public $passwd;
 	public $idperfil;
 	public $activo;
+	public $sucursales;
 	public $modulos;
 	public $menus;
 	public $submenus;
