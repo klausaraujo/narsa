@@ -62,11 +62,13 @@ $route['proveedores'] = 'main/proveedores';
 $route['curl'] = 'main/curl';
 $route['upload'] = 'main/upload';
 $route['cambiapass'] = 'main/password';
+$route['usuarios'] = 'main/usuarios';
 
 /* Proveedores */
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
 $route['proveedores/registrar'] = 'proveedores/main/registrar';
+$route['proveedores/transacciones'] = 'proveedores/main/transacciones';
 
 /* Cambiar perfil del usuario */
 $route['usuario/perfil'] = 'main/perfil';

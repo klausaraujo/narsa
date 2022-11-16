@@ -20,8 +20,29 @@ class Main extends CI_Controller
 	public function proveedores(){
 		$this->load->model('Proveedores_model');
 		$proveedores = $this->Proveedores_model->listaProveedores();
+		$headers = array(
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Documento', 'targets' => 3],
+			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'RUC', 'targets' => 5],'6'=>['title' => 'Nombre', 'targets' => 6],'7'=>['title' => 'Direcci&oacute;n', 'targets' => 7],
+			'8'=>['title' => 'Zona', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 2, 'visible' => false],
+		);
 		$data = array(
 			'lista' => $proveedores,
+			'headers' => $headers,
+		);
+		$this->load->view('main',$data);
+	}
+	public function usuarios(){
+		$this->load->model('Usuarios_model');
+		$usuarios = $this->Usuarios_model->listaUsuarios();
+		$headers = array(
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Documento', 'targets' => 3],
+			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'Avatar', 'targets' => 5],'6'=>['title' => 'Apellidos', 'targets' => 6],'7'=>['title' => 'Nombres', 'targets' => 7],
+			'8'=>['title' => 'Usuario', 'targets' => 8],'9'=>['title' => 'Perfil', 'targets' => 9],'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],
+			'12'=>['targets' => 2, 'visible' => false],
+		);
+		$data = array(
+			'lista' => $usuarios,
+			'headers' => $headers,
 		);
 		$this->load->view('main',$data);
 	}

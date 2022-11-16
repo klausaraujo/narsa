@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="<?=base_url()?>/public/css/typography.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/style.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/css/fontawesome.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/assets/css/fontawesome.min.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/assets/css/brands.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/assets/css/solid.css">

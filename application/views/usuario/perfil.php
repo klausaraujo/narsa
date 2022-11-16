@@ -37,27 +37,25 @@
 								<div class="iq-card-body">
 									<form id="formPassword" name="formPassword" action="pass" method="POST">
 										<input type="hidden" name="cod_usuario" value="<?=$usuario->idusuario?>" />
-										<div class="col-sm-12 my-1">
+										<div class="col-sm-12 mt-3">
 											<div class="row my-1">
 												<span class="col-sm-3" style="display:flex;align-items:center"><label for="old_password">Contrase&ntilde;a Actual:</label></span>
 												<input type="password" class="form-control col-sm-4 old_pass" name="old_password" id="old_password" autocomplete="off" />
 											</div>
 										</div>
-										<div class="col-sm-12 my-1">
+										<div class="col-sm-12 mt-3">
 											<div class="row my-1">
 												<span class="col-sm-3" style="display:flex;align-items:center"><label for="password">Nueva Contrase&ntilde;a:</label></span>
 												<input type="password" class="form-control col-sm-4 pass" name="password" id="password" autocomplete="off" />
 											</div>
 										</div>
-										<div class="col-sm-12 my-1">
+										<div class="col-sm-12 mt-3">
 											<div class="row my-1">
 												<span class="col-sm-3" style="display:flex;align-items:center"><label for="re_password">Repetir Contrase&ntilde;a:</label></span>
 												<input type="password" class="form-control col-sm-4 re_pass" name="re_password" id="re_password" autocomplete="off" />
 											</div>
 										</div>
-										<div class="col-md-12 justify-content-center align-items-center text-center">
-											<div class="col-md-6 text-center mx-auto resp pt-3 my-2" style="height:2rem;font-size:1.3em">&nbsp;</div>
-										</div>
+										<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>
 										<div class="row"><hr class="col-sm-11 mx-auto"></div>
 										<button type="submit" class="btn btn-narsa mr-2">Realizar Cambio</button>
 									</form>

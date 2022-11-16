@@ -45,7 +45,7 @@
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
 			let cols = [], titles = [], botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip', btnAccion;
-			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>';		
+			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>', segmento2 = '<?=$this->uri->segment(2)?>';
 			const lngDataTable = {
 				'emptyTable': 'Actualmente no hay registros para mostrar',
 				'info': 'Mostrando _START_ a _END_ de _TOTAL_ Entradas', 'infoEmpty': 'Mostrando 0 a 0 de 0 Entradas','infoFiltered': '(Filtrado de _MAX_ total entradas)',
@@ -54,7 +54,8 @@
 				'paginate': { 'first': 'Primero', 'last': 'Ultimo', 'next': 'Siguiente', 'previous': 'Anterior' },
 			}
 			function cabeceras(headersCols){
-				let render = [], imagen = [], j = 0;
+				let render = [], imagen = [], j = 0; titles = [], cols = [];
+				
 				cols.push({data:null,className:'no_sort'});j++;
 				if(headersCols.length > 0){
 					headersCols.forEach(function(col){
@@ -91,24 +92,34 @@
 			
 			function mayus(e){e.value = e.value.toUpperCase();}
 		</script>
-		<!-- Rutinas Javascript por cada uno de los segmentos -->
-		
-		<?php if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == ''){ ?>
+		<!-- Rutinas Javascript por cada uno de los segmentos 1 -->
+		<?php if($this->uri->segment(1) === 'proveedores'){ ?>
+		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>
+		<?}else if($this->uri->segment(1) === 'usuarios'){ ?>
+		<script src="<?=base_url()?>/public/js/usuarios/usuarios.js"></script>
+		<?}
+		/* Rutinas Javascript por cada uno de los segmentos 2 */
+		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios') && $this->uri->segment(2) == ''){ ?>
 		<script>
-			const headers = [{'idproveedor':'id','idtipodocumento':'documento','numero_documento':'numero','RUC':'ruc','nombre':'nombre','domicilio':'direccion','zona':'zona','activo':'estado'}];
-			btnAccion =
-			'<button class="btn btn-warning btn-circle btn-sm actionEdit" title="Editar Registro" type="button" style="margin-right:5px;padding:1px;padding-left:3px" >'+
-			'<i class="fa fa-pencil-square" aria-hidden="true"></i></button>'+
-			'<button class="btn btn-warning btn-circle btn-sm actionComp" title="Complementarios" type="button" style="margin-right:5px;padding:1px;padding-left:3px" >'+
-			'<i class="fa fa-home" aria-hidden="true"></i></button>';			
-			cabeceras(headers);
-			
+			const headers = JSON.parse('<?=json_encode($headers)?>');
 			const lista = JSON.parse('<?=json_encode($lista)?>');
+		</script>
+		<?}else if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones'){ ?>
+		<script>
+			const headersIng = [{'idtransaccion':'id','idtipooperacion':'tipo op','idsucursal':'sucursal','idproveedor':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
+			const headersVal = [{'idtransaccion':'id','idtipooperacion':'tipo op','idsucursal':'sucursal','idproveedor':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
+			cabeceras(headersIng); cabeceras(headersVal);
 			
-			const tabla = $('#tablaProveedores').DataTable({
-				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
-				'columns':cols, 'columnDefs':titles, 'dom': botones, 'buttons':{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-				'copy','csv','excel','pdf','print']},order: [], language:{ lngDataTable },
+			const lista = [];
+			
+			const tablaIng = $('#tablaIngresos').DataTable({
+				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'columns':cols, 'columnDefs':titles, order: [], 'pageLength': '4',
+				language:{ lngDataTable }, 'dom': '<"row mt-5"rt><"row float-right"p>',
+			});
+			
+			const tablaVal = $('#tablaValorizaciones').DataTable({
+				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'columns':cols, 'columnDefs':titles, order: [], 'pageLength': '4',
+				language:{ lngDataTable }, 'dom': '<"row mt-5"rt><"row float-right"p>',
 			});
 		</script>
 		<?}?>

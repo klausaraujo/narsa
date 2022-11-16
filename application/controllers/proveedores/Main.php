@@ -39,10 +39,15 @@ class Main extends CI_Controller
 				$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
                 $this->session->set_flashdata('claseMsg', 'success');
 			}else{
-				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el usuario');
+				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
 			}
-			
-			header('location:'.base_url().'proveedores');
+		}else{
+			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
 		}
+		header('location:'.base_url().'proveedores');
+	}
+	public function transacciones(){
+		$id = $this->input->get('id');
+		$this->load->view('main');
 	}
 }
