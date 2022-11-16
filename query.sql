@@ -280,19 +280,21 @@ insert into proveedor(idproveedor,idtipodocumento,numero_documento,RUC,nombre) v
 create table tipo_operacion(
 idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
 tipo_operacion VARCHAR(50),
+afecta_proveedor char(1) default '0',
+afecta_caja char(1) default '0',
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idtipooperacion))  ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (1,'PRESTAMOS A PROVEEDORES');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (2,'PAGO A PROVEEDORES');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (3,'COBRO A PROVEEDORES');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (4,'PAGO POR VALORIZACION DE PRODUCTOS');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (5,'PAGOS DE INTERESES A PROVEEDORES');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (6,'COBRO DE INTERESES A PROVEEDORES');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (7,'INGRESO DE PRODUCTOS SIN VALORIZAR');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (8,'PRESTAMOS A LA EMPRESA');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (9,'INGRESO DE EFECTIVO A CAJA');
-insert into tipo_operacion (idtipooperacion,tipo_operacion) values (10,'SALIDA DE EFECTIVO DE CAJA');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (1,'PRESTAMOS A PROVEEDORES','1','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (2,'PAGO A PROVEEDORES','1','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (3,'COBRO A PROVEEDORES','1','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (4,'PAGO POR VALORIZACION DE PRODUCTOS','1','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (5,'PAGOS DE INTERESES A PROVEEDORES','0','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (6,'COBRO DE INTERESES A PROVEEDORES','0','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (7,'INGRESO DE PRODUCTOS SIN VALORIZAR','1','0');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (8,'PRESTAMOS A LA EMPRESA','1','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (9,'INGRESO DE EFECTIVO A CAJA','0','1');
+insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (10,'SALIDA DE EFECTIVO DE CAJA','0','1');
 
 create table transacciones(
 idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
