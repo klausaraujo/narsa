@@ -21,33 +21,34 @@ class Main extends CI_Controller
 			$tipodoc = $this->Proveedores_model->tipodoc();
 			$perfil = $this->Usuarios_model->perfil();
 			$this->load->view('main',['tipodoc' => $tipodoc, 'perfil' => $perfil]);
-			//echo 'Nuevo Usuario';
 		}else header('location:' .base_url(). 'usuarios/nuevo');
 	}
 	public function registrar(){
-		/*$this->session->set_flashdata('claseMsg', 'danger');
-		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != ''){
-			$this->load->model('Proveedores_model');
-			$this->session->set_flashdata('flashSuccess', 'Prueba de span');
+		$this->session->set_flashdata('claseMsg', 'danger');
+		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('apellidos') != '' && $this->input->post('nombres') != ''
+			&& $this->input->post('usuario') != '' && $this->input->post('perfil') != '')
+		{
+			$this->load->model('Usuarios_model');
 			$data = array(
 				'idtipodocumento' => $this->input->post('tipodoc'),
 				'numero_documento' => $this->input->post('doc'),
-				'RUC' => $this->input->post('ruc'),
-				'nombre' => $this->input->post('nombres'),
-				'domicilio' => $this->input->post('direccion'),
-				'zona' => $this->input->post('zona'),
+				'avatar' => 'user.jpg',
+				'apellidos' => $this->input->post('apellidos'),
+				'nombres' => $this->input->post('nombres'),
+				'usuario' => $this->input->post('usuario'),
+				'passwd' => sha1($this->input->post('doc')),
+				'idperfil' => $this->input->post('perfil'),
 				'activo' => 1,
 			);
-			if($this->Proveedores_model->registrar($data)){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
-                $this->session->set_flashdata('claseMsg', 'success');
+			if($this->Usuarios_model->registrar($data)){
+				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashSuccess', 'Usuario Registrado Exitosamente');
 			}else{
-				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
+				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario');
 			}
 		}else{
-			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
+			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario por campos vac&iacute;os');
 		}
-		header('location:'.base_url().'proveedores');*/
-		echo 'Usuario Registrado';
+		header('location:'.base_url().'usuarios');
 	}
 }

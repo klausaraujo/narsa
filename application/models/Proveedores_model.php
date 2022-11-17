@@ -24,7 +24,8 @@ class Proveedores_model extends CI_Model
 	public function registrar($data)
 	{
 		if ($this->db->insert('proveedor', $data))return true;
-        else return $error['code'];
+        //else return $error['code'];
+		else return false;
 	}
 	public function tipoOperacion()
 	{

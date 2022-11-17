@@ -22,4 +22,10 @@ class Usuarios_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function registrar($data)
+	{
+		if ($this->db->insert('usuarios', $data))return true;
+        //else return $error['code'];
+		else return false;
+	}
 }

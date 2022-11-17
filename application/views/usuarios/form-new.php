@@ -56,8 +56,6 @@
 									</div>
 								</div>
 								<div class="row"><hr class="col-sm-11"></div>
-								<div class="col-sm-12"><h5 id="cargando" class="succes"></h5></div>
-								<div class="col-sm-12"><h5 id="message" class="succes"></h5></div>
 								<div class="col-sm-12 mx-auto pb-2">
 									<button type="submit" class="btn btn-narsa mx-3" id="btnEnviar">Guardar registro</button>
 									<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>

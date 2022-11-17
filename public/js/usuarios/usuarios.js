@@ -81,6 +81,8 @@ $('#form_usuarios').validate({
 	},
 	submitHandler: function (form, event) {
 		//alert('Enviando');
+		$('#formPassword button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$('#formPassword button[type=submit]').addClass('disabled');
 		return true;
 	}
 });
