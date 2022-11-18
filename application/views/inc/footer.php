@@ -76,7 +76,7 @@
 						collapse: false,
 						collapsible: false,
 						data: null,
-						render: function (data, type, row, meta) { return btnAccion; }
+						render: function (data, type, row, meta) { return ''; }
 					},
 					{
 						targets: 'no-sort',
@@ -106,20 +106,20 @@
 		</script>
 		<?}else if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones'){ ?>
 		<script>
-			const headersIng = [{'idtransaccion':'id','idtipooperacion':'tipo op','idsucursal':'sucursal','idproveedor':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
-			const headersVal = [{'idtransaccion':'id','idtipooperacion':'tipo op','idsucursal':'sucursal','idproveedor':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
-			cabeceras(headersIng); cabeceras(headersVal);
+			const headersIng = [{'idtransaccion':'id','tipo_operacion':'tipo op','sucursal':'sucursal','nombre':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
+			//const headersVal = [{'idtransaccion':'id','idtipooperacion':'tipo op','idsucursal':'sucursal','idproveedor':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
+			cabeceras(headersIng); //cabeceras(headersVal);
 			
-			const lista = [];
+			const lista = <?=json_encode($lista)?>;
 			
 			const tablaIng = $('#tablaIngresos').DataTable({
 				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'columns':cols, 'columnDefs':titles, order: [], 'pageLength': '4',
 				language:{ lngDataTable }, 'dom': '<"row mt-5"rt><"row float-right"p>',
 			});
 			
-			const tablaVal = $('#tablaValorizaciones').DataTable({
+			/*const tablaVal = $('#tablaValorizaciones').DataTable({
 				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'columns':cols, 'columnDefs':titles, order: [], 'pageLength': '4',
 				language:{ lngDataTable }, 'dom': '<"row mt-5"rt><"row float-right"p>',
-			});
+			});*/
 		</script>
 		<?}?>

@@ -35,4 +35,21 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function registraop($data){
+		if ($this->db->insert('transacciones', $data))return true;
+        //else return $error['code'];
+		else return false;
+	}
+	public function listaTransacciones($data)
+    {
+        $this->db->select('tr.*,to.tipo_operacion,su.sucursal,pr.nombre');
+        $this->db->from('transacciones tr');
+		$this->db->join('tipo_operacion to','to.idtipooperacion = tr.idtipooperacion');
+		$this->db->join('sucursal su','su.idsucursal = tr.idsucursal');
+		$this->db->join('proveedor pr','pr.idproveedor = tr.idproveedor');
+		$this->db->where($data);
+		$this->db->order_by('idtransaccion', 'asc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
 }

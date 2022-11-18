@@ -1065,6 +1065,7 @@ Add User Page
 .btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:3px 5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); }
 .btnTable:hover{ color: #000 }
 .nav-pills .nav-item.nav-link{ color: rgba(185,100,40,1);border-radius: 10px 10px 0 0;border: 2px solid rgb(187 72 18 / 25%); }
+.dataTables_wrapper .mt-5{ margin-top:0 !important; }
 .nav-pills .nav-link.active { color: #fff;background: rgb(221 95 26 / 75%); }
 *::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }
 ::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }

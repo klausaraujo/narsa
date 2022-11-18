@@ -48,8 +48,38 @@ class Main extends CI_Controller
 	}
 	public function transacciones(){
 		$this->load->model('Proveedores_model');
-		$tipo = $this->Proveedores_model->tipoOperacion();
 		$id = $this->input->get('id');
-		$this->load->view('main',['tipo_op' => $tipo]);
+		$tipo = $this->Proveedores_model->tipoOperacion();
+		$lista = $this->Proveedores_model->listaTransacciones(['tr.idproveedor' => $id]);
+		$data = array(
+			'lista' => $lista,
+			'tipo_op' => $tipo,
+		);
+		$this->load->view('main',$data);
+	}
+	public function registraop(){
+		$this->load->model('Proveedores_model');
+		$status = 500; $mesaage = 'No se pudo registrar la Transacci&oacute;n';
+		$id = $this->input->post('idproveedor');
+		$data = array(
+			'idtipooperacion' => $this->input->post('tipoop'),
+			'idsucursal' => $this->input->post('sucursal'),
+			'idproveedor' => $id,
+			'fecha' => date('Y-m-d'),
+			'monto' => $this->input->post('monto'),
+			'activo' => '1',			
+		);
+		if($this->Proveedores_model->registraop($data)){
+			$message = 'Transacci&oacute;n registrada exitosamente';
+			$status = 200;
+			$lista = $this->Proveedores_model->listaTransacciones(['tr.idproveedor' => $id]);
+		}
+		$data = array(
+			'status' => $status,
+			'message' => $message,
+			'lista' => $lista
+		);
+		
+		echo json_encode($data);
 	}
 }

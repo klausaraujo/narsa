@@ -108,7 +108,7 @@ $('#formPassword').validate({
 				$('#formPassword button[type=submit]').addClass('disabled');
 			},
 			success: function (data) {
-				$('.resp').html('');
+				//$('.resp').html('');
 				$('#formPassword button[type=submit]').html('Realizar Cambio');
 				$('#formPassword button[type=submit]').removeClass('disabled');
 				//console.log(data);

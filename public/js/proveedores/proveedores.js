@@ -80,6 +80,51 @@ $('#form_proveedor').validate({
 
 $('#form_ingresos').validate({
 	errorClass: 'form_error',
+	rules: {
+		tipoop: { required: true },
+		sucursal: { required: true },
+		monto: { required: true }
+	},
+	messages: {
+		tipoop: { required: '&nbsp;&nbsp;Debe elegir una Transacci&oacute;n' },
+		sucursal: { required: '&nbsp;&nbsp;Debe elegir la Sucursal' },
+		monto: { required: '&nbsp;&nbsp;Monto Requerido' }
+	},
+	errorPlacement: function(error, element) {
+		if (element.attr('name') == 'monto') {
+			$('#monto-error').html(error.html());
+		}else error.insertAfter(element);
+	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		$.ajax({
+			data: $('#form_ingresos').serialize(),
+			url: base_url + segmento + '/transacciones/registrar',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function () {
+				//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
+				$('#form_ingresos button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#form_ingresos button[type=submit]').addClass('disabled');
+			},
+			success: function (data) {
+				//$('.resp').html('');
+				$('#form_ingresos button[type=submit]').html('Ejecutar');
+				$('#form_ingresos button[type=submit]').removeClass('disabled');
+				//console.log(data);
+				if (parseInt(data.status) === 200) {
+					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
+					tablaIng.clear();
+					$('.resp').html(data.message);
+					tablaIng.rows.add(data.lista).draw();
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
+				}else {
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
+				}
+			}
+		});
+	}
 });
 
 $('#form_valorizaciones').validate({

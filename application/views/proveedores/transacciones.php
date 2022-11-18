@@ -15,7 +15,8 @@
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane container active" id="pill-ingresos">
-									<form method="post" id="form_ingresos">
+									<form method="post" id="form_ingresos" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/registrar">
+										<input type="hidden" name="idproveedor" value="<?=$this->input->get('id')?>"/>
 										<div class="row">
 											<div class="col-10 mx-auto">
 												<div class="row">
@@ -24,12 +25,18 @@
 															<span class="col-12" style="display:flex;align-items:center"><label for="tipoop">Tipo de Operaci&oacute;n:</label></span>
 														</div>
 														<div class="row">
+															<!--1,2,3,5,6,8-->
 															<select class="form-control col-sm-11 tipoop" name="tipoop" id="tipoop">
 																<option value="">--Seleccione--</option>
 														<?
-														foreach($tipo_op as $row):	?>
-																<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>
-													<?	endforeach;	?>
+														foreach($tipo_op as $row):
+															if($row->idtipooperacion === '1' || $row->idtipooperacion === '2' || $row->idtipooperacion === '3'
+																|| $row->idtipooperacion === '5' || $row->idtipooperacion === '6' || $row->idtipooperacion === '8'){
+														?>
+																<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
+														<?	
+															}
+														endforeach;	?>
 															</select>
 														</div>
 													</div>
@@ -49,17 +56,21 @@
 													</div>
 													<div class="col-sm-6 mt-4">
 														<div class="row">
-															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Monto Operaci&oacute;n:</label></span>
+															<span class="col-12" style="display:flex;align-items:center"><label for="monto">Monto Operaci&oacute;n:</label></span>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control col-sm-6 monto" name="monto" id="monto" autocomplete="off" />
-															<div class="col-sm-5 ml-auto" style="display:flex;align-items:center"><button class="btn btn-narsa">Ejecutar</button></div>
+															<input type="text" class="form-control col-sm-7 monto" name="monto" id="monto" autocomplete="off" />
+															<div class="col-sm-5 ml-auto" style="display:flex;align-items:center">
+																<button type="submit" class="btn btn-narsa">Ejecutar</button>
+															</div>
+															<label id="monto-error" class="form_error" for="monto"></label>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</form>
+									<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
 											<div class="table-responsive" style="overflow-x:scroll">
