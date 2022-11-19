@@ -40,7 +40,7 @@ class Proveedores_model extends CI_Model
         //else return $error['code'];
 		else return false;
 	}
-	public function listaTransacciones($data)
+	public function listaOperaciones($data)
     {
         $this->db->select('tr.*,to.tipo_operacion,su.sucursal,pr.nombre');
         $this->db->from('transacciones tr');

@@ -1,4 +1,4 @@
-let tabla = null;
+let tabla = null, tablaOp, tabla2;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -18,13 +18,7 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idproveedor' },
-				{ data: 'idtipodocumento' },
-				{ data: 'numero_documento' },
-				{ data: 'RUC' },
-				{ data: 'nombre' },
-				{ data: 'domicilio' },
-				{ data: 'zona' },
+				{ data: 'idproveedor' },{ data: 'idtipodocumento' },{ data: 'numero_documento' },{ data: 'RUC' },{ data: 'nombre' },{ data: 'domicilio' },{ data: 'zona' },
 				{
 					data: 'activo',
 					render: function(data){
@@ -39,6 +33,38 @@ $(document).ready(function (){
 			],
 			'columnDefs':headers, 'dom': botones, 'buttons':{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
 			'copy','csv','excel','pdf','print']},order: [], language:{ lngDataTable },
+		});
+	}else if(segmento2 === 'transacciones'){
+		tablaOp = $('#tablaOp').DataTable({
+			'data':lista, 'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
+			'columns':[
+				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				{
+					data: null,
+					orderable: false,
+					render: function(data){
+						let btnAccion =
+						'<a title="Editar Transacci&oacute;n" href="#" class="bg-warning btnTable editar">'+
+							'<i class="far fa-pencil" aria-hidden="true"></i></a>'+
+						'<a title="Transacciones" href="#" class="bg-success btnTable acciones">'+
+							'<i class="far fa-house" aria-hidden="true"></i></a>';
+						return btnAccion;
+					}
+				},
+				{ data: 'idtransaccion' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },{ data: 'fecha' },{ data: 'monto' },
+				{
+					data: 'activo',
+					render: function(data){
+						let var_status = '';
+						switch(data){
+							case '1': var_status = '<span class="text-success">Activo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Inactivo</span>'; break;
+						}
+						return var_status;
+					}
+				},
+			],
+			'columnDefs':headers, order: [], language:{ lngDataTable },
 		});
 	}
 });

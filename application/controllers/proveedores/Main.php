@@ -49,11 +49,17 @@ class Main extends CI_Controller
 	public function transacciones(){
 		$this->load->model('Proveedores_model');
 		$id = $this->input->get('id');
+		$headers = array(
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Tipo Op.', 'targets' => 3],
+			'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],
+			'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
+		);		
 		$tipo = $this->Proveedores_model->tipoOperacion();
-		$lista = $this->Proveedores_model->listaTransacciones(['tr.idproveedor' => $id]);
+		$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id]);
 		$data = array(
 			'lista' => $lista,
 			'tipo_op' => $tipo,
+			'headers' => $headers,
 		);
 		$this->load->view('main',$data);
 	}
@@ -70,7 +76,8 @@ class Main extends CI_Controller
 			'activo' => '1',			
 		);
 		if($this->Proveedores_model->registraop($data)){
-			$message = 'Transacci&oacute;n registrada exitosamente';
+			$message = 'Transacci&oacute;n registrada exitosamente'
+			;
 			$status = 200;
 			$lista = $this->Proveedores_model->listaTransacciones(['tr.idproveedor' => $id]);
 		}
