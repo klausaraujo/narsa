@@ -68,6 +68,7 @@ $route['usuarios'] = 'main/usuarios';
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
 $route['proveedores/registrar'] = 'proveedores/main/registrar';
+$route['proveedores/editar'] = 'proveedores/main/editar';
 $route['proveedores/transacciones'] = 'proveedores/main/transacciones';
 $route['proveedores/transacciones/registrar'] = 'proveedores/main/registraop';
 $route['proveedores/transacciones/anular'] = 'proveedores/main/anulaop';

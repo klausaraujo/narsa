@@ -29,6 +29,7 @@
 						if($this->uri->segment(1) == '') $this->load->view('modulos');
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == '') $this->load->view('proveedores/proveedores');
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'nuevo') $this->load->view('proveedores/form-new');
+						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'editar') $this->load->view('proveedores/form-editar');
 						if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones') $this->load->view('proveedores/transacciones');
 						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == '') $this->load->view('usuarios/usuarios');
 						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == 'nuevo') $this->load->view('usuarios/form-new');

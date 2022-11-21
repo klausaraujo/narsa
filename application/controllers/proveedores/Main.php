@@ -25,7 +25,7 @@ class Main extends CI_Controller
 		$this->session->set_flashdata('claseMsg', 'danger');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != ''){
 			$this->load->model('Proveedores_model');
-			$this->session->set_flashdata('flashSuccess', 'Prueba de span');
+			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
 			$data = array(
 				'idtipodocumento' => $this->input->post('tipodoc'),
 				'numero_documento' => $this->input->post('doc'),
@@ -35,11 +35,14 @@ class Main extends CI_Controller
 				'zona' => $this->input->post('zona'),
 				'activo' => 1,
 			);
-			if($this->Proveedores_model->registrar($data)){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
-                $this->session->set_flashdata('claseMsg', 'success');
-			}else{
-				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
+			if($this->input->post('tiporegistro') === 'registrar'){
+				if($this->Proveedores_model->registrar($data)){
+					$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
+					$this->session->set_flashdata('claseMsg', 'success');
+				}
+			}else if($this->input->post('tiporegistro') === 'editar'){
+				$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
+				$this->session->set_flashdata('claseMsg', 'success');
 			}
 		}else{
 			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
@@ -62,6 +65,12 @@ class Main extends CI_Controller
 			'headers' => $headers,
 		);
 		$this->load->view('main',$data);
+	}
+	public function editar(){
+		$this->load->model('Proveedores_model');
+		$id = $this->input->get('id');
+		
+		$this->load->view('main',['id'=>$id]);
 	}
 	public function registraop(){
 		$this->load->model('Proveedores_model');
