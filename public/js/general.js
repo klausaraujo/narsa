@@ -39,7 +39,7 @@ file.bind('change',function(){
 });
 
 btnCurl.bind('click',function(){
-	let doc = $('.doc').val(), tipodoc = $('.tipodoc').val(); $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val(''); $('.apellidos').val('');
+	let doc = $('.doc').val(), tipodoc = ($('.tipodoc').val() == '1')?'01':'03'; $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val(''); $('.apellidos').val('');
 	
 	if(doc !== '' && tipodoc !== ''){
 		if(doc.length < 8){ alert('Debe ingresar un documento válido'); $('#doc').focus(); return}

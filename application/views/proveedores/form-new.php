@@ -13,7 +13,7 @@
 											<option value="">--Seleccione--</option>
 										<?
 												foreach($tipodoc as $row):	?>
-													<option data-long="<?=$row->longitud;?>" value="<?=$row->codigo_curl;?>"><?=$row->tipo_documento;?></option>
+													<option value="<?=$row->idtipodocumento;?>"><?=$row->tipo_documento;?></option>
 										<?		endforeach;	?>
 										</select>
 									</div>

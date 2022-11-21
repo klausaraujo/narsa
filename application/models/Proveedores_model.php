@@ -16,7 +16,7 @@ class Proveedores_model extends CI_Model
     }
 	public function tipodoc()
 	{
-		$this->db->select('codigo_curl,tipo_documento,longitud');
+		$this->db->select('idtipodocumento,codigo_curl,tipo_documento,longitud');
         $this->db->from('tipo_documento');
 		$this->db->order_by('idtipodocumento', 'asc');
         $result = $this->db->get();
