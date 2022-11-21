@@ -7,8 +7,9 @@ class Proveedores_model extends CI_Model
     
 	public function listaProveedores()
     {
-        $this->db->select('*');
-        $this->db->from('proveedor');
+        $this->db->select('pr.*,td.tipo_documento');
+        $this->db->from('proveedor pr');
+		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		$this->db->order_by('idproveedor', 'asc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
@@ -52,4 +53,11 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function anulaop($data){
+		$this->db->db_debug = FALSE;
+		$this->db->set('activo', '0', TRUE);
+		$this->db->where($data);
+		if ($this->db->update('transacciones')) return 1;
+        else return false;
+	}
 }

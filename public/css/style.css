@@ -1067,6 +1067,7 @@ Add User Page
 .nav-pills .nav-item.nav-link{ color: rgba(185,100,40,1);border-radius: 10px 10px 0 0;border: 2px solid rgb(187 72 18 / 25%); }
 .dataTables_wrapper .mt-5{ margin-top:0 !important; }
 .nav-pills .nav-link.active { color: #fff;background: rgb(221 95 26 / 75%); }
+a.disabled{ pointer-events: none; color: grey }
 *::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }
 ::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }
 ::selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }

@@ -16,7 +16,7 @@
 							<div class="tab-content">
 								<div class="tab-pane container active" id="pill-ingresos">
 									<form method="post" id="form_ingresos" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/registrar">
-										<input type="hidden" name="idproveedor" value="<?=$this->input->get('id')?>"/>
+										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
 										<div class="row">
 											<div class="col-10 mx-auto">
 												<div class="row">

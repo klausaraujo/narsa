@@ -52,10 +52,10 @@ class Main extends CI_Controller
 		$headers = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Tipo Op.', 'targets' => 3],
 			'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],
-			'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
+			'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 'no-sort', 'orderable' => false],
 		);		
 		$tipo = $this->Proveedores_model->tipoOperacion();
-		$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id]);
+		$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id, 'tr.activo' => '1']);
 		$data = array(
 			'lista' => $lista,
 			'tipo_op' => $tipo,
@@ -65,22 +65,21 @@ class Main extends CI_Controller
 	}
 	public function registraop(){
 		$this->load->model('Proveedores_model');
-		$status = 500; $mesaage = 'No se pudo registrar la Transacci&oacute;n';
-		$id = $this->input->post('idproveedor');
+		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
+		$id = $this->input->post('idproveedor'); $lista = null;
 		$data = array(
 			'idtipooperacion' => $this->input->post('tipoop'),
 			'idsucursal' => $this->input->post('sucursal'),
 			'idproveedor' => $id,
-			'fecha' => date('Y-m-d'),
+			'fecha' => date('Y-m-d H:i:s'),
 			'monto' => $this->input->post('monto'),
 			'activo' => '1',			
 		);
 		if($this->Proveedores_model->registraop($data)){
-			$message = 'Transacci&oacute;n registrada exitosamente'
-			;
+			$message = 'Transacci&oacute;n registrada exitosamente';
 			$status = 200;
-			$lista = $this->Proveedores_model->listaTransacciones(['tr.idproveedor' => $id]);
-		}
+			$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id, 'tr.activo' => '1']);
+		}else $lista = array();
 		$data = array(
 			'status' => $status,
 			'message' => $message,
@@ -88,5 +87,31 @@ class Main extends CI_Controller
 		);
 		
 		echo json_encode($data);
+	}
+	public function anulaop(){
+		$this->load->model('Proveedores_model');
+		$status = 500; $message = 'No se pudo anular la Transacci&oacute;n';
+		$idtransaccion = $this->input->post('id'); $op = $this->input->post('op'); $lista = null;
+		$idproveedor = $this->input->post('proveedor');
+		
+		if($op === 'operaciones'){
+			if($this->Proveedores_model->anulaop(['idtransaccion'=>$idtransaccion])){
+				$message = 'Transacci&oacute;n anulada';
+				$status = 200;
+				$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $idproveedor, 'tr.activo' => '1']);
+			}else $lista = array();
+		}
+		
+		$data = array(
+			'status' => $status,
+			'message' => $message,
+			'lista' => $lista,
+			'idTransaccion' => $idtransaccion,
+			'op' => $op,
+			'idproveedor' => $idproveedor,			
+		);
+		
+		echo json_encode($data);
+		//echo 'Anular';
 	}
 }

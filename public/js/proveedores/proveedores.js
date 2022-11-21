@@ -18,7 +18,7 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idproveedor' },{ data: 'idtipodocumento' },{ data: 'numero_documento' },{ data: 'RUC' },{ data: 'nombre' },{ data: 'domicilio' },{ data: 'zona' },
+				{ data: 'idproveedor' },{ data: 'tipo_documento' },{ data: 'numero_documento' },{ data: 'RUC' },{ data: 'nombre' },{ data: 'domicilio' },{ data: 'zona' },
 				{
 					data: 'activo',
 					render: function(data){
@@ -43,15 +43,20 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let btnAccion =
-						'<a title="Editar Transacci&oacute;n" href="#" class="bg-warning btnTable editar">'+
-							'<i class="far fa-pencil" aria-hidden="true"></i></a>'+
-						'<a title="Transacciones" href="#" class="bg-success btnTable acciones">'+
-							'<i class="far fa-house" aria-hidden="true"></i></a>';
+						let btnAccion = '<a title="Anular Transacci&oacute;n" href="'+base_url+segmento+'/'+segmento2+'/anular?id='+data.idtransaccion+
+										'&op=operaciones" class="bg-warning btnTable anular"><i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
-				{ data: 'idtransaccion' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },{ data: 'fecha' },{ data: 'monto' },
+				{ data: 'idtransaccion' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
+				{ 
+					data: 'fecha',
+					render: function(data){
+						let fecha = new Date(data);
+						return fecha.toLocaleDateString();
+					}
+				},
+				{ data: 'monto' },
 				{
 					data: 'activo',
 					render: function(data){
@@ -67,10 +72,6 @@ $(document).ready(function (){
 			'columnDefs':headers, order: [], language:{ lngDataTable },
 		});
 	}
-});
-
-$('body').bind('click','a',function(e){
-	
 });
 
 $('#form_proveedor').validate({
@@ -140,9 +141,9 @@ $('#form_ingresos').validate({
 				//console.log(data);
 				if (parseInt(data.status) === 200) {
 					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
-					tablaIng.clear();
+					tablaOp.clear();
 					$('.resp').html(data.message);
-					tablaIng.rows.add(data.lista).draw();
+					tablaOp.rows.add(data.lista).draw();
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 				}else {
 					$('.resp').html(data.message);
@@ -150,6 +151,40 @@ $('#form_ingresos').validate({
 				}
 			}
 		});
+	}
+});
+
+
+$('body').bind('click','a',function(e){
+	let el = e.target, a = $(el).closest('a');
+	if(a.hasClass('anular')){
+		e.preventDefault();
+		let row = (tablaOp.row(a).child.isShown())? tablaOp.row(a).data() : tablaOp.row($(el).parents('tr')).data();
+		let confirmacion = confirm('Está seguro que desea anular la Transacción?');
+		if(confirmacion){
+			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+			$.ajax({
+				data: { id: row.idtransaccion, proveedor: row.idproveedor, op: 'operaciones' },
+				url: a.attr('href'),
+				method: 'POST',
+				dataType: 'JSON',
+				beforeSend: function () { a.addClass('disabled'); },
+				success: function (data) {
+					//console.log(data);
+					if (parseInt(data.status) === 200){
+						$('.resp').html(data.message);
+						tablaOp.clear();
+						tablaOp.rows.add(data.lista).draw();
+						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+					}else{
+						a.removeClass('disabled');
+						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
+						$('.resp').html(data.message);
+						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+					}
+				}
+			});
+		}
 	}
 });
 
