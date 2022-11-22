@@ -44,7 +44,7 @@
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
-			let cols = [], titles = [], botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip', btnAccion;
+			let botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';
 			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>', segmento2 = '<?=$this->uri->segment(2)?>';
 			const lngDataTable = {
 				'emptyTable': 'Actualmente no hay registros para mostrar',
@@ -53,43 +53,6 @@
 				'processing': 'Procesando...', 'search': 'Buscar:', 'zeroRecords': 'No se encontraron resultados',
 				'paginate': { 'first': 'Primero', 'last': 'Ultimo', 'next': 'Siguiente', 'previous': 'Anterior' },
 			}
-			function cabeceras(headersCols){
-				let render = [], imagen = [], j = 0; titles = [], cols = [];
-				
-				cols.push({data:null,className:'no_sort'});j++;
-				if(headersCols.length > 0){
-					headersCols.forEach(function(col){
-						for(const [key, value] of Object.entries(col)){
-							let pal = '';
-							cols.push({data:key});
-							(value !== 'dni')? pal = value.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase()):pal = value.toUpperCase();
-							titles.push({title:pal,targets:j});
-							j++;
-						}
-					});
-				}
-				render = [
-					{
-						title: 'Acciones',
-						targets: 0,
-						orderable: false,
-						collapse: false,
-						collapsible: false,
-						data: null,
-						render: function (data, type, row, meta) { return ''; }
-					},
-					{
-						targets: 'no-sort',
-						orderable: false,
-					},
-					{
-						targets: 1,
-						visible: false,
-					}
-				];
-				titles = render.concat(titles);
-			}
-			
 			function mayus(e){e.value = e.value.toUpperCase();}
 		</script>
 		<!-- Rutinas Javascript por cada uno de los segmentos 1 -->
@@ -106,20 +69,7 @@
 		</script>
 		<?}else if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones'){ ?>
 		<script>
-			//const headersIng = [{'idtransaccion':'id','tipo_operacion':'tipo op','sucursal':'sucursal','nombre':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
-			//const headersVal = [{'idtransaccion':'id','idtipooperacion':'tipo op','idsucursal':'sucursal','idproveedor':'proveedor','fecha':'fecha','monto':'monto','activo':'estado'}];
-			//cabeceras(headersIng); //cabeceras(headersVal);
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 			const lista = <?=json_encode($lista)?>;
-			
-			/*const tablaIng = $('#tablaIngresos').DataTable({
-				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'columns':cols, 'columnDefs':titles, order: [], 'pageLength': '4',
-				language:{ lngDataTable }, 'dom': '<"row mt-5"rt><"row float-right"p>',
-			});*/
-			
-			/*const tablaVal = $('#tablaValorizaciones').DataTable({
-				'data':lista, 'bAutoWidth':true, 'bDestroy':true, 'responsive':true, 'select':false, 'columns':cols, 'columnDefs':titles, order: [], 'pageLength': '4',
-				language:{ lngDataTable }, 'dom': '<"row mt-5"rt><"row float-right"p>',
-			});*/
 		</script>
 		<?}?>

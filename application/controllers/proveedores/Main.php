@@ -5,7 +5,8 @@ class Main extends CI_Controller
 {
 	private $usuario;
 	
-    public function __construct(){
+    public function __construct()
+	{
 		parent::__construct();
 		//$this->load->library('User');
 		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
@@ -14,18 +15,26 @@ class Main extends CI_Controller
 
     public function index(){}
 	
-	public function nuevo(){
-		if($this->uri->segment(2) === 'nuevo'){
+	public function nuevo()
+	{
+		if($this->uri->segment(1) === 'nuevoproveedor')header('location:' .base_url(). 'proveedores/nuevo');
+		else{
 			$this->load->model('Proveedores_model');
 			$tipodoc = $this->Proveedores_model->tipodoc();
-			$this->load->view('main',['tipodoc' => $tipodoc]);
-		}else header('location:' .base_url(). 'proveedores/nuevo');
+			$data = array( 'tipodoc' => $tipodoc );
+			if($this->uri->segment(2) === 'editar'){
+				$id = $this->input->get('id');
+				$proveedor = $this->Proveedores_model->listaProveedor(['idproveedor' => $id]);
+				$data['proveedor'] = $proveedor;
+			}
+			$this->load->view('main',$data);
+		}
 	}
-	public function registrar(){
+	public function registrar()
+	{
 		$this->session->set_flashdata('claseMsg', 'danger');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != ''){
 			$this->load->model('Proveedores_model');
-			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
 			$data = array(
 				'idtipodocumento' => $this->input->post('tipodoc'),
 				'numero_documento' => $this->input->post('doc'),
@@ -33,46 +42,62 @@ class Main extends CI_Controller
 				'nombre' => $this->input->post('nombres'),
 				'domicilio' => $this->input->post('direccion'),
 				'zona' => $this->input->post('zona'),
-				'activo' => 1,
+				//'activo' => 1,
 			);
 			if($this->input->post('tiporegistro') === 'registrar'){
+				$data['activo'] = '1';
+				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
 				if($this->Proveedores_model->registrar($data)){
 					$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
 					$this->session->set_flashdata('claseMsg', 'success');
 				}
 			}else if($this->input->post('tiporegistro') === 'editar'){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
-				$this->session->set_flashdata('claseMsg', 'success');
+				$id = $this->input->post('idproveedor');
+				$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Proveedor');
+				if($this->Proveedores_model->editar( $data, ['idproveedor'=>$id] )){
+					$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
+					$this->session->set_flashdata('claseMsg', 'success');
+				}
 			}
 		}else{
 			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
 		}
 		header('location:'.base_url().'proveedores');
 	}
-	public function transacciones(){
+	public function transacciones()
+	{
 		$this->load->model('Proveedores_model');
 		$id = $this->input->get('id');
 		$headers = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Tipo Op.', 'targets' => 3],
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],
 			'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],
 			'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 'no-sort', 'orderable' => false],
 		);		
 		$tipo = $this->Proveedores_model->tipoOperacion();
-		$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id, 'tr.activo' => '1']);
+		$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id]);
+		$filtro = []; $i = 0;
+		foreach($lista as $row):
+			foreach($this->usuario->sucursales as $sucursal):
+				if($row->idsucursal === $sucursal->idsucursal){
+					$filtro[$i] = (OBJECT)[ 'idtransaccion' =>$row->idtransaccion, 'idtipooperacion' =>$row->idtipooperacion, 'idsucursal' =>$row->idsucursal,
+						'idproveedor' =>$row->idproveedor, 'fecha' =>$row->fecha, 'monto' =>$row->monto, 'activo' =>$row->activo, 'tipo_operacion' =>$row->tipo_operacion,
+						'sucursal' =>$row->sucursal, 'nombre' =>$row->nombre,
+					];
+					$i++;
+				}
+			endforeach;			
+		endforeach;
+				
 		$data = array(
-			'lista' => $lista,
+			'lista' => $filtro,
 			'tipo_op' => $tipo,
 			'headers' => $headers,
+			//'filtro' => $filtro,
 		);
 		$this->load->view('main',$data);
 	}
-	public function editar(){
-		$this->load->model('Proveedores_model');
-		$id = $this->input->get('id');
-		
-		$this->load->view('main',['id'=>$id]);
-	}
-	public function registraop(){
+	public function registraop()
+	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		$id = $this->input->post('idproveedor'); $lista = null;
@@ -97,7 +122,8 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	public function anulaop(){
+	public function anulaop()
+	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo anular la Transacci&oacute;n';
 		$idtransaccion = $this->input->post('id'); $op = $this->input->post('op'); $lista = null;

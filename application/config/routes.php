@@ -67,8 +67,8 @@ $route['usuarios'] = 'main/usuarios';
 /* Proveedores */
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
+$route['proveedores/editar'] = 'proveedores/main/nuevo';
 $route['proveedores/registrar'] = 'proveedores/main/registrar';
-$route['proveedores/editar'] = 'proveedores/main/editar';
 $route['proveedores/transacciones'] = 'proveedores/main/transacciones';
 $route['proveedores/transacciones/registrar'] = 'proveedores/main/registraop';
 $route['proveedores/transacciones/anular'] = 'proveedores/main/anulaop';
@@ -76,6 +76,7 @@ $route['proveedores/transacciones/anular'] = 'proveedores/main/anulaop';
 /* Usuarios */
 $route['nuevousuario'] = 'usuarios/main/nuevo';
 $route['usuarios/nuevo'] = 'usuarios/main/nuevo';
+$route['usuarios/editar'] = 'usuarios/main/nuevo';
 $route['usuarios/registrar'] = 'usuarios/main/registrar';
 
 /* Cambiar perfil del usuario */

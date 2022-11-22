@@ -21,8 +21,8 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$proveedores = $this->Proveedores_model->listaProveedores();
 		$headers = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Tipo Doc.', 'targets' => 3],
-			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'RUC', 'targets' => 5],'6'=>['title' => 'Nombre', 'targets' => 6],'7'=>['title' => 'Direcci&oacute;n', 'targets' => 7],
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Tipo Documento', 'targets' => 3],
+			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'RUC', 'targets' => 5],'6'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 6],'7'=>['title' => 'Direcci&oacute;n', 'targets' => 7],
 			'8'=>['title' => 'Zona', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 2, 'visible' => false],
 		);
 		$data = array(

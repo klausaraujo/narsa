@@ -43,8 +43,9 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let btnAccion = '<a title="Anular Transacci&oacute;n" href="'+base_url+segmento+'/'+segmento2+'/anular?id='+data.idtransaccion+
-										'&op=operaciones" class="bg-warning btnTable anular"><i class="far fa-trash" aria-hidden="true"></i></a>';
+						let btnAccion =
+							'<a title="Anular Transacci&oacute;n" '+(data.activo === '1'?'href="'+base_url+segmento+'/'+segmento2+'/anular?id='+data.idtransaccion+
+							'&op=operaciones"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular"><i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -124,6 +125,7 @@ $('#form_ingresos').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
+		$('#form_ingresos')[0].reset();
 		$.ajax({
 			data: $('#form_ingresos').serialize(),
 			url: base_url + segmento + '/transacciones/registrar',

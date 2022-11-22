@@ -12,14 +12,24 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 						'<a title="Editar Usuario" href="'+base_url+'usuarios/editar?id='+data.idusuario+'" class="bg-warning btnTable editar">'+
-							'<i class="far fa-pencil" aria-hidden="true"></i></a>'
+							'<i class="far fa-pencil" aria-hidden="true"></i></a>'+
+						'<a title="Permisos" href="'+base_url+'usuarios/permisos?id='+data.idusuario+'" class="bg-secondary btnTable permisos">'+
+							'<i class="far fa-cog" aria-hidden="true"></i></a>'
 						return btnAccion;
 					}
 				},
 				{ data: 'idusuario' },
-				{ data: 'idtipodocumento' },
+				{ data: 'tipo_documento' },
 				{ data: 'numero_documento' },
-				{ data: 'avatar' },
+				{ 
+					data: 'avatar',
+					createdCell: function(td,cellData,rowData,row,col){
+						$(td).addClass('p-1');
+					},
+					render: function(data){
+						return '<img src="'+base_url+'public/images/perfil/'+data+'" style="display:block;margin:auto;width:40px" class="img img-fluid" >';
+					}
+				},
 				{ data: 'apellidos' },
 				{ data: 'nombres' },
 				{ data: 'usuario' },

@@ -14,6 +14,17 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function listaProveedor($data)
+    {
+        $this->db->select('pr.*,td.tipo_documento');
+        $this->db->from('proveedor pr');
+		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
+		$this->db->where($data);
+		$this->db->order_by('idproveedor', 'asc');
+		$this->db->limit(1);
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+    }
 	public function tipodoc()
 	{
 		$this->db->select('idtipodocumento,codigo_curl,tipo_documento,longitud');
@@ -27,6 +38,13 @@ class Proveedores_model extends CI_Model
 		if ($this->db->insert('proveedor', $data))return true;
         //else return $error['code'];
 		else return false;
+	}
+	public function editar($data,$id)
+	{
+		$this->db->db_debug = FALSE;
+		$this->db->where($id);
+		if ($this->db->update('proveedor',$data)) return true;
+        else return false;
 	}
 	public function tipoOperacion()
 	{
@@ -57,7 +75,7 @@ class Proveedores_model extends CI_Model
 		$this->db->db_debug = FALSE;
 		$this->db->set('activo', '0', TRUE);
 		$this->db->where($data);
-		if ($this->db->update('transacciones')) return 1;
+		if ($this->db->update('transacciones')) return true;
         else return false;
 	}
 }
