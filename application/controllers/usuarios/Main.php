@@ -5,7 +5,8 @@ class Main extends CI_Controller
 {
 	private $usuario;
 	
-    public function __construct(){
+    public function __construct()
+	{
 		parent::__construct();
 		//$this->load->library('User');
 		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
@@ -14,7 +15,8 @@ class Main extends CI_Controller
 
     public function index(){}
 	
-	public function nuevo(){
+	public function nuevo()
+	{
 		if($this->uri->segment(1) === 'nuevousuario')header('location:' .base_url(). 'usuarios/nuevo');
 		else{
 			$this->load->model('Usuarios_model');
@@ -30,7 +32,8 @@ class Main extends CI_Controller
 			$this->load->view('main',$data);
 		}
 	}
-	public function registrar(){
+	public function registrar()
+	{
 		$this->session->set_flashdata('claseMsg', 'danger');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('apellidos') != '' && $this->input->post('nombres') != ''
 			&& $this->input->post('usuario') != '' && $this->input->post('perfil') != '')
@@ -56,7 +59,7 @@ class Main extends CI_Controller
 			}else if($this->input->post('tiporegistro') === 'editar'){
 				$id = $this->input->post('idusuario');
 				$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Usuario');
-				if($this->Usuarios_model->editar( $data, ['idusuario'=>$id] )){
+				if($this->Usuarios_model->actualizar( $data, ['idusuario'=>$id] )){
 					$this->session->set_flashdata('flashSuccess', 'Usuario Actualizado');
 					$this->session->set_flashdata('claseMsg', 'success');
 				}
@@ -65,5 +68,44 @@ class Main extends CI_Controller
 			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario por campos vac&iacute;os');
 		}
 		header('location:'.base_url().'usuarios');
+	}
+	public function habilitar()
+	{
+		$id = $this->input->get('id'); $stat = $this->input->get('stat'); $msg = ''; $status = 500;
+		$this->load->model('Usuarios_model'); $usuarios = null;
+		
+		if($stat === '1'){
+			$msg = 'No se pudo deshabilitar el Usuario';
+			if($this->Usuarios_model->actualizar( ['activo'=> 0], ['idusuario'=>$id] )){
+				$status = 200;
+				$msg = 'Usuario deshabilitado';
+				$usuarios = $this->Usuarios_model->listaUsuarios();
+			}
+		}else{
+			$msg = 'No se pudo habilitar el Usuario';
+			if($this->Usuarios_model->actualizar( ['activo'=> 1], ['idusuario'=>$id] )){
+				$status = 200;
+				$msg = 'Usuario habilitado';
+				$usuarios = $this->Usuarios_model->listaUsuarios();
+			}
+		}
+		
+		$data = array(
+			'status' => $status,
+			'msg' => $msg,
+			'lista' => $usuarios,
+		);
+		
+		echo json_encode($data);
+		//header('location:'. base_url() .'usuarios');
+	}
+	public function resetear()
+	{
+		$id = $this->input->get('id'); $doc = $this->input->get('doc'); $status = 500;
+		$this->load->model('Usuarios_model');
+		
+		if($this->Usuarios_model->actualizar( ['passwd'=> sha1($doc)], ['idusuario'=>$id] )) $status = 200;
+		
+		echo json_encode(['status'=> $status]);
 	}
 }

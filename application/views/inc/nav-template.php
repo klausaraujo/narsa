@@ -23,12 +23,12 @@
 								$listaModulos = $usuario->modulos;
 								foreach($listaModulos as $row): ?>
 							<li>
-							<?php	if($row->activo > 0){ ?>
+							<?php	if($row->activo > 0 && ! empty($usuario->sucursales)){ ?>
 							<a href="<?=base_url().$row->url?>" class="iq-waves-effect">
 								<i class="<?=$row->mini?>" aria-hidden="true"></i>
 								<span><?=$row->menu?></span>
 							</a>
-							<?php 	}else{ ?>
+							<?php 	}else { ?>
 								<span class="disable">
 									<div class="pull-left">
 										<i class="<?=$row->mini?> mr-20" aria-hidden="true"></i>

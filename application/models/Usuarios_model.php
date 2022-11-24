@@ -36,15 +36,15 @@ class Usuarios_model extends CI_Model
 	}
 	public function registrar($data)
 	{
-		if ($this->db->insert('usuarios', $data))return true;
+		if($this->db->insert('usuarios', $data))return true;
         //else return $error['code'];
 		else return false;
 	}
-	public function editar($data,$id)
+	public function actualizar($data,$id)
 	{
 		$this->db->db_debug = FALSE;
 		$this->db->where($id);
-		if ($this->db->update('usuarios',$data)) return true;
+		if($this->db->update('usuarios',$data)) return true;
         else return false;
 	}
 }
