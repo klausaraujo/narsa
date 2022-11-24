@@ -6,12 +6,12 @@ $(document).ready(function (){
 });
 
 $('body').bind('click','a',function(e){
-	let evt = e || e.target, el = evt.target;/*, rel = $(el).closest('a').attr('rel');*/
+	let evt = e || e.target, el = evt.target, a = el.closest('a');/*, rel = $(el).closest('a').attr('rel');*/
 	/*if(rel === 'proveedores'){
 		$(location).attr('href','proveedores');
 	}else if(rel === 'Nuevo Registro'){
 		
-	}*/
+	}*/	
 });
 
 btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });
@@ -31,7 +31,7 @@ file.bind('change',function(){
         contentType: false,
 	    processData: false
 	}).done(function(data){
-		console.log(data);
+		//console.log(data);
 		imgperfil.attr( 'src', img );
 		perfiltop.attr( 'src', img );
 	});

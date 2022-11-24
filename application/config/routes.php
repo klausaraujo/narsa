@@ -78,6 +78,8 @@ $route['nuevousuario'] = 'usuarios/main/nuevo';
 $route['usuarios/nuevo'] = 'usuarios/main/nuevo';
 $route['usuarios/editar'] = 'usuarios/main/nuevo';
 $route['usuarios/registrar'] = 'usuarios/main/registrar';
+$route['usuarios/habilitar'] = 'usuarios/main/habilitar';
+$route['usuarios/reset'] = 'usuarios/main/resetear';
 
 /* Cambiar perfil del usuario */
 $route['usuario/perfil'] = 'main/perfil';

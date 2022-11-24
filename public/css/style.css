@@ -1062,12 +1062,14 @@ Add User Page
 .content-page{ padding: 96px 15px 0; } .no-sort::after{ display: none!important; } .no-sort{ pointer-events: none!important; cursor: default!important; }
 .form_error{ color: #F00; background-color: #FFF; display: flex; align-items: center; }
 .tab-perfil{ border-radius: 20px; }
-.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:3px 5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); }
+.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:3px 5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); color: #fff; }
 .btnTable:hover{ color: #000 }
 .nav-pills .nav-item.nav-link{ color: rgba(185,100,40,1);border-radius: 10px 10px 0 0;border: 2px solid rgb(187 72 18 / 25%); }
 .dataTables_wrapper .mt-5{ margin-top:0 !important; }
 .nav-pills .nav-link.active { color: #fff;background: rgb(221 95 26 / 75%); }
 a.disabled{ pointer-events: none; color: grey }
+.btnDesactivar{ color: green; border: 1px solid darkgrey } .btnDesactivar:hover{ color: red; border: 1px solid darkgreen }
+.btnActivar{ color: red; border: 1px solid darkgrey } .btnActivar:hover{ color: green; border: 1px solid darkred }
 *::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }
 ::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }
 ::selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }

@@ -1,8 +1,8 @@
-let tabla = null;
+let tablaUser = null;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
-		tabla = $('#tablaUsuarios').DataTable({
+		tablaUser = $('#tablaUsuarios').DataTable({
 			'data':lista, 'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
 			'columns':[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
@@ -11,10 +11,22 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Editar Usuario" href="'+base_url+'usuarios/editar?id='+data.idusuario+'" class="bg-warning btnTable editar">'+
-							'<i class="far fa-pencil" aria-hidden="true"></i></a>'+
-						'<a title="Permisos" href="'+base_url+'usuarios/permisos?id='+data.idusuario+'" class="bg-secondary btnTable permisos">'+
-							'<i class="far fa-cog" aria-hidden="true"></i></a>'
+						/* Boton de edicion */
+						'<a title="Editar Usuario" '+(data.activo === '1'?'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"':'')+
+							' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						/* Boton de permisos */
+						'<a title="Permisos" '+(data.activo === '1'?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
+							' class="bg-secondary btnTable '+(data.activo === '0'?'disabled':'')+' permisos"><i class="far fa-cog" aria-hidden="true"></i></a>'+
+						/* Boton de Asignar Sucursales */
+						'<a title="Asignar Sucursales" '+(data.activo === '1'?'href="'+base_url+'usuarios/sucursales?id='+data.idusuario+'"':'')+
+							' class="bg-narsa btnTable '+(data.activo === '0'?'disabled':'')+' sucursales"><i class="far fa-building-shield" aria-hidden="true"></i></a>'+
+						/* Boton de Reset Clave */
+						'<a title="Resetear Clave" '+(data.activo === '1'?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
+							' class="bg-info btnTable '+(data.activo === '0'?'disabled':'')+' resetclave"><i class="far fa-key" aria-hidden="true"></i></a>'+
+						/* Boton de activacion */
+						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" href="'+base_url+'usuarios/habilitar?id='+data.idusuario+
+							'&stat='+data.activo+'" class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' activar" >'+
+							'<i class="far '+(data.activo === '1'? 'fa-unlock-keyhole':'fa-lock')+'" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -62,8 +74,61 @@ $(document).ready(function (){
 	}
 });
 
-$('body').bind('click','a',function(e){
+$('#tablaUsuarios').bind('click','a',function(e){
+	e.preventDefault();
+	let evt = e || e.target, el = evt.target, a = $(el).closest('a'), mensaje = '';
+	let data = (tablaUser.row(a).child.isShown())? tablaUser.row(a).data() : tablaUser.row($(el).parents('tr')).data();
 	
+	if($(a).hasClass('activar')){
+		e.preventDefault();
+		//console.log(data.activo);
+		mensaje = data.activo === '1'? 'Está seguro que desea deshabilitar el Usuario?' : 'Está seguro que desea habilitar el Usuario?';
+		let confirmacion = confirm(mensaje);
+		if(confirmacion){
+			a.addClass('disabled');
+			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+			$.ajax({
+				data: {},
+				url: $(a).attr('href'),
+				method: 'GET',
+				dataType: 'json',
+				error: function(xhr){ a.removeClass('disabled'); a.html('<i class="far fa-lock" aria-hidden="true"></i>'); },
+				beforeSend: function(){},
+				success: function(data){
+					//console.log(data);
+					if(parseInt(data.status) === 200){
+						tablaUser.clear();
+						tablaUser.rows.add(data.lista).draw();
+						alert(data.msg);
+					}else{
+						alert(data.msg);
+						a.removeClass('disabled');
+						a.html('<i class="far far fa-lock" aria-hidden="true"></i>');
+					}
+				}
+			});
+		}
+	}else if($(a).hasClass('resetclave')){
+		let confirmacion = confirm('Deseas resetear la clave del usuario?');
+		if(confirmacion){
+			a.addClass('disabled');
+			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+			$.ajax({
+				url: $(a).attr('href'),
+				type: 'get',
+				dataType: 'json',
+				data: {},
+				error: function(xhr){ a.removeClass('disabled'); a.html('<i class="far fa-key" aria-hidden="true"></i>'); },
+				beforeSend: function(){},
+				success: function(data){
+					a.removeClass('disabled');
+					a.html('<i class="far far fa-key" aria-hidden="true"></i>');
+					if(parseInt(data.status) === 200) alert('Se reseteó la clave del usuario exitosamente');
+					else alert('No se pudo resetear la clave del usuario');
+				}
+			});
+		}
+	}
 });
 
 $('#form_usuarios').validate({
