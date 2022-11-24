@@ -8,8 +8,11 @@ DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS permiso;
 DROP TABLE IF EXISTS modulo_rol;
 DROP TABLE IF EXISTS modulo;
+DROP TABLE IF EXISTS movimientos_caja;
+DROP TABLE IF EXISTS movimientos_proveedor;
+DROP TABLE IF EXISTS tipo_operacion_caja;
+DROP TABLE IF EXISTS tipo_operacion_proveedor;
 DROP TABLE IF EXISTS transacciones;
-DROP TABLE IF EXISTS tipo_operacion;
 DROP TABLE IF EXISTS guia_entrada_detalle;
 DROP TABLE IF EXISTS guia_entrada_detalle_valorizacion;
 DROP TABLE IF EXISTS guia_entrada;
@@ -219,9 +222,6 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(3,1,2);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,2,2);
 
-
-
-
 CREATE TABLE sucursal  (
 idsucursal smallint(4) NOT NULL AUTO_INCREMENT,
 sucursal varchar(15) NOT NULL,
@@ -277,37 +277,87 @@ PRIMARY KEY (idproveedor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_g
 
 insert into proveedor(idproveedor,idtipodocumento,numero_documento,RUC,nombre) values (1,1,'00000000','00000000000','NARSA CENTRAL');
 
-create table tipo_operacion(
+create table tipo_operacion_proveedor(
 idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
 tipo_operacion VARCHAR(50),
-afecta_proveedor char(1) default '0',
-afecta_caja char(1) default '0',
+combo_movimientos char(1) default '0',
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idtipooperacion))  ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (1,'PRESTAMOS A PROVEEDORES','1','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (2,'PAGO A PROVEEDORES','1','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (3,'COBRO A PROVEEDORES','1','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (4,'PAGO POR VALORIZACION DE PRODUCTOS','1','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (5,'PAGOS DE INTERESES A PROVEEDORES','0','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (6,'COBRO DE INTERESES A PROVEEDORES','0','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (7,'INGRESO DE PRODUCTOS SIN VALORIZAR','1','0');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (8,'PRESTAMOS A LA EMPRESA','1','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (9,'INGRESO DE EFECTIVO A CAJA','0','1');
-insert into tipo_operacion (idtipooperacion,tipo_operacion,afecta_proveedor,afecta_caja) values (10,'SALIDA DE EFECTIVO DE CAJA','0','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (1,'PRESTAMOS A PROVEEDORES','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (2,'PAGOS A PROVEEDORES','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (3,'COBROS A PROVEEDORES','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (4,'PAGOS DE INTERESES A PROVEEDORES','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (5,'COBROS DE INTERESES A PROVEEDORES','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (6,'VALORIZACION DE PRODUCTOS','0');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (7,'PRESTAMOS A LA EMPRESA','1');
+
+create table tipo_operacion_caja(
+idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
+tipo_operacion VARCHAR(50),
+combo_movimientos char(1) default '0',
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtipooperacion))  ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (1,'PRESTAMOS A PROVEEDORES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (2,'PAGOS A PROVEEDORES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (3,'COBROS A PROVEEDORES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (4,'PAGOS DE INTERESES A PROVEEDORES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (5,'COBROS DE INTERESES A PROVEEDORES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (6,'PRESTAMOS A LA EMPRESA','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (7,'INGRESO DE EFECTIVO A CAJA','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (8,'TRANSFERENCIA A SUCURSALES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (9,'GASTOS OPERATIVOS','1');
 
 create table transacciones(
 idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
-idtipooperacion smallint(4) NOT NULL,
-idsucursal smallint(4) NOT NULL,
-idproveedor smallint(4) NOT NULL,
 fecha datetime,
+vencimiento datetime,
 monto decimal(20,2),
 activo char(1) DEFAULT '1',
-PRIMARY KEY (idtransaccion),
-FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+PRIMARY KEY (idtransaccion)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table movimientos_proveedor(
+	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
+	idtipooperacion smallint(4) NOT NULL,
+	idsucursal smallint(4) NOT NULL,
+	idproveedor smallint(4) NOT NULL,
+	idtransaccion smallint(4) NOT NULL,
+	monto decimal(20,2) NOT NULL,
+	fecha_vencimiento datetime,
+	fecha_movimiento datetime NOT NULL,
+	idusuario_registro smallint(4),
+	fecha_registro datetime,
+	idusuario_modificacion smallint(4),
+	fecha_modificacion datetime,
+	idusuario_anulacion smallint(4),
+	fecha_anulacion datetime,
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idmovimiento),
+	FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion_proveedor (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table movimientos_caja(
+	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
+	idtipooperacion smallint(4) NOT NULL,
+	idsucursal smallint(4) NOT NULL,
+	idtransaccion smallint(4) NOT NULL,
+	monto decimal(20,2) NOT NULL,
+	fecha_vencimiento datetime,
+	fecha_movimiento datetime NOT NULL,
+	idusuario_registro smallint(4),
+	fecha_registro datetime,
+	idusuario_modificacion smallint(4),
+	fecha_modificacion datetime,
+	idusuario_anulacion smallint(4),
+	fecha_anulacion datetime,
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idmovimiento),
+	FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion_caja (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 create table guia_entrada(
 idguia smallint(4) NOT NULL AUTO_INCREMENT,
@@ -326,7 +376,6 @@ iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idguia smallint(4) NOT NULL,
 idarticulo smallint(4) NOT NULL,
 cantidad decimal(20,2),
-costo decimal(20,2),
 activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -342,6 +391,7 @@ activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
 
 
 
