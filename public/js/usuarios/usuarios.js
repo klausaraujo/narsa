@@ -75,7 +75,6 @@ $(document).ready(function (){
 });
 
 $('#tablaUsuarios').bind('click','a',function(e){
-	e.preventDefault();
 	let evt = e || e.target, el = evt.target, a = $(el).closest('a'), mensaje = '';
 	let data = (tablaUser.row(a).child.isShown())? tablaUser.row(a).data() : tablaUser.row($(el).parents('tr')).data();
 	
