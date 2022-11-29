@@ -46,36 +46,43 @@ class Proveedores_model extends CI_Model
 		if ($this->db->update('proveedor',$data)) return true;
         else return false;
 	}
-	public function tipoOperacion()
+	public function tipoOperacion($data)
 	{
 		$this->db->select('idtipooperacion,tipo_operacion');
-		$this->db->from('tipo_operacion');
+		$this->db->from('tipo_operacion_proveedor');
+		$this->db->where($data);
 		$this->db->order_by('idtipooperacion', 'asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 	public function registraop($data){
-		if ($this->db->insert('transacciones', $data))return true;
+		if ($this->db->insert('movimientos_proveedor', $data))return true;
+        //else return $error['code'];
+		else return false;
+	}
+	public function regTransaccion($data){
+		if ($this->db->insert('transacciones', $data))return $this->db->insert_id();
         //else return $error['code'];
 		else return false;
 	}
 	public function listaOperaciones($data)
     {
-        $this->db->select('tr.*,to.tipo_operacion,su.sucursal,pr.nombre');
-        $this->db->from('transacciones tr');
-		$this->db->join('tipo_operacion to','to.idtipooperacion = tr.idtipooperacion');
-		$this->db->join('sucursal su','su.idsucursal = tr.idsucursal');
-		$this->db->join('proveedor pr','pr.idproveedor = tr.idproveedor');
+        $this->db->select('mp.*,to.tipo_operacion,su.sucursal,pr.nombre,usr.usuario');
+        $this->db->from('movimientos_proveedor mp');
+		$this->db->join('tipo_operacion_proveedor to','to.idtipooperacion = mp.idtipooperacion');
+		$this->db->join('sucursal su','su.idsucursal = mp.idsucursal');
+		$this->db->join('proveedor pr','pr.idproveedor = mp.idproveedor');
+		$this->db->join('usuarios usr','usr.idusuario = mp.idusuario_registro');
 		$this->db->where($data);
-		$this->db->order_by('idtransaccion', 'asc');
+		$this->db->order_by('idmovimiento', 'asc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
-	public function anulaop($data){
+	public function anulaTransaccion($where,$array,$tabla){
 		$this->db->db_debug = FALSE;
-		$this->db->set('activo', '0', TRUE);
-		$this->db->where($data);
-		if ($this->db->update('transacciones')) return true;
+		$this->db->set($array,TRUE);
+		$this->db->where($where);
+		if ($this->db->update($tabla)) return true;
         else return false;
 	}
 }

@@ -30,12 +30,9 @@
 																<option value="">--Seleccione--</option>
 														<?
 														foreach($tipo_op as $row):
-															if($row->idtipooperacion === '1' || $row->idtipooperacion === '2' || $row->idtipooperacion === '3'
-																|| $row->idtipooperacion === '5' || $row->idtipooperacion === '6' || $row->idtipooperacion === '8'){
 														?>
 																<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
-														<?	
-															}
+														<?
 														endforeach;	?>
 															</select>
 														</div>
@@ -52,6 +49,14 @@
 																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
 													<?	endforeach;	?>
 															</select>
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="fechavenc">Fecha de Vencimiento:</label></span>
+														</div>
+														<div class="row">
+															<input type="date" class="form-control col-sm-9 fechavenc" value="2031-01-01" name="fechavenc" id="fechavenc" />
 														</div>
 													</div>
 													<div class="col-sm-6 mt-4">

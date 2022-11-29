@@ -36,7 +36,14 @@ $(document).ready(function (){
 		});
 	}else if(segmento2 === 'transacciones'){
 		tablaOp = $('#tablaOp').DataTable({
-			'data':lista, 'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
+			ajax:{
+				url: base_url + 'proveedores/transacciones/lista',
+				type: 'POST',
+				data: function (d) {
+					d.id = id
+				}
+			},
+			'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
 			'columns':[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
 				{
@@ -49,15 +56,18 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idtransaccion' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
+				{ data: 'idmovimiento' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },{ data: 'idtransaccion' },
 				{ 
-					data: 'fecha',
+					data: 'monto',
+					className: 'text-right',
 					render: function(data){
-						let fecha = new Date(data);
-						return fecha.toLocaleDateString();
+						let number = parseFloat(data);
+						return number.toLocaleString('es-VE');
 					}
 				},
-				{ data: 'monto' },
+				{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
+				{ data: 'fecha_vencimiento', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
+				{ data: 'usuario' },
 				{
 					data: 'activo',
 					render: function(data){
@@ -125,7 +135,6 @@ $('#form_ingresos').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		$('#form_ingresos')[0].reset();
 		$.ajax({
 			data: $('#form_ingresos').serialize(),
 			url: base_url + segmento + '/transacciones/registrar',
@@ -138,14 +147,15 @@ $('#form_ingresos').validate({
 			},
 			success: function (data) {
 				//$('.resp').html('');
+				$('#form_ingresos')[0].reset();
 				$('#form_ingresos button[type=submit]').html('Ejecutar');
 				$('#form_ingresos button[type=submit]').removeClass('disabled');
 				//console.log(data);
 				if (parseInt(data.status) === 200) {
 					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
-					tablaOp.clear();
+					tablaOp.ajax.reload();
 					$('.resp').html(data.message);
-					tablaOp.rows.add(data.lista).draw();
+					//tablaOp.rows.add(data.lista).draw();
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 				}else {
 					$('.resp').html(data.message);
@@ -166,17 +176,16 @@ $('body').bind('click','a',function(e){
 		if(confirmacion){
 			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
 			$.ajax({
-				data: { id: row.idtransaccion, proveedor: row.idproveedor, op: 'operaciones' },
+				data: {},
 				url: a.attr('href'),
-				method: 'POST',
+				method: 'GET',
 				dataType: 'JSON',
 				beforeSend: function () { a.addClass('disabled'); },
 				success: function (data) {
 					//console.log(data);
 					if (parseInt(data.status) === 200){
 						$('.resp').html(data.message);
-						tablaOp.clear();
-						tablaOp.rows.add(data.lista).draw();
+						tablaOp.ajax.reload();
 						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 					}else{
 						a.removeClass('disabled');

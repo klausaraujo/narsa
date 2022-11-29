@@ -67,57 +67,80 @@ class Main extends CI_Controller
 	public function transacciones()
 	{
 		$this->load->model('Proveedores_model');
-		$id = $this->input->get('id');
+		//$id = $this->input->get('id');
 		$headers = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],
-			'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],
-			'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 'no-sort', 'orderable' => false],
-		);		
-		$tipo = $this->Proveedores_model->tipoOperacion();
-		$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id]);
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],
+			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
+			'6'=>['title' => 'Transacci&oacute;n', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Fecha', 'targets' => 8],
+			'9'=>['title' => 'Fecha Vencimiento', 'targets' => 9],'10'=>['title' => 'Usuario Registro', 'targets' => 10],'11'=>['title' => 'Estado', 'targets' => 11],
+			'12'=>['targets' => 'no-sort', 'orderable' => false],
+		);
+		$tipo = $this->Proveedores_model->tipoOperacion(['activo' => '1']);
+				
+		$data = array(
+			'tipo_op' => $tipo,
+			'headers' => $headers,
+		);
+		$this->load->view('main',$data);
+	}
+	public function listatransacciones()
+	{
+		$this->load->model('Proveedores_model');
+		
+		$id = $this->input->post('id');
+		$lista = $this->Proveedores_model->listaOperaciones(['mp.idproveedor' => $id]);
 		$filtro = []; $i = 0;
+		
 		foreach($lista as $row):
 			foreach($this->usuario->sucursales as $sucursal):
 				if($row->idsucursal === $sucursal->idsucursal){
-					$filtro[$i] = (OBJECT)[ 'idtransaccion' =>$row->idtransaccion, 'idtipooperacion' =>$row->idtipooperacion, 'idsucursal' =>$row->idsucursal,
-						'idproveedor' =>$row->idproveedor, 'fecha' =>$row->fecha, 'monto' =>$row->monto, 'activo' =>$row->activo, 'tipo_operacion' =>$row->tipo_operacion,
-						'sucursal' =>$row->sucursal, 'nombre' =>$row->nombre,
+					$filtro[$i] = (OBJECT)[ 'idmovimiento' =>$row->idmovimiento, 'idtipooperacion' =>$row->idtipooperacion, 'idsucursal' =>$row->idsucursal,
+						'idproveedor' =>$row->idproveedor,'idtransaccion'=>$row->idtransaccion,'monto' =>$row->monto,'fecha_vencimiento' =>$row->fecha_vencimiento,
+						'fecha_movimiento'=>$row->fecha_movimiento,'idusuario_registro'=>$row->idusuario_registro,'fecha_registro' =>$row->fecha_registro,
+						'activo' =>$row->activo, 'tipo_operacion' =>$row->tipo_operacion,'sucursal' =>$row->sucursal, 'nombre' =>$row->nombre,'usuario' =>$row->usuario,
 					];
 					$i++;
 				}
 			endforeach;			
 		endforeach;
-				
-		$data = array(
-			'lista' => $filtro,
-			'tipo_op' => $tipo,
-			'headers' => $headers,
-			//'filtro' => $filtro,
-		);
-		$this->load->view('main',$data);
+		
+		echo json_encode(['data' => $filtro]);
 	}
 	public function registraop()
 	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
-		$id = $this->input->post('idproveedor'); $lista = null;
-		$data = array(
-			'idtipooperacion' => $this->input->post('tipoop'),
-			'idsucursal' => $this->input->post('sucursal'),
-			'idproveedor' => $id,
-			'fecha' => date('Y-m-d H:i:s'),
+		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc');
+		
+		$dataTransaccion = array(
+			'fecha' => $fecha,
+			'vencimiento' => $vence,
 			'monto' => $this->input->post('monto'),
-			'activo' => '1',			
+			'activo' => '1',
 		);
-		if($this->Proveedores_model->registraop($data)){
-			$message = 'Transacci&oacute;n registrada exitosamente';
-			$status = 200;
-			$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $id, 'tr.activo' => '1']);
-		}else $lista = array();
+		$tran = $this->Proveedores_model->regTransaccion($dataTransaccion);
+		if($tran != false){
+			$data = array(
+				'idtipooperacion' => $this->input->post('tipoop'),
+				'idsucursal' => $this->input->post('sucursal'),
+				'idproveedor' => $id,
+				'idtransaccion' => $tran,
+				'monto' => $this->input->post('monto'),
+				'fecha_vencimiento' => $vence,
+				'fecha_movimiento' => $fecha,
+				'idusuario_registro' => $this->usuario->idusuario,
+				'fecha_registro' => $fecha,
+				'activo' => '1',
+			);
+			if($this->Proveedores_model->registraop($data)){
+				$message = 'Transacci&oacute;n registrada exitosamente';
+				$status = 200;
+			}
+		}
+		
 		$data = array(
 			'status' => $status,
 			'message' => $message,
-			'lista' => $lista
 		);
 		
 		echo json_encode($data);
@@ -126,27 +149,23 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo anular la Transacci&oacute;n';
-		$idtransaccion = $this->input->post('id'); $op = $this->input->post('op'); $lista = null;
-		$idproveedor = $this->input->post('proveedor');
+		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s');
 		
 		if($op === 'operaciones'){
-			if($this->Proveedores_model->anulaop(['idtransaccion'=>$idtransaccion])){
-				$message = 'Transacci&oacute;n anulada';
-				$status = 200;
-				$lista = $this->Proveedores_model->listaOperaciones(['tr.idproveedor' => $idproveedor, 'tr.activo' => '1']);
-			}else $lista = array();
+			if($this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0],'transacciones')){
+				$dataop = array('idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>$fecha,'activo'=>0,);
+				if($this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],$dataop,'movimientos_proveedor')){
+					$message = 'Transacci&oacute;n anulada';
+					$status = 200;
+				}
+			}
 		}
 		
 		$data = array(
 			'status' => $status,
-			'message' => $message,
-			'lista' => $lista,
-			'idTransaccion' => $idtransaccion,
-			'op' => $op,
-			'idproveedor' => $idproveedor,			
+			'message' => $message,		
 		);
 		
 		echo json_encode($data);
-		//echo 'Anular';
 	}
 }
