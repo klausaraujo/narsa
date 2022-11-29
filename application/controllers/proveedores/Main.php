@@ -15,6 +15,12 @@ class Main extends CI_Controller
 
     public function index(){}
 	
+	public function listaProveedores()
+	{
+		$this->load->model('Proveedores_model');
+		$proveedores = $this->Proveedores_model->listaProveedores();
+		echo json_encode(['data'=>$proveedores]);
+	}
 	public function nuevo()
 	{
 		if($this->uri->segment(1) === 'nuevoproveedor')header('location:' .base_url(). 'proveedores/nuevo');
@@ -71,9 +77,9 @@ class Main extends CI_Controller
 		$headers = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Transacci&oacute;n', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Fecha', 'targets' => 8],
-			'9'=>['title' => 'Fecha Vencimiento', 'targets' => 9],'10'=>['title' => 'Usuario Registro', 'targets' => 10],'11'=>['title' => 'Estado', 'targets' => 11],
-			'12'=>['targets' => 'no-sort', 'orderable' => false],
+			'6'=>['title' => 'Transacci&oacute;n', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Fecha Registro', 'targets' => 8],
+			'9'=>['title' => 'Fecha Movimiento', 'targets' => 9],'10'=>['title' => 'Fecha Vencimiento', 'targets' => 10],'11'=>['title' => 'Usuario Registro', 'targets' => 11],
+			'12'=>['title' => 'Estado', 'targets' => 12],'13'=>['targets' => 'no-sort', 'orderable' => false],
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['activo' => '1']);
 				

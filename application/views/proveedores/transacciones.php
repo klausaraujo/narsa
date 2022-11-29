@@ -8,14 +8,14 @@
 								<!-- Nav pills -->
 								<div class="nav nav-pills" id="nav-tab" role="tablist">
 									<a class="nav-item nav-link active" data-toggle="tab" href="#pill-ingresos">Registro de Operaciones</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#pill-valorizaciones">Valorizaciones</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#pill-3">Tab 3</a>
+									<a class="nav-item nav-link" data-toggle="tab" href="#pill-valorizaciones">Ingreso de Productos</a>
+									<a class="nav-item nav-link" data-toggle="tab" href="#pill-3">Valorizaci&oacute;n de Productos</a>
 								</div>
 							</div>
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane container active" id="pill-ingresos">
-									<form method="post" id="form_ingresos" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/registrar">
+									<form method="post" id="form_transacciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/registrar">
 										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
 										<div class="row">
 											<div class="col-10 mx-auto">
@@ -86,7 +86,21 @@
 									</div>
 								</div>
 								<div class="tab-pane container fade" id="pill-valorizaciones">
-									<div class="row"><h5 class="col-12 my-3">Valorizaciones</h5></div>
+									<div class="row"><h5 class="col-12 my-3">Ingreso de Productos</h5></div>
+									<form method="post" id="form_ingresos">
+										
+									</form>
+									<div class="container-fluid my-2">
+										<div class="row">
+											<div class="table-responsive" style="overflow-x:scroll">
+											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+												<table id="tablaIngresos" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane container fade" id="pill-3">
+									<div class="row"><h5 class="col-12 my-3">Valorizaci&oacute;n de Productos</h5></div>
 									<form method="post" id="form_valorizaciones">
 										
 									</form>
@@ -99,7 +113,6 @@
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane container fade" id="pill-3">Tab 3</div>
 							</div>
 						</div>
 					</div>

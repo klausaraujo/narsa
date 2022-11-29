@@ -3,8 +3,11 @@ let tabla = null, tablaOp, tabla2;
 $(document).ready(function (){
 	if(segmento2 == ''){
 		tabla = $('#tablaProveedores').DataTable({
-			'data':lista, 'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
-			'columns':[
+			ajax:{
+				url: base_url + 'proveedores/lista',
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			columns:[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
 				{
 					data: null,
@@ -31,8 +34,8 @@ $(document).ready(function (){
 					}
 				},
 			],
-			'columnDefs':headers, 'dom': botones, 'buttons':{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-			'copy','csv','excel','pdf','print']},order: [], language:{ lngDataTable },
+			columnDefs:headers, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']},order: [],
 		});
 	}else if(segmento2 === 'transacciones'){
 		tablaOp = $('#tablaOp').DataTable({
@@ -43,8 +46,8 @@ $(document).ready(function (){
 					d.id = id
 				}
 			},
-			'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
-			'columns':[
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			columns:[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
 				{
 					data: null,
@@ -65,6 +68,7 @@ $(document).ready(function (){
 						return number.toLocaleString('es-VE');
 					}
 				},
+				{ data: 'fecha_registro', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
 				{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
 				{ data: 'fecha_vencimiento', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
 				{ data: 'usuario' },
@@ -80,7 +84,7 @@ $(document).ready(function (){
 					}
 				},
 			],
-			'columnDefs':headers, order: [], language:{ lngDataTable },
+			columnDefs:headers, order: [],
 		});
 	}
 });
@@ -110,13 +114,14 @@ $('#form_proveedor').validate({
 	},
 	submitHandler: function (form, event) {
 		//alert('Enviando');
-		$('#formPassword button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-		$('#formPassword button[type=submit]').addClass('disabled');
+		$('#form_proveedor button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$('#form_proveedor button[type=submit]').addClass('disabled');
+		btnCancelar.addClass('disabled');
 		return true;
 	}
 });
 
-$('#form_ingresos').validate({
+$('#form_transacciones').validate({
 	errorClass: 'form_error',
 	rules: {
 		tipoop: { required: true },
@@ -136,20 +141,20 @@ $('#form_ingresos').validate({
 	submitHandler: function (form, event) {
 		event.preventDefault();
 		$.ajax({
-			data: $('#form_ingresos').serialize(),
+			data: $('#form_transacciones').serialize(),
 			url: base_url + segmento + '/transacciones/registrar',
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () {
 				//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
-				$('#form_ingresos button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				$('#form_ingresos button[type=submit]').addClass('disabled');
+				$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#form_transacciones button[type=submit]').addClass('disabled');
 			},
 			success: function (data) {
 				//$('.resp').html('');
-				$('#form_ingresos')[0].reset();
-				$('#form_ingresos button[type=submit]').html('Ejecutar');
-				$('#form_ingresos button[type=submit]').removeClass('disabled');
+				$('#form_transacciones')[0].reset();
+				$('#form_transacciones button[type=submit]').html('Ejecutar');
+				$('#form_transacciones button[type=submit]').removeClass('disabled');
 				//console.log(data);
 				if (parseInt(data.status) === 200) {
 					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();

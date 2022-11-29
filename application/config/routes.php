@@ -65,6 +65,7 @@ $route['cambiapass'] = 'main/password';
 $route['usuarios'] = 'main/usuarios';
 
 /* Proveedores */
+$route['proveedores/lista'] = 'proveedores/main/listaProveedores';
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
 $route['proveedores/editar'] = 'proveedores/main/nuevo';
@@ -75,6 +76,7 @@ $route['proveedores/transacciones/registrar'] = 'proveedores/main/registraop';
 $route['proveedores/transacciones/anular'] = 'proveedores/main/anulaop';
 
 /* Usuarios */
+$route['usuarios/lista'] = 'usuarios/main/listaUsuarios';
 $route['nuevousuario'] = 'usuarios/main/nuevo';
 $route['usuarios/nuevo'] = 'usuarios/main/nuevo';
 $route['usuarios/editar'] = 'usuarios/main/nuevo';

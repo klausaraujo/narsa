@@ -3,8 +3,11 @@ let tablaUser = null;
 $(document).ready(function (){
 	if(segmento2 == ''){
 		tablaUser = $('#tablaUsuarios').DataTable({
-			'data':lista, 'bAutoWidth':false, 'bDestroy':true, 'responsive':true, 'select':false, 'lengthMenu':[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']],
-			'columns':[
+			ajax: {
+				url: base_url + 'usuarios/lista',
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			columns:[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
 				{
 					data: null,
@@ -68,8 +71,8 @@ $(document).ready(function (){
 					}
 				},
 			],
-			'columnDefs':headers, 'dom': botones, 'buttons':{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-			'copy','csv','excel','pdf','print']},order: [], language:{ lngDataTable },
+			columnDefs:headers, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']}, order: [],
 		});
 	}
 });
@@ -90,14 +93,15 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				data: {},
 				url: $(a).attr('href'),
 				method: 'GET',
-				dataType: 'json',
+				dataType: 'JSON',
 				error: function(xhr){ a.removeClass('disabled'); a.html('<i class="far fa-lock" aria-hidden="true"></i>'); },
 				beforeSend: function(){},
 				success: function(data){
 					//console.log(data);
 					if(parseInt(data.status) === 200){
-						tablaUser.clear();
-						tablaUser.rows.add(data.lista).draw();
+						tablaUser.ajax.reload();
+						//tablaUser.clear();
+						//tablaUser.rows.add(data.lista).draw();
 						alert(data.msg);
 					}else{
 						alert(data.msg);
@@ -108,14 +112,15 @@ $('#tablaUsuarios').bind('click','a',function(e){
 			});
 		}
 	}else if($(a).hasClass('resetclave')){
+		e.preventDefault();
 		let confirmacion = confirm('Deseas resetear la clave del usuario?');
 		if(confirmacion){
 			a.addClass('disabled');
 			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
 			$.ajax({
 				url: $(a).attr('href'),
-				type: 'get',
-				dataType: 'json',
+				type: 'GET',
+				dataType: 'JSON',
 				data: {},
 				error: function(xhr){ a.removeClass('disabled'); a.html('<i class="far fa-key" aria-hidden="true"></i>'); },
 				beforeSend: function(){},

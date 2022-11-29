@@ -15,6 +15,12 @@ class Main extends CI_Controller
 
     public function index(){}
 	
+	public function listaUsuarios()
+	{
+		$this->load->model('Usuarios_model');
+		$usuarios = $this->Usuarios_model->listaUsuarios();
+		echo json_encode(['data'=>$usuarios]);
+	}
 	public function nuevo()
 	{
 		if($this->uri->segment(1) === 'nuevousuario')header('location:' .base_url(). 'usuarios/nuevo');
@@ -72,28 +78,25 @@ class Main extends CI_Controller
 	public function habilitar()
 	{
 		$id = $this->input->get('id'); $stat = $this->input->get('stat'); $msg = ''; $status = 500;
-		$this->load->model('Usuarios_model'); $usuarios = null;
+		$this->load->model('Usuarios_model');
 		
 		if($stat === '1'){
 			$msg = 'No se pudo deshabilitar el Usuario';
 			if($this->Usuarios_model->actualizar( ['activo'=> 0], ['idusuario'=>$id] )){
 				$status = 200;
 				$msg = 'Usuario deshabilitado';
-				$usuarios = $this->Usuarios_model->listaUsuarios();
 			}
 		}else{
 			$msg = 'No se pudo habilitar el Usuario';
 			if($this->Usuarios_model->actualizar( ['activo'=> 1], ['idusuario'=>$id] )){
 				$status = 200;
 				$msg = 'Usuario habilitado';
-				$usuarios = $this->Usuarios_model->listaUsuarios();
 			}
 		}
 		
 		$data = array(
 			'status' => $status,
-			'msg' => $msg,
-			'lista' => $usuarios,
+			'msg' => $msg
 		);
 		
 		echo json_encode($data);
