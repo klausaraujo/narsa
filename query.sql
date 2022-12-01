@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS modulo_rol;
 DROP TABLE IF EXISTS modulo;
 DROP TABLE IF EXISTS movimientos_caja;
 DROP TABLE IF EXISTS movimientos_proveedor;
+DROP TABLE IF EXISTS factor;
 DROP TABLE IF EXISTS tipo_operacion_caja;
 DROP TABLE IF EXISTS tipo_operacion_proveedor;
 DROP TABLE IF EXISTS transacciones;
@@ -317,6 +318,32 @@ monto decimal(20,2),
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idtransaccion)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+create table factor(
+idfactor smallint(4) NOT NULL AUTO_INCREMENT,
+destino smallint(4),
+idtipooperacion smallint(4),
+factor decimal(20,2),	
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idfactor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into factor (idfactor,destino,idtipooperacion,factor) values (1,1,1,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (2,1,2,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (3,1,3,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (4,1,4,0);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (5,1,5,0);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (6,1,6,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (7,1,7,1);
+
+insert into factor (idfactor,destino,idtipooperacion,factor) values (8,2,1,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (9,2,2,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (10,2,3,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (11,2,4,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (12,2,5,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (13,2,6,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (14,2,7,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (15,2,8,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (16,2,9,-1);
+
 create table movimientos_proveedor(
 	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
 	idtipooperacion smallint(4) NOT NULL,
@@ -324,6 +351,7 @@ create table movimientos_proveedor(
 	idproveedor smallint(4) NOT NULL,
 	idtransaccion smallint(4) NOT NULL,
 	monto decimal(20,2) NOT NULL,
+	idfactor smallint(4),
 	fecha_vencimiento datetime,
 	fecha_movimiento datetime NOT NULL,
 	idusuario_registro smallint(4),
@@ -337,7 +365,8 @@ create table movimientos_proveedor(
 	FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion_proveedor (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idfactor) REFERENCES factor (idfactor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 create table movimientos_caja(
 	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
@@ -345,6 +374,7 @@ create table movimientos_caja(
 	idsucursal smallint(4) NOT NULL,
 	idtransaccion smallint(4) NOT NULL,
 	monto decimal(20,2) NOT NULL,
+	idfactor smallint(4),
 	fecha_vencimiento datetime,
 	fecha_movimiento datetime NOT NULL,
 	idusuario_registro smallint(4),
@@ -357,7 +387,8 @@ create table movimientos_caja(
 	PRIMARY KEY (idmovimiento),
 	FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion_caja (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idfactor) REFERENCES factor (idfactor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 create table guia_entrada(
 idguia smallint(4) NOT NULL AUTO_INCREMENT,
