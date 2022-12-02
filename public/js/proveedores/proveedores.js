@@ -59,10 +59,10 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idmovimiento' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },{ data: 'idtransaccion' },
+				{ data: 'idmovimiento' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
 					data: 'monto',
-					className: 'text-right',
+					className: 'text-left',
 					render: function(data){
 						let number = parseFloat(data);
 						return number.toLocaleString('es-VE');
@@ -84,7 +84,7 @@ $(document).ready(function (){
 					}
 				},
 			],
-			columnDefs:headers, order: [],
+			columnDefs:headersOp, order: [],
 		});
 	}
 });
@@ -142,7 +142,7 @@ $('#form_transacciones').validate({
 		event.preventDefault();
 		$.ajax({
 			data: $('#form_transacciones').serialize(),
-			url: base_url + segmento + '/transacciones/registrar',
+			url: base_url + segmento + '/transacciones/operaciones',
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () {
@@ -162,6 +162,7 @@ $('#form_transacciones').validate({
 					$('.resp').html(data.message);
 					//tablaOp.rows.add(data.lista).draw();
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
+					console.log(data);
 				}else {
 					$('.resp').html(data.message);
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);

@@ -68,7 +68,8 @@
 		</script>
 		<?}else if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones'){ ?>
 		<script>
-			const headers = JSON.parse('<?=json_encode($headers)?>');
+			const headersOp = JSON.parse('<?=json_encode($headersOp)?>');
+			const headersIng = JSON.parse('<?=json_encode($headersIng)?>');
 			const id = <?=$this->input->get('id')?>;
 		</script>
 		<?}?>

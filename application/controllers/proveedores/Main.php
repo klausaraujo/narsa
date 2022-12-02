@@ -74,18 +74,26 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Proveedores_model');
 		//$id = $this->input->get('id');
-		$headers = array(
+		$hOperaciones = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Transacci&oacute;n', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Fecha Registro', 'targets' => 8],
-			'9'=>['title' => 'Fecha Movimiento', 'targets' => 9],'10'=>['title' => 'Fecha Vencimiento', 'targets' => 10],'11'=>['title' => 'Usuario Registro', 'targets' => 11],
-			'12'=>['title' => 'Estado', 'targets' => 12],'13'=>['targets' => 'no-sort', 'orderable' => false],
+			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Fecha Registro', 'targets' => 7],'8'=>['title' => 'Fecha Movimiento', 'targets' => 8],
+			'9'=>['title' => 'Fecha Vencimiento', 'targets' => 9],'10'=>['title' => 'Usuario Registro', 'targets' => 10],
+			'11'=>['title' => 'Estado', 'targets' => 11],'12'=>['targets' => 'no-sort', 'orderable' => false],
 		);
-		$tipo = $this->Proveedores_model->tipoOperacion(['activo' => '1']);
+		$hIngresos = array(
+			'0'=>['Acciones' => '', 'targets' => 0],'1'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
+			'3'=>['title' => 'Art&iacute;culo', 'targets' => 3],'4'=>['title' => 'Cantidad', 'targets' => 4],'5'=>['title' => 'Sucursal', 'targets' => 5],
+			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],
+		);
+		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
+		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
 				
 		$data = array(
 			'tipo_op' => $tipo,
-			'headers' => $headers,
+			'articulos' => $articulos,
+			'headersOp' => $hOperaciones,
+			'headersIng' => $hIngresos,
 		);
 		$this->load->view('main',$data);
 	}
@@ -116,33 +124,40 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
-		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc');
+		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc'); $tipo = $this->input->post('tipoop');
 		
+		$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipo,'activo'=>1]);
 		$dataTransaccion = array(
 			'fecha' => $fecha,
 			'vencimiento' => $vence,
 			'monto' => $this->input->post('monto'),
 			'activo' => '1',
 		);
-		$tran = $this->Proveedores_model->regTransaccion($dataTransaccion);
+		$dataOp = array(
+			'idtipooperacion' => $tipo,
+			'idsucursal' => $this->input->post('sucursal'),
+			'idproveedor' => $id,
+			//'idtransaccion' => $tran,
+			'monto' => $this->input->post('monto'),
+			'idfactor' => (!empty($factor)? $factor->idfactor : 0),
+			'fecha_vencimiento' => $vence,
+			'fecha_movimiento' => $fecha,
+			'idusuario_registro' => $this->usuario->idusuario,
+			'fecha_registro' => $fecha,
+			'activo' => '1',
+		);
+		if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp)){
+			$message = 'Transacci&oacute;n registrada exitosamente';
+			$status = 200;
+		}
+		/*$tran = $this->Proveedores_model->regTransaccion($dataTransaccion);
 		if($tran != false){
-			$data = array(
-				'idtipooperacion' => $this->input->post('tipoop'),
-				'idsucursal' => $this->input->post('sucursal'),
-				'idproveedor' => $id,
-				'idtransaccion' => $tran,
-				'monto' => $this->input->post('monto'),
-				'fecha_vencimiento' => $vence,
-				'fecha_movimiento' => $fecha,
-				'idusuario_registro' => $this->usuario->idusuario,
-				'fecha_registro' => $fecha,
-				'activo' => '1',
-			);
+			
 			if($this->Proveedores_model->registraop($data)){
 				$message = 'Transacci&oacute;n registrada exitosamente';
 				$status = 200;
 			}
-		}
+		}*/
 		
 		$data = array(
 			'status' => $status,
@@ -173,5 +188,9 @@ class Main extends CI_Controller
 		);
 		
 		echo json_encode($data);
+	}
+	public function ingresos()
+	{
+		
 	}
 }

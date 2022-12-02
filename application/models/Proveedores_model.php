@@ -33,6 +33,14 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function factor($data){
+		$this->db->select('idfactor');
+        $this->db->from('factor');
+		$this->db->where($data);
+		$this->db->order_by('idfactor', 'asc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
 	public function registrar($data)
 	{
 		if ($this->db->insert('proveedor', $data))return true;
@@ -55,15 +63,32 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function registraop($data){
-		if ($this->db->insert('movimientos_proveedor', $data))return true;
-        //else return $error['code'];
-		else return false;
+	public function listaArticulos($data)
+	{
+		$this->db->select('idarticulo,articulo');
+		$this->db->from('articulo');
+		$this->db->where($data);
+		$this->db->order_by('idarticulo', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function regTransaccion($data){
-		if ($this->db->insert('transacciones', $data))return $this->db->insert_id();
-        //else return $error['code'];
-		else return false;
+	public function regTransaccion($dataTran,$dataOp){
+		$this->db->trans_begin();
+		$this->db->insert('transacciones', $dataTran);
+		
+		$dataOp['idtransaccion'] = $this->db->insert_id();
+		$this->db->insert('movimientos_proveedor', $dataOp);
+		
+		unset($dataOp['idproveedor']);
+		$this->db->insert('movimientos_caja', $dataOp);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
 	}
 	public function listaOperaciones($data)
     {
@@ -74,7 +99,7 @@ class Proveedores_model extends CI_Model
 		$this->db->join('proveedor pr','pr.idproveedor = mp.idproveedor');
 		$this->db->join('usuarios usr','usr.idusuario = mp.idusuario_registro');
 		$this->db->where($data);
-		$this->db->order_by('idmovimiento', 'asc');
+		$this->db->order_by('idmovimiento', 'desc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }

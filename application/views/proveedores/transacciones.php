@@ -7,17 +7,17 @@
 							<div class="row">
 								<!-- Nav pills -->
 								<div class="nav nav-pills" id="nav-tab" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#pill-ingresos">Registro de Operaciones</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#pill-valorizaciones">Ingreso de Productos</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#pill-3">Valorizaci&oacute;n de Productos</a>
+									<a class="nav-item nav-link active" data-toggle="tab" href="#pill-operaciones">Registro de Operaciones</a>
+									<a class="nav-item nav-link" data-toggle="tab" href="#pill-ingresos">Ingreso de Productos</a>
+									<a class="nav-item nav-link" data-toggle="tab" href="#pill-valorizaciones">Valorizaci&oacute;n de Productos</a>
 								</div>
 							</div>
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div class="tab-pane container active" id="pill-ingresos">
-									<form method="post" id="form_transacciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/registrar">
+								<div class="tab-pane active mx-auto" id="pill-operaciones">
+									<form method="post" id="form_transacciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/operaciones">
 										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
-										<div class="row">
+										<div class="row container mx-auto">
 											<div class="col-10 mx-auto">
 												<div class="row">
 													<div class="col-sm-6 mt-4">
@@ -56,7 +56,7 @@
 															<span class="col-12" style="display:flex;align-items:center"><label for="fechavenc">Fecha de Vencimiento:</label></span>
 														</div>
 														<div class="row">
-															<input type="date" class="form-control col-sm-9 fechavenc" value="2031-01-01" name="fechavenc" id="fechavenc" />
+															<input type="date" class="form-control col-sm-9 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
 														</div>
 													</div>
 													<div class="col-sm-6 mt-4">
@@ -85,11 +85,69 @@
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane container fade" id="pill-valorizaciones">
-									<div class="row"><h5 class="col-12 my-3">Ingreso de Productos</h5></div>
-									<form method="post" id="form_ingresos">
-										
+								<div class="tab-pane container fade" id="pill-ingresos">
+									<form method="post" id="form_ingresos" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/ingresos">
+										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
+										<div class="row">
+											<div class="col-10 mx-auto">
+												<div class="row">
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="guia">N&uacute;mero de Gu&iacute;a:</label></span>
+														</div>
+														<div class="row">
+															<input type="text" class="form-control col-sm-10 guia" name="guia" id="guia" autocomplete="off" />
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="fechaguia">Fecha de la Gu&iacute;a:</label></span>
+														</div>
+														<div class="row">
+															<input type="date" class="form-control col-sm-9 fechaguia" value="<?=date('Y-m-d')?>" name="fechaguia" id="fechaguia" />
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="articulo">Art&iacute;culo:</label></span>
+														</div>
+														<div class="row">
+															<select class="form-control col-sm-10 articulo" name="articulo" id="articulo">
+																<option value="">--Seleccione--</option>
+														<?
+														foreach($articulos as $row):	?>
+																<option value="<?=$row->idarticulo;?>"><?=$row->articulo;?></option>
+													<?	endforeach;	?>
+															</select>
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="cantidad">Cantidad:</label></span>
+														</div>
+														<div class="row">
+															<input type="text" class="form-control col-sm-9 cantidad" name="cantidad" id="cantidad" autocomplete="off" />
+														</div>
+													</div>
+													<div class="col-sm-6 mt-4">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Sucursal:</label></span>
+														</div>
+														<div class="row">
+															<select class="form-control col-sm-10 sucursal" name="sucursal" id="sucursal">
+																<option value="">--Seleccione--</option>
+														<?
+														foreach($usuario->sucursales as $row):	?>
+																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
+													<?	endforeach;	?>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</form>
+									<div class="col-md-12 text-center pt-3 resp1" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
 											<div class="table-responsive" style="overflow-x:scroll">
@@ -101,8 +159,14 @@
 								</div>
 								<div class="tab-pane container fade" id="pill-3">
 									<div class="row"><h5 class="col-12 my-3">Valorizaci&oacute;n de Productos</h5></div>
-									<form method="post" id="form_valorizaciones">
-										
+									<form method="post" id="form_valorizaciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/valorizaciones">
+										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
+										<div class="row">
+											<div class="col-10 mx-auto">
+												<div class="row">
+												</div>
+											</div>
+										</div>										
 									</form>
 									<div class="container-fluid my-2">
 										<div class="row">
