@@ -139,7 +139,12 @@ CREATE TABLE permiso  (
 	FOREIGN KEY (idmodulo) REFERENCES modulo (idmodulo) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(1,'Editar Proveedor','1',1,1);
-	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(2,'Movimientos ','1',2,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(2,'Movimientos Proveedor','1',2,1);
+	
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(3,'Anular Operación','1',3,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(4,'Editar Guia Ingreso','1',4,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(5,'Anular Guia Ingreso','1',5,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(6,'Ver Guia Ingreso (PDF)','1',6,1);
 
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -219,9 +224,14 @@ CREATE TABLE permisos_opcion  (
 
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(1,1,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(2,2,1);
-
-	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(3,1,2);
-	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,2,2);
+	
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(3,3,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,4,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(5,5,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(6,6,1);
+	
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(7,1,2);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(8,2,2);
 
 CREATE TABLE sucursal  (
 idsucursal smallint(4) NOT NULL AUTO_INCREMENT,
