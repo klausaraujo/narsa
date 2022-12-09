@@ -103,13 +103,6 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
-	public function anulaTransaccion($where,$array,$tabla){
-		$this->db->db_debug = FALSE;
-		$this->db->set($array,TRUE);
-		$this->db->where($where);
-		if ($this->db->update($tabla)) return true;
-        else return false;
-	}
 	public function listaIngresos($data)
     {
         $this->db->select('ge.*,su.sucursal,pr.nombre');
@@ -122,18 +115,48 @@ class Proveedores_model extends CI_Model
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
 	public function ingresarProductos($data){
-		$i = 0;		
+		$i = 0; $guia = ''; $numero = 1;
+		
 		$this->db->trans_begin();
 		
 		foreach($data as $row):
-			$rows[$i] = ['anio_guia'=>date('Y'),'numero'=>$row->guia,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,'activo'=>1];
-			$this->db->insert('guia_entrada',$rows[$i]);
-			$rowdet[$i] = ['idguia'=>$this->db->insert_id(),'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'activo'=>1];
-			$this->db->insert('guia_entrada_detalle',$rowdet[$i]);
+			if($i === 0){
+				$this->db->select('MAX(numero) numero');
+				$this->db->from('guia_entrada');
+				$this->db->where(['idsucursal'=>$row->idsucursal,'anio_guia'=>date('Y')]);
+				$result = $this->db->get();
+				if($result->num_rows() > 0){
+					$result = $result->row();
+					$numero = floatval( $result->numero ) + 1;
+				} 
+				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,'activo'=>1];
+				$this->db->insert('guia_entrada',$guia_entrada);
+				$idguia = $this->db->insert_id();
+			}
+			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'activo'=>1];
 			$i++;
 		endforeach;
+		/* Insertar array de valores en la base */
+		$this->db->insert_batch('guia_entrada_detalle',$rowdet);
 		
-		//$this->db->insert_batch('guia_entrada', $data);
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	public function anulaTransaccion($where,$data){
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('transacciones');
+		
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('movimientos_proveedor');
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();

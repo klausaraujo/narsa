@@ -75,11 +75,10 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		//$id = $this->input->get('id');
 		$hOperaciones = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Oper.', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Fecha Registro', 'targets' => 7],'8'=>['title' => 'Fecha Movimiento', 'targets' => 8],
-			'9'=>['title' => 'Fecha Vencimiento', 'targets' => 9],'10'=>['title' => 'Usuario Registro', 'targets' => 10],
-			'11'=>['title' => 'Estado', 'targets' => 11],'12'=>['targets' => 'no-sort', 'orderable' => false],
+			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Fecha Reg.', 'targets' => 7],'8'=>['title' => 'Usuario Reg.', 'targets' => 8],
+			'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],
 		);
 		$hIngresos = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],
@@ -109,11 +108,7 @@ class Main extends CI_Controller
 		foreach($lista as $row):
 			foreach($this->usuario->sucursales as $sucursal):
 				if($row->idsucursal === $sucursal->idsucursal){
-					$filtro[$i] = (OBJECT)[ 'idmovimiento' =>$row->idmovimiento, 'idtipooperacion' =>$row->idtipooperacion, 'idsucursal' =>$row->idsucursal,
-						'idproveedor' =>$row->idproveedor,'idtransaccion'=>$row->idtransaccion,'monto' =>$row->monto,'fecha_vencimiento' =>$row->fecha_vencimiento,
-						'fecha_movimiento'=>$row->fecha_movimiento,'idusuario_registro'=>$row->idusuario_registro,'fecha_registro' =>$row->fecha_registro,
-						'activo' =>$row->activo, 'tipo_operacion' =>$row->tipo_operacion,'sucursal' =>$row->sucursal, 'nombre' =>$row->nombre,'usuario' =>$row->usuario,
-					];
+					$filtro[$i] = $row;
 					$i++;
 				}
 			endforeach;			
@@ -127,8 +122,18 @@ class Main extends CI_Controller
 		
 		$id = $this->input->post('id');
 		$lista = $this->Proveedores_model->listaIngresos(['ge.idproveedor' => $id]);
+		$filtro = []; $i = 0;
 		
-		echo json_encode(['data' => $lista]);
+		foreach($lista as $row):
+			foreach($this->usuario->sucursales as $sucursal):
+				if($row->idsucursal === $sucursal->idsucursal){
+					$filtro[$i] = $row;
+					$i++;
+				}
+			endforeach;			
+		endforeach;
+		
+		echo json_encode(['data' => $filtro]);
 	}
 	public function registraOp()
 	{
@@ -174,17 +179,17 @@ class Main extends CI_Controller
 		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s');
 		
 		if($op === 'operaciones'){
-			if($this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0],'transacciones')){
-				$dataop = array('idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>$fecha,'activo'=>0,);
-				if($this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],$dataop,'movimientos_proveedor')){
-					$message = 'Transacci&oacute;n anulada';
-					$status = 200;
-				}
+			$anula = $this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0]);
+			if($anula){
+				$message = 'Transacci&oacute;n anulada';
+				$status = 200;
 			}
 		}else if($op === 'ingresos'){
-			$data = $this->Proveedores_model->anulaIngreso(['idguia'=>$id],['activo'=>0]);
-			$message = 'Ingreso anulado';
-			$status = 200;
+			$anula = $this->Proveedores_model->anulaIngreso(['idguia'=>$id],['activo'=>0]);
+			if($anula){
+				$message = 'Gu&iacute;a Anulada';
+				$status = 200;
+			}
 		}
 		
 		$data = array(
@@ -196,7 +201,7 @@ class Main extends CI_Controller
 	}
 	public function nuevoIngreso(){
 		$this->load->model('Proveedores_model');
-		$status = 500; $message = 'No se pudo registrar el Ingreso';
+		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a';
 		// Takes raw data from the request
 		$json = file_get_contents('php://input');
 		// Converts it into a PHP object
@@ -204,7 +209,7 @@ class Main extends CI_Controller
 		$data = $this->Proveedores_model->ingresarProductos($data);
 		
 		if($data === true){
-			$message = 'Se registr&oacute; el Producto';
+			$message = 'Gu&iacute;a registrada exitosamente';
 			$status = 200;
 		}
 		

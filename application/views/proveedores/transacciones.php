@@ -43,7 +43,6 @@
 														</div>
 														<div class="row">
 															<select class="form-control col-sm-9 sucursal" name="sucursal" id="sucursal">
-																<option value="">--Seleccione--</option>
 														<?
 														foreach($usuario->sucursales as $row):	?>
 																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
@@ -150,7 +149,6 @@
 													<div class="col-md-2 align-items-center"><label for="sucursal" class="col-12">Sucursal:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 sucursalIng" name="sucursalIng" id="sucursalIng">
-															<option value="">--Seleccione--</option>
 													<?
 														foreach($usuario->sucursales as $row):	?>
 															<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
@@ -160,7 +158,7 @@
 												</div>
 											</div>
 										</div>
-										<!--<div class="row my-4">
+										<div class="row my-4">
 											<div class="col-md-11 mx-auto">
 												<div class="row">
 													<div class="col-md-2"><label for="articulo" class="col-12">Producto:</label></div>
@@ -177,39 +175,6 @@
 													<div class="col-md-3">
 														<input type="text" class="form-control col-12 cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
 														<label id="errCant" class="form_error" for="cantidadIng"></label>
-													</div>
-													<div class="col-md-2">
-														<input type="submit" class="btn btn-narsa d-flex ml-auto col-lg-12 justify-content-center" id="btnAgregarIngDetalle" value="Agregar"/>
-													</div>
-												</div>
-											</div>
-										</div>-->
-										<div class="row my-4">
-											<div class="col-md-11 mx-auto">
-												<div class="row">
-													<div class="col-md-2"><label for="articulo" class="col-12">Producto:</label></div>
-													<div class="col-md-4">
-														<select class="form-control col-12 articuloIng" name="articuloIng" id="articuloIng">
-															<option value="">--Seleccione--</option>
-														<?
-														foreach($articulos as $row):	?>
-															<option value="<?=$row->idarticulo;?>"><?=$row->articulo;?></option>
-														<?	endforeach;	?>
-														</select>
-													</div>
-													<div class="col-md-2 px-0"><label for="cantidadIng" class="col-12">Cantidad KG:</label></div>
-													<div class="col-md-4">
-														<input type="text" class="form-control col-12 cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row my-4">
-											<div class="col-md-11 mx-auto">
-												<div class="row">
-													<div class="col-md-2 px-0"><label for="guiaIng" class="col-12">Nro. Gu&iacute;a:</label></div>
-													<div class="col-md-4">
-														<input type="text" class="form-control col-12 guiaIng" name="guiaIng" id="guiaIng" autocomplete="off" />
 													</div>
 													<div class="col-md-2">
 														<input type="submit" class="btn btn-narsa d-flex ml-auto col-lg-12 justify-content-center" id="btnAgregarIngDetalle" value="Agregar"/>
@@ -258,7 +223,6 @@
 													<div class="col-md-2 align-items-center"><label for="sucursal" class="col-12">Sucursal:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 sucursalIng" name="sucursalIng" id="sucursalIng">
-															<option value="">--Seleccione--</option>
 													<?
 														foreach($usuario->sucursales as $row):	?>
 															<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>

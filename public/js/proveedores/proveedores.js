@@ -1,5 +1,13 @@
 let tabla = null, tablaOp, tablaReg, tablaIngDetalle;
 
+function ceros( number, width ){
+	width -= number.toString().length;
+	if ( width > 0 ){
+		return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+	}
+	return number + ""; // siempre devuelve tipo cadena
+}
+
 $(document).ready(function (){
 	if(segmento2 == ''){
 		tabla = $('#tablaProveedores').DataTable({
@@ -15,7 +23,7 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 						'<a title="Editar Proveedor" href="'+base_url+'proveedores/editar?id='+data.idproveedor+'" class="bg-warning btnTable editar">'+
-							'<i class="far fa-pencil" aria-hidden="true"></i></a>'+
+							'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Transacciones" href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'" class="bg-success btnTable acciones">'+
 							'<i class="far fa-house" aria-hidden="true"></i></a>';
 						return btnAccion;
@@ -60,21 +68,19 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idmovimiento' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
+				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
 					data: 'monto',
 					className: 'text-left',
 					render: function(data,type,row,meta){
 						let number = parseFloat(data);
 						switch(row.activo){
-							case '1': return number.toLocaleString('es-VE'); break;
+							case '1': return number.toLocaleString('es-PE'); break;
 							case '0': return '<span class="text-danger">'+number.toLocaleString('es-VE')+'</span>'; break;
 						}
 					}
 				},
 				{ data: 'fecha_registro', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
-				{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
-				{ data: 'fecha_vencimiento', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
 				{ data: 'usuario' },
 				{
 					data: 'activo',
@@ -107,15 +113,15 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 						'<a title="Editar Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+' class="bg-warning '+
-							'btnTable editarAjax '+(data.activo === '0'?'disabled':'')+'" data-target="#modalEditIngresos" data-toggle="modal"><i class="far '+
-							'fa-pencil" aria-hidden="true"></i></a>'+
+							'btnTable editarAjax '+(data.activo === '0'?'disabled':'')+'" data-target="#modalEditIngresos" data-toggle="modal"><i class="fas '+
+							'fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
 							'&op=ingresos"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="ingresos" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
-				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero' },
+				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
 				{ data: 'fecha', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{
@@ -144,11 +150,11 @@ $(document).ready(function (){
 						return '<a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarIngdetalle"><i class="far fa-trash mx-auto" aria-hidden="true"></i></a>';
 					}
 				},
-				{ data: 'guia' },{ data: 'producto' },{ data: 'cantidad' },{ data: 'sucursal' },
+				{ data: 'articulo' },{ data: 'cantidad' },{ data: 'sucursal' },
 				
 			],
 			columnDefs:[
-				{ title: 'Acciones', targets: 0 },{ title: 'Nro. Gu&iacute;a', targets: 1 },{ title: 'Producto', targets: 2 },{ title: 'Cantidad', targets: 3 },{ title: 'Sucursal', targets: 4 }
+				{ title: 'Acciones', targets: 0 },{ title: 'Producto', targets: 1 },{ title: 'Cantidad', targets: 2 },{ title: 'Sucursal', targets: 3 }
 			],
 			dom: '<"row"rt>', order: [],
 		});
@@ -158,6 +164,7 @@ $(document).ready(function (){
 $('#modalIngresos').on('hidden.bs.modal',function(e){
 	$('#form_ingresos')[0].reset();
 	tablaIngDetalle.clear().draw();
+	$('#sucursalIng').removeAttr('disabled');
 	$('#form_ingresos select').prop('selectedIndex',0);
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
@@ -268,12 +275,25 @@ $('#form_ingresos').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		var json = [{'idproducto': $('#articuloIng').val(),'producto': $('#articuloIng  :selected').text(),'cantidad':$('#cantidadIng').val(),
-			'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'idsucursal':$('#sucursalIng').val(),'sucursal':$('#sucursalIng :selected').text(),
-			'guia': $('#guiaIng').val(),}];
-		tablaIngDetalle.rows.add(json).draw();
+		let valor = false, ids = $('#sucursalIng').val();
+		var json = [{'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':$('#cantidadIng').val(),
+				'idsucursal':$('#sucursalIng').val(),'sucursal':$('#sucursalIng :selected').text(),}];
+		if(tablaIngDetalle.rows().count() === 0){
+			$('#sucursalIng').attr('disabled','disabled');
+			ids = $('#sucursalIng').val();
+			//$('#sucursalIng option[value='+$('#articuloIng').val()+']').attr('selected', true);
+		}else{
+			tablaIngDetalle.rows().data().each(function (value){
+				if(value['idarticulo'] == $('#articuloIng').val())
+					valor = true;
+			});
+		}
+		if(!valor) tablaIngDetalle.rows.add(json).draw();
+		
 		$('#form_ingresos')[0].reset();
-		$('#form_ingresos select').prop('selectedIndex',0);
+		if(ids !== '')
+			$('#sucursalIng option[value='+ids+']').attr('selected', true);
+		//$('#form_ingresos select').prop('selectedIndex',0);
 	}
 });
 
@@ -326,8 +346,7 @@ $('#generarIng').bind('click',function(){
 	if(tablaIngDetalle.rows().count() > 0){
 		let json = [], i = 0;
 		tablaIngDetalle.rows().data().each(function(row){
-			json[i] = { 'idproducto': row.idproducto, 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad,
-						'guia': row.guia, 'idproveedor': $('#idproveedor').val() };
+			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val() };
 			i++;
 		});
 		//console.log(tablaIngDetalle.rows());
@@ -348,7 +367,7 @@ $('#generarIng').bind('click',function(){
 				$('#cancelIng').removeClass('disabled');
 				if (parseInt(data.status) === 200){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
-					tablaOp.ajax.reload();
+					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					tablaReg.ajax.reload();
 					$('#modalIngresos').modal('hide');	
 				}
