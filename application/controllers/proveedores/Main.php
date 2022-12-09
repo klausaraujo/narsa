@@ -82,9 +82,10 @@ class Main extends CI_Controller
 			'11'=>['title' => 'Estado', 'targets' => 11],'12'=>['targets' => 'no-sort', 'orderable' => false],
 		);
 		$hIngresos = array(
-			'0'=>['Acciones' => '', 'targets' => 0],'1'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
-			'3'=>['title' => 'Art&iacute;culo', 'targets' => 3],'4'=>['title' => 'Cantidad', 'targets' => 4],'5'=>['title' => 'Sucursal', 'targets' => 5],
-			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],
+			'3'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 4],'5'=>['title' => 'Fecha', 'targets' => 5],
+			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Sucursal', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
+			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
@@ -97,7 +98,7 @@ class Main extends CI_Controller
 		);
 		$this->load->view('main',$data);
 	}
-	public function listatransacciones()
+	public function listaTransacciones()
 	{
 		$this->load->model('Proveedores_model');
 		
@@ -120,7 +121,16 @@ class Main extends CI_Controller
 		
 		echo json_encode(['data' => $filtro]);
 	}
-	public function registraop()
+	public function listaIngresos()
+	{
+		$this->load->model('Proveedores_model');
+		
+		$id = $this->input->post('id');
+		$lista = $this->Proveedores_model->listaIngresos(['ge.idproveedor' => $id]);
+		
+		echo json_encode(['data' => $lista]);
+	}
+	public function registraOp()
 	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
@@ -137,7 +147,6 @@ class Main extends CI_Controller
 			'idtipooperacion' => $tipo,
 			'idsucursal' => $this->input->post('sucursal'),
 			'idproveedor' => $id,
-			//'idtransaccion' => $tran,
 			'monto' => $this->input->post('monto'),
 			'idfactor' => (!empty($factor)? $factor->idfactor : 0),
 			'fecha_vencimiento' => $vence,
@@ -150,14 +159,6 @@ class Main extends CI_Controller
 			$message = 'Transacci&oacute;n registrada exitosamente';
 			$status = 200;
 		}
-		/*$tran = $this->Proveedores_model->regTransaccion($dataTransaccion);
-		if($tran != false){
-			
-			if($this->Proveedores_model->registraop($data)){
-				$message = 'Transacci&oacute;n registrada exitosamente';
-				$status = 200;
-			}
-		}*/
 		
 		$data = array(
 			'status' => $status,
@@ -166,10 +167,10 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	public function anulaop()
+	public function anulaOp()
 	{
 		$this->load->model('Proveedores_model');
-		$status = 500; $message = 'No se pudo anular la Transacci&oacute;n';
+		$status = 500; $message = 'No se pudo anular';
 		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s');
 		
 		if($op === 'operaciones'){
@@ -180,6 +181,10 @@ class Main extends CI_Controller
 					$status = 200;
 				}
 			}
+		}else if($op === 'ingresos'){
+			$data = $this->Proveedores_model->anulaIngreso(['idguia'=>$id],['activo'=>0]);
+			$message = 'Ingreso anulado';
+			$status = 200;
 		}
 		
 		$data = array(
@@ -189,8 +194,25 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	public function ingresos()
-	{
+	public function nuevoIngreso(){
+		$this->load->model('Proveedores_model');
+		$status = 500; $message = 'No se pudo registrar el Ingreso';
+		// Takes raw data from the request
+		$json = file_get_contents('php://input');
+		// Converts it into a PHP object
+		$data = json_decode($json);
+		$data = $this->Proveedores_model->ingresarProductos($data);
 		
+		if($data === true){
+			$message = 'Se registr&oacute; el Producto';
+			$status = 200;
+		}
+		
+		$data = array(
+			'status' => $status,
+			'message' => $message,		
+		);
+		
+		echo json_encode($data);
 	}
 }

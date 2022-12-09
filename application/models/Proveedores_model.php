@@ -110,4 +110,56 @@ class Proveedores_model extends CI_Model
 		if ($this->db->update($tabla)) return true;
         else return false;
 	}
+	public function listaIngresos($data)
+    {
+        $this->db->select('ge.*,su.sucursal,pr.nombre');
+        $this->db->from('guia_entrada ge');
+		$this->db->join('sucursal su','su.idsucursal = ge.idsucursal');
+		$this->db->join('proveedor pr','pr.idproveedor = ge.idproveedor');
+		$this->db->where($data);
+		$this->db->order_by('ge.idguia', 'desc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
+	public function ingresarProductos($data){
+		$i = 0;		
+		$this->db->trans_begin();
+		
+		foreach($data as $row):
+			$rows[$i] = ['anio_guia'=>date('Y'),'numero'=>$row->guia,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,'activo'=>1];
+			$this->db->insert('guia_entrada',$rows[$i]);
+			$rowdet[$i] = ['idguia'=>$this->db->insert_id(),'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'activo'=>1];
+			$this->db->insert('guia_entrada_detalle',$rowdet[$i]);
+			$i++;
+		endforeach;
+		
+		//$this->db->insert_batch('guia_entrada', $data);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	public function anulaIngreso($where,$data){
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('guia_entrada');
+		
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('guia_entrada_detalle');
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }

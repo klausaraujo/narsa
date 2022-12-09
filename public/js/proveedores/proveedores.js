@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tabla2;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -6,7 +6,7 @@ $(document).ready(function (){
 			ajax:{
 				url: base_url + 'proveedores/lista',
 			},
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
 				{
@@ -46,7 +46,7 @@ $(document).ready(function (){
 					d.id = id
 				}
 			},
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
 				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
 				{
@@ -54,8 +54,9 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-							'<a title="Anular Transacci&oacute;n" '+(data.activo === '1'?'href="'+base_url+segmento+'/'+segmento2+'/anular?id='+data.idtransaccion+
-							'&op=operaciones"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular"><i class="far fa-trash" aria-hidden="true"></i></a>';
+							'<a title="Anular Transacci&oacute;n" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
+							'&op=operaciones"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="operaciones">'+
+							'<i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -63,9 +64,12 @@ $(document).ready(function (){
 				{ 
 					data: 'monto',
 					className: 'text-left',
-					render: function(data){
+					render: function(data,type,row,meta){
 						let number = parseFloat(data);
-						return number.toLocaleString('es-VE');
+						switch(row.activo){
+							case '1': return number.toLocaleString('es-VE'); break;
+							case '0': return '<span class="text-danger">'+number.toLocaleString('es-VE')+'</span>'; break;
+						}
 					}
 				},
 				{ data: 'fecha_registro', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
@@ -86,7 +90,77 @@ $(document).ready(function (){
 			],
 			columnDefs:headersOp, order: [],
 		});
+		tablaReg = $('#tablaIngresos').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/ingresos/lista',
+				type: 'POST',
+				data: function (d) {
+					d.id = id
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			columns:[
+				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				{
+					data: null,
+					orderable: false,
+					render: function(data){
+						let btnAccion =
+						'<a title="Editar Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+' class="bg-warning '+
+							'btnTable editarAjax '+(data.activo === '0'?'disabled':'')+'" data-target="#modalEditIngresos" data-toggle="modal"><i class="far '+
+							'fa-pencil" aria-hidden="true"></i></a>'+
+						'<a title="Anular Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
+							'&op=ingresos"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="ingresos" >'+
+							'<i class="far fa-trash" aria-hidden="true"></i></a>';
+						return btnAccion;
+					}
+				},
+				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero' },
+				{ data: 'fecha', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
+				{ data: 'nombre' },{ data: 'sucursal' },
+				{
+					data: 'activo',
+					render: function(data){
+						let var_status = '';
+						switch(data){
+							case '1': var_status = '<span class="text-success">Activo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Inactivo</span>'; break;
+						}
+						return var_status;
+					}
+				},
+			],
+			columnDefs: headersIng, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']},order: [],
+		});
+		tablaIngDetalle = $('#tablaIngDetalle').DataTable({
+			data: [],
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language:{ lngDataTable }, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
+			columns:[
+				{
+					data: null,
+					orderable: false,
+					render: function(data){
+						return '<a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarIngdetalle"><i class="far fa-trash mx-auto" aria-hidden="true"></i></a>';
+					}
+				},
+				{ data: 'guia' },{ data: 'producto' },{ data: 'cantidad' },{ data: 'sucursal' },
+				
+			],
+			columnDefs:[
+				{ title: 'Acciones', targets: 0 },{ title: 'Nro. Gu&iacute;a', targets: 1 },{ title: 'Producto', targets: 2 },{ title: 'Cantidad', targets: 3 },{ title: 'Sucursal', targets: 4 }
+			],
+			dom: '<"row"rt>', order: [],
+		});
 	}
+});
+
+$('#modalIngresos').on('hidden.bs.modal',function(e){
+	$('#form_ingresos')[0].reset();
+	tablaIngDetalle.clear().draw();
+	$('#form_ingresos select').prop('selectedIndex',0);
+	$('body,html').animate({ scrollTop: 0 }, 'fast');
+	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
 });
 
 $('#form_proveedor').validate({
@@ -157,6 +231,7 @@ $('#form_transacciones').validate({
 				$('#form_transacciones button[type=submit]').removeClass('disabled');
 				//console.log(data);
 				if (parseInt(data.status) === 200) {
+					//$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
 					tablaOp.ajax.reload();
 					$('.resp').html(data.message);
@@ -172,12 +247,47 @@ $('#form_transacciones').validate({
 	}
 });
 
+$('#form_ingresos').validate({
+	errorClass: 'form_error',
+	rules: {
+		proveedorIng: { required: true },
+		sucursalIng: { required: true },
+		articuloIng: { required: true },
+		cantidadIng: { required: true },
+		guiaIng: { required: true },
+	},
+	messages: {
+		proveedorIng: { required: '&nbsp;&nbsp;Campo Proveedor no puede estar Vac&iacute;o' },
+		sucursalIng: { required: '&nbsp;&nbsp;Debe elegir la Sucursal' },
+		articuloIng: { required: '&nbsp;&nbsp;Debe elegir un Art&iacute;culo' },
+		cantidadIng: { required: '&nbsp;&nbsp;Monto Requerido' },
+		guiaIng: { required: '&nbsp;&nbsp;Gu&iacute;a Requerida' },
+	},
+	errorPlacement: function(error, element) {
+		error.insertAfter(element);
+	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		var json = [{'idproducto': $('#articuloIng').val(),'producto': $('#articuloIng  :selected').text(),'cantidad':$('#cantidadIng').val(),
+			'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'idsucursal':$('#sucursalIng').val(),'sucursal':$('#sucursalIng :selected').text(),
+			'guia': $('#guiaIng').val(),}];
+		tablaIngDetalle.rows.add(json).draw();
+		$('#form_ingresos')[0].reset();
+		$('#form_ingresos select').prop('selectedIndex',0);
+	}
+});
+
 
 $('body').bind('click','a',function(e){
-	let el = e.target, a = $(el).closest('a');
+	let el = e.target, a = $(el).closest('a'), row, anula = a.attr('data-anula');
 	if(a.hasClass('anular')){
 		e.preventDefault();
-		let row = (tablaOp.row(a).child.isShown())? tablaOp.row(a).data() : tablaOp.row($(el).parents('tr')).data();
+		if(anula === 'operaciones'){
+			row = (tablaOp.row(a).child.isShown())? tablaOp.row(a).data() : tablaOp.row($(el).parents('tr')).data();;
+		}else if(anula === 'ingresos'){
+			row = (tablaReg.row(a).child.isShown())? tablaReg.row(a).data() : tablaReg.row($(el).parents('tr')).data();;
+		}
+		
 		let confirmacion = confirm('Está seguro que desea anular la Transacción?');
 		if(confirmacion){
 			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
@@ -188,21 +298,65 @@ $('body').bind('click','a',function(e){
 				dataType: 'JSON',
 				beforeSend: function () { a.addClass('disabled'); },
 				success: function (data) {
-					//console.log(data);
 					if (parseInt(data.status) === 200){
-						$('.resp').html(data.message);
-						tablaOp.ajax.reload();
-						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+						$('html, body').animate({ scrollTop: 0 }, 'fast');
+						if(anula === 'operaciones') tablaOp.ajax.reload();
+						else if(anula === 'ingresos') tablaReg.ajax.reload();
 					}else{
 						a.removeClass('disabled');
 						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
-						$('.resp').html(data.message);
-						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 					}
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+					$('.resp').html(data.message);
 				}
 			});
 		}
+	}else if(a.hasClass('eliminarIngdetalle')){
+		//alert('Eliminar');
+		if(tablaIngDetalle.row(a).child.isShown()) tableDanio.row(a).remove().draw();
+		else tablaIngDetalle.row($(a).parents("tr")).remove().draw();
+	}else if(a.hasClass('eliminarIngdetalle')){
+		e.preventDefault();
 	}
+});
+
+$('#generarIng').bind('click',function(){
+	//alert('Generar ingresos');
+	//console.log(tablaIngDetalle.rows().data());
+	if(tablaIngDetalle.rows().count() > 0){
+		let json = [], i = 0;
+		tablaIngDetalle.rows().data().each(function(row){
+			json[i] = { 'idproducto': row.idproducto, 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad,
+						'guia': row.guia, 'idproveedor': $('#idproveedor').val() };
+			i++;
+		});
+		//console.log(tablaIngDetalle.rows());
+		$.ajax({
+			data: JSON.stringify(json),
+			url: base_url + 'proveedores/ingresos/nuevo',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function () { 
+				$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#generarIng').addClass('disabled');
+				$('#cancelIng').addClass('disabled');
+			},
+			success: function (data) {
+				console.log(data);
+				$('#generarIng').html('Generar Ingreso');
+				$('#generarIng').removeClass('disabled');
+				$('#cancelIng').removeClass('disabled');
+				if (parseInt(data.status) === 200){
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					tablaOp.ajax.reload();
+					tablaReg.ajax.reload();
+					$('#modalIngresos').modal('hide');	
+				}
+				$('.resp').html(data.message);
+				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+			}
+		});
+	}else{ alert('No hay registros en el detalle'); }
 });
 
 $('#form_valorizaciones').validate({
