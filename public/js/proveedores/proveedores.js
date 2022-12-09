@@ -24,7 +24,7 @@ $(document).ready(function (){
 						let btnAccion =
 						'<a title="Editar Proveedor" href="'+base_url+'proveedores/editar?id='+data.idproveedor+'" class="bg-warning btnTable editar">'+
 							'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Transacciones" href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'" class="bg-success btnTable acciones">'+
+						'<a title="Movimientos Proveedor" href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'" class="bg-success btnTable acciones">'+
 							'<i class="far fa-house" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
@@ -63,7 +63,7 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 							'<a title="Anular Transacci&oacute;n" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
-							'&op=operaciones"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="operaciones">'+
+							'&op=operaciones"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="operaciones">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
@@ -80,7 +80,7 @@ $(document).ready(function (){
 						}
 					}
 				},
-				{ data: 'fecha_registro', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
+				{ data: 'fecha_registro', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'usuario' },
 				{
 					data: 'activo',
@@ -116,13 +116,13 @@ $(document).ready(function (){
 							'btnTable editarAjax '+(data.activo === '0'?'disabled':'')+'" data-target="#modalEditIngresos" data-toggle="modal"><i class="fas '+
 							'fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
-							'&op=ingresos"':'')+' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="ingresos" >'+
+							'&op=ingresos"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="ingresos" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
 				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
-				{ data: 'fecha', render: function(data){ let fecha = new Date(data); return fecha.toLocaleDateString(); } },
+				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{
 					data: 'activo',

@@ -171,7 +171,7 @@
 														<?	endforeach;	?>
 														</select>
 													</div>
-													<div class="col-md-2 px-0"><label for="cantidadIng" class="col-12">Cantidad KG:</label></div>
+													<div class="col-md-2"><label for="cantidadIng" class="col-12">Cantidad KG:</label></div>
 													<div class="col-md-3">
 														<input type="text" class="form-control col-12 cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
 														<label id="errCant" class="form_error" for="cantidadIng"></label>
@@ -203,6 +203,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- Modal de Edicion -->
 					<div class="modal fade" id="modalEditIngresos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-lg" role="document">
 							<div class="modal-content">
@@ -211,7 +212,7 @@
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body" style="overflow: hidden;">
-									<form method="post" id="form_edit_ingresos">
+									<form method="post" id="form_editar_ingresos">
 										<div class="row mt-2 mb-4">
 											<div class="col-md-11 mx-auto">
 												<div class="row">
@@ -236,7 +237,7 @@
 											<div class="col-md-11 mx-auto">
 												<div class="row">
 													<div class="col-md-2"><label for="articulo" class="col-12">Producto:</label></div>
-													<div class="col-md-4">
+													<div class="col-md-3">
 														<select class="form-control col-12 articuloIng" name="articuloIng" id="articuloIng">
 															<option value="">--Seleccione--</option>
 														<?
@@ -245,27 +246,34 @@
 														<?	endforeach;	?>
 														</select>
 													</div>
-													<div class="col-md-2 px-0"><label for="cantidadIng" class="col-12">Cantidad KG:</label></div>
-													<div class="col-md-4">
+													<div class="col-md-2"><label for="cantidadIng" class="col-12">Cantidad KG:</label></div>
+													<div class="col-md-3">
 														<input type="text" class="form-control col-12 cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
+														<label id="errCant" class="form_error" for="cantidadIng"></label>
 													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row my-4">
-											<div class="col-md-11 mx-auto">
-												<div class="row">
-													<div class="col-md-2 px-0"><label for="guiaIng" class="col-12">Nro. Gu&iacute;a:</label></div>
-													<div class="col-md-4">
-														<input type="text" class="form-control col-12 guiaIng" name="guiaIng" id="guiaIng" autocomplete="off" />
-													</div>
-													<div class="col-md-2 d-flex ml-auto">
-														<input type="submit" class="btn btn-narsa d-flex ml-auto col-lg-12 justify-content-center" id="btnEditIng" value="Editar"/>
+													<div class="col-md-2">
+														<input type="submit" class="btn btn-narsa d-flex ml-auto col-lg-12 justify-content-center" id="btnEditarAgGuia" value="Agregar"/>
 													</div>
 												</div>
 											</div>
 										</div>
 									</form>
+								</div>
+								<div class="container-fluid my-2">
+									<div class="row">
+										<div class="table-responsive">
+											<table id="tablaIngEditarDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-9"></table>
+										</div>
+									</div>
+								</div>
+								<!--<div class="clearfix"></div>-->
+								<div class="modal-footer">
+									<div class="row">
+										<div class="col-md-12">
+											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelIng">Cancelar Operaci&oacute;n</button>
+											<button class="btn btn-narsa" id="editarIng">Generar Ingreso</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
