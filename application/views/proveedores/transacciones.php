@@ -77,6 +77,7 @@
 									<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
+											<div class="col-12"><a class="btn btn-narsa my-3" href="<?=base_url()?>proveedores/transacciones/informe" target="_blank">Estado de Cuenta</a></div>
 											<div class="table-responsive" style="overflow-x:scroll">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>

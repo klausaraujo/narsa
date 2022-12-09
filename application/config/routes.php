@@ -74,6 +74,7 @@ $route['proveedores/transacciones'] = 'proveedores/main/transacciones';
 $route['proveedores/transacciones/lista'] = 'proveedores/main/listaTransacciones';
 $route['proveedores/transacciones/operaciones'] = 'proveedores/main/registraOp';
 $route['proveedores/transacciones/anular'] = 'proveedores/main/anulaOp';
+$route['proveedores/transacciones/informe'] = 'proveedores/main/informe';
 $route['proveedores/ingresos/lista'] = 'proveedores/main/listaIngresos';
 $route['proveedores/ingresos/nuevo'] = 'proveedores/main/nuevoIngreso';
 $route['proveedores/ingresos/editar'] = 'proveedores/main/editaingreso';

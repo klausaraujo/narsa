@@ -220,4 +220,15 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
+	public function informe(){
+		$versionphp = 7;
+		$html = $this->load->view('proveedores/informe', null, true);
+		if(floatval(phpversion()) < $versionphp){
+			$this->load->library('dom');
+			$this->dom->generate("portrait", "informe", $html, "Informe");
+		}else{
+			$this->load->library('dom1');
+			$this->dom1->generate("portrait", "informe", $html, "Informe");
+		}
+	}
 }
