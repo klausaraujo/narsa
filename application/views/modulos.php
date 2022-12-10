@@ -5,7 +5,7 @@
 				<div class="iq-card-header d-flex justify-content-between">
 				   <div class="iq-header-title card-body ">
 				<h3 style="font-size:22px;" class="text-center">
-				   <b>NARSA</b>
+				   <b>NEGOCIACIONES AGROINDUSTRIAL AREVALO S.A. - NARSA</b>
 				</h3>
 					</div>
 				</div>
