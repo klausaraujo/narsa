@@ -12,23 +12,29 @@ class Main extends CI_Controller
 		if($this->session->userdata('user')){
 			$this->usuario = json_decode($this->session->userdata('user'));
 			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
+			$this->load->model('Usuarios_model');
 		}else header('location:' .base_url());
 	}
 
     public function index(){}
 	
 	public function proveedores()
-	{		
+	{
+		$mod = $this->input->get('mod');
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario]);
+		$this->session->set_userdata('perProv', json_encode($bot));
+		
 		$headers = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Tipo Documento', 'targets' => 3],
 			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'RUC', 'targets' => 5],'6'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 6],'7'=>['title' => 'Direcci&oacute;n', 'targets' => 7],
 			'8'=>['title' => 'Zona', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 2, 'visible' => false],
 		);
-		$this->load->view('main',['headers' => $headers]);
+		$this->load->view('main',['headers' => $headers,'botones' => $bot]);
 	}
-	public function usuarios(){
-		$this->load->model('Usuarios_model');
-		$usuarios = $this->Usuarios_model->listaUsuarios();
+	public function usuarios()
+	{
+		$permisos = $this->Usuarios_model->permisosOpciones();
+		
 		$headers = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Documento', 'targets' => 3],
 			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'Avatar', 'targets' => 5],'6'=>['title' => 'Apellidos', 'targets' => 6],'7'=>['title' => 'Nombres', 'targets' => 7],
@@ -36,7 +42,7 @@ class Main extends CI_Controller
 			'12'=>['targets' => 2, 'visible' => false],
 		);
 		$data = array(
-			'lista' => $usuarios,
+			'permisos' => $permisos,
 			'headers' => $headers,
 		);
 		$this->load->view('main',$data);

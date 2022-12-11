@@ -22,10 +22,10 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Editar Proveedor" href="'+base_url+'proveedores/editar?id='+data.idproveedor+'" class="bg-warning btnTable editar">'+
-							'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Movimientos Proveedor" href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'" class="bg-success btnTable acciones">'+
-							'<i class="far fa-house" aria-hidden="true"></i></a>';
+						'<a title="Editar Proveedor" '+((data.activo === '1' || btnEdit)?'href="'+base_url+'proveedores/editar?id='+data.idproveedor+'"':'')+' class="bg-warning '+
+							'btnTable '+((data.activo === '0' || !btnEdit)?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<a title="Movimientos Proveedor" '+((data.activo === '1' || btnMov)?'href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'"':'')+
+							'class="bg-success btnTable '+((data.activo === '0' || !btnMov)?'disabled':'')+' acciones"><i class="far fa-house" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -36,7 +36,7 @@ $(document).ready(function (){
 						let var_status = '';
 						switch(data){
 							case '1': var_status = '<span class="text-success">Activo</span>'; break;
-							case '0': var_status = '<span class="text-danger">Inactivo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
 					}
@@ -62,8 +62,8 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-							'<a title="Anular Transacci&oacute;n" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
-							'&op=operaciones"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="operaciones">'+
+							'<a title="Anular Operaci&oacute;n" '+((data.activo === '1' || btnAnulaOp)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
+							'&op=operaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
@@ -88,7 +88,7 @@ $(document).ready(function (){
 						let var_status = '';
 						switch(data){
 							case '1': var_status = '<span class="text-success">Activo</span>'; break;
-							case '0': var_status = '<span class="text-danger">Inactivo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
 					}
@@ -112,12 +112,15 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Editar Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+' class="bg-warning '+
-							'btnTable editarAjax '+(data.activo === '0'?'disabled':'')+'" data-target="#modalEditIngresos" data-toggle="modal"><i class="fas '+
-							'fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Anular Ingreso" '+(data.activo === '1'?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
-							'&op=ingresos"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="ingresos" >'+
-							'<i class="far fa-trash" aria-hidden="true"></i></a>';
+						'<a title="Editar Gu&iacute;a Ingreso" '+((data.activo === '1' || btnEdtGuia)?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+
+							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia)?'disabled':'')+'" data-target="#modalEditIngresos" '+
+							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
+							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia)?'disabled':'')+' anular" data-anula="ingresos" >'+
+							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/verguia?id='+data.idguia+
+							'"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
+							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -130,7 +133,7 @@ $(document).ready(function (){
 						let var_status = '';
 						switch(data){
 							case '1': var_status = '<span class="text-success">Activo</span>'; break;
-							case '0': var_status = '<span class="text-danger">Inactivo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
 					}
@@ -361,7 +364,7 @@ $('#generarIng').bind('click',function(){
 				$('#cancelIng').addClass('disabled');
 			},
 			success: function (data) {
-				console.log(data);
+				//console.log(data);
 				$('#generarIng').html('Generar Ingreso');
 				$('#generarIng').removeClass('disabled');
 				$('#cancelIng').removeClass('disabled');
@@ -369,7 +372,7 @@ $('#generarIng').bind('click',function(){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					tablaReg.ajax.reload();
-					$('#modalIngresos').modal('hide');	
+					$('#modalIngresos').modal('hide');
 				}
 				$('.resp').html(data.message);
 				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);

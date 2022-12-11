@@ -111,4 +111,41 @@ class Main extends CI_Controller
 		
 		echo json_encode(['status'=> $status]);
 	}
+	public function permisosUsuario()
+	{
+		$id = $this->input->get('id');
+		$this->load->model('Usuarios_model');
+		$permisos = $this->Usuarios_model->buscaPermisos(['idusuario'=>$id]);
+		
+		echo json_encode(['data'=>$permisos,'idusuario'=>$id]);
+	}
+	public function asignarPermisos()
+	{
+		$this->load->model('Usuarios_model');
+		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array()); $id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : array());
+		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
+		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500;
+		
+		if(!empty($perProv)){
+			foreach($perProv as $row):
+				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+		if(!empty($perUser)){
+			foreach($perUser as $row):
+				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+		
+		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray);
+		
+		if($regPer){
+			$msg = 'Permisos Asignados';
+			$status = 200;
+		}
+		
+		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray]);
+	}
 }

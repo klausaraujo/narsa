@@ -179,7 +179,7 @@ class Main extends CI_Controller
 		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s');
 		
 		if($op === 'operaciones'){
-			$anula = $this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0]);
+			$anula = $this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0],['idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s'),'activo'=>0]);
 			if($anula){
 				$message = 'Transacci&oacute;n anulada';
 				$status = 200;
@@ -206,23 +206,29 @@ class Main extends CI_Controller
 		$json = file_get_contents('php://input');
 		// Converts it into a PHP object
 		$data = json_decode($json);
-		$data = $this->Proveedores_model->ingresarProductos($data);
+		$rs = $this->Proveedores_model->ingresarProductos($data);
 		
-		if($data === true){
+		if($rs === true){
 			$message = 'Gu&iacute;a registrada exitosamente';
 			$status = 200;
 		}
 		
 		$data = array(
 			'status' => $status,
-			'message' => $message,		
+			'message' => $message,
+			'data' => $data,
 		);
 		
 		echo json_encode($data);
 	}
 	public function informe(){
 		$versionphp = 7;
-		$html = $this->load->view('proveedores/informe', null, true);
+		
+		if(!empty($_GET)){
+			$html = $this->load->view('proveedores/guia-pdf', null, true);
+		}else{
+			$html = $this->load->view('proveedores/edo-cta', null, true);
+		}
 		if(floatval(phpversion()) < $versionphp){
 			$this->load->library('dom');
 			$this->dom->generate("portrait", "informe", $html, "Informe");

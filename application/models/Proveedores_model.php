@@ -148,16 +148,21 @@ class Proveedores_model extends CI_Model
 			return true;
 		}
 	}
-	public function anulaTransaccion($where,$data){
+	public function anulaTransaccion($where,$activo,$data){
 		$this->db->trans_begin();
 		$this->db->db_debug = FALSE;
-		$this->db->set($data,TRUE);
+		
+		$this->db->set($activo,TRUE);
 		$this->db->where($where);
 		$this->db->update('transacciones');
 		
 		$this->db->set($data,TRUE);
 		$this->db->where($where);
 		$this->db->update('movimientos_proveedor');
+		
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('movimientos_caja');
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();

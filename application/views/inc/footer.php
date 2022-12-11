@@ -58,6 +58,16 @@
 		<!-- Rutinas Javascript por cada uno de los segmentos 1 -->
 		<?php if($this->uri->segment(1) === 'proveedores'){ ?>
 		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>
+		<script>
+			let botonesProv = JSON.parse('<?=$this->session->userdata('perProv')?>');
+			
+			let btnEdit = false, btnMov = false;
+			
+			$.each(botonesProv,function(i,e){
+				if(e.idpermiso === '1') btnEdit = true;
+				if(e.idpermiso === '2') btnMov = true;
+			});
+		</script>
 		<?}else if($this->uri->segment(1) === 'usuarios'){ ?>
 		<script src="<?=base_url()?>/public/js/usuarios/usuarios.js"></script>
 		<?}
@@ -71,5 +81,15 @@
 			const headersOp = JSON.parse('<?=json_encode($headersOp)?>');
 			const headersIng = JSON.parse('<?=json_encode($headersIng)?>');
 			const id = <?=$this->input->get('id')?>;
+			let btnAnulaOp = false, btnEdtGuia = false, btnAnulGuia = false, btnPdfGuia = false;
+			
+			$.each(botonesProv,function(i,e){
+				if(e.idpermiso === '3') btnAnulaOp = true;
+				if(e.idpermiso === '4') btnEdtGuia = true;
+				if(e.idpermiso === '5') btnAnulGuia = true;
+				if(e.idpermiso === '6') btnPdfGuia = true;
+			});
+			
+			
 		</script>
 		<?}?>

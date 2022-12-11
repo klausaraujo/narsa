@@ -17,12 +17,12 @@ $(document).ready(function (){
 						/* Boton de edicion */
 						'<a title="Editar Usuario" '+(data.activo === '1'?'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"':'')+
 							' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						/* Boton de permisos */
-						'<a title="Permisos" '+(data.activo === '1'?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
-							' class="bg-secondary btnTable '+(data.activo === '0'?'disabled':'')+' permisos"><i class="far fa-cog" aria-hidden="true"></i></a>'+
 						/* Boton de Asignar Sucursales */
 						'<a title="Asignar Sucursales" '+(data.activo === '1'?'href="'+base_url+'usuarios/sucursales?id='+data.idusuario+'"':'')+
 							' class="bg-narsa btnTable '+(data.activo === '0'?'disabled':'')+' sucursales"><i class="far fa-building-shield" aria-hidden="true"></i></a>'+
+						/* Boton de permisos */
+						'<a title="Permisos" '+(data.activo === '1'?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
+							' class="bg-secondary btnTable '+(data.activo === '0'?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal"><i class="far fa-cog" aria-hidden="true"></i></a>'+
 						/* Boton de Reset Clave */
 						'<a title="Resetear Clave" '+(data.activo === '1'?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
 							' class="bg-info btnTable '+(data.activo === '0'?'disabled':'')+' resetclave"><i class="far fa-key" aria-hidden="true"></i></a>'+
@@ -75,6 +75,17 @@ $(document).ready(function (){
 			'copy','csv','excel','pdf','print']}, order: [],
 		});
 	}
+});
+
+$('#modalPermisos').on('hidden.bs.modal',function(e){
+	$('#form_permisos')[0].reset();
+	$('#form_permisos input:checkbox').prop('checked',false);
+	//$(' input[type=checkbox]')
+	/*tablaIngDetalle.clear().draw();
+	$('#sucursalIng').removeAttr('disabled');
+	$('#form_ingresos select').prop('selectedIndex',0);*/
+	$('body,html').animate({ scrollTop: 0 }, 'fast');
+	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
 });
 
 $('#tablaUsuarios').bind('click','a',function(e){
@@ -132,6 +143,32 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				}
 			});
 		}
+	}else if($(a).hasClass('permisos')){
+		e.preventDefault();
+		$.ajax({
+			url: $(a).attr('href'),
+			type: 'GET',
+			dataType: 'JSON',
+			data: {},
+			error: function(xhr){ /*a.removeClass('disabled'); a.html('<i class="far fa-cog" aria-hidden="true"></i>');*/ },
+			//beforeSend: function(){},
+			success: function(data){
+				//a.removeClass('disabled');
+				//a.html('<i class="far far fa-cog" aria-hidden="true"></i>');
+				$('#idusuarioPer').val(data.idusuario);
+				/*if(parseInt(data.status) === 200) alert('Se reseteó la clave del usuario exitosamente');
+				else alert('No se pudo resetear la clave del usuario');*/
+				//console.log(data);
+				$.each(data.data,function(i,e){
+					//console.log(e);
+					$('#form_permisos input:checkbox').each(function(){
+						if($(this).attr('name') === 'proveedoresPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
+						}
+					});
+				});
+			}
+		});
 	}
 });
 
@@ -164,4 +201,23 @@ $('#form_usuarios').validate({
 		$('#formPassword button[type=submit]').addClass('disabled');
 		return true;
 	}
+});
+
+$('#asignarPer').bind('click', function(e){
+	let evt = e || e.target;
+	evt.preventDefault();
+	$.ajax({
+		data: $('#form_permisos').serialize(),
+		url: base_url + 'usuarios/permisos/asignar',
+		method: 'POST',
+		dataType: 'JSON',
+		error: function(xhr){},
+		beforeSend: function(){},
+		success: function(data){
+			//console.log(data);
+			//$('#mdalPermisos').modal('hide');
+			$('.resp').html(data.msg);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+		}
+	}); 
 });
