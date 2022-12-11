@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS tipo_operacion_caja;
 DROP TABLE IF EXISTS tipo_operacion_proveedor;
 DROP TABLE IF EXISTS guia_entrada_detalle;
 DROP TABLE IF EXISTS guia_entrada_detalle_valorizacion;
-DROP TABLE IF EXISTS valorización_detalle;
-DROP TABLE IF EXISTS valorización;
+DROP TABLE IF EXISTS valorizacion_detalle;
+DROP TABLE IF EXISTS valorizacion;
 DROP TABLE IF EXISTS guia_entrada;
 DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS articulo;
@@ -428,7 +428,7 @@ PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-create table valorización(
+create table valorizacion(
 idvalorizacion smallint(4) NOT NULL AUTO_INCREMENT,
 anio_valorizacion smallint(4) NOT NULL,
 numero smallint(4) NOT NULL,
@@ -442,7 +442,7 @@ FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON U
 FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-create table valorización_detalle(
+create table valorizacion_detalle(
 iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idvalorizacion smallint(4),
 idguia smallint(4) NOT NULL,
@@ -452,7 +452,7 @@ costo decimal(20,2),
 activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idvalorizacion) REFERENCES valorización (idvalorizacion) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idvalorizacion) REFERENCES valorizacion (idvalorizacion) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 create table guia_entrada_detalle_valorizacion(
@@ -466,7 +466,7 @@ activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idvalorizacion) REFERENCES valorización (idvalorizacion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+FOREIGN KEY (idvalorizacion) REFERENCES valorizacion (idvalorizacion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 create view lista_movimientos_proveedor
 as
