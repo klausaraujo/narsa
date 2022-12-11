@@ -13,10 +13,12 @@ DROP TABLE IF EXISTS movimientos_proveedor;
 DROP TABLE IF EXISTS factor;
 DROP TABLE IF EXISTS tipo_operacion_caja;
 DROP TABLE IF EXISTS tipo_operacion_proveedor;
-DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS guia_entrada_detalle;
 DROP TABLE IF EXISTS guia_entrada_detalle_valorizacion;
+DROP TABLE IF EXISTS valorización_detalle;
+DROP TABLE IF EXISTS valorización;
 DROP TABLE IF EXISTS guia_entrada;
+DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS articulo;
 DROP TABLE IF EXISTS proveedor;
 DROP TABLE IF EXISTS usuarios_sucursal;
@@ -24,6 +26,10 @@ DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS tipo_documento;
 DROP TABLE IF EXISTS perfil;
 DROP TABLE IF EXISTS sucursal;
+DROP VIEW IF EXISTS lista_movimientos_proveedor;
+DROP VIEW IF EXISTS lista_ingresos_proveedores;
+DROP VIEW IF EXISTS lista_ingresos_valorizaciones_pre;
+DROP VIEW IF EXISTS lista_ingresos_valorizaciones_saldo;
 
 CREATE TABLE anio  (
 idanio smallint(4) NOT NULL AUTO_INCREMENT,
@@ -422,8 +428,23 @@ PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-create table guia_entrada_detalle_valorizacion(
+create table valorización(
+idvalorizacion smallint(4) NOT NULL AUTO_INCREMENT,
+anio_valorizacion smallint(4) NOT NULL,
+numero smallint(4) NOT NULL,
+fecha datetime NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+idtransaccion smallint(4) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idvalorizacion),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table valorización_detalle(
 iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
+idvalorizacion smallint(4),
 idguia smallint(4) NOT NULL,
 idarticulo smallint(4) NOT NULL,
 cantidad decimal(20,2),
@@ -431,10 +452,44 @@ costo decimal(20,2),
 activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idvalorizacion) REFERENCES valorización (idvalorizacion) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+create table guia_entrada_detalle_valorizacion(
+iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
+idguia smallint(4) NOT NULL,
+idarticulo smallint(4) NOT NULL,
+idvalorizacion smallint(4),
+cantidad decimal(20,2),
+costo decimal(20,2),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (iddetalle),
+FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idvalorizacion) REFERENCES valorización (idvalorizacion) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+create view lista_movimientos_proveedor
+as
+select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,mp.idtransaccion,mp.monto,f.idfactor,f.factor * mp.monto as monto_factor,mp.fecha_vencimiento,mp.fecha_movimiento 
+from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on top.idtipooperacion=mp.idtipooperacion inner join sucursal as s on s.idsucursal = mp.idsucursal inner join proveedor as p on p.idproveedor = mp.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join factor as f on f.idfactor=mp.idfactor
+where mp.activo='1';
 
+create view lista_ingresos_proveedores
+as
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,ged.idarticulo,a.articulo,ged.cantidad
+from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle as ged on ged.idguia=ge.idguia inner join articulo as a on a.idarticulo = ged.idarticulo 
+where ge.activo='1' and ged.activo='1';
 
+create view lista_ingresos_valorizaciones_pre
+as
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,ged.idarticulo,a.articulo,ged.cantidad
+from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle as ged on ged.idguia=ge.idguia inner join articulo as a on a.idarticulo = ged.idarticulo 
+where ge.activo='1' and ged.activo='1'
+union all 
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,gedv.idarticulo,a.articulo,gedv.cantidad *-1
+from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle_valorizacion as gedv on gedv.idguia=ge.idguia inner join articulo as a on a.idarticulo = gedv.idarticulo 
+where ge.activo='1' and gedv.activo='1';
 
-
+create view lista_ingresos_valorizaciones_saldo
+as
+select idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,idarticulo,articulo,sum(cantidad) as cantidad from lista_ingresos_valorizaciones_pre group by idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,idarticulo,articulo;
