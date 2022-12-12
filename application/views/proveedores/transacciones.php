@@ -107,16 +107,17 @@
 									</div>
 								</div>
 								<div class="tab-pane container fade" id="pill-valorizaciones">
-									<div class="row"><h5 class="col-12 my-3">Valorizaci&oacute;n de Productos</h5></div>
-									<form method="post" id="form_valorizaciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/valorizaciones">
-										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
-										<div class="row">
-											<div class="col-10 mx-auto">
-												<div class="row">
+									<div class="row container mx-auto">
+										<div class="col-10 mx-auto">
+											<div class="row">
+												<div class="col-md-12 mt-4">
+													<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
+													<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalVal" data-target="#modalValorizaciones">Nueva Valorizaci&oacute;n</button>
 												</div>
 											</div>
-										</div>										
-									</form>
+										</div>
+									</div>
+									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
 											<div class="table-responsive" style="overflow-x:scroll">
@@ -147,7 +148,7 @@
 														<input type="text" class="form-control col-12" value="<?=ucwords(strtolower($this->input->get('name')))?>"
 															name="proveedorIng" id="proveedorIng" readonly />
 													</div>
-													<div class="col-md-2 align-items-center"><label for="sucursal" class="col-12">Sucursal:</label></div>
+													<div class="col-md-2 align-items-center"><label for="sucursalIng" class="col-12">Sucursal:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 sucursalIng" name="sucursalIng" id="sucursalIng">
 													<?
@@ -204,6 +205,57 @@
 							</div>
 						</div>
 					</div>
+					
+					<div class="modal fade" id="modalValorizaciones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">Valorizaci&oacute;n de Productos</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body" style="overflow: hidden;">
+									<form method="post" id="form_valorizaciones">
+										<div class="row mt-2 mb-4">
+											<div class="col-md-11 mx-auto">
+												<div class="row">
+													<div class="col-md-2"><label for="proveedorVal" class="col-12">Proveedor:</label></div>
+													<div class="col-md-4 pb-3">
+														<input type="text" class="form-control col-12" name="proveedorVal" value="<?=ucwords(strtolower($this->input->get('name')))?>" readonly />
+													</div>
+													<div class="col-md-2 align-items-center"><label for="sucursalVal" class="col-12">Sucursal:</label></div>
+													<div class="col-md-4">
+														<select class="form-control col-12 sucursalVal" name="sucursalVal" id="sucursalVal">
+													<?
+														foreach($usuario->sucursales as $row):	?>
+															<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
+													<?	endforeach;	?>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="container-fluid my-2">
+									<div class="row">
+										<div class="table-responsive">
+											<table id="tablaValDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-11"></table>
+										</div>
+									</div>
+								</div>
+								<!--<div class="clearfix"></div>-->
+								<div class="modal-footer">
+									<div class="row">
+										<div class="col-md-12">
+											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelVal">Cancelar</button>
+											<button class="btn btn-narsa" id="guardaVal">Guardar Valorizaci&oacute;n</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 					<!-- Modal de Edicion -->
 					<div class="modal fade" id="modalEditIngresos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-lg" role="document">

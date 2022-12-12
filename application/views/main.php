@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<!-- Loader Header -->
 		<?php	require_once('inc/header.php');	?>

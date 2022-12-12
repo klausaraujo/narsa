@@ -79,6 +79,10 @@ $route['proveedores/ingresos/verguia'] = 'proveedores/main/informe';
 $route['proveedores/ingresos/lista'] = 'proveedores/main/listaIngresos';
 $route['proveedores/ingresos/nuevo'] = 'proveedores/main/nuevoIngreso';
 $route['proveedores/ingresos/editar'] = 'proveedores/main/editaingreso';
+$route['proveedores/valorizaciones/listaDetalle'] = 'proveedores/main/listaValorizacionDetalle';
+$route['proveedores/valorizaciones/nuevo'] = 'proveedores/main/registrarValorizacion';
+$route['proveedores/valorizaciones/lista'] = 'proveedores/main/listaValorizaciones';
+$route['proveedores/valorizaciones/anular'] = 'proveedores/main/anulaOp';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

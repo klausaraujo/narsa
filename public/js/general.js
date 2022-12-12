@@ -39,9 +39,10 @@ file.bind('change',function(){
 });
 
 btnCurl.bind('click',function(){
-	let doc = $('.doc').val(), tipodoc = ($('.tipodoc').val() == '1')?'01':'03'; $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val(''); $('.apellidos').val('');
+	let doc = $('.doc').val(); $('.nombres').val(''); $('.direccion').val(''); $('.ruc').val(''); $('.apellidos').val('');
+	let tipodoc = ''; if($('.tipodoc').val() === '1') tipodoc = '01'; else if($('.tipodoc').val() === '2') tipodoc = '03';
 	
-	if(doc !== '' && tipodoc !== ''){
+	if(tipodoc !== '' && doc !== ''){
 		if(doc.length < 8){ alert('Debe ingresar un documento válido'); $('#doc').focus(); return}
 		if(tipodoc === '01' && doc.length !== 8){ alert('Debe ingresar un número de doc válido, 8 caracteres'); $('#doc').focus(); return}
 		if(tipodoc === '03' && doc.length < 9){ alert('Debe ingresar un número de documento válido, 9 caracteres'); $('#doc').focus(); return}
@@ -75,7 +76,7 @@ btnCurl.bind('click',function(){
 			btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>'); btnCurl.removeAttr("disabled"); alert(jqXHR + ",  " + textStatus + ",  " + errorThrown);
 		});
 	}else{ 
-		if(tipodoc === ''){ alert('Debe elegir un tipo de Documento'); $('#tipodoc').focus(); }
+		if(tipodoc == ''){ alert('Debe elegir un tipo de Documento'); $('#tipodoc').focus(); }
 		else{ alert('Debe ingresar un número de documento válido'); $('#doc').focus(); }
 	}
 });

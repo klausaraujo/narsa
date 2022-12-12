@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tablaReg, tablaIngDetalle;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal;
 
 function ceros( number, width ){
 	width -= number.toString().length;
@@ -161,6 +161,92 @@ $(document).ready(function (){
 			],
 			dom: '<"row"rt>', order: [],
 		});
+		tablaValDetalle = $('#tablaValDetalle').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/valorizaciones/listaDetalle',
+				type: 'POST',
+				data: function (d) {
+					d.id = id,
+					d.suc = $('#sucursalVal').val();
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language:{ lngDataTable }, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
+			columns:[
+				{ data: 'idarticulo' },{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render:function(data){ return ceros( data, 6 );} },{ data: 'articulo' },
+				{
+					data: 'cantidad',
+					render: function(data){
+						let number = parseFloat(data);
+						return number.toLocaleString('es-PE');
+					}
+				},
+				{
+					render: function(data,type,full,meta){
+						return '<input type="checkbox"'+ (full.checked ? ' checked' : '') +' />';
+					},
+					orderable: false,
+				},
+				{
+					render: function(data,type,full,meta){
+						return '<input type="input" placeholder="0" value="" class="form-control input-sm cantidad" />';
+					},
+					orderable: false,
+				},
+				{
+					render: function(data,type,full,meta){
+						return '<input type="input" placeholder="0" id="costo" value="" class="form-control input-sm costo" />';
+					},
+					orderable: false,
+				},
+				
+			],
+			columnDefs:[
+				{ title: 'ID Articulo', targets: 0, visible: false },{ title: 'ID Gu&iacute;a', targets: 1, visible: false },{ title: 'A&ntilde;o Gu&iacute;a', targets: 2 },
+				{ title: 'Nro. Gu&iacute;a', targets: 3 },{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Saldo', targets: 5 },{ title: 'Valorizar', targets: 6 },
+				{ title: 'Cantidad', targets: 7 },{ title: 'Costo', targets: 8 },
+			],
+			dom: '<"row"rt>', order: [],
+		});
+		tablaVal = $('#tablaValorizaciones').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/valorizaciones/lista',
+				type: 'POST',
+				data: function (d) {
+					d.id = id
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			columns:[
+				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				{
+					data: null,
+					orderable: false,
+					render: function(data){
+						let btnAccion =
+						'<a title="Anular Valorizaciones" '+(data.activo === '1'?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idvalorizacion+
+							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="valorizaciones" >'+
+							'<i class="far fa-trash" aria-hidden="true"></i></a>';
+						return btnAccion;
+					}
+				},
+				{ data: 'idvalorizacion' },{ data: 'anio_valorizacion' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
+				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
+				{ data: 'nombre' },{ data: 'sucursal' },
+				{
+					data: 'activo',
+					render: function(data){
+						let var_status = '';
+						switch(data){
+							case '1': var_status = '<span class="text-success">Activo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
+						}
+						return var_status;
+					}
+				},
+			],
+			columnDefs: headersVal, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']},order: [],
+		});
 	}
 });
 
@@ -171,6 +257,13 @@ $('#modalIngresos').on('hidden.bs.modal',function(e){
 	$('#form_ingresos select').prop('selectedIndex',0);
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
+});
+
+$('#modalValorizaciones').on('hidden.bs.modal',function(e){
+	$('#form_valorizaciones')[0].reset();
+	tablaValDetalle.clear().draw();
+	$('#form_valorizaciones select').prop('selectedIndex',0);
+	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
 
 $('#form_proveedor').validate({
@@ -224,8 +317,11 @@ $('#form_transacciones').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
+		var formData = new FormData(document.getElementById('form_transacciones'));
+		formData.set('tipodetalle',$('#tipoop').find(':selected').text());
+		
 		$.ajax({
-			data: $('#form_transacciones').serialize(),
+			data: new URLSearchParams(formData).toString(),
 			url: base_url + segmento + '/transacciones/operaciones',
 			method: 'POST',
 			dataType: 'JSON',
@@ -305,11 +401,6 @@ $('body').bind('click','a',function(e){
 	let el = e.target, a = $(el).closest('a'), row, anula = a.attr('data-anula');
 	if(a.hasClass('anular')){
 		e.preventDefault();
-		if(anula === 'operaciones'){
-			row = (tablaOp.row(a).child.isShown())? tablaOp.row(a).data() : tablaOp.row($(el).parents('tr')).data();;
-		}else if(anula === 'ingresos'){
-			row = (tablaReg.row(a).child.isShown())? tablaReg.row(a).data() : tablaReg.row($(el).parents('tr')).data();;
-		}
 		
 		let confirmacion = confirm('Está seguro que desea anular la Transacción?');
 		if(confirmacion){
@@ -325,6 +416,10 @@ $('body').bind('click','a',function(e){
 						$('html, body').animate({ scrollTop: 0 }, 'fast');
 						if(anula === 'operaciones') tablaOp.ajax.reload();
 						else if(anula === 'ingresos') tablaReg.ajax.reload();
+						else if(anula === 'valorizaciones'){
+							tablaVal.ajax.reload();
+							tablaOp.ajax.reload();
+						}
 					}else{
 						a.removeClass('disabled');
 						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
@@ -336,10 +431,8 @@ $('body').bind('click','a',function(e){
 		}
 	}else if(a.hasClass('eliminarIngdetalle')){
 		//alert('Eliminar');
-		if(tablaIngDetalle.row(a).child.isShown()) tableDanio.row(a).remove().draw();
+		if(tablaIngDetalle.row(a).child.isShown()) tablaIngDetalle.row(a).remove().draw();
 		else tablaIngDetalle.row($(a).parents("tr")).remove().draw();
-	}else if(a.hasClass('eliminarIngdetalle')){
-		e.preventDefault();
 	}
 });
 
@@ -379,6 +472,67 @@ $('#generarIng').bind('click',function(){
 			}
 		});
 	}else{ alert('No hay registros en el detalle'); }
+});
+
+$('#guardaVal').bind('click',function(){
+	let jsonDetalle = [], jsonTransaccion = [], i = 0, j = 0, guia = '', mto = 0, mult = 0, salta = true;
+	if(! tablaValDetalle.rows().count() > 0) return false;
+	
+	$('#tablaValDetalle tbody input[type=checkbox]:checked').each(function(i, e) {
+		let data = tablaValDetalle.row($(e).parents('tr')).data();
+		let inputCant = $(e).closest('tr').find('input.cantidad'), inputCosto = $(e).closest('tr').find('input.costo');
+		if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
+			jsonDetalle[i] = { 'idproveedor':id, 'idsucursal': data.idsucursal, 'idguia': data.idguia, 'idarticulo': data.idarticulo, 'cantidad': inputCant.val(),
+				'costo': inputCosto.val() };
+			
+			//console.log(json[i]);
+			i++;
+			salta = false;
+		}else{
+			if(inputCant.val() == ''){ alert('Cantidad requerida'); inputCant.focus() }
+			else if(parseFloat(inputCant.val()) > parseFloat(data.cantidad)){ alert('La cantidad a valorizar no puede ser mayor que el saldo'); inputCant.focus(); }
+			else if(inputCosto.val() == ''){ alert('El costo es Requerido'); inputCosto.focus(); }
+			salta = true;
+			return false;
+		}
+	});
+	if(! salta){
+		$.ajax({
+			data: JSON.stringify(jsonDetalle),
+			url: base_url + 'proveedores/valorizaciones/nuevo',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function () { 
+				$('#guardaVal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#guardaVal').addClass('disabled');
+				$('#cancelVal').addClass('disabled');
+			},
+			success: function (data) {
+				console.log(data);
+				$('#guardaVal').html('Generar Ingreso');
+				$('#guardaVal').removeClass('disabled');
+				$('#cancelVal').removeClass('disabled');
+				if (parseInt(data.status) === 200){
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
+					//tablaReg.ajax.reload();
+					tablaOp.ajax.reload();
+					tablaVal.ajax.reload();
+					$('#modalValorizaciones').modal('hide');
+				}
+				$('.resp').html(data.msg);
+				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+			}
+		});
+	}
+});
+
+$('#sucursalVal').bind('change', function(){
+	tablaValDetalle.ajax.reload();
+});
+
+$('#modalVal').bind('click', function(){
+	tablaValDetalle.ajax.reload();
 });
 
 $('#form_valorizaciones').validate({

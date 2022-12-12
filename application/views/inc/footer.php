@@ -80,6 +80,7 @@
 		<script>
 			const headersOp = JSON.parse('<?=json_encode($headersOp)?>');
 			const headersIng = JSON.parse('<?=json_encode($headersIng)?>');
+			const headersVal = JSON.parse('<?=json_encode($headersVal)?>');
 			const id = <?=$this->input->get('id')?>;
 			let btnAnulaOp = false, btnEdtGuia = false, btnAnulGuia = false, btnPdfGuia = false;
 			

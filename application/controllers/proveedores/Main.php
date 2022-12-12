@@ -86,14 +86,21 @@ class Main extends CI_Controller
 			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Sucursal', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
 			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
 		);
+		$hValorizaciones = array(
+			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],
+			'3'=>['title' => 'A&ntilde;o Valorizaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Nro. Valorizaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Fecha', 'targets' => 5],
+			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Sucursal', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
+			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
+		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
-				
+		
 		$data = array(
 			'tipo_op' => $tipo,
 			'articulos' => $articulos,
 			'headersOp' => $hOperaciones,
 			'headersIng' => $hIngresos,
+			'headersVal' => $hValorizaciones,
 		);
 		$this->load->view('main',$data);
 	}
@@ -135,6 +142,43 @@ class Main extends CI_Controller
 		
 		echo json_encode(['data' => $filtro]);
 	}
+	public function listaValorizaciones()
+	{
+		$this->load->model('Proveedores_model');
+		
+		$id = $this->input->post('id');
+		$lista = $this->Proveedores_model->listaValorizaciones(['va.idproveedor' => $id]);
+		$filtro = []; $i = 0;
+		
+		foreach($lista as $row):
+			foreach($this->usuario->sucursales as $sucursal):
+				if($row->idsucursal === $sucursal->idsucursal){
+					$filtro[$i] = $row;
+					$i++;
+				}
+			endforeach;			
+		endforeach;
+		
+		echo json_encode(['data' => $filtro]);
+	}
+	public function listaValorizacionDetalle()
+	{
+		$this->load->model('Proveedores_model');
+		
+		$id = $this->input->post('id');
+		$suc = $this->input->post('suc');
+		$lista = $this->Proveedores_model->listaValorizacionDetalle(['idproveedor' => $id,'cantidad >'=>0]);
+		$filtro = []; $i = 0;
+		
+		foreach($lista as $row):
+			if($row->idsucursal === $suc){
+				$filtro[$i] = $row;
+				$i++;
+			}		
+		endforeach;
+		
+		echo json_encode(['data' => $filtro]);
+	}
 	public function registraOp()
 	{
 		$this->load->model('Proveedores_model');
@@ -142,6 +186,7 @@ class Main extends CI_Controller
 		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc'); $tipo = $this->input->post('tipoop');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipo,'activo'=>1]);
+		
 		$dataTransaccion = array(
 			'fecha' => $fecha,
 			'vencimiento' => $vence,
@@ -160,7 +205,7 @@ class Main extends CI_Controller
 			'fecha_registro' => $fecha,
 			'activo' => '1',
 		);
-		if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp)){
+		if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,(floatval($tipo) > 5?true:false))){
 			$message = 'Transacci&oacute;n registrada exitosamente';
 			$status = 200;
 		}
@@ -168,6 +213,7 @@ class Main extends CI_Controller
 		$data = array(
 			'status' => $status,
 			'message' => $message,
+			'tipodetalle' => $this->input->post('tipodetalle'),
 		);
 		
 		echo json_encode($data);
@@ -190,11 +236,19 @@ class Main extends CI_Controller
 				$message = 'Gu&iacute;a Anulada';
 				$status = 200;
 			}
+		}else if($op === 'valorizaciones'){
+			$idtran = $this->Proveedores_model->traeTranByIdVal(['idvalorizacion'=>$id]);
+			$anula = $this->Proveedores_model->anulaValorizacion(['idvalorizacion'=>$id],['activo'=>0],['idtransaccion'=>$idtran]);
+			if($anula){
+				$message = 'Valorizaci&oacute;n Anulada';
+				$status = 200;
+			}
+			//echo $idtran;
 		}
 		
 		$data = array(
 			'status' => $status,
-			'message' => $message,		
+			'message' => $message,
 		);
 		
 		echo json_encode($data);
@@ -237,4 +291,29 @@ class Main extends CI_Controller
 			$this->dom1->generate("portrait", "informe", $html, "Informe");
 		}
 	}
+	public function registrarValorizacion()
+	{
+		$status = 500; $message = 'No se pudo registrar la Valorizaci&oacute;n'; /*$guia = ''; $filasTran = []; $filaVal = []; $i = 0; $j = 0; $mto = 0; $mult = 0; $num = 0;
+		$filaValDet = []; $filaValGuia = []; $fin = false;*/
+		
+		$this->load->model('Proveedores_model');
+		
+		$json = file_get_contents('php://input');
+		$data = json_decode($json);
+		
+		$rs = $this->Proveedores_model->regValorizacion($data,$this->usuario->idusuario);
+		
+		if($rs === true){
+			$message = 'Productos Valorizados';
+			$status = 200;
+		}
+		
+		$data = array(
+			'status' => $status,
+			'msg' => $message,
+		);
+		
+		echo json_encode($data);
+	}
+	
 }
