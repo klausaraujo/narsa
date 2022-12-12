@@ -268,58 +268,51 @@ class Proveedores_model extends CI_Model
 			return (floatval( $result->numero ) > 0)? floatval( $result->numero ) + 1 : 1;
 		}else return 1;
 	}
-	public function regValorizacion($data,$idusuario)
+	public function regValorizacion($data,$guia,$idusuario)
 	{
-		$i = 0; $j = 0; $guia = ''; $numero = 1; $art = []; $guiaArray = [];
-		
+		$numero = 1;		
 		$this->db->trans_begin();
 		
-		foreach($data as $row):
-			if($i === 0){
-				$this->db->select('MAX(numero) numero');
-				$this->db->from('valorizacion');
-				$this->db->where(['idsucursal'=>$row->idsucursal,'anio_valorizacion'=>date('Y')]);
-				$result = $this->db->get();
-				if($result->num_rows() > 0){
-					$result = $result->row();
-					$numero = floatval( $result->numero ) + 1;
-				}
-			}
-			if($row->idguia !== $guia){ $guia = $row->idguia; $guiaArray[$j] = $row->idguia; $j++; }
-			$art[$i] = ['idguia' => $row->idguia,'idarticulo' => $row->idarticulo,'monto' => $row->cantidad,'costo'=>$row->costo,'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor];
-			$i++;
-		endforeach;
+		$this->db->select('MAX(numero) numero');
+		$this->db->from('valorizacion');
+		$this->db->where(['idsucursal'=>$data[0]['idsucursal'],'anio_valorizacion'=>date('Y')]);
+		$result = $this->db->get();
+		if($result->num_rows() > 0){
+			$result = $result->row();
+			$numero = floatval( $result->numero ) + 1;
+		}
 		
-		foreach($guiaArray as $row):
+		foreach($guia as $row):
 			$mto = 0; $suc = ''; $prov = ''; $valorizDet = []; $valorizGuiaDet = [];
-			for($k =0;$k < count($art);$k++){
-				if($art[$k]['idguia'] === $row){
-					$mto += floatval($art[$k]['monto']) * floatval($art[$k]['costo']);
-					$suc = $art[$k]['idsucursal'];
-					$prov = $art[$k]['idproveedor'];
-					$valorizDet[$k] = ['idguia'=>$row,'idarticulo'=>$art[$k]['idarticulo'],'cantidad'=>$art[$k]['monto'],'costo'=>$art[$k]['costo'],'activo'=>1];
-					$valorizGuiaDet[$k] = ['idguia'=>$row,'idarticulo'=>$art[$k]['idarticulo'],'cantidad'=>$art[$k]['monto'],'costo'=>$art[$k]['costo'],'activo'=>1];
+			for($k =0;$k < count($data);$k++){
+				if($data[$k]['idguia'] === $row){
+					$mto += floatval($data[$k]['monto']) * floatval($data[$k]['costo']);
+					$suc = $data[$k]['idsucursal'];
+					$prov = $data[$k]['idproveedor'];
+					$valorizDet[$k] = ['idguia'=>$row,'idarticulo'=>$data[$k]['idarticulo'],'cantidad'=>$data[$k]['monto'],'costo'=>$data[$k]['costo'],'activo'=>1];
+					$valorizGuiaDet[$k] = ['idguia'=>$row,'idarticulo'=>$data[$k]['idarticulo'],'cantidad'=>$data[$k]['monto'],'costo'=>$data[$k]['costo'],'activo'=>1];
 				}
 			}
 			$tranVal = ['fecha'=>date('Y-m-d H:i:s'),'vencimiento'=>date('Y-m-d'),'monto'=>$mto,'activo'=>1];
 			$this->db->insert('transacciones',$tranVal);
 			$idtran = $this->db->insert_id();
+			
 			$tranMovProv = ['idtipooperacion'=>6,'idsucursal'=>$suc,'idproveedor'=>$prov,'idtransaccion'=>$idtran,'monto'=>$mto,'idfactor'=>6,'fecha_vencimiento'=>date('Y-m-d'),
 				'fecha_movimiento'=>date('Y-m-d H:i:s'),'idusuario_registro'=>$idusuario,'fecha_registro'=>date('Y-m-d H:i:s'),'activo'=>1];
 			$this->db->insert('movimientos_proveedor',$tranMovProv);
+			
 			$valoriz = ['anio_valorizacion'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d H:i:s'),'idsucursal'=>$suc,'idproveedor'=>$prov,'idtransaccion'=>$idtran];
 			$this->db->insert('valorizacion',$valoriz);
 			$idval = $this->db->insert_id();
-			/*$valorizDet[$k]['idvalorizacion'] = $idval;
-			$valorizGuiaDet[$k]['idvalorizacion'] = $idval;*/
-			foreach($valorizDet as $det):
-				$det['idvalorizacion'] = $idval;
-				$this->db->insert('valorizacion_detalle',$det);
-			endforeach;
-			foreach($valorizGuiaDet as $det):
-				$det['idvalorizacion'] = $idval;
-				$this->db->insert('guia_entrada_detalle_valorizacion',$det);
-			endforeach;
+			
+			for($l = 0;$l < count($valorizDet);$l++){
+				$valorizDet[$l]['idvalorizacion'] = $idval;
+			}
+			$this->db->insert_batch('valorizacion_detalle',$valorizDet);
+			for($l = 0;$l < count($valorizGuiaDet);$l++){
+				$valorizGuiaDet[$l]['idvalorizacion'] = $idval;
+			}
+			$this->db->insert_batch('guia_entrada_detalle_valorizacion',$valorizGuiaDet);
 		endforeach;
 		
 		if ($this->db->trans_status() === FALSE){

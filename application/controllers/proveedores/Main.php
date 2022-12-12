@@ -81,16 +81,16 @@ class Main extends CI_Controller
 			'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],
 		);
 		$hIngresos = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],
-			'3'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 4],'5'=>['title' => 'Fecha', 'targets' => 5],
-			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Sucursal', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
-			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
+			'3'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
+			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
+			'9'=>['targets' => 1, 'visible' => false],
 		);
 		$hValorizaciones = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],
-			'3'=>['title' => 'A&ntilde;o Valorizaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Nro. Valorizaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Fecha', 'targets' => 5],
-			'6'=>['title' => 'Proveedor', 'targets' => 6],'7'=>['title' => 'Sucursal', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
-			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 2, 'visible' => false],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Valorizaci&oacute;n', 'targets' => 2],
+			'3'=>['title' => 'Nro. Valorizaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
+			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
+			'9'=>['targets' => 1, 'visible' => false],
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
@@ -243,7 +243,6 @@ class Main extends CI_Controller
 				$message = 'Valorizaci&oacute;n Anulada';
 				$status = 200;
 			}
-			//echo $idtran;
 		}
 		
 		$data = array(
@@ -293,15 +292,22 @@ class Main extends CI_Controller
 	}
 	public function registrarValorizacion()
 	{
-		$status = 500; $message = 'No se pudo registrar la Valorizaci&oacute;n'; /*$guia = ''; $filasTran = []; $filaVal = []; $i = 0; $j = 0; $mto = 0; $mult = 0; $num = 0;
-		$filaValDet = []; $filaValGuia = []; $fin = false;*/
+		$status = 500; $message = 'No se pudo registrar la Valorizaci&oacute;n'; $guia = ''; /*$filasTran = []; $filaVal = []; $i = 0; $j = 0; $mto = 0; $mult = 0; $num = 0;
+		$filaValDet = []; $filaValGuia = []; $fin = false;*/$guiaArray = []; $i = 0; $j = 0; $dataVal = [];
 		
 		$this->load->model('Proveedores_model');
 		
 		$json = file_get_contents('php://input');
 		$data = json_decode($json);
 		
-		$rs = $this->Proveedores_model->regValorizacion($data,$this->usuario->idusuario);
+		foreach($data as $row):
+			if($row->idguia !== $guia){ $guia = $row->idguia; $guiaArray[$j] = $row->idguia; $j++; }
+			$dataVal[$i] = ['idguia' => $row->idguia,'idarticulo' => $row->idarticulo,'monto' => $row->cantidad,'costo'=>$row->costo,'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor];
+			$i++;
+		endforeach;
+		
+		
+		$rs = $this->Proveedores_model->regValorizacion($dataVal,$guiaArray,$this->usuario->idusuario);
 		
 		if($rs === true){
 			$message = 'Productos Valorizados';

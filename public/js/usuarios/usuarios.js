@@ -89,7 +89,7 @@ $('#modalPermisos').on('hidden.bs.modal',function(e){
 });
 
 $('#tablaUsuarios').bind('click','a',function(e){
-	let evt = e || e.target, el = evt.target, a = $(el).closest('a'), mensaje = '';
+	let el = e.target, a = $(el).closest('a'), mensaje = '';
 	let data = (tablaUser.row(a).child.isShown())? tablaUser.row(a).data() : tablaUser.row($(el).parents('tr')).data();
 	
 	if($(a).hasClass('activar')){
@@ -204,8 +204,7 @@ $('#form_usuarios').validate({
 });
 
 $('#asignarPer').bind('click', function(e){
-	let evt = e || e.target;
-	evt.preventDefault();
+	e.preventDefault();
 	$.ajax({
 		data: $('#form_permisos').serialize(),
 		url: base_url + 'usuarios/permisos/asignar',

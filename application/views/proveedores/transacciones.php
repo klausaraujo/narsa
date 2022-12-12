@@ -80,7 +80,7 @@
 											<div class="col-12"><a class="btn btn-narsa my-3" href="<?=base_url()?>proveedores/transacciones/informe" target="_blank">Estado de Cuenta</a></div>
 											<div class="table-responsive" style="overflow-x:scroll">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto col-12 px-0"></table>
 											</div>
 										</div>
 									</div>

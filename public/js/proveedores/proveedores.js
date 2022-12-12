@@ -65,7 +65,7 @@ $(document).ready(function (){
 							'<a title="Anular Operaci&oacute;n" '+((data.activo === '1' || btnAnulaOp)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
 							'&op=operaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>';
-						return btnAccion;
+						return (data.idtipooperacion === '6')? '' : btnAccion;
 					}
 				},
 				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
@@ -106,7 +106,7 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
-				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				/*{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },*/
 				{
 					data: null,
 					orderable: false,
@@ -188,13 +188,13 @@ $(document).ready(function (){
 				},
 				{
 					render: function(data,type,full,meta){
-						return '<input type="input" placeholder="0" value="" class="form-control input-sm cantidad" />';
+						return '<input type="text" placeholder="0" value="" class="form-control input-sm cantidad" disabled />';
 					},
 					orderable: false,
 				},
 				{
 					render: function(data,type,full,meta){
-						return '<input type="input" placeholder="0" id="costo" value="" class="form-control input-sm costo" />';
+						return '<input type="text" placeholder="0" id="costo" value="" class="form-control input-sm costo" disabled />';
 					},
 					orderable: false,
 				},
@@ -217,7 +217,7 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
-				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				/*{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },*/
 				{
 					data: null,
 					orderable: false,
@@ -472,6 +472,20 @@ $('#generarIng').bind('click',function(){
 			}
 		});
 	}else{ alert('No hay registros en el detalle'); }
+});
+
+$('#tablaValDetalle').bind('click','input',function(e){
+	let evt = e.target, inputs = $(evt).closest('tr').find('input'), i = 0;
+	//console.log(inputs);
+	if($(evt).attr('type') === 'checkbox'){
+		$.each( inputs, function(i,e){
+			if($(e).attr('type') === 'text'){
+				if($(evt).prop('checked') === true){ $(e).prop('disabled', false); }
+				else $(e).prop('disabled', true);
+			}
+			i++;
+		});
+	}
 });
 
 $('#guardaVal').bind('click',function(){
