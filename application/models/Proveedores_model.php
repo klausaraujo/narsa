@@ -334,4 +334,12 @@ class Proveedores_model extends CI_Model
 			return $result->idtransaccion;
 		}else return 0;
 	}
+	public function tieneValorizacion($where)
+	{
+		$this->db->select('idguia');
+		$this->db->from('valorizacion_detalle');
+		$this->db->where($where);
+		$this->db->limit(1);
+		return $this->db->get();
+	}
 }

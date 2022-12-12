@@ -135,6 +135,9 @@ class Main extends CI_Controller
 			foreach($this->usuario->sucursales as $sucursal):
 				if($row->idsucursal === $sucursal->idsucursal){
 					$filtro[$i] = $row;
+					$valoriz = $this->Proveedores_model->tieneValorizacion(['idguia' => $row->idguia,'activo' => '1']);
+					if($valoriz->num_rows() > 0) $filtro[$i]->anula = '0';
+					else $filtro[$i]->anula = '1';
 					$i++;
 				}
 			endforeach;			

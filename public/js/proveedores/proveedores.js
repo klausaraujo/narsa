@@ -112,8 +112,8 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Editar Gu&iacute;a Ingreso" '+((data.activo === '1' || btnEdtGuia)?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+
-							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia)?'disabled':'')+'" data-target="#modalEditIngresos" '+
+						'<a title="Editar Gu&iacute;a Ingreso" '+((data.activo === '1' || btnEdtGuia || data.anula === '1')?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+
+							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia || data.anula === '0')?'disabled':'')+'" data-target="#modalEditIngresos" '+
 							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
 							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia)?'disabled':'')+' anular" data-anula="ingresos" >'+
@@ -418,6 +418,7 @@ $('body').bind('click','a',function(e){
 						else if(anula === 'ingresos') tablaReg.ajax.reload();
 						else if(anula === 'valorizaciones'){
 							tablaVal.ajax.reload();
+							tablaReg.ajax.reload();
 							tablaOp.ajax.reload();
 						}
 					}else{
@@ -530,8 +531,9 @@ $('#guardaVal').bind('click',function(){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					//tablaReg.ajax.reload();
-					tablaOp.ajax.reload();
 					tablaVal.ajax.reload();
+					tablaReg.ajax.reload();
+					tablaOp.ajax.reload();
 					$('#modalValorizaciones').modal('hide');
 				}
 				$('.resp').html(data.msg);
