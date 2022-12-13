@@ -288,6 +288,8 @@ numero_documento varchar(10) NOT NULL,
 RUC varchar(11) NOT NULL,
 nombre varchar(100) NOT NULL,
 domicilio varchar(100)NULL,
+celular varchar(9) NULL,
+correo varchar(100) NULL,
 zona varchar(30)NULL,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idproveedor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
@@ -470,7 +472,7 @@ FOREIGN KEY (idvalorizacion) REFERENCES valorizacion (idvalorizacion) ON DELETE 
 
 create view lista_movimientos_proveedor
 as
-select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,mp.idtransaccion,mp.monto,f.idfactor,f.factor * mp.monto as monto_factor,mp.fecha_vencimiento,mp.fecha_movimiento 
+select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.celular,p.correo,mp.idtransaccion,mp.monto,f.idfactor,f.factor * mp.monto as monto_factor,mp.fecha_vencimiento,mp.fecha_movimiento 
 from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on top.idtipooperacion=mp.idtipooperacion inner join sucursal as s on s.idsucursal = mp.idsucursal inner join proveedor as p on p.idproveedor = mp.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join factor as f on f.idfactor=mp.idfactor
 where mp.activo='1';
 
@@ -482,14 +484,14 @@ where ge.activo='1' and ged.activo='1';
 
 create view lista_ingresos_valorizaciones_pre
 as
-select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,ged.idarticulo,a.articulo,ged.cantidad
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.celular,p.correo,ged.idarticulo,a.articulo,ged.cantidad
 from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle as ged on ged.idguia=ge.idguia inner join articulo as a on a.idarticulo = ged.idarticulo 
 where ge.activo='1' and ged.activo='1'
 union all 
-select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,gedv.idarticulo,a.articulo,gedv.cantidad *-1
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.celular,p.correo,gedv.idarticulo,a.articulo,gedv.cantidad *-1
 from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle_valorizacion as gedv on gedv.idguia=ge.idguia inner join articulo as a on a.idarticulo = gedv.idarticulo 
 where ge.activo='1' and gedv.activo='1';
 
 create view lista_ingresos_valorizaciones_saldo
 as
-select idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,idarticulo,articulo,sum(cantidad) as cantidad from lista_ingresos_valorizaciones_pre group by idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,idarticulo,articulo;
+select idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,celular,correo,idarticulo,articulo,sum(cantidad) as cantidad from lista_ingresos_valorizaciones_pre group by idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,idarticulo,articulo;
