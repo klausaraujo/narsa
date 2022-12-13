@@ -278,12 +278,26 @@ class Main extends CI_Controller
 		echo json_encode($data);
 	}
 	public function informe(){
-		$versionphp = 7;
+		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $data = []; $suc = []; $j = 0;
+		$this->load->model('Proveedores_model');
 		
-		if(!empty($_GET)){
+		if($this->input->get('op') !== 'edocta'){
 			$html = $this->load->view('proveedores/guia-pdf', null, true);
 		}else{
-			$html = $this->load->view('proveedores/edo-cta', null, true);
+			$lista = $this->Proveedores_model->edoctaProv(['idproveedor' => $id]);
+			foreach($lista as $row):
+				foreach($this->usuario->sucursales as $sucursal):
+					if($row->idsucursal === $sucursal->idsucursal){
+						$filtro[$i] = $row;
+						$i++;
+					}
+					$suc[$j] = $sucursal;
+					$j++;
+				endforeach;
+			endforeach;
+			
+			$html = $this->load->view('proveedores/edo-cta', ['lista' => $filtro,'sucursales'=>$suc], true);
+			//var_dump($filtro);
 		}
 		if(floatval(phpversion()) < $versionphp){
 			$this->load->library('dom');

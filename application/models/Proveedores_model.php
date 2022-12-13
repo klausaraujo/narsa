@@ -342,4 +342,13 @@ class Proveedores_model extends CI_Model
 		$this->db->limit(1);
 		return $this->db->get();
 	}
+	public function edoctaProv($where)
+	{
+		$this->db->select('*');
+		$this->db->from('lista_movimientos_proveedor');
+		$this->db->where($where);
+		$this->db->order_by('idsucursal', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }
