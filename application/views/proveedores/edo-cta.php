@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
     <head>
+	<title>Edo. de Cuenta al <?=date('d-m-Y')?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
             /** Margenes de la pagina en 0 **/
@@ -130,7 +131,7 @@
 	?>
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=$row->sucursal?></td><td colspan="4"><?=$row->tipo_operacion?></td><td colspan="2"><?=$fecha?></td>
-					<td><?=$row->idmovimiento?></td><td colspan="2" style="text-align:right"><?=number_format($row->monto, 2, '.', ',')?></td>
+					<td><?=sprintf("%'05s",$row->idtransaccion)?></td><td colspan="2" style="text-align:right"><?=number_format($row->monto, 2, '.', ',')?></td>
 				</tr>	
 	<?
 					$i++;

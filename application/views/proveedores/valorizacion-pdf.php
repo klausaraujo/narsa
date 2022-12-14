@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
     <head>
+	<title>Valorizaci&oacute;n Nro <?=(!empty($lista))?sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_valorizacion:'';?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
             /** Margenes de la pagina en 0 **/
@@ -146,7 +147,7 @@
 			foreach($lista as $row):
 	?>
 				<tr>
-					<td><?=$i?></td><td colspan="2"><?=$row->numero.'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td><?=$i?></td><td colspan="2"><?=sprintf("%'05s",$row->numero).'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
 					<td colspan="2" style="text-align:right"><?=number_format($row->saldo,2,'.',',')?></td><td style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td>
 					<td style="text-align:right"><?=number_format($row->costo,2,'.',',')?></td><td colspan="2" style="text-align:right"><?=number_format($row->importe,2,'.',',')?></td>
 				</tr>

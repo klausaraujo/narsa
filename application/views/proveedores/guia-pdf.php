@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
     <head>
+	<title>Gu&iacute;a Nro <?=(!empty($lista))?sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_guia:'';?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
             /** Margenes de la pagina en 0 **/
