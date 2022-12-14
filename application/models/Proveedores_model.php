@@ -227,7 +227,7 @@ class Proveedores_model extends CI_Model
 			return true;
 		}
 	}
-	public function anulaValorizacion($where,$data,$idtran){
+	public function anulaValorizacion($where,$data,$idtran,$dataTran){
 		$this->db->trans_begin();
 		$this->db->db_debug = FALSE;
 		$this->db->set($data,TRUE);
@@ -246,7 +246,7 @@ class Proveedores_model extends CI_Model
 		$this->db->where($idtran);
 		$this->db->update('transacciones');
 		
-		$this->db->set($data,TRUE);
+		$this->db->set($dataTran,TRUE);
 		$this->db->where($idtran);
 		$this->db->update('movimientos_proveedor');
 		
@@ -333,6 +333,17 @@ class Proveedores_model extends CI_Model
 		if($result->num_rows() > 0){
 			$result = $result->row();
 			return $result->idtransaccion;
+		}else return 0;
+	}
+	public function traeValorizByIdTran($where)
+	{
+		$this->db->select('idvalorizacion');
+		$this->db->from('valorizacion');
+		$this->db->where($where);
+		$result = $this->db->get();
+		if($result->num_rows() > 0){
+			$result = $result->row();
+			return $result->idvalorizacion;
 		}else return 0;
 	}
 	public function tieneValorizacion($where)

@@ -78,6 +78,7 @@ $route['proveedores/transacciones/edo_cta'] = 'proveedores/main/informes';
 $route['proveedores/ingresos/guia_ingreso'] = 'proveedores/main/informes';
 $route['proveedores/ingresos/lista'] = 'proveedores/main/listaIngresos';
 $route['proveedores/ingresos/nuevo'] = 'proveedores/main/nuevoIngreso';
+$route['proveedores/ingresos/anular'] = 'proveedores/main/anulaOp';
 $route['proveedores/ingresos/editar'] = 'proveedores/main/editaingreso';
 $route['proveedores/valorizaciones/listaDetalle'] = 'proveedores/main/listaValorizacionDetalle';
 $route['proveedores/valorizaciones/nuevo'] = 'proveedores/main/registrarValorizacion';

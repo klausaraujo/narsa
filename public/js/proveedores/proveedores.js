@@ -62,10 +62,14 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
+							(data.idtipooperacion !== '6')?
 							'<a title="Anular Operaci&oacute;n" '+((data.activo === '1' || btnAnulaOp)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
-							'&op=operaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
-							'<i class="far fa-trash" aria-hidden="true"></i></a>';
-						return (data.idtipooperacion === '6')? '' : btnAccion;
+								'&op=operaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
+								'<i class="far fa-trash" aria-hidden="true"></i></a>':
+							'<a title="Anular Operaci&oacute;n" '+((data.activo === '1' || btnAnulaOp)?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+
+								'&op=valorizop"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
+								'<i class="far fa-trash" aria-hidden="true"></i></a>';
+						return btnAccion;
 					}
 				},
 				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
@@ -115,7 +119,7 @@ $(document).ready(function (){
 						'<a title="Editar Gu&iacute;a Ingreso" '+((data.activo === '1' || btnEdtGuia || data.anula === '1')?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+
 							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia || data.anula === '0')?'disabled':'')+'" data-target="#modalEditIngresos" '+
 							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
+						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/ingresos/anular?id='+data.idguia+
 							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia)?'disabled':'')+' anular" data-anula="ingresos" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/guia_ingreso?id='+data.idguia+
@@ -428,9 +432,8 @@ $('body').bind('click','a',function(e){
 				success: function (data) {
 					if (parseInt(data.status) === 200){
 						$('html, body').animate({ scrollTop: 0 }, 'fast');
-						if(anula === 'operaciones') tablaOp.ajax.reload();
-						else if(anula === 'ingresos') tablaReg.ajax.reload();
-						else if(anula === 'valorizaciones'){
+						if(anula === 'ingresos') tablaReg.ajax.reload();
+						else{
 							tablaVal.ajax.reload();
 							tablaReg.ajax.reload();
 							tablaOp.ajax.reload();

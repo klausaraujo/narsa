@@ -230,7 +230,8 @@ class Main extends CI_Controller
 		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s');
 		
 		if($op === 'operaciones'){
-			$anula = $this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0],['idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s'),'activo'=>0]);
+			$anula = $this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0],['idusuario_anulacion'=>$this->usuario->idusuario,
+																	'fecha_anulacion'=>date('Y-m-d H:i:s'),'activo'=>0]);
 			if($anula){
 				$message = 'Transacci&oacute;n anulada';
 				$status = 200;
@@ -241,9 +242,17 @@ class Main extends CI_Controller
 				$message = 'Gu&iacute;a Anulada';
 				$status = 200;
 			}
-		}else if($op === 'valorizaciones'){
-			$idtran = $this->Proveedores_model->traeTranByIdVal(['idvalorizacion'=>$id]);
-			$anula = $this->Proveedores_model->anulaValorizacion(['idvalorizacion'=>$id],['activo'=>0],['idtransaccion'=>$idtran]);
+		}else if($op === 'valorizaciones' || $op === 'valorizop'){
+			$idtran = null;
+			if($op === 'valorizop'){
+				$idtran = $id;
+				$id = $this->Proveedores_model->traeValorizByIdTran(['idtransaccion'=>$idtran]);
+			}else{
+				$idtran = $this->Proveedores_model->traeTranByIdVal(['idvalorizacion'=>$id]);
+			}
+			
+			$anula = $this->Proveedores_model->anulaValorizacion(['idvalorizacion'=>$id],['activo'=>0],['idtransaccion'=>$idtran],
+																	['idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s'),'activo'=>0]);
 			if($anula){
 				$message = 'Valorizaci&oacute;n Anulada';
 				$status = 200;
