@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html lang="es">
     <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
@@ -24,22 +25,17 @@
                 height: 2.3cm;
 				width: 100%;
             }
+			#footer{font-size: 8px;height: 50px;border-top:0.5px solid #AAA;width:20.5cm;line-height:1em}
 			
 			/** Reglas del contenido **/
-			#contenido{width:18cm;}
-			#footer{font-size: 8px;height: 50px;border-top:0.5px solid #AAA;width:20.5cm;line-height:1em}
-			/*table .acciones{border:2px solid burlywood; border-collapse: collapse}
-			.acciones td{border:2px solid burlywood; border-collapse: collapse}
-			table .fotos{width:16cm;margin-bottom:20px}
-			.galeria{margin:auto;width:304px;}
-			* { text-transform: uppercase; }*/
+			/* *{ text-transform: uppercase; }*/
 			*{ font-size: 14px; }
 			.datos{font-size: 10px;}
 			.espaciocm{ height:1cm; }
+			.espaciomm{ height:7mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
-			table .acciones{border:2px solid burlywood; border-collapse: collapse}
-			.acciones td{border:2px solid burlywood; border-collapse: collapse}
-			.acciones th{border:2px solid burlywood; border-collapse: collapse}
+			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse}
+			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse}
         </style>
     </head>
     <body>
@@ -50,8 +46,8 @@
         </header>
 
         <footer>
-			<table id="footer" cellspacing="1" style="">
-				<!--<tr>
+			<!--<table id="footer" cellspacing="1" style="">
+				<tr>
 					<td style="padding: 3px;" rowspan="">
 						<img src="<?=base_url()?>public/images/informes/footer.png" width="70px" />
 					</td>
@@ -70,58 +66,88 @@
 					actualizado por: <br><span style="font-weight:bold">A</span>
 					</td>
 				
-				</tr>-->
-			</table>
+				</tr>
+			</table>-->
         </footer>
 
         <!-- Etiqueta principal del pdf -->
         <main>
             <table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm">
 				<tr><td><b>REPORTE DE ESTADO DE CUENTA DE PROVEEDORES</b></td></tr>
-				<tr><td><b>ACTUALIZADO AL: <?=date('d/m/Y')?></b></td></tr>
+				<tr><td><b>ACTUALIZADO AL: <span style="color:blue"><?=date('d/m/Y')?></span></b></td></tr>
 				<tr><td class="espaciocm"></td></tr>
 			</table>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->tipo_documento : '';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->numero_documento : '';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->nombre : '';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td>DOMICILIO</td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td>ZONA</td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>
-			<div style="margin-top:0.5cm;margin-bottom:0.5cm"></div>
+			<div class="espaciocm"></div>
+	<?
+		foreach($sucursales as $s):
+			$mto = 0; $essucursal = false; $i = 0;
+			foreach($lista as $row):
+				if($row->idsucursal === $s){
+					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto); $essucursal = true;
+					//number_format($numero, 2, ",", ".");
+					if($i === 0){
+	?>
+	
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
-				<tr><th bgcolor="#DAF7A6" colspan="12">DETALLE DE TRANSACCIONES DEL PROVEEDOR</th></tr>
-				<tr style="font-weight:bold;" bgcolor="#DAF7A6">
+				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE TRANSACCIONES DEL PROVEEDOR</th></tr>
+				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
 					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>
-				</tr>
+				</tr>				
+	<?
+						$i++;
+					}
+	?>
 				<tr>
-					<td colspan="10" align="right" style="font-weight:bold">TOTAL POR SUCURSAL:&nbsp;</td><td colspan="2" style="font-weight:bold"></td>
+					<td><?=$i?></td><td colspan="2"><?=$row->sucursal?></td><td colspan="4"><?=$row->tipo_operacion?></td><td colspan="2"><?=$fecha?></td>
+					<td><?=$row->idmovimiento?></td><td colspan="2" style="text-align:right"><?=number_format($row->monto, 2, '.', ',')?></td>
+				</tr>	
+	<?
+					$i++;
+				}
+			endforeach;
+			if($essucursal){
+	?>
+				<tr>
+					<td colspan="10" align="right" style="font-weight:bold">TOTAL POR SUCURSAL:&nbsp;</td><td colspan="2" style="font-weight:bold;text-align:right;color:red">
+						<?=number_format($mto, 2, '.', ',');?></td>
 				</tr>					
 			</table>
+			<div class="espaciomm"></div>
+	<?		
+			}
+		endforeach;
+	?>
         </main>
     </body>
 </html>

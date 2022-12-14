@@ -45,6 +45,18 @@
 								</div>
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
+										<span class="col-sm-3" style="display:flex;align-items:center"><label for="celular">Celular:</label></span>
+										<input type="text" class="form-control col-sm-5 celular" name="celular" id="celular" placeholder="N&uacute;mero Celular" value="" />
+									</div>
+								</div>
+								<div class="col-sm-12 my-1">
+									<div class="row my-1">
+										<span class="col-sm-3" style="display:flex;align-items:center"><label for="correo">Correo:</label></span>
+										<input type="text" class="form-control col-sm-5 celular" name="correo" id="correo" placeholder="Correo Electr&oacute;nico" value="" />
+									</div>
+								</div>
+								<div class="col-sm-12 my-1">
+									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="zona">Zona:</label></span>
 										<input type="text" class="form-control col-sm-5 zona" name="zona" id="zona" placeholder="Zona" value="" onKeyUp="mayus(this)" />
 									</div>

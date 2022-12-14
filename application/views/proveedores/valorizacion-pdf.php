@@ -73,19 +73,30 @@
         <!-- Etiqueta principal del pdf -->
         <main>
             <table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm">
-				<tr><td><b>REPORTE DE INGRESO DE PRODUCTOS A ALMAC&Eacute;N</b></td></tr>
+				<tr><td><b>REPORTE DE VALORIZACI&Oacute;N DE PRODUCTOS POR PROVEEDOR</b></td></tr>
 				<tr><td class="espaciomm"></td></tr>
 				<tr><td>
-					<b>GU&Iacute;A DE INGRESO NRO 
-						<span style="color:blue"><? if(!empty($lista)) echo sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_guia; ?></span>
+					<b>VALORIZACI&Oacute;N NRO 
+						<span style="color:blue"><? if(!empty($lista)) echo sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_valorizacion; ?></span>
 					</b></td></tr>
 				<tr><td class="espaciocm"></td></tr>
 			</table>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
-					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Emisi&oacute;n Gu&iacute;a:</td>
+					<td colspan="3" style="text-align:left;font-weight:bold;">N&uacute;mero Operaci&oacute;n:</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?php if(!empty($lista)) echo date_format(date_create($lista[0]->fecha),'d-m-Y');?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><? if(!empty($lista)) echo sprintf("%'07s",$lista[0]->idtransaccion);?></td></tr></table>
+					</td>
+					<td colspan="1" style="width:1.5cm"></td>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Operaci&oacute;n:</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?php if(!empty($lista)) echo date_format(date_create($lista[0]->fecha),'d-m-Y'); ?></td></tr></table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Valorizaci&oacute;n:</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?php if(!empty($lista)) echo date_format(date_create($lista[0]->fecha),'d-m-Y'); ?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Sucursal:</td>
@@ -125,17 +136,19 @@
 			</table>
 			<div class="espaciocm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
-				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
+				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">C&oacute;digo Art&iacute;culo</td><td colspan="7">Art&iacute;culo Ingresado</td><td colspan="2">Cantidad Kg.</td>
+					<td>&Iacute;tem</td><td colspan="2">N&uacute;mero Gu&iacute;a</td><td colspan="3">Art&iacute;culo Valorizado</td><td colspan="2">Saldo</td>
+					<td>Cantidad</td><td>Costo</td><td colspan="2">Importe</td>
 				</tr>
 	<?
 			$i = 1;
 			foreach($lista as $row):
 	?>
 				<tr>
-					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="7" style="text-align:left">&nbsp;<?=$row->articulo?></td>
-					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td>
+					<td><?=$i?></td><td colspan="2"><?=$row->numero.'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->saldo,2,'.',',')?></td><td style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td>
+					<td style="text-align:right"><?=number_format($row->costo,2,'.',',')?></td><td colspan="2" style="text-align:right"><?=number_format($row->importe,2,'.',',')?></td>
 				</tr>
 	<?
 				$i++;

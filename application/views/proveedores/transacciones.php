@@ -78,11 +78,11 @@
 									<div class="container-fluid my-2">
 										<div class="row">
 											<div class="col-12">
-												<a class="btn btn-narsa my-3" href="<?=base_url()?>proveedores/transacciones/informe?id=<?=$this->input->get('id')?>&op=edocta" 
+												<a class="btn btn-narsa my-3" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
 													target="_blank">Estado de Cuenta</a></div>
 											<div class="table-responsive" style="overflow-x:scroll">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto col-12 px-0"></table>
+												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>
 										</div>
 									</div>
@@ -250,7 +250,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelVal">Cancelar</button>
-											<button class="btn btn-narsa" id="guardaVal">Guardar Valorizaci&oacute;n</button>
+											<button class="btn btn-narsa" id="guardaVal">Valorizar Producto</button>
 										</div>
 									</div>
 								</div>

@@ -47,6 +47,8 @@ class Main extends CI_Controller
 				'RUC' => $this->input->post('ruc'),
 				'nombre' => $this->input->post('nombres'),
 				'domicilio' => $this->input->post('direccion'),
+				'celular' => $this->input->post('celular'),
+				'correo' => $this->input->post('correo'),
 				'zona' => $this->input->post('zona'),
 				//'activo' => 1,
 			);
@@ -89,8 +91,8 @@ class Main extends CI_Controller
 		$hValorizaciones = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Valorizaci&oacute;n', 'targets' => 2],
 			'3'=>['title' => 'Nro. Valorizaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-			'9'=>['targets' => 1, 'visible' => false],
+			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
+			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 1, 'visible' => false],
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
@@ -112,8 +114,8 @@ class Main extends CI_Controller
 		$lista = $this->Proveedores_model->listaOperaciones(['mp.idproveedor' => $id]);
 		$filtro = []; $i = 0;
 		
-		foreach($lista as $row):
-			foreach($this->usuario->sucursales as $sucursal):
+		foreach($this->usuario->sucursales as $sucursal):
+			foreach($lista as $row):
 				if($row->idsucursal === $sucursal->idsucursal){
 					$filtro[$i] = $row;
 					$i++;
@@ -131,8 +133,8 @@ class Main extends CI_Controller
 		$lista = $this->Proveedores_model->listaIngresos(['ge.idproveedor' => $id]);
 		$filtro = []; $i = 0;
 		
-		foreach($lista as $row):
-			foreach($this->usuario->sucursales as $sucursal):
+		foreach($this->usuario->sucursales as $sucursal):
+			foreach($lista as $row):
 				if($row->idsucursal === $sucursal->idsucursal){
 					$filtro[$i] = $row;
 					$valoriz = $this->Proveedores_model->tieneValorizacion(['idguia' => $row->idguia,'activo' => '1']);
@@ -153,8 +155,8 @@ class Main extends CI_Controller
 		$lista = $this->Proveedores_model->listaValorizaciones(['va.idproveedor' => $id]);
 		$filtro = []; $i = 0;
 		
-		foreach($lista as $row):
-			foreach($this->usuario->sucursales as $sucursal):
+		foreach($this->usuario->sucursales as $sucursal):
+			foreach($lista as $row):
 				if($row->idsucursal === $sucursal->idsucursal){
 					$filtro[$i] = $row;
 					$i++;
@@ -277,28 +279,42 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	public function informe(){
-		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $data = []; $suc = []; $j = 0;
+	public function informes(){
+		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null;
 		$this->load->model('Proveedores_model');
 		
-		if($this->input->get('op') !== 'edocta'){
-			$html = $this->load->view('proveedores/guia-pdf', null, true);
-		}else{
+		if($this->input->get('op') === 'guiaing'){
+			$lista = $this->Proveedores_model->guiaProv(['idguia' => $id]);
+			$html = $this->load->view('proveedores/guia-pdf', ['lista' => $lista], true);
+			//$html = $this->load->view('proveedores/guia-pdf', null, true);
+			//var_dump($lista);
+		}elseif($this->input->get('op') === 'edocta'){
+			$j = 0;	$suc = [];
 			$lista = $this->Proveedores_model->edoctaProv(['idproveedor' => $id]);
-			foreach($lista as $row):
-				foreach($this->usuario->sucursales as $sucursal):
+			foreach($this->usuario->sucursales as $sucursal):
+				foreach($lista as $row):
 					if($row->idsucursal === $sucursal->idsucursal){
 						$filtro[$i] = $row;
 						$i++;
 					}
-					$suc[$j] = $sucursal;
-					$j++;
 				endforeach;
+				$suc[$j] = $sucursal->idsucursal;
+				$j++;
 			endforeach;
 			
 			$html = $this->load->view('proveedores/edo-cta', ['lista' => $filtro,'sucursales'=>$suc], true);
-			//var_dump($filtro);
+		
+		}elseif($this->input->get('op') === 'valorizdet'){
+			$lista = $this->Proveedores_model->valorizProv(['idvalorizacion' => $id]);
+			
+			foreach($lista as $row):
+				$saldos = $this->Proveedores_model->saldoValorizaciones(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
+				if(!empty($saldos))$row->saldo = $saldos[$i]->cantidad;
+			endforeach;
+			$html = $this->load->view('proveedores/valorizacion-pdf', ['lista' => $lista], true);
+			//var_dump($lista);
 		}
+		
 		if(floatval(phpversion()) < $versionphp){
 			$this->load->library('dom');
 			$this->dom->generate("portrait", "informe", $html, "Informe");

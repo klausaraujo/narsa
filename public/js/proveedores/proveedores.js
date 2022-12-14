@@ -76,7 +76,7 @@ $(document).ready(function (){
 						let number = parseFloat(data);
 						switch(row.activo){
 							case '1': return number.toLocaleString('es-PE'); break;
-							case '0': return '<span class="text-danger">'+number.toLocaleString('es-VE')+'</span>'; break;
+							case '0': return '<span class="text-danger">'+number.toLocaleString('es-PE')+'</span>'; break;
 						}
 					}
 				},
@@ -118,8 +118,8 @@ $(document).ready(function (){
 						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idguia+
 							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia)?'disabled':'')+' anular" data-anula="ingresos" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
-						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/verguia?id='+data.idguia+
-							'"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
+						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/guia_ingreso?id='+data.idguia+
+							'&op=guiaing"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
@@ -225,13 +225,27 @@ $(document).ready(function (){
 						let btnAccion =
 						'<a title="Anular Valorizaciones" '+(data.activo === '1'?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idvalorizacion+
 							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="valorizaciones" >'+
-							'<i class="far fa-trash" aria-hidden="true"></i></a>';
+							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+						'<a title="Ver Detalle Valorizaci&oacute;n" '+(data.activo === '1'?'href="'+base_url+'proveedores/valorizaciones/valoriz_pdf?id='+data.idvalorizacion+
+							'&op=valorizdet"':'')+' class="bg-info btnTable '+(data.activo === '0'?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
+							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
 				{ data: 'idvalorizacion' },{ data: 'anio_valorizacion' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
 				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'nombre' },{ data: 'sucursal' },
+				{ 
+					data: 'monto',
+					className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = parseFloat(data);
+						switch(row.activo){
+							case '1': return number.toLocaleString('es-PE'); break;
+							case '0': return '<span class="text-danger">'+number.toLocaleString('es-PE')+'</span>'; break;
+						}
+					}
+				},
 				{
 					data: 'activo',
 					render: function(data){
@@ -524,7 +538,7 @@ $('#guardaVal').bind('click',function(){
 			},
 			success: function (data) {
 				console.log(data);
-				$('#guardaVal').html('Generar Ingreso');
+				$('#guardaVal').html('Valorizar Producto');
 				$('#guardaVal').removeClass('disabled');
 				$('#cancelVal').removeClass('disabled');
 				if (parseInt(data.status) === 200){

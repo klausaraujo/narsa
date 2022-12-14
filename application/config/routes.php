@@ -74,8 +74,8 @@ $route['proveedores/transacciones'] = 'proveedores/main/transacciones';
 $route['proveedores/transacciones/lista'] = 'proveedores/main/listaTransacciones';
 $route['proveedores/transacciones/operaciones'] = 'proveedores/main/registraOp';
 $route['proveedores/transacciones/anular'] = 'proveedores/main/anulaOp';
-$route['proveedores/transacciones/informe'] = 'proveedores/main/informe';
-$route['proveedores/ingresos/verguia'] = 'proveedores/main/informe';
+$route['proveedores/transacciones/edo_cta'] = 'proveedores/main/informes';
+$route['proveedores/ingresos/guia_ingreso'] = 'proveedores/main/informes';
 $route['proveedores/ingresos/lista'] = 'proveedores/main/listaIngresos';
 $route['proveedores/ingresos/nuevo'] = 'proveedores/main/nuevoIngreso';
 $route['proveedores/ingresos/editar'] = 'proveedores/main/editaingreso';
@@ -83,6 +83,7 @@ $route['proveedores/valorizaciones/listaDetalle'] = 'proveedores/main/listaValor
 $route['proveedores/valorizaciones/nuevo'] = 'proveedores/main/registrarValorizacion';
 $route['proveedores/valorizaciones/lista'] = 'proveedores/main/listaValorizaciones';
 $route['proveedores/valorizaciones/anular'] = 'proveedores/main/anulaOp';
+$route['proveedores/valorizaciones/valoriz_pdf'] = 'proveedores/main/informes';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

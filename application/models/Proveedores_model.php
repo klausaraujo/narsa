@@ -132,10 +132,11 @@ class Proveedores_model extends CI_Model
     }
 	public function listaValorizaciones($data)
     {
-        $this->db->select('va.*,su.sucursal,pr.nombre');
+        $this->db->select('va.*,su.sucursal,pr.nombre,monto');
         $this->db->from('valorizacion va');
 		$this->db->join('sucursal su','su.idsucursal = va.idsucursal');
 		$this->db->join('proveedor pr','pr.idproveedor = va.idproveedor');
+		$this->db->join('transacciones tr','tr.idtransaccion = va.idtransaccion');
 		$this->db->where($data);
 		$this->db->order_by('va.idvalorizacion', 'desc');
         $result = $this->db->get();
@@ -348,6 +349,33 @@ class Proveedores_model extends CI_Model
 		$this->db->from('lista_movimientos_proveedor');
 		$this->db->where($where);
 		$this->db->order_by('idsucursal', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function guiaProv($where)
+	{
+		$this->db->select('*');
+		$this->db->from('lista_ingresos_proveedores');
+		$this->db->where($where);
+		$this->db->order_by('idarticulo', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function valorizProv($where)
+	{
+		$this->db->select('*');
+		$this->db->from('lista_valorizaciones_proveedores');
+		$this->db->where($where);
+		$this->db->order_by('numero', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function saldoValorizaciones($where)
+	{
+		$this->db->select('idarticulo,cantidad');
+		$this->db->from('lista_ingresos_valorizaciones_saldo');
+		$this->db->where($where);
+		$this->db->order_by('idarticulo', 'asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
