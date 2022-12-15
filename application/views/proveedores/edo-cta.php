@@ -66,7 +66,7 @@
 				</tr>
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
-					<span style="font-size:10;font-weight:bold;">Usuario: admin </td>
+					<span style="font-size:10;font-weight:bold;">Usuario: <? if($usuario = json_decode($this->session->userdata('user'))); echo $usuario->usuario;?></td>
 				</tr>
 				
 			</table>
