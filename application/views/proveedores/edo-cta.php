@@ -37,6 +37,7 @@
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse}
 			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse}
+			table.datos td{ font-size:0.85em; overflow:hidden;}
         </style>
     </head>
     <body>
@@ -92,6 +93,17 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->celular : '&nbsp;';?></td></tr></table>
+					</td>
+					<td colspan="1" style="width:1.5cm"></td>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->correo : '&nbsp;';?></td></tr></table>
+					</td>
+				</tr>
+				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
 						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->nombre : '&nbsp;';?></td></tr></table>
@@ -116,7 +128,7 @@
 			$mto = 0; $essucursal = false; $i = 0;
 			foreach($lista as $row):
 				if($row->idsucursal === $s){
-					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto); $essucursal = true;
+					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto_factor); $essucursal = true;
 					//number_format($numero, 2, ",", ".");
 					if($i === 0){
 	?>
@@ -132,7 +144,8 @@
 	?>
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=$row->sucursal?></td><td colspan="4"><?=$row->tipo_operacion?></td><td colspan="2"><?=$fecha?></td>
-					<td><?=sprintf("%'05s",$row->idtransaccion)?></td><td colspan="2" style="text-align:right"><?=number_format($row->monto, 2, '.', ',')?></td>
+					<td><?=sprintf("%'05s",$row->idtransaccion)?></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->monto, 2, '.', ',')?></td>
 				</tr>	
 	<?
 					$i++;
@@ -141,8 +154,19 @@
 			if($essucursal){
 	?>
 				<tr>
-					<td colspan="10" align="right" style="font-weight:bold">TOTAL POR SUCURSAL:&nbsp;</td><td colspan="2" style="font-weight:bold;text-align:right;color:red">
-						<?=number_format($mto, 2, '.', ',');?></td>
+					<td colspan="10" align="right" style="font-weight:bold">TOTAL POR SUCURSAL:&nbsp;</td>
+					<td colspan="2" style="font-weight:bold;text-align:right">
+						<?
+							$formatmto = number_format($mto, 2, '.', ',');
+							if($mto == 0){
+								echo '<span style="color:green;">'.$formatmto.'</span>';
+							}elseif($mto > 0){
+								echo '<span style="color:blue;">'.$formatmto.'</span>';
+							}elseif($mto < 0){
+								echo '<span style="color:red;">'.$formatmto.'</span>';
+							}
+						?>
+					</td>
 				</tr>					
 			</table>
 			<div class="espaciomm"></div>
