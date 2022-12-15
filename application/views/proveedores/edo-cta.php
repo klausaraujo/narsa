@@ -42,33 +42,34 @@
     <body>
         <!-- Defina bloques de encabezado y pie de página antes de su contenido -->
         <header>
-            <!--<img src="<?=base_url()?>public/images/informes/header.png" width="100%" />
-			<hr style="border:2px burlywood;border-style:double;width:100%;">-->
+            
+			<table id="header" style="width:100%;solid #0000ff;background-color:#BEBEBE" cellspacing="1" >
+				<tr>
+					<td style="aling:center;color:#600000;text-align:center;" >
+					<span style="font-size:15;font-weight:bold;"> NEGOCIACIONES AGROINDUSTRIAL AREVALO S.A. - NARSA </span>
+				</td>
+				</tr>
+				<tr>
+					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
+					<span style="font-size:10;font-weight:bold;">Sistema Integrado de Gestión Financiera y Administrativa Versión 3.0 </td>
+				</tr>
+				
+			</table>
         </header>
 
         <footer>
-			<!--<table id="footer" cellspacing="1" style="">
+		<table id="footer" style="width:100%;solid #0000ff;background-color:#BEBEBE"  >
 				<tr>
-					<td style="padding: 3px;" rowspan="">
-						<img src="<?=base_url()?>public/images/informes/footer.png" width="70px" />
-					</td>
-					<td>
-						jefe del coes<br><br>coordinador coes<br><br>
-					</td>
-					<td colspan="3">
-						<span style="font-weight:bold">rosendo leoncio, serna rom&aacute;n</span><br>ministro de educaci&oacute;n<br>
-						<span style="font-weight:bold">carlos alberto, malpica coronado</span><br>jefe de la oficina de defensa nacional y de gestion del riesgo de desastres
-					</td>
-					<td colspan="2">
-						odenaged_informa@minedu.gob.pe<br>av. rep&uacute;blica de colombia nº 710 - san isidro<br>tel&eacute;fono	: 615-5854, 615-5800<br>
-						anexo	: 26760/26741<br>celular: 989183571 / 989183584
-					</td>
-					<td colspan="2">registrado por: <br><span style="font-weight:bold">A</span><br>
-					actualizado por: <br><span style="font-weight:bold">A</span>
-					</td>
-				
+					<td style="aling:center;color:#600000;text-align:center;" >
+					<span style="font-size:10;font-weight:bold;"> Copyright © 2022 - NARSA S.A. </span>
+				</td>
 				</tr>
-			</table>-->
+				<tr>
+					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
+					<span style="font-size:10;font-weight:bold;">Usuario: admin </td>
+				</tr>
+				
+			</table>
         </footer>
 
         <!-- Etiqueta principal del pdf -->
