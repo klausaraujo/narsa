@@ -21,12 +21,12 @@
             footer {
                 position: fixed; 
                 bottom: 0cm; 
-                left: 0.5cm; 
+                left: 0cm; 
                 right: 0cm;
-                height: 2.3cm;
+                height: 1.3cm;
 				width: 100%;
             }
-			#footer{font-size: 8px;height: 50px;border-top:0.5px solid #AAA;width:20.5cm;line-height:1em}
+			#footer{font-size: 8px;height: 1.3cm;border-top:0.5px solid #AAA;width:20.5cm;line-height:1em}
 			
 			/** Reglas del contenido **/
 			/* *{ text-transform: uppercase; }*/
@@ -46,8 +46,8 @@
 			<table id="header" style="width:100%;solid #0000ff;background-color:#BEBEBE" cellspacing="1" >
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;" >
-					<span style="font-size:15;font-weight:bold;"> NEGOCIACIONES AGROINDUSTRIAL AREVALO S.A. - NARSA </span>
-				</td>
+						<span style="font-size:15;font-weight:bold;"> NEGOCIACIONES AGROINDUSTRIAL AREVALO S.A. - NARSA </span>
+					</td>
 				</tr>
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
@@ -61,8 +61,8 @@
 		<table id="footer" style="width:100%;solid #0000ff;background-color:#BEBEBE"  >
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;" >
-					<span style="font-size:10;font-weight:bold;"> Copyright © 2022 - NARSA S.A. </span>
-				</td>
+						<span style="display:flex;font-size:10;font-weight:bold;padding-top:3mm"> Copyright © 2022 - NARSA S.A. </span>
+					</td>
 				</tr>
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
