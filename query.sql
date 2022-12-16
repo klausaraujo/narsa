@@ -348,8 +348,8 @@ PRIMARY KEY (idfactor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_gene
 insert into factor (idfactor,destino,idtipooperacion,factor) values (1,1,1,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (2,1,2,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (3,1,3,1);
-insert into factor (idfactor,destino,idtipooperacion,factor) values (4,1,4,0);
-insert into factor (idfactor,destino,idtipooperacion,factor) values (5,1,5,0);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (4,1,4,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (5,1,5,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (6,1,6,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (7,1,7,1);
 
@@ -370,6 +370,7 @@ create table movimientos_proveedor(
 	idproveedor smallint(4) NOT NULL,
 	idtransaccion smallint(4) NOT NULL,
 	monto decimal(20,2) NOT NULL,
+	interes decimal(20,2) DEFAULT 0,
 	idfactor smallint(4),
 	fecha_vencimiento datetime,
 	fecha_movimiento datetime NOT NULL,
@@ -393,6 +394,7 @@ create table movimientos_caja(
 	idsucursal smallint(4) NOT NULL,
 	idtransaccion smallint(4) NOT NULL,
 	monto decimal(20,2) NOT NULL,
+	interes decimal(20,2) DEFAULT 0,
 	idfactor smallint(4),
 	fecha_vencimiento datetime,
 	fecha_movimiento datetime NOT NULL,
@@ -473,7 +475,7 @@ FOREIGN KEY (idvalorizacion) REFERENCES valorizacion (idvalorizacion) ON DELETE 
 
 create view lista_movimientos_proveedor
 as
-select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,mp.idtransaccion,mp.monto,f.idfactor,f.factor * mp.monto as monto_factor,mp.fecha_vencimiento,mp.fecha_movimiento 
+select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,mp.idtransaccion,mp.monto,mp.interes as 'tasa',mp.monto * (mp.interes/100) as 'intereses',f.idfactor,f.factor * mp.monto as monto_factor,f.factor * ((mp.monto)+mp.monto * (mp.interes/100)) as monto_factor_final,mp.fecha_vencimiento,mp.fecha_movimiento 
 from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on top.idtipooperacion=mp.idtipooperacion inner join sucursal as s on s.idsucursal = mp.idsucursal inner join proveedor as p on p.idproveedor = mp.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join factor as f on f.idfactor=mp.idfactor
 where mp.activo='1';
 
