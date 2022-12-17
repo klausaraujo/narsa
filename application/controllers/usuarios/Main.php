@@ -122,7 +122,7 @@ class Main extends CI_Controller
 	public function asignarPermisos()
 	{
 		$this->load->model('Usuarios_model');
-		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array()); $id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : array());
+		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array()); $id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
 		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
 		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500;
 		
@@ -139,10 +139,40 @@ class Main extends CI_Controller
 			endforeach;
 		}
 		
-		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray);
+		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'permisos_opcion');
 		
 		if($regPer){
 			$msg = 'Permisos Asignados';
+			$status = 200;
+		}
+		
+		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray]);
+	}
+	public function sucursalesUsuario()
+	{
+		$id = $this->input->get('id');
+		$this->load->model('Usuarios_model');
+		$sucursales = $this->Usuarios_model->buscaSucursales(['idusuario'=>$id]);
+		
+		echo json_encode(['data'=>$sucursales,'idusuario'=>$id]);
+	}
+	public function asignarSucursales()
+	{
+		$this->load->model('Usuarios_model');
+		$perSuc = (isset($_POST['usuariosSuc'])?$_POST['usuariosSuc'] : array()); $id = (isset($_POST['idusuarioSuc'])?$_POST['idusuarioSuc'] : '');
+		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los sucursales'; $status = 500;
+		
+		if(!empty($perSuc)){
+			foreach($perSuc as $row):
+				$dataArray[$i] = ['idsucursal'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+		
+		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'usuarios_sucursal');
+		
+		if($regPer){
+			$msg = 'Sucursales Asignadas';
 			$status = 200;
 		}
 		

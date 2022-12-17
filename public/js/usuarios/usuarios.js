@@ -19,10 +19,12 @@ $(document).ready(function (){
 							' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						/* Boton de Asignar Sucursales */
 						'<a title="Asignar Sucursales" '+(data.activo === '1'?'href="'+base_url+'usuarios/sucursales?id='+data.idusuario+'"':'')+
-							' class="bg-narsa btnTable '+(data.activo === '0'?'disabled':'')+' sucursales"><i class="far fa-building-shield" aria-hidden="true"></i></a>'+
+							' class="bg-narsa btnTable '+(data.activo === '0'?'disabled':'')+' sucursales" data-target="#modalSucursales" data-toggle="modal">'+
+							'<i class="far fa-building-shield" aria-hidden="true"></i></a>'+
 						/* Boton de permisos */
 						'<a title="Permisos" '+(data.activo === '1'?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
-							' class="bg-secondary btnTable '+(data.activo === '0'?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal"><i class="far fa-cog" aria-hidden="true"></i></a>'+
+							' class="bg-secondary btnTable '+(data.activo === '0'?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
+							'<i class="far fa-cog" aria-hidden="true"></i></a>'+
 						/* Boton de Reset Clave */
 						'<a title="Resetear Clave" '+(data.activo === '1'?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
 							' class="bg-info btnTable '+(data.activo === '0'?'disabled':'')+' resetclave"><i class="far fa-key" aria-hidden="true"></i></a>'+
@@ -86,6 +88,11 @@ $('#modalPermisos').on('hidden.bs.modal',function(e){
 	$('#form_ingresos select').prop('selectedIndex',0);*/
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
+});
+$('#modalSucursales').on('hidden.bs.modal',function(e){
+	$('#form_sucursales')[0].reset();
+	$('#form_sucursales input:checkbox').prop('checked',false);
+	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
 
 $('#tablaUsuarios').bind('click','a',function(e){
@@ -169,6 +176,27 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				});
 			}
 		});
+	}else if($(a).hasClass('sucursales')){
+		e.preventDefault();
+		$.ajax({
+			url: $(a).attr('href'),
+			type: 'GET',
+			dataType: 'JSON',
+			data: {},
+			error: function(xhr){ /*a.removeClass('disabled'); a.html('<i class="far fa-cog" aria-hidden="true"></i>');*/ },
+			//beforeSend: function(){},
+			success: function(data){
+				$('#idusuarioSuc').val(data.idusuario);
+				//console.log(data);
+				$.each(data.data,function(i,e){
+					$('#form_sucursales input:checkbox').each(function(){
+						if($(this).attr('name') === 'usuariosSuc[]' && e.idsucursal === $(this).val()){
+							$(this).prop('checked',true);
+						}
+					});
+				});
+			}
+		});
 	}
 });
 
@@ -208,6 +236,24 @@ $('#asignarPer').bind('click', function(e){
 	$.ajax({
 		data: $('#form_permisos').serialize(),
 		url: base_url + 'usuarios/permisos/asignar',
+		method: 'POST',
+		dataType: 'JSON',
+		error: function(xhr){},
+		beforeSend: function(){},
+		success: function(data){
+			//console.log(data);
+			//$('#mdalPermisos').modal('hide');
+			$('.resp').html(data.msg);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+		}
+	}); 
+});
+
+$('#asignarSuc').bind('click', function(e){
+	e.preventDefault();
+	$.ajax({
+		data: $('#form_sucursales').serialize(),
+		url: base_url + 'usuarios/sucursales/asignar',
 		method: 'POST',
 		dataType: 'JSON',
 		error: function(xhr){},

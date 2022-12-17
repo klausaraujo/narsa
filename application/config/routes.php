@@ -96,6 +96,8 @@ $route['usuarios/habilitar'] = 'usuarios/main/habilitar';
 $route['usuarios/reset'] = 'usuarios/main/resetear';
 $route['usuarios/permisos'] = 'usuarios/main/permisosUsuario';
 $route['usuarios/permisos/asignar'] = 'usuarios/main/asignarPermisos';
+$route['usuarios/sucursales'] = 'usuarios/main/sucursalesUsuario';
+$route['usuarios/sucursales/asignar'] = 'usuarios/main/asignarSucursales';
 
 /* Cambiar perfil del usuario */
 $route['usuario/perfil'] = 'main/perfil';

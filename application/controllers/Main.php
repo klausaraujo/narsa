@@ -34,6 +34,7 @@ class Main extends CI_Controller
 	public function usuarios()
 	{
 		$permisos = $this->Usuarios_model->permisosOpciones();
+		$sucursales = $this->Usuarios_model->sucursalesUser();
 		
 		$headers = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Documento', 'targets' => 3],
@@ -44,6 +45,7 @@ class Main extends CI_Controller
 		$data = array(
 			'permisos' => $permisos,
 			'headers' => $headers,
+			'sucursales' => $sucursales,
 		);
 		$this->load->view('main',$data);
 	}

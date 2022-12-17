@@ -91,3 +91,43 @@
 								</div>
 							</div>
 						</div>
+						<!-- Modal Sucursales -->
+						<div class="modal fade" id="modalSucursales" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h4 class="modal-title" id="myModalLabel">Asignar Sucursales</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									</div>
+									<form method="POST" id="form_sucursales">
+										<input type="hidden" id="idusuarioSuc" name="idusuarioSuc" value="" />
+										<div class="modal-body" style="overflow: hidden;">
+											<div class="row col-sm-12">
+												<div class="container">
+													<div class="row">
+														<div class="col-sm-12">
+															<div class="row my-2">
+															  <?php foreach($sucursales as $row): ?>
+																<div class="checkbox checkbox-primary col-12">
+																	<input type="checkbox" name="usuariosSuc[]" value="<?=$row->idsucursal?>" />
+																	<label for="usuariosSuc">&nbsp;&nbsp;<?=$row->sucursal?></label>
+																</div>
+																<?php endforeach; ?>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<div class="row">
+												<div class="col-md-12">
+													<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelSuc">Cancelar</button>
+													<button type="submit" class="btn btn-narsa" data-dismiss="modal" id="asignarSuc">Asignar Sucursales</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>

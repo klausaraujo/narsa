@@ -56,6 +56,15 @@ class Usuarios_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function sucursalesUser()
+	{
+		$this->db->select('*');
+		$this->db->from('sucursal');
+		$this->db->where('activo','1');
+		$this->db->order_by('idsucursal','asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 	public function buscaPermisos($data)
 	{
 		$this->db->select('*');
@@ -65,14 +74,23 @@ class Usuarios_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function registrarPer($where,$data)
+	public function buscaSucursales($data)
+	{
+		$this->db->select('*');
+		$this->db->from('usuarios_sucursal');
+		$this->db->where($data);
+		$this->db->order_by('idsucursal','asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function registrarPer($where,$data,$tabla)
 	{
 		$this->db->trans_begin();
 		
 		$this->db->where($where);
-		$this->db->delete('permisos_opcion');
-		
-		$this->db->insert_batch('permisos_opcion', $data);
+		$this->db->delete($tabla);
+		if(!empty($data))
+			$this->db->insert_batch($tabla, $data);
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
