@@ -79,7 +79,7 @@ class Main extends CI_Controller
 		$hOperaciones = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Oper.', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Intereses', 'targets' => 7],'8'=>['title' => 'Monto Total', 'targets' => 8],
+			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Inter&eacute;s', 'targets' => 7],'8'=>['title' => 'Monto Total', 'targets' => 8],
 			'9'=>['targets' => 'no-sort', 'orderable' => false],
 		);
 		$hIngresos = array(
