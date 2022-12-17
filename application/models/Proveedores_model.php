@@ -108,12 +108,8 @@ class Proveedores_model extends CI_Model
 	}
 	public function listaOperaciones($data)
     {
-        $this->db->select('mp.*,to.tipo_operacion,su.sucursal,pr.nombre,usr.usuario');
-        $this->db->from('movimientos_proveedor mp');
-		$this->db->join('tipo_operacion_proveedor to','to.idtipooperacion = mp.idtipooperacion');
-		$this->db->join('sucursal su','su.idsucursal = mp.idsucursal');
-		$this->db->join('proveedor pr','pr.idproveedor = mp.idproveedor');
-		$this->db->join('usuarios usr','usr.idusuario = mp.idusuario_registro');
+        $this->db->select('*');
+        $this->db->from('lista_movimientos_proveedor');
 		$this->db->where($data);
 		$this->db->order_by('idtransaccion', 'desc');
         $result = $this->db->get();

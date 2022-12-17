@@ -70,6 +70,14 @@
 															<label id="monto-error" class="form_error" for="monto"></label>
 														</div>
 													</div>
+													<div class="col-sm-6 mt-4 interesAjax" style="display:none">
+														<div class="row">
+															<span class="col-12" style="display:flex;align-items:center"><label for="interes">Tasa de Inter&eacute;s:</label></span>
+														</div>
+														<div class="row">
+															<input type="text" class="form-control col-sm-4 interes" maxlength="2" name="interes" id="interes" autocomplete="off" />
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>

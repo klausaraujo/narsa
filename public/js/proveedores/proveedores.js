@@ -78,13 +78,24 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){
 						let number = parseFloat(data);
-						switch(row.activo){
+						/*switch(row.activo){
 							case '1': return number.toLocaleString('es-PE'); break;
 							case '0': return '<span class="text-danger">'+number.toLocaleString('es-PE')+'</span>'; break;
-						}
+						}*/
+						return number.toLocaleString('es-PE');
 					}
 				},
-				{ data: 'fecha_registro', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
+				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ let number = parseFloat(data); return (number == 0)? '0.00' : number.toLocaleString('es-PE'); } },
+				{
+					data: 'monto_factor_final',
+					className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = parseFloat(data);
+						if(number < 0) number *= -1;
+						return number.toLocaleString('es-PE');
+					}
+				},
+				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'usuario' },
 				{
 					data: 'activo',
@@ -96,7 +107,7 @@ $(document).ready(function (){
 						}
 						return var_status;
 					}
-				},
+				},*/
 			],
 			columnDefs:headersOp, order: [],
 		});
@@ -319,14 +330,16 @@ $('#form_proveedor').validate({
 $('#form_transacciones').validate({
 	errorClass: 'form_error',
 	rules: {
-		tipoop: { required: true },
-		sucursal: { required: true },
-		monto: { required: true }
+		tipoop: { required: function () { if ($('.tipoop').css('display') != 'none') return true; else return false; } },
+		sucursal: { required: function () { if ($('.sucursal').css('display') != 'none') return true; else return false; } },
+		monto: { required: function () { if ($('.monto').css('display') != 'none') return true; else return false; } },
+		interes: { required: function () { if ($('.interes').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipoop: { required: '&nbsp;&nbsp;Debe elegir una Transacci&oacute;n' },
 		sucursal: { required: '&nbsp;&nbsp;Debe elegir la Sucursal' },
-		monto: { required: '&nbsp;&nbsp;Monto Requerido' }
+		monto: { required: '&nbsp;&nbsp;Monto Requerido' },
+		interes: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' }
 	},
 	errorPlacement: function(error, element) {
 		if (element.attr('name') == 'monto') {
@@ -350,6 +363,7 @@ $('#form_transacciones').validate({
 			},
 			success: function (data) {
 				//$('.resp').html('');
+				if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
 				$('#form_transacciones')[0].reset();
 				$('#form_transacciones button[type=submit]').html('Ejecutar');
 				$('#form_transacciones button[type=submit]').removeClass('disabled');
@@ -358,14 +372,9 @@ $('#form_transacciones').validate({
 					//$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
 					tablaOp.ajax.reload();
-					$('.resp').html(data.message);
-					//tablaOp.rows.add(data.lista).draw();
-					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
-					console.log(data);
-				}else {
-					$('.resp').html(data.message);
-					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 				}
+				$('.resp').html(data.message);
+				setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 			}
 		});
 	}
@@ -431,7 +440,6 @@ $('body').bind('click','a',function(e){
 				beforeSend: function () { a.addClass('disabled'); },
 				success: function (data) {
 					if (parseInt(data.status) === 200){
-						$('html, body').animate({ scrollTop: 0 }, 'fast');
 						if(anula === 'ingresos') tablaReg.ajax.reload();
 						else{
 							tablaVal.ajax.reload();
@@ -442,8 +450,9 @@ $('body').bind('click','a',function(e){
 						a.removeClass('disabled');
 						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
 					}
-					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 				}
 			});
 		}
@@ -552,9 +561,12 @@ $('#guardaVal').bind('click',function(){
 					tablaReg.ajax.reload();
 					tablaOp.ajax.reload();
 					$('#modalValorizaciones').modal('hide');
+					$('.resp').html(data.msg);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+				}else{
+					alert(data.msg);
 				}
-				$('.resp').html(data.msg);
-				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+				
 			}
 		});
 	}
@@ -566,6 +578,14 @@ $('#sucursalVal').bind('change', function(){
 
 $('#modalVal').bind('click', function(){
 	tablaValDetalle.ajax.reload();
+});
+$('.tipoop').bind('change', function(){
+	//tablaValDetalle.ajax.reload();
+	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
+		if($('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 0) $('.interesAjax').show();
+	}else{
+		if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
+	}
 });
 
 $('#form_valorizaciones').validate({

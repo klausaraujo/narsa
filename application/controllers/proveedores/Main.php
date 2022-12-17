@@ -79,8 +79,8 @@ class Main extends CI_Controller
 		$hOperaciones = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Oper.', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Fecha Reg.', 'targets' => 7],'8'=>['title' => 'Usuario Reg.', 'targets' => 8],
-			'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],
+			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Intereses', 'targets' => 7],'8'=>['title' => 'Monto Total', 'targets' => 8],
+			'9'=>['targets' => 'no-sort', 'orderable' => false],
 		);
 		$hIngresos = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
@@ -111,7 +111,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		
 		$id = $this->input->post('id');
-		$lista = $this->Proveedores_model->listaOperaciones(['mp.idproveedor' => $id]);
+		$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id]);
 		$filtro = []; $i = 0;
 		
 		foreach($this->usuario->sucursales as $sucursal):
@@ -203,6 +203,7 @@ class Main extends CI_Controller
 			'idsucursal' => $this->input->post('sucursal'),
 			'idproveedor' => $id,
 			'monto' => $this->input->post('monto'),
+			'interes' => $this->input->post('interes'),
 			'idfactor' => (!empty($factor)? $factor->idfactor : 0),
 			'fecha_vencimiento' => $vence,
 			'fecha_movimiento' => $fecha,
