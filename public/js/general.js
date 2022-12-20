@@ -1,5 +1,13 @@
 let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upload-button'), file = $('.file-upload'), imgperfil = $('.profile-pic'), perfiltop = $('.top-avatar');
 
+function ceros( number, width ){
+	width -= number.toString().length;
+	if ( width > 0 ){
+		return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+	}
+	return number + ""; // siempre devuelve tipo cadena
+}
+
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
 	setTimeout(function () { $('.msg').hide('slow'); }, 700);

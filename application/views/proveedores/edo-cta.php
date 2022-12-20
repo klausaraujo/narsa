@@ -59,7 +59,7 @@
         </header>
 
         <footer>
-		<table id="footer" style="width:100%;solid #0000ff;background-color:#BEBEBE"  >
+			<table id="footer" style="width:100%;solid #0000ff;background-color:#BEBEBE"  >
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;" >
 						<span style="display:flex;font-size:10;font-weight:bold;padding-top:3mm"> Copyright © 2022 - NARSA S.A. </span>
