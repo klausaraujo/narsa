@@ -128,7 +128,7 @@
 			$mto = 0; $essucursal = false; $i = 0;
 			foreach($lista as $row):
 				if($row->idsucursal === $s){
-					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto_factor); $essucursal = true;
+					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto_factor_final); $essucursal = true;
 					//number_format($numero, 2, ",", ".");
 					if($i === 0){
 	?>
@@ -145,7 +145,7 @@
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=$row->sucursal?></td><td colspan="4"><?=$row->tipo_operacion?></td><td colspan="2"><?=$fecha?></td>
 					<td><?=sprintf("%'05s",$row->idtransaccion)?></td>
-					<td colspan="2" style="text-align:right"><?=number_format($row->monto, 2, '.', ',')?></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->monto_factor_final, 2, '.', ',')?></td>
 				</tr>	
 	<?
 					$i++;

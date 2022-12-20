@@ -12,7 +12,6 @@ class Main extends CI_Controller
 		if($this->session->userdata('user')){
 			$this->usuario = json_decode($this->session->userdata('user'));
 			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
-			$this->load->model('Usuarios_model');
 		}else header('location:' .base_url());
 	}
 
@@ -20,6 +19,7 @@ class Main extends CI_Controller
 	
 	public function proveedores()
 	{
+		$this->load->model('Usuarios_model');
 		$mod = $this->input->get('mod');
 		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario]);
 		$this->session->set_userdata('perProv', json_encode($bot));
@@ -33,6 +33,7 @@ class Main extends CI_Controller
 	}
 	public function usuarios()
 	{
+		$this->load->model('Usuarios_model');
 		$permisos = $this->Usuarios_model->permisosOpciones();
 		$sucursales = $this->Usuarios_model->sucursalesUser();
 		
