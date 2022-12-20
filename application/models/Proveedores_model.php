@@ -355,7 +355,8 @@ class Proveedores_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('lista_movimientos_proveedor');
 		$this->db->where($where);
-		$this->db->order_by('idsucursal', 'asc');
+		//$this->db->group_by('idsucursal', 'asc');
+		$this->db->order_by('idtransaccion', 'asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
