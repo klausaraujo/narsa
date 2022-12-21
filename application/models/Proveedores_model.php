@@ -11,6 +11,7 @@ class Proveedores_model extends CI_Model
         $this->db->from('proveedor pr');
 		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		$this->db->where('idproveedor >',1);
+		$this->db->where('pr.activo',1);
 		$this->db->order_by('idproveedor', 'asc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
@@ -30,6 +31,7 @@ class Proveedores_model extends CI_Model
 	{
 		$this->db->select('idtipodocumento,codigo_curl,tipo_documento,longitud');
         $this->db->from('tipo_documento');
+		$this->db->where('activo',1);
 		$this->db->order_by('idtipodocumento', 'asc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();

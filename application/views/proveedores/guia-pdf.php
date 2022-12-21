@@ -108,6 +108,17 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->celular : '&nbsp;';?></td></tr></table>
+					</td>
+					<td colspan="1" style="width:1.5cm"></td>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->correo : '&nbsp;';?></td></tr></table>
+					</td>
+				</tr>
+				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
 						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->nombre : '&nbsp;';?></td></tr></table>

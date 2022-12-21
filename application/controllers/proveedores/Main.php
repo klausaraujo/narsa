@@ -130,7 +130,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		
 		$id = $this->input->post('id');
-		$lista = $this->Proveedores_model->listaIngresos(['ge.idproveedor' => $id]);
+		$lista = $this->Proveedores_model->listaIngresos(['ge.idproveedor' => $id,'ge.activo' => 1]);
 		$filtro = []; $i = 0;
 		
 		foreach($this->usuario->sucursales as $sucursal):
@@ -152,7 +152,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		
 		$id = $this->input->post('id');
-		$lista = $this->Proveedores_model->listaValorizaciones(['va.idproveedor' => $id]);
+		$lista = $this->Proveedores_model->listaValorizaciones(['va.idproveedor' => $id,'va.activo' => 1]);
 		$filtro = []; $i = 0;
 		
 		foreach($this->usuario->sucursales as $sucursal):
