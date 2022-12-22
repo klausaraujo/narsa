@@ -39,8 +39,10 @@ class Main extends CI_Controller
 	public function registrar()
 	{
 		$this->session->set_flashdata('claseMsg', 'danger');
-		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != ''){
-			$this->load->model('Proveedores_model');
+		$this->load->model('Proveedores_model');
+		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''
+				&& $this->input->post('tiporegistro') === 'registrar')
+		{
 			$data = array(
 				'idtipodocumento' => $this->input->post('tipodoc'),
 				'numero_documento' => $this->input->post('doc'),
@@ -50,22 +52,28 @@ class Main extends CI_Controller
 				'celular' => $this->input->post('celular'),
 				'correo' => $this->input->post('correo'),
 				'zona' => $this->input->post('zona'),
-				//'activo' => 1,
+				'activo' => 1,
 			);
-			if($this->input->post('tiporegistro') === 'registrar'){
-				$data['activo'] = '1';
-				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
-				if($this->Proveedores_model->registrar($data)){
-					$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
-					$this->session->set_flashdata('claseMsg', 'success');
-				}
-			}else if($this->input->post('tiporegistro') === 'editar'){
-				$id = $this->input->post('idproveedor');
-				$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Proveedor');
-				if($this->Proveedores_model->editar( $data, ['idproveedor'=>$id] )){
-					$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
-					$this->session->set_flashdata('claseMsg', 'success');
-				}
+			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
+			if($this->Proveedores_model->registrar($data)){
+				$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
+				$this->session->set_flashdata('claseMsg', 'success');
+			}
+		}elseif($this->input->post('tiporegistro') === 'editar'){
+			$id = $this->input->post('idproveedor');
+			$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Proveedor');
+			
+			$data = array(
+				'RUC' => $this->input->post('ruc'),
+				'domicilio' => $this->input->post('direccion'),
+				'celular' => $this->input->post('celular'),
+				'correo' => $this->input->post('correo'),
+				'zona' => $this->input->post('zona'),
+			);
+			
+			if($this->Proveedores_model->editar( $data, ['idproveedor'=>$id] )){
+				$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
+				$this->session->set_flashdata('claseMsg', 'success');
 			}
 		}else{
 			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');

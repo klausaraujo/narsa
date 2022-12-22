@@ -10,8 +10,7 @@
 									<div class="col-sm-12 my-1">
 										<div class="row">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="tipodoc">Tipo de Documento:</label></span>
-											<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc">
-												<option value="">--Seleccione--</option>
+											<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc" disabled >
 											<?
 													foreach($tipodoc as $row):	?>
 														<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $usuario->idtipodocumento)?'selected':'';?>>
@@ -24,28 +23,29 @@
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
 											<input type="text" class="form-control col-sm-3 doc" maxlength="9" minlength="8" name="doc" id="doc" autocomplete="off"
-												value="<?=$usuario->numero_documento;?>" />&nbsp;&nbsp;
-											<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
+												value="<?=$usuario->numero_documento;?>" disabled />&nbsp;&nbsp;
+											<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="apellidos">Apellidos:</label></span>
 											<input type="text" class="form-control col-sm-5 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos"
-												value="<?=$usuario->apellidos;?>" />
+												value="<?=$usuario->apellidos;?>" disabled />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Nombres:</label></span>
 											<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Nombres"
-												value="<?=$usuario->nombres;?>" />
+												value="<?=$usuario->nombres;?>" disabled />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="usuario">Usuario:</label></span>
-											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario" value="<?=$usuario->usuario;?>" />
+											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario"
+												value="<?=$usuario->usuario;?>" disabled />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">

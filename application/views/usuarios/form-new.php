@@ -10,7 +10,6 @@
 										<div class="row">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="tipodoc">Tipo de Documento:</label></span>
 											<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc">
-												<option value="">--Seleccione--</option>
 											<?
 													foreach($tipodoc as $row):	?>
 														<option value="<?=$row->idtipodocumento;?>"><?=$row->tipo_documento;?></option>
@@ -21,7 +20,7 @@
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc" maxlength="9" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
+											<input type="text" class="form-control col-sm-3 doc numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
 											<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</div>
 									</div>
@@ -40,7 +39,7 @@
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="usuario">Usuario:</label></span>
-											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario" value="" />
+											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario" value="" readonly />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">

@@ -14,12 +14,44 @@ $(document).ready(function (){
 });
 
 $('body').bind('click','a',function(e){
-	let evt = e || e.target, el = evt.target, a = el.closest('a');/*, rel = $(el).closest('a').attr('rel');*/
-	/*if(rel === 'proveedores'){
-		$(location).attr('href','proveedores');
-	}else if(rel === 'Nuevo Registro'){
-		
-	}*/	
+	let el = e.target, a = el.closest('a');
+});
+
+$('.tipodoc').bind('change',function(e){
+	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
+	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
+	
+	$('.numcurl').val(''), $('.nombres').val(''), $('.direccion').val(''), $('.apellidos').val(''), $('.usuario').val('');
+	if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
+	$('.numcurl').focus();
+});
+
+$('.numcurl').bind('keypress',function(e){
+	let key = e.which, len = ($('.numcurl').val()).length + 1;
+	
+	if(key >= 48 && key <= 57){
+		if(len <= $('.numcurl').prop('maxlength')){
+			if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false), $('.direccion').prop('readonly', false), $('.apellidos').prop('readonly', false) }
+			if($('.nombres').val() !== '' || $('.apellidos').val() !== '' || $('.direccion').val() !== '' || $('.usuario').val() !== ''){
+				$('.nombres').val(''), $('.direccion').val(''), $('.apellidos').val(''), $('.usuario').val('')
+			}
+		}
+		if(len === $('.numcurl').prop('maxlength')){
+			let palabra = $('.numcurl').val() + String.fromCharCode(key);
+			$('.usuario').val(palabra);
+		}
+		return String.fromCharCode(key);
+	}else
+		return false;
+});
+
+$('.num').bind('keypress',function(e){
+	let key = e.which;
+	
+	if(key >= 48 && key <= 57){
+		return String.fromCharCode(key);
+	}else
+		return false;
 });
 
 btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });
@@ -68,17 +100,22 @@ btnCurl.bind('click',function(){
 				btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>');
 				btnCurl.removeAttr("disabled");
 				if(msg === ''){
-					console.log(data);
+					//console.log(data);
 					if(tipodoc === '01' || tipodoc === '03'){
 						if(segmento === 'proveedores'){
 							$('.direccion').val(data.data.attributes.domicilio_direccion);
 							$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
+							$('.direccion').prop('readonly', true);
 						}else if(segmento === 'usuarios'){
 							$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);
-							$('.nombres').val(data.data.attributes.nombres);
+							$('.nombres').val(data.data.attributes.nombres); $('.apellidos').prop('readonly', true);
 						}
-					}else console.log(data);
-				}else alert(msg);
+						$('.nombres').prop('readonly', true);
+					}//else console.log(data);
+				}else{
+					alert(msg);
+					$('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false);
+				}
 			}
 		}).fail( function( jqXHR, textStatus, errorThrown ) {
 			btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>'); btnCurl.removeAttr("disabled"); alert(jqXHR + ",  " + textStatus + ",  " + errorThrown);

@@ -10,8 +10,7 @@
 								<div class="col-sm-12 my-1">
 									<div class="row">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="tipodoc">Tipo de Documento:</label></span>
-										<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc">
-											<option value="">--Seleccione--</option>
+										<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc" disabled >
 										<?
 												foreach($tipodoc as $row):	?>
 													<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $proveedor->idtipodocumento)?'selected':'';?>>
@@ -24,21 +23,21 @@
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
 										<input type="text" class="form-control col-sm-3 doc" maxlength="9" minlength="8" name="doc" id="doc"
-											autocomplete="off" value="<?=$proveedor->numero_documento;?>" />&nbsp;&nbsp;
-										<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
+											autocomplete="off" value="<?=$proveedor->numero_documento;?>" disabled />&nbsp;&nbsp;
+										<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="ruc">RUC:</label></span>
-										<input type="text" class="form-control col-sm-5 ruc" name="ruc" id="ruc" placeholder="RUC" value="<?=$proveedor->RUC;?>" minlength="11" />
+										<input type="text" class="form-control col-sm-5 ruc" name="ruc" id="ruc" placeholder="RUC" value="<?=$proveedor->RUC;?>" minlength="11" /> 
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Raz&oacute;n Social:</label></span>
 										<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social"
-											value="<?=$proveedor->nombre;?>" />
+											value="<?=$proveedor->nombre;?>" disabled />
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">
@@ -51,8 +50,8 @@
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="celular">Celular:</label></span>
-										<input type="text" class="form-control col-sm-5 celular" name="celular" id="celular" placeholder="N&uacute;mero Celular" 
-											value="<?=$proveedor->celular;?>"										/>
+										<input type="text" class="form-control col-sm-5 celular num" name="celular" id="celular" placeholder="N&uacute;mero Celular" 
+											value="<?=$proveedor->celular;?>" />
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">

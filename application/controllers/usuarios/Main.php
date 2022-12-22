@@ -41,10 +41,10 @@ class Main extends CI_Controller
 	public function registrar()
 	{
 		$this->session->set_flashdata('claseMsg', 'danger');
+		$this->load->model('Usuarios_model');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('apellidos') != '' && $this->input->post('nombres') != ''
-			&& $this->input->post('usuario') != '' && $this->input->post('perfil') != '')
+			&& $this->input->post('usuario') != '' && $this->input->post('perfil') != '' && $this->input->post('tiporegistro') === 'registrar')
 		{
-			$this->load->model('Usuarios_model');
 			$data = array(
 				'idtipodocumento' => $this->input->post('tipodoc'),
 				'numero_documento' => $this->input->post('doc'),
@@ -52,27 +52,26 @@ class Main extends CI_Controller
 				'nombres' => $this->input->post('nombres'),
 				'usuario' => $this->input->post('usuario'),
 				'idperfil' => $this->input->post('perfil'),
+				'avatar' => 'user.jpg',
+				'passwd' => sha1($this->input->post('doc')),
+				'activo' => 1,
 			);
-			if($this->input->post('tiporegistro') === 'registrar'){
-				$data['avatar'] = 'user.jpg';
-				$data['passwd'] = sha1($this->input->post('doc'));
-				$data['activo'] = '1';
-				$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario');
-				if($this->Usuarios_model->registrar($data)){
-					$this->session->set_flashdata('claseMsg', 'success');
-					$this->session->set_flashdata('flashSuccess', 'Usuario Registrado Exitosamente');
-				}
-			}else if($this->input->post('tiporegistro') === 'editar'){
-				$id = $this->input->post('idusuario');
-				$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Usuario');
-				if($this->Usuarios_model->actualizar( $data, ['idusuario'=>$id] )){
-					$this->session->set_flashdata('flashSuccess', 'Usuario Actualizado');
-					$this->session->set_flashdata('claseMsg', 'success');
-				}
+			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario');
+			if($this->Usuarios_model->registrar($data)){
+				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashSuccess', 'Usuario Registrado Exitosamente');
+			}
+		}elseif($this->input->post('perfil') != '' && $this->input->post('tiporegistro') === 'editar'){
+			$id = $this->input->post('idusuario');
+			$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Usuario');
+			if($this->Usuarios_model->actualizar( ['idperfil' => $this->input->post('perfil')], ['idusuario'=>$id] )){
+				$this->session->set_flashdata('flashSuccess', 'Usuario Actualizado');
+				$this->session->set_flashdata('claseMsg', 'success');
 			}
 		}else{
 			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario por campos vac&iacute;os');
 		}
+		
 		header('location:'.base_url().'usuarios');
 	}
 	public function habilitar()
