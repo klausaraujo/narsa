@@ -183,8 +183,16 @@ CREATE TABLE menu_detalle  (
 	FOREIGN KEY (idmenu) REFERENCES menu (idmenu) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 	/*SubMenus del Módulo de Proveedores*/
-	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(1,3,'Reporte 01','#','fa fa-th-list',1);
-	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(2,3,'Reporte 02','#','fa fa-newspaper-o',2);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(1,3,'Movimientos Proveedores','#','fa fa-th-list',1);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(2,3,'Movimientos Caja','#','fa fa-newspaper-o',2);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(3,3,'Productos Valorizados','#','fa fa-newspaper-o',3);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(4,3,'Productos no Valorizados','#','fa fa-newspaper-o',4);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(5,3,'Reporte Deudores','#','fa fa-newspaper-o',5);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(6,3,'Reporte Deudas','#','fa fa-newspaper-o',6);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(7,3,'Reporte Gastos','#','fa fa-newspaper-o',7);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(8,3,'Reporte Salidas','#','fa fa-newspaper-o',8);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(9,3,'Operaciones Usuarios','#','fa fa-newspaper-o',9);
+	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(10,3,'Reporte Transacciones','#','fa fa-newspaper-o',10);
 
 CREATE TABLE permisos_menu  (
   idpermisosmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -216,9 +224,17 @@ CREATE TABLE permisos_menu_detalle  (
 	
 	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (1,1,1);
 	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (2,2,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (3,3,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (4,4,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (5,5,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (6,6,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (7,7,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (8,8,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (9,9,1);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (10,10,1);
 
-	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (3,1,2);
-	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (4,2,2);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (11,1,2);
+	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (12,2,2);
 
 CREATE TABLE permisos_opcion  (
   idpermisoopcion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -418,6 +434,12 @@ numero smallint(4) NOT NULL,
 fecha datetime NOT NULL,
 idsucursal smallint(4) NOT NULL,
 idproveedor smallint(4) NOT NULL,
+idusuario_registro smallint(4),
+fecha_registro datetime,
+idusuario_modificacion smallint(4),
+fecha_modificacion datetime,
+idusuario_anulacion smallint(4),
+fecha_anulacion datetime,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idguia),
 FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -441,6 +463,12 @@ fecha datetime NOT NULL,
 idsucursal smallint(4) NOT NULL,
 idproveedor smallint(4) NOT NULL,
 idtransaccion smallint(4) NOT NULL,
+idusuario_registro smallint(4),
+fecha_registro datetime,
+idusuario_modificacion smallint(4),
+fecha_modificacion datetime,
+idusuario_anulacion smallint(4),
+fecha_anulacion datetime,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idvalorizacion),
 FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
