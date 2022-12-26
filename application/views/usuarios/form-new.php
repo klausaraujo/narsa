@@ -20,20 +20,20 @@
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
+											<input type="text" class="form-control col-sm-3 doc num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
 											<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="apellidos">Apellidos:</label></span>
-											<input type="text" class="form-control col-sm-5 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" />
+											<input type="text" class="form-control col-sm-5 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" readonly />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Nombres:</label></span>
-											<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Nombres" value="" />
+											<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Nombres" value="" readonly />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
@@ -46,11 +46,10 @@
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="perfil">Perfil:</label></span>
 											<select class="form-control col-sm-3 perfil" name="perfil" id="perfil">
-												<option value="">--Seleccione--</option>
 											<?
-													foreach($perfil as $row):	?>
-														<option value="<?=$row->idperfil;?>"><?=$row->perfil;?></option>
-											<?		endforeach;	?>
+												foreach($perfil as $row):	?>
+													<option value="<?=$row->idperfil;?>" <?if($row->idperfil === '2')echo 'selected';?> ><?=$row->perfil;?></option>
+											<?	endforeach;	?>
 											</select>
 										</div>
 									</div>

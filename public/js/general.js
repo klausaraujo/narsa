@@ -22,15 +22,15 @@ $('.tipodoc').bind('change',function(e){
 	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
 	
 	$('.numcurl').val(''), $('.nombres').val(''), $('.direccion').val(''), $('.apellidos').val(''), $('.usuario').val('');
-	if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
+	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
 	$('.numcurl').focus();
 });
 
-$('.numcurl').bind('keypress',function(e){
+/*$('.numcurl').bind('keydown',function(e){
 	let key = e.which, len = ($('.numcurl').val()).length + 1;
-	
-	if(key >= 48 && key <= 57){
-		if(len <= $('.numcurl').prop('maxlength')){
+	//alert(key);
+	if(key >= 48 && key <= 57 || key >= 96 && key <= 105 || key == 46 || key == 8){
+		/*if(len <= $('.numcurl').prop('maxlength')){
 			if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false), $('.direccion').prop('readonly', false), $('.apellidos').prop('readonly', false) }
 			if($('.nombres').val() !== '' || $('.apellidos').val() !== '' || $('.direccion').val() !== '' || $('.usuario').val() !== ''){
 				$('.nombres').val(''), $('.direccion').val(''), $('.apellidos').val(''), $('.usuario').val('')
@@ -43,12 +43,12 @@ $('.numcurl').bind('keypress',function(e){
 		return String.fromCharCode(key);
 	}else
 		return false;
-});
+});*/
 
-$('.num').bind('keypress',function(e){
+$('.num').bind('keydown',function(e){
 	let key = e.which;
-	
-	if(key >= 48 && key <= 57){
+	//alert(key);
+	if(key >= 48 && key <= 57 || key >= 96 && key <= 105 || key == 46 || key == 8 || key == 37 || key == 39 || key == 9 || key == 116){
 		return String.fromCharCode(key);
 	}else
 		return false;
@@ -105,16 +105,17 @@ btnCurl.bind('click',function(){
 						if(segmento === 'proveedores'){
 							$('.direccion').val(data.data.attributes.domicilio_direccion);
 							$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
-							$('.direccion').prop('readonly', true);
+							//$('.direccion').prop('readonly', true);
 						}else if(segmento === 'usuarios'){
 							$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);
-							$('.nombres').val(data.data.attributes.nombres); $('.apellidos').prop('readonly', true);
+							$('.nombres').val(data.data.attributes.nombres); $('.usuario').val(doc);
+							//$('.apellidos').prop('readonly', true);
 						}
-						$('.nombres').prop('readonly', true);
+						//$('.nombres').prop('readonly', true);
 					}//else console.log(data);
 				}else{
 					alert(msg);
-					$('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false);
+					//$('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false);
 				}
 			}
 		}).fail( function( jqXHR, textStatus, errorThrown ) {

@@ -20,20 +20,20 @@
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-										<input type="text" class="form-control col-sm-3 doc numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
+										<input type="text" class="form-control col-sm-3 doc num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
 										<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="ruc">RUC:</label></span>
-										<input type="text" class="form-control col-sm-5 ruc" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" />
+										<input type="text" class="form-control col-sm-5 ruc num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" />
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Raz&oacute;n Social:</label></span>
-										<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" />
+										<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" readonly />
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">

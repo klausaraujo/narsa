@@ -22,7 +22,7 @@
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-										<input type="text" class="form-control col-sm-3 doc" maxlength="9" minlength="8" name="doc" id="doc"
+										<input type="text" class="form-control col-sm-3 doc" name="doc" id="doc"
 											autocomplete="off" value="<?=$proveedor->numero_documento;?>" disabled />&nbsp;&nbsp;
 										<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 									</div>
@@ -30,7 +30,7 @@
 								<div class="col-sm-12 my-1">
 									<div class="row my-1">
 										<span class="col-sm-3" style="display:flex;align-items:center"><label for="ruc">RUC:</label></span>
-										<input type="text" class="form-control col-sm-5 ruc" name="ruc" id="ruc" placeholder="RUC" value="<?=$proveedor->RUC;?>" minlength="11" /> 
+										<input type="text" class="form-control col-sm-5 ruc num" name="ruc" id="ruc" placeholder="RUC" value="<?=$proveedor->RUC;?>" minlength="11" /> 
 									</div>
 								</div>
 								<div class="col-sm-12 my-1">

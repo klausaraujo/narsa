@@ -40,7 +40,7 @@
 							<li class="nav-item iq-full-screen">
 							   <a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line font-narsa"></i></a>
 							</li>
-							<li class="nav-item">
+							<!--<li class="nav-item">
 								<a href="#" class="iq-waves-effect">
 									<i class="fa-brands fa-facebook" style="color:blue;font-size:1.4rem;text-align:center"></i>
 								</a>
@@ -49,7 +49,7 @@
 								<a href="#" class="iq-waves-effect">
 									<i class="fa-brands fa-twitter" style="color:lightblue;font-size:1.4rem;text-align:center"></i>
 								</a>
-							</li>
+							</li>-->
 							<li class="nav-item">
 								<ul class="navbar-list">
 									<li>

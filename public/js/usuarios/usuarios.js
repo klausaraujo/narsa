@@ -73,8 +73,8 @@ $(document).ready(function (){
 					}
 				},
 			],
-			columnDefs:headers, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-			'copy','csv','excel','pdf','print']}, order: [],
+			columnDefs:headers,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']},*/ order: [],
 		});
 	}
 });

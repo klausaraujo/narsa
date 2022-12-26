@@ -22,7 +22,7 @@
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc" maxlength="9" minlength="8" name="doc" id="doc" autocomplete="off"
+											<input type="text" class="form-control col-sm-3 doc" name="doc" id="doc" autocomplete="off"
 												value="<?=$usuario->numero_documento;?>" disabled />&nbsp;&nbsp;
 											<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 										</div>
@@ -52,7 +52,6 @@
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="perfil">Perfil:</label></span>
 											<select class="form-control col-sm-3 perfil" name="perfil" id="perfil">
-												<option value="">--Seleccione--</option>
 											<?
 													foreach($perfil as $row):	?>
 														<option value="<?=$row->idperfil;?>" <?=($row->idperfil === $usuario->idperfil)?'selected':'';?>>
