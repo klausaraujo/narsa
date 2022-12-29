@@ -450,6 +450,8 @@ iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idguia smallint(4) NOT NULL,
 idarticulo smallint(4) NOT NULL,
 cantidad decimal(20,2),
+valorizado char(1)DEFAULT '0',
+costo decimal(20,2) DEFAULT 0,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -525,7 +527,7 @@ where ge.activo='1' and gedv.activo='1';
 
 create view lista_ingresos_valorizaciones_saldo
 as
-select idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,domicilio,zona,celular,correo,idarticulo,articulo,sum(cantidad) as cantidad from lista_ingresos_valorizaciones_pre group by idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,domicilio,celular,zona,idarticulo,articulo;
+select idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,domicilio,zona,celular,correo,idarticulo,articulo,sum(cantidad) as cantidad from lista_ingresos_valorizaciones_pre group by idguia,idsucursal,sucursal,anio_guia,numero,fecha,idproveedor,tipo_documento,numero_documento,nombre,domicilio,celular,zona,correo,idarticulo,articulo;
 
 create view lista_valorizaciones_proveedores
 As
