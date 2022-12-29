@@ -152,6 +152,18 @@ CREATE TABLE permiso  (
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(4,'Editar Guia Ingreso','1',4,1);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(5,'Anular Guia Ingreso','1',5,1);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(6,'Ver Guia Ingreso (PDF)','1',6,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(7,'Ver Comprobante (PDF)','1',7,1);
+	
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(8,'Anular Valorización','1',8,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(9,'Ver Valorización','1',9,1);
+	
+	
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(10,'Editar Usuario','1',10,4);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(11,'Asignar Sucursales','1',11,4);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(12,'Asignar Permisos','1',12,4);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(13,'Resetar Clave','1',13,4);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(14,'Activar/Desactivar','1',14,4);
+
 
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -252,9 +264,18 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,4,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(5,5,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(6,6,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(7,7,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(8,8,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(9,9,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(10,10,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(11,11,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(12,12,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(13,13,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(14,14,1);
 	
-	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(7,1,2);
-	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(8,2,2);
+	
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(15,1,2);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(16,2,2);
 
 CREATE TABLE sucursal  (
 idsucursal smallint(4) NOT NULL AUTO_INCREMENT,
