@@ -16,7 +16,7 @@
 		$listaModulos = $usuario->modulos;
 		foreach($listaModulos as $row): ?>
 		<div class="col-sm-6 col-md-3 dashboard__card">
-			<a <?=($row->activo === '1' && !empty($usuario->sucursales))? 'href="'.base_url().$row->url.'?mod='.$row->idmodulo.'"' : '';?> class="card_button">
+			<a <?=($row->activo === '1' && !empty($usuario->sucursales))? 'href="'.base_url().$row->url.'"' : '';?> class="card_button">
 				<div class="iq-card">
 				<div class="iq-card-body-elements">
 					<div style="margin-top: 15px;" class="doc-profile">

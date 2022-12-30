@@ -45,13 +45,19 @@ $('.tipodoc').bind('change',function(e){
 		return false;
 });*/
 
-$('.num').bind('keydown',function(e){
+$('.num').bind('input',function(e){
+	jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+});
+
+$('.numDec').bind('keydown',function(e){
 	let key = e.which;
-	//alert(key);
+	alert(key);
 	if(key >= 48 && key <= 57 || key >= 96 && key <= 105 || key == 46 || key == 8 || key == 37 || key == 39 || key == 9 || key == 116){
 		return String.fromCharCode(key);
 	}else
 		return false;
+	
+	//jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
 });
 
 btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });

@@ -24,7 +24,7 @@
 								foreach($listaModulos as $row): ?>
 							<li>
 							<?php	if($row->activo > 0 && ! empty($usuario->sucursales)){ ?>
-							<a href="<?=base_url().$row->url?>?mod=<?=$row->idmodulo?>" class="iq-waves-effect">
+							<a href="<?=base_url().$row->url?>" class="iq-waves-effect">
 								<i class="<?=$row->mini?>" aria-hidden="true"></i>
 								<span><?=$row->menu?></span>
 							</a>

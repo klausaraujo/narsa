@@ -38,6 +38,7 @@ $(document).ready(function (){
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
 	}else if(segmento2 === 'transacciones'){
+		/* Tabla de las Transacciones */
 		tablaOp = $('#tablaOp').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/transacciones/lista',
@@ -103,6 +104,7 @@ $(document).ready(function (){
 			],
 			columnDefs:headersOp, order: [],
 		});
+		/* Tabla de los Ingresos */
 		tablaReg = $('#tablaIngresos').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/ingresos/lista',
@@ -123,11 +125,14 @@ $(document).ready(function (){
 							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia || data.anula === '0')?'disabled':'')+'" data-target="#modalEditIngresos" '+
 							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/ingresos/anular?id='+data.idguia+
-							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia)?'disabled':'')+' anular" data-anula="ingresos" >'+
+							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia || data.anula === '0')?'disabled':'')+' anular" data-anula="ingresos" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/guia_ingreso?id='+data.idguia+
 							'&op=guiaing"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
-							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
+						'<a title="Ver Comprobante" '+((data.activo === '1')?'href="'+base_url+'proveedores/ingresos/comprobante?id='+data.idguia+
+							'&op=comp"':'')+' class="bg-success btnTable '+((data.activo === '0')?'disabled':'')+' ver_comp_pdf" target="_blank" >'+
+							'<i class="fas fa-receipt" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -149,6 +154,7 @@ $(document).ready(function (){
 			columnDefs: headersIng, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
 			'copy','csv','excel','pdf','print']},order: [],
 		});
+		/* Tabla Detalle de los Ingresos */
 		tablaIngDetalle = $('#tablaIngDetalle').DataTable({
 			data: [],
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language:{ lngDataTable }, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
@@ -160,14 +166,31 @@ $(document).ready(function (){
 						return '<a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarIngdetalle"><i class="far fa-trash mx-auto" aria-hidden="true"></i></a>';
 					}
 				},
-				{ data: 'articulo' },{ data: 'cantidad' },{ data: 'sucursal' },
-				
+				{ data: 'articulo' },
+				{
+					data: 'cantidad',
+					className: 'text-left',
+					render: function(data,type,row,meta){ let number = parseFloat(data); return number.toLocaleString('es-PE'); }
+				},
+				{ data: 'sucursal' },
+				{ 
+					data: 'cantidad_valorizada',
+					className: 'text-left',
+					render: function(data,type,row,meta){ let number = parseFloat(data); return number.toLocaleString('es-PE'); }
+				},
+				{
+					data: 'costo',
+					className: 'text-left',
+					render: function(data,type,row,meta){ let number = parseFloat(data); return number.toLocaleString('es-PE'); }
+				},
 			],
 			columnDefs:[
-				{ title: 'Acciones', targets: 0 },{ title: 'Producto', targets: 1 },{ title: 'Cantidad', targets: 2 },{ title: 'Sucursal', targets: 3 }
+				{ title: 'Acciones', targets: 0 },{ title: 'Producto', targets: 1 },{ title: 'Cantidad', targets: 2 },{ title: 'Sucursal', targets: 3 },
+				{ title: 'Valorizado', targets: 4 },{ title: 'Costo', targets: 5 }
 			],
 			dom: '<"row"rt>', order: [],
 		});
+		/* Tabla Detalle de las Valorizaciones */
 		tablaValDetalle = $('#tablaValDetalle').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/valorizaciones/listaDetalle',
@@ -214,6 +237,7 @@ $(document).ready(function (){
 			],
 			dom: '<"row"rt>', order: [],
 		});
+		/* Tabla de las Valorizaciones */
 		tablaVal = $('#tablaValorizaciones').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/valorizaciones/lista',
@@ -299,14 +323,15 @@ $('#form_proveedor').validate({
 	},
 	messages: {
 		tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
-		doc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
+		doc: { required : '&nbsp;&nbsp;Documento Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
 		/*ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },*/
 		nombres: { required : '&nbsp;&nbsp;Campo Requerido' },
 		direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
 		zona: { required : '&nbsp;&nbsp;Campo Requerido' },
 	},
 	errorPlacement: function(error, element) {
-		if (element.attr('name') == 'doc') {
+		if (element.attr('name') == 'doc'){
+			//$('#curl-error').html(error.html());
 			error.insertAfter('.btn_curl');
 		}else error.insertAfter(element);
 	},
@@ -393,9 +418,18 @@ $('#form_ingresos').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
+		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val())? 0 : $('#cantidadValoriz').val();
+		let costoValor = isNaN($('#costoValoriz').val())? 0 : $('#costoValoriz').val();
+		
+		//console.log(parseFloat(costoValor) + "   " + parseFloat(kgValor));
+		if(parseFloat(kgValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar la cantidad a Valorizar'); return false; }
+		if(parseFloat(kg) < parseFloat(kgValor) && $('#valorizaIng').prop('checked') === true){ alert('La cantidad a valorizar no puede ser mayor que el monto'); return false; }
+		if(parseFloat(costoValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar el costo'); return false; }
+		
 		let valor = false, ids = $('#sucursalIng').val();
-		var json = [{'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':$('#cantidadIng').val(),
-				'idsucursal':$('#sucursalIng').val(),'sucursal':$('#sucursalIng :selected').text(),}];
+		var json = [{'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
+				'sucursal':$('#sucursalIng :selected').text(),'cantidad_valorizada':kgValor,'costo':$('#costoValoriz').val(),
+				'valorizado':($('#valorizaIng').prop('checked')? 1 : 0)}];
 		if(tablaIngDetalle.rows().count() === 0){
 			$('#sucursalIng').attr('disabled','disabled');
 			ids = $('#sucursalIng').val();
@@ -409,6 +443,7 @@ $('#form_ingresos').validate({
 		if(!valor) tablaIngDetalle.rows.add(json).draw();
 		
 		$('#form_ingresos')[0].reset();
+		$('#cantidadValoriz').attr('disabled','disabled');
 		if(ids !== '')
 			$('#sucursalIng option[value='+ids+']').attr('selected', true);
 		//$('#form_ingresos select').prop('selectedIndex',0);
@@ -461,7 +496,8 @@ $('#generarIng').bind('click',function(){
 	if(tablaIngDetalle.rows().count() > 0){
 		let json = [], i = 0;
 		tablaIngDetalle.rows().data().each(function(row){
-			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val() };
+			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),
+						'valorizado': row.valorizado, 'cantidad_valorizada': row.cantidad_valorizada, 'costo': row.costo };
 			i++;
 		});
 		//console.log(tablaIngDetalle.rows());
@@ -484,6 +520,8 @@ $('#generarIng').bind('click',function(){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					tablaReg.ajax.reload();
+					tablaOp.ajax.reload();
+					tablaVal.ajax.reload();
 					$('#modalIngresos').modal('hide');
 				}
 				$('.resp').html(data.message);
@@ -579,7 +617,8 @@ $('.tipoop').bind('change', function(){
 		if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
 	}
 });
-
-$('#form_valorizaciones').validate({
-	errorClass: 'form_error',
+$('#valorizaIng').bind('click',function(e){
+	if($(this).prop('checked'))
+		$('#cantidadValoriz').prop('disabled',false);
+	else $('#cantidadValoriz').prop('disabled',true);
 });

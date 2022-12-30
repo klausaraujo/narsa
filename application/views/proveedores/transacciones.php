@@ -20,13 +20,13 @@
 										<div class="row container mx-auto">
 											<div class="col-10 mx-auto">
 												<div class="row">
-													<div class="col-sm-6 mt-4">
+													<div class="col-md-6 mt-4">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="tipoop">Tipo de Operaci&oacute;n:</label></span>
 														</div>
 														<div class="row">
 															<!--1,2,3,5,6,8-->
-															<select class="form-control col-sm-11 tipoop" name="tipoop" id="tipoop">
+															<select class="form-control col-md-11 tipoop" name="tipoop" id="tipoop">
 																<option value="">--Seleccione--</option>
 														<?
 														foreach($tipo_op as $row):
@@ -37,12 +37,12 @@
 															</select>
 														</div>
 													</div>
-													<div class="col-sm-6 mt-4">
+													<div class="col-md-6 mt-4">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Sucursal:</label></span>
 														</div>
 														<div class="row">
-															<select class="form-control col-sm-9 sucursal" name="sucursal" id="sucursal">
+															<select class="form-control col-md-9 sucursal" name="sucursal" id="sucursal">
 														<?
 														foreach($usuario->sucursales as $row):	?>
 																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
@@ -50,32 +50,32 @@
 															</select>
 														</div>
 													</div>
-													<div class="col-sm-6 mt-4">
+													<div class="col-md-6 mt-4">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="fechavenc">Fecha de Vencimiento:</label></span>
 														</div>
 														<div class="row">
-															<input type="date" class="form-control col-sm-9 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
+															<input type="date" class="form-control col-md-9 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
 														</div>
 													</div>
-													<div class="col-sm-6 mt-4">
+													<div class="col-md-6 mt-4">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="monto">Monto Operaci&oacute;n:</label></span>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control col-sm-7 monto" name="monto" id="monto" autocomplete="off" />
-															<div class="col-sm-5 ml-auto" style="display:flex;align-items:center">
+															<input type="text" class="form-control col-md-7 monto" name="monto" id="monto" autocomplete="off" />
+															<div class="col-md-5 ml-auto" style="display:flex;align-items:center">
 																<button type="submit" class="btn btn-narsa">Ejecutar</button>
 															</div>
 															<label id="monto-error" class="form_error" for="monto"></label>
 														</div>
 													</div>
-													<div class="col-sm-6 mt-4 interesAjax" style="display:none">
+													<div class="col-md-6 mt-4 interesAjax" style="display:none">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="interes">Tasa de Inter&eacute;s:</label></span>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control col-sm-4 interes" maxlength="2" name="interes" id="interes" autocomplete="off" />
+															<input type="text" class="form-control col-md-4 interes" maxlength="2" name="interes" id="interes" autocomplete="off" />
 														</div>
 													</div>
 												</div>
@@ -153,12 +153,12 @@
 										<div class="row mt-2 mb-4">
 											<div class="col-md-11 mx-auto">
 												<div class="row">
-													<div class="col-md-2"><label for="proveedorIng" class="col-12">Proveedor:</label></div>
+													<div class="col-md-2 centraVert"><label for="proveedorIng" class="col-12">Proveedor:</label></div>
 													<div class="col-md-4 pb-3">
 														<input type="text" class="form-control col-12" value="<?=ucwords(strtolower($this->input->get('name')))?>"
 															name="proveedorIng" id="proveedorIng" readonly />
 													</div>
-													<div class="col-md-2 align-items-center"><label for="sucursalIng" class="col-12">Sucursal:</label></div>
+													<div class="col-md-2 centraVert"><label for="sucursalIng" class="col-12">Sucursal:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 sucursalIng" name="sucursalIng" id="sucursalIng">
 													<?
@@ -173,8 +173,8 @@
 										<div class="row my-4">
 											<div class="col-md-11 mx-auto">
 												<div class="row">
-													<div class="col-md-2"><label for="articulo" class="col-12">Producto:</label></div>
-													<div class="col-md-3">
+													<div class="col-md-2 centraVert"><label for="articulo" class="col-12">Producto:</label></div>
+													<div class="col-md-4">
 														<select class="form-control col-12 articuloIng" name="articuloIng" id="articuloIng">
 															<option value="">--Seleccione--</option>
 														<?
@@ -183,23 +183,44 @@
 														<?	endforeach;	?>
 														</select>
 													</div>
-													<div class="col-md-2"><label for="cantidadIng" class="col-12">Cantidad KG:</label></div>
+													<div class="col-md-3 centraVert"><label for="cantidadIng" class="col-md-9 pull-right">Cantidad KG:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control col-12 cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
-														<label id="errCant" class="form_error" for="cantidadIng"></label>
+														<input type="text" class="form-control cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
 													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row my-4">
+											<div class="col-md-11 mx-auto">
+												<div class="row">
 													<div class="col-md-2">
-														<input type="submit" class="btn btn-narsa d-flex ml-auto col-lg-12 justify-content-center" id="btnAgregarIngDetalle" value="Agregar"/>
+														<div class="checkbox checkbox-primary col-12 centraVert form-group">
+															<label for="valorizaIng">Valorizar&nbsp;&nbsp;&nbsp;</label>
+															<input type="checkbox" name="valorizaIng" id="valorizaIng" />
+														</div>
+													</div>
+													<div class="col-md-2 centraVert"><label for="cantidadValoriz" class="col-12">Cantidad:</label></div>
+													<div class="col-md-3">
+														<input type="text" class="form-control col-12" name="cantidadValoriz" id="cantidadValoriz" autocomplete="off" value="0.00" disabled />
+													</div>
+													<div class="col-md-2 centraVert"><label for="costoValoriz" class="col-12">Costo:</label></div>
+													<div class="col-md-3">
+														<input type="text" class="form-control col-12" name="costoValoriz" id="costoValoriz" value="0.00" autocomplete="off" />
+													</div>
+												</div>
+												<div class="row mt-2">
+													<div class="col-md-2">
+														<input type="submit" class="btn btn-narsa d-flex ml-auto col-12 justify-content-center" id="btnAgregarIngDetalle" value="Agregar"/>
 													</div>
 												</div>
 											</div>
 										</div>
 									</form>
 								</div>
-								<div class="container-fluid my-2">
+								<div class="container-fluid mb-2">
 									<div class="row">
 										<div class="table-responsive">
-											<table id="tablaIngDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-9"></table>
+											<table id="tablaIngDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-11"></table>
 										</div>
 									</div>
 								</div>

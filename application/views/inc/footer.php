@@ -65,7 +65,7 @@
 			
 			$.each(botonesProv,function(i,e){
 				if(e.idpermiso === '1') btnEdit = true;
-				if(e.idpermiso === '2') btnMov = true;
+				else if(e.idpermiso === '2') btnMov = true;
 			});
 		</script>
 		<?}else if($this->uri->segment(1) === 'usuarios'){ ?>
@@ -86,9 +86,9 @@
 			
 			$.each(botonesProv,function(i,e){
 				if(e.idpermiso === '3') btnAnulaOp = true;
-				if(e.idpermiso === '4') btnEdtGuia = true;
-				if(e.idpermiso === '5') btnAnulGuia = true;
-				if(e.idpermiso === '6') btnPdfGuia = true;
+				else if(e.idpermiso === '4') btnEdtGuia = true;
+				else if(e.idpermiso === '5') btnAnulGuia = true;
+				else if(e.idpermiso === '6') btnPdfGuia = true;
 			});
 			
 			

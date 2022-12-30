@@ -100,7 +100,7 @@ class Usuarios_model extends CI_Model
 			return true;
 		}
 	}
-	public function buscaPerByModByUser($where)
+	public function buscaPerByUser($where)
 	{
 		$this->db->select('idpermiso');
 		$this->db->from('permisos_opcion');

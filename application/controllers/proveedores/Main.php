@@ -277,22 +277,32 @@ class Main extends CI_Controller
 	}
 	public function nuevoIngreso(){
 		$this->load->model('Proveedores_model');
-		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a';
+		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a'; $i = 0; $j = 0; $dataVal = []; $guiaArray = [];
 		// Takes raw data from the request
 		$json = file_get_contents('php://input');
 		// Converts it into a PHP object
 		$data = json_decode($json);
 		$rs = $this->Proveedores_model->ingresarProductos($data);
 		
-		if($rs === true){
-			$message = 'Gu&iacute;a registrada exitosamente';
-			$status = 200;
+		if($rs > 0){
+			foreach($data as $row):
+				if($j === 0){ $guiaArray[$i] = $rs; $j++; }
+				if($row->valorizado === 1){
+					$dataVal[$i] = ['idguia' => $rs,'idarticulo' => $row->idarticulo,'monto' => $row->cantidad_valorizada,'costo'=>$row->costo,
+									'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor];
+					$i++;
+				}
+			endforeach;
+			if($this->Proveedores_model->regValorizacion($dataVal,$guiaArray)){
+				$message = 'Gu&iacute;a registrada exitosamente';
+				$status = 200;
+			}
 		}
 		
 		$data = array(
 			'status' => $status,
 			'message' => $message,
-			'data' => $data,
+			'data' => $dataVal,
 		);
 		
 		echo json_encode($data);
@@ -358,7 +368,7 @@ class Main extends CI_Controller
 		endforeach;
 		
 		
-		$rs = $this->Proveedores_model->regValorizacion($dataVal,$guiaArray,$this->usuario->idusuario);
+		$rs = $this->Proveedores_model->regValorizacion($dataVal,$guiaArray);
 		
 		if($rs === true){
 			$message = 'Productos Valorizados';

@@ -3,7 +3,13 @@ if (! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Proveedores_model extends CI_Model
 {    
-	public function __construct(){ parent::__construct(); }
+	private $usuario;
+	
+	public function __construct(){
+		parent::__construct();
+		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
+		else header('location:' .base_url());
+	}
     
 	public function listaProveedores()
     {
@@ -150,7 +156,7 @@ class Proveedores_model extends CI_Model
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 	public function ingresarProductos($data){
-		$i = 0; $guia = ''; $numero = 1;
+		$i = 0; $idguia = ''; $numero = 1;
 		
 		$this->db->trans_begin();
 		
@@ -164,11 +170,13 @@ class Proveedores_model extends CI_Model
 					$result = $result->row();
 					$numero = floatval( $result->numero ) + 1;
 				} 
-				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,'activo'=>1];
+				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
+								'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
 				$this->db->insert('guia_entrada',$guia_entrada);
 				$idguia = $this->db->insert_id();
 			}
-			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'activo'=>1];
+			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->valorizado,
+					'cantidad_valorizada'=>$row->cantidad_valorizada,'costo'=>$row->costo,'activo'=>1];
 			$i++;
 		endforeach;
 		/* Insertar array de valores en la base */
@@ -176,10 +184,10 @@ class Proveedores_model extends CI_Model
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			return false;
+			return 0;
 		}else{
 			$this->db->trans_commit();
-			return true;
+			return $idguia;
 		}
 	}
 	public function anulaTransaccion($where,$activo,$data){
@@ -267,7 +275,7 @@ class Proveedores_model extends CI_Model
 			return (floatval( $result->numero ) > 0)? floatval( $result->numero ) + 1 : 1;
 		}else return 1;
 	}
-	public function regValorizacion($data,$guia,$idusuario)
+	public function regValorizacion($data,$guia)
 	{
 		$numero = 1;		
 		$this->db->trans_begin();
@@ -297,10 +305,11 @@ class Proveedores_model extends CI_Model
 			$idtran = $this->db->insert_id();
 			
 			$tranMovProv = ['idtipooperacion'=>6,'idsucursal'=>$suc,'idproveedor'=>$prov,'idtransaccion'=>$idtran,'monto'=>$mto,'idfactor'=>6,'fecha_vencimiento'=>date('Y-m-d'),
-				'fecha_movimiento'=>date('Y-m-d H:i:s'),'idusuario_registro'=>$idusuario,'fecha_registro'=>date('Y-m-d H:i:s'),'activo'=>1];
+				'fecha_movimiento'=>date('Y-m-d H:i:s'),'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d H:i:s'),'activo'=>1];
 			$this->db->insert('movimientos_proveedor',$tranMovProv);
 			
-			$valoriz = ['anio_valorizacion'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d H:i:s'),'idsucursal'=>$suc,'idproveedor'=>$prov,'idtransaccion'=>$idtran];
+			$valoriz = ['anio_valorizacion'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d H:i:s'),'idsucursal'=>$suc,'idproveedor'=>$prov,'idtransaccion'=>$idtran,
+						'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d H:i:s'),'activo'=>1];
 			$this->db->insert('valorizacion',$valoriz);
 			$idval = $this->db->insert_id();
 			

@@ -20,8 +20,8 @@ class Main extends CI_Controller
 	public function proveedores()
 	{
 		$this->load->model('Usuarios_model');
-		$mod = $this->input->get('mod');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario]);
+		//$mod = $this->input->get('mod');
+		$bot = $this->Usuarios_model->buscaPerByUser(['idusuario' => $this->usuario->idusuario]);
 		$this->session->set_userdata('perProv', json_encode($bot));
 		
 		$headers = array(
