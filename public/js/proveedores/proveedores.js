@@ -124,14 +124,14 @@ $(document).ready(function (){
 						'<a title="Editar Gu&iacute;a Ingreso" '+((data.activo === '1' || btnEdtGuia || data.anula === '1')?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+
 							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia || data.anula === '0')?'disabled':'')+'" data-target="#modalEditIngresos" '+
 							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia)?'href="'+base_url+'proveedores/ingresos/anular?id='+data.idguia+
+						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia || data.anula === '1')?'href="'+base_url+'proveedores/ingresos/anular?id='+data.idguia+
 							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia || data.anula === '0')?'disabled':'')+' anular" data-anula="ingresos" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/guia_ingreso?id='+data.idguia+
 							'&op=guiaing"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
-						'<a title="Ver Comprobante" '+((data.activo === '1')?'href="'+base_url+'proveedores/ingresos/comprobante?id='+data.idguia+
-							'&op=comp"':'')+' class="bg-success btnTable '+((data.activo === '0')?'disabled':'')+' ver_comp_pdf" target="_blank" >'+
+						'<a title="Ver Comprobante" '+((data.activo === '1' || btnCompGuia)?'href="'+base_url+'proveedores/ingresos/comprobante?id='+data.idguia+
+							'&op=comp"':'')+' class="bg-success btnTable '+((data.activo === '0' || !btnCompGuia)?'disabled':'')+' ver_comp_pdf" target="_blank" >'+
 							'<i class="fas fa-receipt" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
@@ -254,11 +254,11 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Anular Valorizaciones" '+(data.activo === '1'?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idvalorizacion+
-							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+(data.activo === '0'?'disabled':'')+' anular" data-anula="valorizaciones" >'+
+						'<a title="Anular Valorizaciones" '+((data.activo === '1' || btnAnulValor)?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idvalorizacion+
+							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulValor)?'disabled':'')+' anular" data-anula="valorizaciones" >'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
-						'<a title="Ver Detalle Valorizaci&oacute;n" '+(data.activo === '1'?'href="'+base_url+'proveedores/valorizaciones/valoriz_pdf?id='+data.idvalorizacion+
-							'&op=valorizdet"':'')+' class="bg-info btnTable '+(data.activo === '0'?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
+						'<a title="Ver Detalle Valorizaci&oacute;n" '+((data.activo === '1' || btnVerValor)?'href="'+base_url+'proveedores/valorizaciones/valoriz_pdf?id='+data.idvalorizacion+
+							'&op=valorizdet"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnVerValor)?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}

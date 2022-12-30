@@ -21,7 +21,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Usuarios_model');
 		//$mod = $this->input->get('mod');
-		$bot = $this->Usuarios_model->buscaPerByUser(['idusuario' => $this->usuario->idusuario]);
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 1,'po.activo' => 1]);
 		$this->session->set_userdata('perProv', json_encode($bot));
 		
 		$headers = array(
@@ -34,6 +34,8 @@ class Main extends CI_Controller
 	public function usuarios()
 	{
 		$this->load->model('Usuarios_model');
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 4,'po.activo' => 1]);
+		$this->session->set_userdata('perUser', json_encode($bot));
 		$permisos = $this->Usuarios_model->permisosOpciones();
 		$sucursales = $this->Usuarios_model->sucursalesUser();
 		

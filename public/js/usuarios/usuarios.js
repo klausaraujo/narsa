@@ -15,22 +15,22 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 						/* Boton de edicion */
-						'<a title="Editar Usuario" '+(data.activo === '1'?'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"':'')+
-							' class="bg-warning btnTable '+(data.activo === '0'?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<a title="Editar Usuario" '+((data.activo === '1' || btnEditUser)?'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"':'')+
+							' class="bg-warning btnTable '+((data.activo === '0' || !btnEditUser)?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						/* Boton de Asignar Sucursales */
-						'<a title="Asignar Sucursales" '+(data.activo === '1'?'href="'+base_url+'usuarios/sucursales?id='+data.idusuario+'"':'')+
-							' class="bg-narsa btnTable '+(data.activo === '0'?'disabled':'')+' sucursales" data-target="#modalSucursales" data-toggle="modal">'+
+						'<a title="Asignar Sucursales" '+((data.activo === '1' || btnSucur)?'href="'+base_url+'usuarios/sucursales?id='+data.idusuario+'"':'')+
+							' class="bg-narsa btnTable '+((data.activo === '0' || !btnSucur)?'disabled':'')+' sucursales" data-target="#modalSucursales" data-toggle="modal">'+
 							'<i class="far fa-building-shield" aria-hidden="true"></i></a>'+
 						/* Boton de permisos */
-						'<a title="Permisos" '+(data.activo === '1'?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
-							' class="bg-secondary btnTable '+(data.activo === '0'?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
+						'<a title="Permisos" '+((data.activo === '1' || btnPermisos)?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
+							' class="bg-secondary btnTable '+((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
 							'<i class="far fa-cog" aria-hidden="true"></i></a>'+
 						/* Boton de Reset Clave */
-						'<a title="Resetear Clave" '+(data.activo === '1'?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
-							' class="bg-info btnTable '+(data.activo === '0'?'disabled':'')+' resetclave"><i class="far fa-key" aria-hidden="true"></i></a>'+
+						'<a title="Resetear Clave" '+((data.activo === '1' || btnClave)?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
+							' class="bg-info btnTable '+((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="far fa-key" aria-hidden="true"></i></a>'+
 						/* Boton de activacion */
-						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" href="'+base_url+'usuarios/habilitar?id='+data.idusuario+
-							'&stat='+data.activo+'" class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' activar" >'+
+						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' || btnActiva)?'href="'+base_url+'usuarios/habilitar?id='+data.idusuario+
+							'&stat='+data.activo+'"':'')+' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
 							'<i class="far '+(data.activo === '1'? 'fa-unlock-keyhole':'fa-lock')+'" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
@@ -170,6 +170,8 @@ $('#tablaUsuarios').bind('click','a',function(e){
 					//console.log(e);
 					$('#form_permisos input:checkbox').each(function(){
 						if($(this).attr('name') === 'proveedoresPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'usuariosPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
 						}
 					});

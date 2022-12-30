@@ -100,12 +100,13 @@ class Usuarios_model extends CI_Model
 			return true;
 		}
 	}
-	public function buscaPerByUser($where)
+	public function buscaPerByModByUser($where)
 	{
-		$this->db->select('idpermiso');
-		$this->db->from('permisos_opcion');
+		$this->db->select('p.idpermiso');
+		$this->db->from('permiso p');
+		$this->db->join('permisos_opcion po','po.idpermiso = p.idpermiso');
 		$this->db->where($where);
-		$this->db->order_by('idpermiso','asc');
+		$this->db->order_by('orden','asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}

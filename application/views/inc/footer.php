@@ -60,16 +60,31 @@
 		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>
 		<script>
 			let botonesProv = JSON.parse('<?=$this->session->userdata('perProv')?>');
-			
+			<?if($this->uri->segment(2) == ''){?>
 			let btnEdit = false, btnMov = false;
 			
 			$.each(botonesProv,function(i,e){
 				if(e.idpermiso === '1') btnEdit = true;
 				else if(e.idpermiso === '2') btnMov = true;
 			});
+			<?}?>
 		</script>
 		<?}else if($this->uri->segment(1) === 'usuarios'){ ?>
 		<script src="<?=base_url()?>/public/js/usuarios/usuarios.js"></script>
+		<script>
+			let botonesUser = JSON.parse('<?=$this->session->userdata('perUser')?>');
+			<?if($this->uri->segment(2) == ''){?>
+			let btnEditUser = false, btnSucur = false, btnPermisos = false, btnClave = false, btnActiva = false;
+			
+			$.each(botonesUser,function(i,e){
+				if(e.idpermiso === '10') btnEditUser = true;
+				else if(e.idpermiso === '11') btnSucur = true;
+				else if(e.idpermiso === '12') btnPermisos = true;
+				else if(e.idpermiso === '13') btnClave = true;
+				else if(e.idpermiso === '14') btnActiva = true;
+			});
+			<?}?>
+		</script>
 		<?}
 		/* Rutinas Javascript por cada uno de los segmentos 2 */
 		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios') && $this->uri->segment(2) == ''){ ?>
@@ -82,13 +97,16 @@
 			const headersIng = JSON.parse('<?=json_encode($headersIng)?>');
 			const headersVal = JSON.parse('<?=json_encode($headersVal)?>');
 			const id = <?=$this->input->get('id')?>;
-			let btnAnulaOp = false, btnEdtGuia = false, btnAnulGuia = false, btnPdfGuia = false;
+			let btnAnulaOp = false, btnEdtGuia = false, btnAnulGuia = false, btnPdfGuia = false, btnCompGuia = false, btnAnulValor = false, btnVerValor = false;
 			
 			$.each(botonesProv,function(i,e){
 				if(e.idpermiso === '3') btnAnulaOp = true;
 				else if(e.idpermiso === '4') btnEdtGuia = true;
 				else if(e.idpermiso === '5') btnAnulGuia = true;
 				else if(e.idpermiso === '6') btnPdfGuia = true;
+				else if(e.idpermiso === '7') btnCompGuia = true;
+				else if(e.idpermiso === '8') btnAnulValor = true;
+				else if(e.idpermiso === '9') btnVerValor = true;
 			});
 			
 			
