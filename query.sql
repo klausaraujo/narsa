@@ -348,6 +348,7 @@ insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movim
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (5,'COBROS DE INTERESES A PROVEEDORES','1');
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (6,'VALORIZACION DE PRODUCTOS','0');
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (7,'PRESTAMOS A LA EMPRESA','1');
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (8,'ADELANTOS A PROVEEDORES','0');
 
 create table tipo_operacion_caja(
 idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -389,6 +390,7 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (4,1,4,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (5,1,5,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (6,1,6,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (7,1,7,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (17,1,8,-1);
 
 insert into factor (idfactor,destino,idtipooperacion,factor) values (8,2,1,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (9,2,2,-1);
@@ -455,6 +457,11 @@ numero smallint(4) NOT NULL,
 fecha datetime NOT NULL,
 idsucursal smallint(4) NOT NULL,
 idproveedor smallint(4) NOT NULL,
+pago char(1) DEFAULT '0',
+tipo_pago char(1) DEFAULT '0',
+idtransaccion smallint(4) DEFAULT 0,
+monto_valor decimal(20,2) Default 0,
+monto_pagado decimal(20,2) Default 0,
 idusuario_registro smallint(4),
 fecha_registro datetime,
 idusuario_modificacion smallint(4),
