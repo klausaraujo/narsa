@@ -16,51 +16,37 @@
 										<?		endforeach;	?>
 										</select>
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="doc">N&uacute;mero de Documento:</label></span>
-										<input type="text" class="form-control col-md-3 doc num" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
-											placeholder="N&uacute;mero de Documento" />&nbsp;&nbsp;
-										<div class="col-md-3 col-sm-12 px-0 centraVert">
-											<button type="button" class="btn btn-info btn-small btn_curl col-md-2 col-sm-12"><i class="fa fa-search" aria-hidden="true"></i></button>
+										<input type="text" class="form-control col-md-2 doc num" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
+											placeholder="Nro. Documento" />&nbsp;&nbsp;&nbsp;
+										<div class="col-md-1 centraVert">
+											<button type="button" class="btn btn-info btn-small btn_curl col-12"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="ruc">RUC:</label></span>
-										<input type="text" class="form-control col-md-5 ruc num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" />
+										<input type="text" class="form-control col-md-4 ruc num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" />
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="nombres">Raz&oacute;n Social:</label></span>
-										<input type="text" class="form-control col-md-5 nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" readonly />
+										<input type="text" class="form-control col-md-4 nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" readonly />
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="direccion">Domicilio:</label></span>
-										<input type="text" class="form-control col-md-5 direccion" name="direccion" id="direccion" placeholder="Domicilio" value="" onKeyUp="mayus(this)" />
+										<input type="text" class="form-control col-md-4 direccion" name="direccion" id="direccion" placeholder="Domicilio" value="" onKeyUp="mayus(this)" />
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="celular">Celular:</label></span>
-										<input type="text" class="form-control col-md-5 celular num" name="celular" id="celular" placeholder="N&uacute;mero Celular" value="" />
+										<input type="text" class="form-control col-md-4 celular num" name="celular" id="celular" placeholder="N&uacute;mero Celular" value="" />
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="correo">Correo:</label></span>
-										<input type="text" class="form-control col-md-5 celular" name="correo" id="correo" placeholder="Correo Electr&oacute;nico" value="" />
+										<input type="text" class="form-control col-md-4 celular" name="correo" id="correo" placeholder="Correo Electr&oacute;nico" value="" />
 									</div>
-								</div>
-								<div class="col-md-12 my-1">
 									<div class="row my-1">
 										<span class="col-md-3 centraVert"><label for="zona">Zona:</label></span>
-										<input type="text" class="form-control col-md-5 zona" name="zona" id="zona" placeholder="Zona" value="" onKeyUp="mayus(this)" />
+										<input type="text" class="form-control col-md-4 zona" name="zona" id="zona" placeholder="Zona" value="" onKeyUp="mayus(this)" />
 									</div>
 								</div>
 							</div>

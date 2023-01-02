@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, precioVal = 0 ;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -170,18 +170,18 @@ $(document).ready(function (){
 				{
 					data: 'cantidad',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); return number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
 				},
 				{ data: 'sucursal' },
 				{ 
 					data: 'cantidad_valorizada',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); return number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
 				},
 				{
 					data: 'costo',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); return number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
 				},
 			],
 			columnDefs:[
@@ -405,6 +405,8 @@ $('#form_ingresos').validate({
 		articuloIng: { required: true },
 		cantidadIng: { required: true },
 		guiaIng: { required: true },
+		cantidadValoriz: { required: function(){ if($('#valorizaIng').prop('checked')) return true; else return false; } },
+		costoValoriz: { required: function(){ if($('#valorizaIng').prop('checked')) return true; else return false; } },
 	},
 	messages: {
 		proveedorIng: { required: '&nbsp;&nbsp;Campo Proveedor no puede estar Vac&iacute;o' },
@@ -412,24 +414,35 @@ $('#form_ingresos').validate({
 		articuloIng: { required: '&nbsp;&nbsp;Debe elegir un Art&iacute;culo' },
 		cantidadIng: { required: '&nbsp;&nbsp;Monto Requerido' },
 		guiaIng: { required: '&nbsp;&nbsp;Gu&iacute;a Requerida' },
+		cantidadValoriz: { required: '&nbsp;&nbsp;Cantidad a valorizar' },
+		costoValoriz: { required: '&nbsp;&nbsp;Costo requerido' },
 	},
 	errorPlacement: function(error, element) {
 		error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val())? 0 : $('#cantidadValoriz').val();
-		let costoValor = isNaN($('#costoValoriz').val())? 0 : $('#costoValoriz').val();
+		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val())? 0 : parseFloat($('#cantidadValoriz').val());
+		let costoValor = isNaN($('#costoValoriz').val())? 0 : parseFloat($('#costoValoriz').val());
 		
 		//console.log(parseFloat(costoValor) + "   " + parseFloat(kgValor));
 		if(parseFloat(kgValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar la cantidad a Valorizar'); return false; }
 		if(parseFloat(kg) < parseFloat(kgValor) && $('#valorizaIng').prop('checked') === true){ alert('La cantidad a valorizar no puede ser mayor que el monto'); return false; }
 		if(parseFloat(costoValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar el costo'); return false; }
 		
+		if($('#valorizaIng').prop('checked') === true){
+			precioVal += kgValor * costoValor;
+			if($('#chkPagoValoriz').prop('checked')){
+				$('#subTotalPago').val(precioVal.toFixed(2));
+			}
+		}
+		
 		let valor = false, ids = $('#sucursalIng').val();
-		var json = [{'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
+		var json = [{ 'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
 				'sucursal':$('#sucursalIng :selected').text(),'cantidad_valorizada':kgValor,'costo':$('#costoValoriz').val(),
-				'valorizado':($('#valorizaIng').prop('checked')? 1 : 0)}];
+				'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),
+		}];
+		
 		if(tablaIngDetalle.rows().count() === 0){
 			$('#sucursalIng').attr('disabled','disabled');
 			ids = $('#sucursalIng').val();
@@ -440,7 +453,10 @@ $('#form_ingresos').validate({
 					valor = true;
 			});
 		}
-		if(!valor) tablaIngDetalle.rows.add(json).draw();
+		if(!valor){
+			tablaIngDetalle.rows.add(json).draw();
+			if(precioVal > 0){ if($('#chkPagoValoriz').attr('disabled'))$('#chkPagoValoriz').attr('disabled', false); }
+		}
 		
 		$('#form_ingresos')[0].reset();
 		$('#cantidadValoriz').attr('disabled','disabled');
@@ -484,9 +500,21 @@ $('body').bind('click','a',function(e){
 			});
 		}
 	}else if(a.hasClass('eliminarIngdetalle')){
-		//alert('Eliminar');
-		if(tablaIngDetalle.row(a).child.isShown()) tablaIngDetalle.row(a).remove().draw();
-		else tablaIngDetalle.row($(a).parents("tr")).remove().draw();
+		if(tablaIngDetalle.row(a).child.isShown()){
+			let fila = tablaIngDetalle.row(a).data();
+			precioVal -= fila.cantidad_valorizada * fila.costo;
+			tablaIngDetalle.row(a).remove().draw();
+		}else{
+			let fila = tablaIngDetalle.row($(a).parents('tr')).data();
+			precioVal -= fila.cantidad_valorizada * fila.costo;
+			tablaIngDetalle.row($(a).parents('tr')).remove().draw();
+		}
+		if(precioVal === 0){
+			$('#formPagoIngreso')[0].reset();
+			$('#formPagoIngreso select').prop('selectedIndex',0);
+			if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
+			if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
+		}else{ if($('#chkPagoValoriz').prop('checked')){ $('#subTotalPago').val(precioVal.toFixed(2)); } }
 	}
 });
 
@@ -495,11 +523,20 @@ $('#generarIng').bind('click',function(){
 	//console.log(tablaIngDetalle.rows().data());
 	if(tablaIngDetalle.rows().count() > 0){
 		let json = [], i = 0;
+		
+		if($('#chkPagoValoriz').prop('checked') && $('#pagoValoriz').val() === '8' && (isNaN($('#desembolso').val()) || $('#desembolso').val() === '')){
+			alert('Debe indicar el monto en el campo desembolso');
+			return false;
+		}
+		
 		tablaIngDetalle.rows().data().each(function(row){
 			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),
-						'valorizado': row.valorizado, 'cantidad_valorizada': row.cantidad_valorizada, 'costo': row.costo };
+						'cantidad_valorizada': row.cantidad_valorizada, 'costo': row.costo, 'chk_valorizar': row.chk_valorizar, 'tipo_op': $('#pagoValoriz').val(),
+						'chk_pago': ($('#chkPagoValoriz').prop('checked')? 1 : 0), 'subtotal': $('#subTotalPago').val(), 'desembolso': $('#desembolso').val(),		
+					};
 			i++;
 		});
+		
 		//console.log(tablaIngDetalle.rows());
 		$.ajax({
 			data: JSON.stringify(json),
@@ -507,8 +544,8 @@ $('#generarIng').bind('click',function(){
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () { 
-				$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				$('#generarIng').addClass('disabled');
+				//$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				//$('#generarIng').addClass('disabled');
 				$('#cancelIng').addClass('disabled');
 			},
 			success: function (data) {
@@ -516,6 +553,7 @@ $('#generarIng').bind('click',function(){
 				$('#generarIng').html('Generar Ingreso');
 				$('#generarIng').removeClass('disabled');
 				$('#cancelIng').removeClass('disabled');
+				precioVal = 0;
 				if (parseInt(data.status) === 200){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
@@ -523,6 +561,13 @@ $('#generarIng').bind('click',function(){
 					tablaOp.ajax.reload();
 					tablaVal.ajax.reload();
 					$('#modalIngresos').modal('hide');
+					$('#formPagoIngreso')[0].reset();
+					$('#formPagoIngreso select').prop('selectedIndex',0);
+					$('#desembolso').attr('disabled',true);
+					$('.pagoValoriz').attr('disabled',true);
+					$('.chkPagoValoriz').attr('disabled',true);
+					if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
+					if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
 				}
 				$('.resp').html(data.message);
 				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
@@ -619,6 +664,22 @@ $('.tipoop').bind('change', function(){
 });
 $('#valorizaIng').bind('click',function(e){
 	if($(this).prop('checked'))
-		$('#cantidadValoriz').prop('disabled',false);
-	else $('#cantidadValoriz').prop('disabled',true);
+		$('#cantidadValoriz').attr('disabled',false);
+	else $('#cantidadValoriz').attr('disabled',true);
+});
+$('#chkPagoValoriz').bind('click',function(e){
+	if($(this).prop('checked')){
+		$('#subTotalPago').val(precioVal.toFixed(2));
+		$('.pagoValoriz').attr('disabled',false);
+	}else{
+		$('#formPagoIngreso')[0].reset();
+		$('#formPagoIngreso select').prop('selectedIndex',0);
+		$('#desembolso').attr('disabled',true);
+		$('.pagoValoriz').attr('disabled',true);
+	}
+});
+$('#pagoValoriz').bind('change',function(e){
+	if($(this).val() === '8')
+		$('#desembolso').attr('disabled',false);
+	else $('#desembolso').attr('disabled',true);
 });

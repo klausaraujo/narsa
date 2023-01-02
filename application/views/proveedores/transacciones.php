@@ -150,11 +150,11 @@
 								</div>
 								<div class="modal-body" style="overflow: hidden;">
 									<form method="post" id="form_ingresos">
-										<div class="row mt-2 mb-4">
+										<div class="row">
 											<div class="col-md-11 mx-auto">
-												<div class="row">
+												<div class="row mt-2">
 													<div class="col-md-2 centraVert"><label for="proveedorIng" class="col-12">Proveedor:</label></div>
-													<div class="col-md-4 pb-3">
+													<div class="col-md-4">
 														<input type="text" class="form-control col-12" value="<?=ucwords(strtolower($this->input->get('name')))?>"
 															name="proveedorIng" id="proveedorIng" readonly />
 													</div>
@@ -168,11 +168,7 @@
 														</select>
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="row my-4">
-											<div class="col-md-11 mx-auto">
-												<div class="row">
+												<div class="row my-4">
 													<div class="col-md-2 centraVert"><label for="articulo" class="col-12">Producto:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 articuloIng" name="articuloIng" id="articuloIng">
@@ -188,24 +184,20 @@
 														<input type="text" class="form-control cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="row my-4">
-											<div class="col-md-11 mx-auto">
-												<div class="row">
-													<div class="col-md-2">
-														<div class="checkbox checkbox-primary col-12 centraVert form-group">
-															<label for="valorizaIng">Valorizar&nbsp;&nbsp;&nbsp;</label>
+												<div class="row my-4">
+													<div class="col-md-2 centraVert">
+														<div class="col-12 pr-0">
+															<label for="valorizaIng" class="my-0">Valorizar&nbsp;&nbsp;&nbsp;</label>
 															<input type="checkbox" name="valorizaIng" id="valorizaIng" />
 														</div>
 													</div>
 													<div class="col-md-2 centraVert"><label for="cantidadValoriz" class="col-12">Cantidad:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control col-12" name="cantidadValoriz" id="cantidadValoriz" autocomplete="off" value="0.00" disabled />
+														<input type="text" class="form-control col-12" name="cantidadValoriz" id="cantidadValoriz" autocomplete="off" placeholder="0.00" disabled />
 													</div>
 													<div class="col-md-2 centraVert"><label for="costoValoriz" class="col-12">Costo:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control col-12" name="costoValoriz" id="costoValoriz" value="0.00" autocomplete="off" />
+														<input type="text" class="form-control col-12" name="costoValoriz" id="costoValoriz" placeholder="0.00" autocomplete="off" />
 													</div>
 												</div>
 												<div class="row mt-2">
@@ -217,7 +209,7 @@
 										</div>
 									</form>
 								</div>
-								<div class="container-fluid mb-2">
+								<div class="container-fluid">
 									<div class="row">
 										<div class="table-responsive">
 											<table id="tablaIngDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-11"></table>
@@ -225,6 +217,42 @@
 									</div>
 								</div>
 								<!--<div class="clearfix"></div>-->
+								<div class="modal-body">
+									<form id="formPagoIngreso">
+										<div class="row">
+											<div class="col-md-11 mx-auto">
+												<div class="row my-4">
+													<div class="col-md-3 centraVert">
+														<div class="col-12">
+															<label for="chkPagoValoriz" class="my-0">Generar Pago&nbsp;&nbsp;&nbsp;</label>
+															<input type="checkbox" name="chkPagoValoriz" id="chkPagoValoriz" value="1" disabled />
+														</div>
+													</div>
+													<div class="col-md-2 centraVert"><label for="pagoValoriz" class="col-12">Cantidad:</label></div>
+													<div class="col-md-4">
+														<select class="form-control col-md-12 pagoValoriz" name="pagoValoriz" id="pagoValoriz" disabled >
+															<option value="2">Pago Total</option>
+															<option value="8">Pago Parcial</option>
+														</select>
+													</div>
+												</div>
+												<div class="row my-4">
+													<div class="col-md-3"></div>
+													<div class="col-md-2 centraVert"><label for="subTotalPago" class="col-12">Sub-Total:</label></div>
+													<div class="col-md-2">
+														<input type="text" class="form-control col-12" name="subTotalPago" id="subTotalPago"
+															placeholder="0.00" autocomplete="off" readonly />
+													</div>
+													<div class="col-md-2 centraVert"><label for="desembolso" class="col-12">Desembolso:</label></div>
+													<div class="col-md-3">
+														<input type="text" class="form-control col-12" name="desembolso" id="desembolso" 
+															placeholder="0.00" autocomplete="off" disabled />
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
 								<div class="modal-footer">
 									<div class="row">
 										<div class="col-md-12">

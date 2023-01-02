@@ -90,7 +90,7 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function regTransaccion($dataTran,$dataOp,$tipo){
+	public function regTransaccion($dataTran,$dataOp,$tipoDet){
 		$this->db->trans_begin();
 		$this->db->insert('transacciones', $dataTran);
 		
@@ -99,11 +99,12 @@ class Proveedores_model extends CI_Model
 		
 		/* Array para insertar en movimientos caja */
 		unset($dataOp['idproveedor']);
-		$op = $this->tipoOperacion_caja(['tipo_operacion'=> $this->input->post('tipodetalle'),'activo' => 1]);
-		$factor = $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]);
+		$op = $this->tipoOperacion_caja(['tipo_operacion'=> $tipoDet,'activo' => 1]);
+		$factor = !empty($op)? $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : '';
 		//echo($op->idtipooperacion.'   '.$factor->idfactor);
-		$dataOp['idtipooperacion'] = $op->idtipooperacion;
-		$dataOp['idfactor'] = $factor->idfactor;
+		!empty($factor)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
+		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
+		
 		$this->db->insert('movimientos_caja', $dataOp);
 		
 		if ($this->db->trans_status() === FALSE){
@@ -175,7 +176,7 @@ class Proveedores_model extends CI_Model
 				$this->db->insert('guia_entrada',$guia_entrada);
 				$idguia = $this->db->insert_id();
 			}
-			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->valorizado,
+			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->chk_valorizar,
 					'cantidad_valorizada'=>$row->cantidad_valorizada,'costo'=>$row->costo,'activo'=>1];
 			$i++;
 		endforeach;
