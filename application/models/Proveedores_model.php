@@ -18,7 +18,7 @@ class Proveedores_model extends CI_Model
 		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		$this->db->where('idproveedor >',1);
 		$this->db->where('pr.activo',1);
-		$this->db->order_by('idproveedor', 'asc');
+		$this->db->order_by('idproveedor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -28,7 +28,7 @@ class Proveedores_model extends CI_Model
         $this->db->from('proveedor pr');
 		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		$this->db->where($data);
-		$this->db->order_by('idproveedor', 'asc');
+		$this->db->order_by('idproveedor', 'ASC');
 		$this->db->limit(1);
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
@@ -38,7 +38,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idtipodocumento,codigo_curl,tipo_documento,longitud');
         $this->db->from('tipo_documento');
 		$this->db->where('activo',1);
-		$this->db->order_by('idtipodocumento', 'asc');
+		$this->db->order_by('idtipodocumento', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
@@ -46,7 +46,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idfactor');
         $this->db->from('factor');
 		$this->db->where($data);
-		$this->db->order_by('idfactor', 'asc');
+		$this->db->order_by('idfactor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
@@ -68,7 +68,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idtipooperacion,tipo_operacion');
 		$this->db->from('tipo_operacion_proveedor');
 		$this->db->where($data);
-		$this->db->order_by('idtipooperacion', 'asc');
+		$this->db->order_by('idtipooperacion', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
@@ -77,7 +77,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idtipooperacion');
 		$this->db->from('tipo_operacion_caja');
 		$this->db->where($data);
-		$this->db->order_by('idtipooperacion', 'asc');
+		$this->db->order_by('idtipooperacion', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
@@ -86,33 +86,36 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idarticulo,articulo');
 		$this->db->from('articulo');
 		$this->db->where($data);
-		$this->db->order_by('idarticulo', 'asc');
+		$this->db->order_by('idarticulo', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 	public function regTransaccion($dataTran,$dataOp,$tipoDet){
+		$idtran = 0;
 		$this->db->trans_begin();
 		$this->db->insert('transacciones', $dataTran);
 		
-		$dataOp['idtransaccion'] = $this->db->insert_id();
+		$idtran = $this->db->insert_id();
+		
+		$dataOp['idtransaccion'] = $idtran;
 		$this->db->insert('movimientos_proveedor', $dataOp);
 		
 		/* Array para insertar en movimientos caja */
 		unset($dataOp['idproveedor']);
 		$op = $this->tipoOperacion_caja(['tipo_operacion'=> $tipoDet,'activo' => 1]);
 		$factor = !empty($op)? $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : '';
-		//echo($op->idtipooperacion.'   '.$factor->idfactor);
-		!empty($factor)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
-		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
+		
+		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
+		!empty($op)? $dataOp['idfactor'] = $factor->idfactor : '';
 		
 		$this->db->insert('movimientos_caja', $dataOp);
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			return false;
+			return 0;
 		}else{
 			$this->db->trans_commit();
-			return true;
+			return $idtran;
 		}
 	}
 	public function listaOperaciones($data)
@@ -120,7 +123,7 @@ class Proveedores_model extends CI_Model
         $this->db->select('*');
         $this->db->from('lista_movimientos_proveedor');
 		$this->db->where($data);
-		$this->db->order_by('idtransaccion', 'desc');
+		$this->db->order_by('idmovimiento', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -131,7 +134,7 @@ class Proveedores_model extends CI_Model
 		$this->db->join('sucursal su','su.idsucursal = ge.idsucursal');
 		$this->db->join('proveedor pr','pr.idproveedor = ge.idproveedor');
 		$this->db->where($data);
-		$this->db->order_by('ge.idguia', 'desc');
+		$this->db->order_by('ge.idguia', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -143,7 +146,7 @@ class Proveedores_model extends CI_Model
 		$this->db->join('proveedor pr','pr.idproveedor = va.idproveedor');
 		$this->db->join('transacciones tr','tr.idtransaccion = va.idtransaccion');
 		$this->db->where($data);
-		$this->db->order_by('va.idvalorizacion', 'desc');
+		$this->db->order_by('va.idvalorizacion', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -152,11 +155,11 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idguia,anio_guia,numero,idarticulo,articulo,cantidad,idsucursal');
         $this->db->from('lista_ingresos_valorizaciones_saldo');
 		$this->db->where($data);
-		$this->db->order_by('idguia', 'asc');
+		$this->db->order_by('idguia', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function ingresarProductos($data){
+	public function ingresarProductos($data,$tran){
 		$i = 0; $idguia = ''; $numero = 1;
 		
 		$this->db->trans_begin();
@@ -172,7 +175,9 @@ class Proveedores_model extends CI_Model
 					$numero = floatval( $result->numero ) + 1;
 				} 
 				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
-								'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
+								'pago'=>$tran['pago'],'tipo_pago'=>$tran['tipo_pago'],'idtransaccion'=>$tran['idtransaccion'],'monto_valor'=>$tran['monto_valor'],
+								'monto_pagado'=>$tran['monto_pagado'],'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
+				//$guia_entrada[] = $tran;
 				$this->db->insert('guia_entrada',$guia_entrada);
 				$idguia = $this->db->insert_id();
 			}
@@ -368,7 +373,7 @@ class Proveedores_model extends CI_Model
 		$this->db->from('lista_movimientos_proveedor');
 		$this->db->where($where);
 		//$this->db->group_by('idsucursal', 'asc');
-		$this->db->order_by('idtransaccion', 'asc');
+		$this->db->order_by('idtransaccion', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
@@ -377,7 +382,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('lista_ingresos_proveedores');
 		$this->db->where($where);
-		$this->db->order_by('idarticulo', 'asc');
+		$this->db->order_by('idarticulo', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
@@ -386,7 +391,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('lista_valorizaciones_proveedores');
 		$this->db->where($where);
-		$this->db->order_by('numero', 'asc');
+		$this->db->order_by('numero', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
@@ -395,7 +400,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idarticulo,cantidad');
 		$this->db->from('lista_ingresos_valorizaciones_saldo');
 		$this->db->where($where);
-		$this->db->order_by('idarticulo', 'asc');
+		$this->db->order_by('idarticulo', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}

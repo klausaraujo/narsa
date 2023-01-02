@@ -186,10 +186,14 @@
 												</div>
 												<div class="row my-4">
 													<div class="col-md-2 centraVert">
-														<div class="col-12 pr-0">
+														<div class="custom-control custom-switch col-12 pr-0">
+															<input type="checkbox" class="custom-control-input" name="valorizaIng" id="valorizaIng">
+															<label class="custom-control-label" for="valorizaIng">Valorizar</label>
+														</div>
+														<!--<div class="col-12 pr-0">
 															<label for="valorizaIng" class="my-0">Valorizar&nbsp;&nbsp;&nbsp;</label>
 															<input type="checkbox" name="valorizaIng" id="valorizaIng" />
-														</div>
+														</div>-->
 													</div>
 													<div class="col-md-2 centraVert"><label for="cantidadValoriz" class="col-12">Cantidad:</label></div>
 													<div class="col-md-3">
@@ -223,10 +227,14 @@
 											<div class="col-md-11 mx-auto">
 												<div class="row my-4">
 													<div class="col-md-3 centraVert">
-														<div class="col-12">
+														<div class="custom-control custom-switch col-12 pr-0">
+															<input type="checkbox" class="custom-control-input" name="chkPagoValoriz" id="chkPagoValoriz" disabled >
+															<label class="custom-control-label" for="chkPagoValoriz">Generar Pago</label>
+														</div>
+														<!--<div class="col-12">
 															<label for="chkPagoValoriz" class="my-0">Generar Pago&nbsp;&nbsp;&nbsp;</label>
 															<input type="checkbox" name="chkPagoValoriz" id="chkPagoValoriz" value="1" disabled />
-														</div>
+														</div>-->
 													</div>
 													<div class="col-md-2 centraVert"><label for="pagoValoriz" class="col-12">Cantidad:</label></div>
 													<div class="col-md-4">

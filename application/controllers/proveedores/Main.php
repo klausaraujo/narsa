@@ -197,7 +197,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc'); $tipo = $this->input->post('tipoop');
-		$tipodetalle = $this->input->post('tipodetalle');
+		$tipoDet = $this->input->post('tipodetalle');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipo,'activo'=>1]);
 		
@@ -220,7 +220,7 @@ class Main extends CI_Controller
 			'fecha_registro' => $fecha,
 			'activo' => '1',
 		);
-		if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet)){
+		if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet) > 0){
 			$message = 'Transacci&oacute;n registrada exitosamente';
 			$status = 200;
 		}
@@ -279,14 +279,50 @@ class Main extends CI_Controller
 	public function nuevoIngreso(){
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a'; $i = 0; $j = 0; $k = 0; $dataVal = []; $guiaArray = []; $dataTransaccion = []; $dataOp = [];
-		$valorizar = false; $pago = false; $pagoAdelanto = false; $valorizacion = false; $tipoop = ''; $monto = '';
+		$valorizacion = false; $valorizar = false; $idtrans = 0; $tipoop = ''; $montopag = 0; $tipoOpPago = 0; $pago = 0; $mtoValor = 0; $rs = 0;
 		// Takes raw data from the request
 		$json = file_get_contents('php://input');
 		// Converts it into a PHP object
 		$data = json_decode($json);
-		$rs = $this->Proveedores_model->ingresarProductos($data);
 		
-		if($rs > 0){
+		if($data[0]->chk_pago === 1){
+			$montopag = $data[0]->tipo_op === '8'? $data[0]->desembolso : $data[0]->subtotal;
+			
+			$f = $this->Proveedores_model->factor([ 'destino' => 1,'idtipooperacion' => $data[0]->tipo_op,'activo' => 1 ]);
+			$factor = (!empty($f)? $f->idfactor : 0);
+						
+			$dataTransaccion = [
+				'fecha' => date('Y-m-d H:i:s'),
+				'vencimiento' => date('Y-m-d'),
+				'monto' => $montopag,
+				'activo' => 1
+			];
+			$dataOp = [
+				'idtipooperacion' => $data[0]->tipo_op,
+				'idsucursal' => $data[0]->idsucursal,
+				'idproveedor' => $data[0]->idproveedor,
+				'monto' => $montopag,
+				'interes' => 0,
+				'idfactor' => $factor,
+				'fecha_vencimiento' => date('Y-m-d H:i:s'),
+				'fecha_movimiento' => date('Y-m-d H:i:s'),
+				'idusuario_registro' => $this->usuario->idusuario,
+				'fecha_registro' => date('Y-m-d H:i:s'),
+				'activo' => 1,
+			];
+				
+			$tipoop = $data[0]->tipo_op === '8'? 'ADELANTOS A PROVEEDORES' : 'PAGOS A PROVEEDORES';
+			$tipoOpPago = $data[0]->tipo_op === '8'? 2 : 1;
+			$pago = 1;
+			$mtoValor = $data[0]->subtotal;
+
+			/* Guardar la transaccion, mov proveedor y mov caja */
+			$idtrans = $this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoop);
+		}
+		
+		$rs = $this->Proveedores_model->ingresarProductos($data,['pago'=>$pago,'tipo_pago'=>$tipoOpPago,'idtransaccion'=>$idtrans,'monto_valor'=>$mtoValor,'monto_pagado'=>$montopag]);
+		
+		if($rs){
 			foreach($data as $row):
 				if($j === 0){ $guiaArray[$i] = $rs; $j++; }
 				if($row->chk_valorizar === 1){
@@ -295,46 +331,14 @@ class Main extends CI_Controller
 									'idsucursal' => $row->idsucursal,'idproveedor' => $row->idproveedor ];
 					$i++;
 				}
-				if($row->chk_pago === 1){
-					if($k === 0){
-						$pago = true;
-						$monto = $row->tipo_op == '8'? $row->desembolso : $row->subtotal;
-						//echo $monto;
-						$factor = $this->Proveedores_model->factor([ 'destino' => 1,'idtipooperacion' => $row->tipo_op,'activo' => 1 ]);
-						
-						$dataTransaccion = [
-							'fecha' => date('Y-m-d H:i:s'),
-							'vencimiento' => date('Y-m-d'),
-							'monto' => $monto,
-							'activo' => 1
-						];
-						$dataOp = [
-							'idtipooperacion' => $row->tipo_op,
-							'idsucursal' => $row->idsucursal,
-							'idproveedor' => $row->idproveedor,
-							'monto' => $monto,
-							'interes' => 0,
-							'idfactor' => (!empty($factor)? $factor->idfactor : 0),
-							'fecha_vencimiento' => date('Y-m-d H:i:s'),
-							'fecha_movimiento' => date('Y-m-d H:i:s'),
-							'idusuario_registro' => $this->usuario->idusuario,
-							'fecha_registro' => date('Y-m-d H:i:s'),
-							'activo' => 1,
-						];
-						
-						$tipoop = $row->tipo_op === '8'? 'ADELANTOS A PROVEEDORES' : 'PAGOS A PROVEEDORES';
-						
-						$k++;
-					}
-				}
 			endforeach;
+		}
 			
-			if($valorizar) $valorizacion = $this->Proveedores_model->regValorizacion($dataVal,$guiaArray);
-			if($pago)$pagoAdelanto = $this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoop);
-			if(($valorizacion || !$valorizar) && (!$pago || $pagoAdelanto)){
-				$message = 'Gu&iacute;a registrada exitosamente';
-				$status = 200;
-			}
+		if($valorizar) $valorizacion = $this->Proveedores_model->regValorizacion($dataVal,$guiaArray);
+		
+		if($rs > 0 && ($valorizacion || !$valorizar)){
+			$message = 'Gu&iacute;a registrada exitosamente';
+			$status = 200;
 		}
 		
 		$data = array(
