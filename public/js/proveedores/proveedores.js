@@ -137,7 +137,7 @@ $(document).ready(function (){
 					}
 				},
 				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
-				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
+				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{
 					data: 'activo',
@@ -264,7 +264,7 @@ $(document).ready(function (){
 					}
 				},
 				{ data: 'idvalorizacion' },{ data: 'anio_valorizacion' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
-				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
+				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{ 
 					data: 'monto',
@@ -528,6 +528,11 @@ $('#generarIng').bind('click',function(){
 			alert('Debe indicar el monto en el campo desembolso');
 			return false;
 		}
+		if(parseFloat($('#desembolso').val()) > parseFloat(precioVal)){
+			alert('El monto a pagar no debe ser mayor que el monto total');
+			return false;
+		}
+			
 		
 		tablaIngDetalle.rows().data().each(function(row){
 			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),
@@ -557,9 +562,10 @@ $('#generarIng').bind('click',function(){
 				if (parseInt(data.status) === 200){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
-					tablaReg.ajax.reload();
-					tablaOp.ajax.reload();
-					tablaVal.ajax.reload();
+					tablaReg.ajax.reload(); tablaOp.ajax.reload(); tablaVal.ajax.reload();
+					if(tablaReg.rows().count() === 0) tablaReg.clear().draw(); 
+					if(tablaOp.rows().count() === 0) tablaOp.clear().draw();
+					if(tablaVal.rows().count() === 0) tablaVal.clear().draw();
 					$('#modalIngresos').modal('hide');
 					$('#formPagoIngreso')[0].reset();
 					$('#formPagoIngreso select').prop('selectedIndex',0);
