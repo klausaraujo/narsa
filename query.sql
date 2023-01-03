@@ -366,6 +366,7 @@ insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimiento
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (7,'INGRESO DE EFECTIVO A CAJA','1');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (8,'TRANSFERENCIA A SUCURSALES','1');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (9,'GASTOS OPERATIVOS','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (10,'ADELANTOS A PROVEEDORES','1');
 
 create table transacciones(
 idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
