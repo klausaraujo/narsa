@@ -402,6 +402,7 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (13,2,6,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (14,2,7,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (15,2,8,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (16,2,9,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (18,2,10,-1);
 
 create table movimientos_proveedor(
 	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
@@ -542,7 +543,7 @@ where mp.activo='1';
 
 create view lista_ingresos_proveedores
 as
-select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,ged.idarticulo,a.articulo,ged.cantidad
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,ged.idarticulo,a.articulo,ged.cantidad,ged.cantidad_valorizada,ged.costo
 from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle as ged on ged.idguia=ge.idguia inner join articulo as a on a.idarticulo = ged.idarticulo 
 where ge.activo='1' and ged.activo='1';
 
