@@ -297,9 +297,19 @@ $(document).ready(function (){
 
 $('#modalIngresos').on('hidden.bs.modal',function(e){
 	$('#form_ingresos')[0].reset();
+	$('#form_ingresos select').prop('selectedIndex',0);
+	$('#cantidadValoriz').attr('disabled','disabled');
+	
+	$('#formPagoIngreso')[0].reset();
+	$('#formPagoIngreso select').prop('selectedIndex',0);
+	$('#desembolso').attr('disabled',true);
+	$('.pagoValoriz').attr('disabled',true);
+	$('#chkPagoValoriz').attr('disabled',true);
+	
 	tablaIngDetalle.clear().draw();
 	$('#sucursalIng').removeAttr('disabled');
-	$('#form_ingresos select').prop('selectedIndex',0);
+	
+	precioVal = 0;
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
 });
@@ -404,7 +414,6 @@ $('#form_ingresos').validate({
 		sucursalIng: { required: true },
 		articuloIng: { required: true },
 		cantidadIng: { required: true },
-		guiaIng: { required: true },
 		cantidadValoriz: { required: function(){ if($('#valorizaIng').prop('checked')) return true; else return false; } },
 		costoValoriz: { required: function(){ if($('#valorizaIng').prop('checked')) return true; else return false; } },
 	},
@@ -412,8 +421,7 @@ $('#form_ingresos').validate({
 		proveedorIng: { required: '&nbsp;&nbsp;Campo Proveedor no puede estar Vac&iacute;o' },
 		sucursalIng: { required: '&nbsp;&nbsp;Debe elegir la Sucursal' },
 		articuloIng: { required: '&nbsp;&nbsp;Debe elegir un Art&iacute;culo' },
-		cantidadIng: { required: '&nbsp;&nbsp;Monto Requerido' },
-		guiaIng: { required: '&nbsp;&nbsp;Gu&iacute;a Requerida' },
+		cantidadIng: { required: '&nbsp;&nbsp;Cantidad Requerida' },
 		cantidadValoriz: { required: '&nbsp;&nbsp;Cantidad a valorizar' },
 		costoValoriz: { required: '&nbsp;&nbsp;Costo requerido' },
 	},
@@ -528,7 +536,7 @@ $('#generarIng').bind('click',function(){
 			alert('Debe indicar el monto en el campo desembolso');
 			return false;
 		}
-		if(parseFloat($('#desembolso').val()) > parseFloat(precioVal)){
+		if(parseFloat($('#desembolso').val()) > parseFloat($('#subTotalPago').val())){
 			alert('El monto a pagar no debe ser mayor que el monto total');
 			return false;
 		}
@@ -549,8 +557,8 @@ $('#generarIng').bind('click',function(){
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () { 
-				$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				$('#generarIng').addClass('disabled');
+				//$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				//$('#generarIng').addClass('disabled');
 				$('#cancelIng').addClass('disabled');
 			},
 			success: function (data) {

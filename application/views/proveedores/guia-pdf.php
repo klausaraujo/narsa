@@ -141,15 +141,17 @@
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">C&oacute;digo Art&iacute;culo</td><td colspan="7">Art&iacute;culo Ingresado</td><td colspan="2">Cantidad Kg.</td>
+					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="5">Art. Ingresado</td><td colspan="2">Cantidad Kg.</td>
+					<td>Valorizado</td><td>Costo</td>
 				</tr>
 	<?
 			$i = 1;
 			foreach($lista as $row):
 	?>
 				<tr>
-					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="7" style="text-align:left">&nbsp;<?=$row->articulo?></td>
-					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td>
+					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="5" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right"></td>
+					<td style="text-align:right"></td>
 				</tr>
 	<?
 				$i++;

@@ -103,10 +103,10 @@ class Proveedores_model extends CI_Model
 		/* Array para insertar en movimientos caja */
 		unset($dataOp['idproveedor']);
 		$op = $this->tipoOperacion_caja(['tipo_operacion'=> $tipoDet,'activo' => 1]);
-		$factor = !empty($op)? $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : '';
+		$factor = !empty($op)? $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : array();
 		
 		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
-		!empty($op)? $dataOp['idfactor'] = $factor->idfactor : '';
+		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
 		
 		$this->db->insert('movimientos_caja', $dataOp);
 		
@@ -159,7 +159,7 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function ingresarProductos($data,$tran){
+	public function ingresarProductos($data){
 		$i = 0; $idguia = ''; $numero = 1;
 		
 		$this->db->trans_begin();
@@ -175,8 +175,7 @@ class Proveedores_model extends CI_Model
 					$numero = floatval( $result->numero ) + 1;
 				} 
 				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
-								'pago'=>$tran['pago'],'tipo_pago'=>$tran['tipo_pago'],'idtransaccion'=>$tran['idtransaccion'],'monto_valor'=>$tran['monto_valor'],
-								'monto_pagado'=>$tran['monto_pagado'],'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
+								'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
 				//$guia_entrada[] = $tran;
 				$this->db->insert('guia_entrada',$guia_entrada);
 				$idguia = $this->db->insert_id();
@@ -278,22 +277,15 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		if($result->num_rows() > 0){
 			$result = $result->row();
-			return (floatval( $result->numero ) > 0)? floatval( $result->numero ) + 1 : 1;
+			return floatval( $result->numero ) + 1;
 		}else return 1;
 	}
 	public function regValorizacion($data,$guia)
 	{
-		$numero = 1;		
+		$numero = 1; $idtran = 0;
 		$this->db->trans_begin();
 		
-		$this->db->select('MAX(numero) numero');
-		$this->db->from('valorizacion');
-		$this->db->where(['idsucursal'=>$data[0]['idsucursal'],'anio_valorizacion'=>date('Y')]);
-		$result = $this->db->get();
-		if($result->num_rows() > 0){
-			$result = $result->row();
-			$numero = floatval( $result->numero ) + 1;
-		}
+		$numero = $this->traeNumVal(['idsucursal'=>$data[0]['idsucursal'],'anio_valorizacion'=>date('Y')]);
 		
 		foreach($guia as $row):
 			$mto = 0; $suc = ''; $prov = ''; $valorizDet = []; $valorizGuiaDet = [];
@@ -331,10 +323,10 @@ class Proveedores_model extends CI_Model
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			return false;
+			return 0;
 		}else{
 			$this->db->trans_commit();
-			return true;
+			return $idtran;
 		}
 	}
 	public function traeTranByIdVal($where)
@@ -403,5 +395,12 @@ class Proveedores_model extends CI_Model
 		$this->db->order_by('idarticulo', 'ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function actualizaGuia($idguia,$data)
+	{
+		$this->db->db_debug = FALSE;
+		$this->db->where($idguia);
+		if ($this->db->update('guia_entrada',$data)) return true;
+        else return false;
 	}
 }
