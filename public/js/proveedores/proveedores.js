@@ -71,11 +71,8 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){
 						let number = parseFloat(data);
-						/*switch(row.activo){
-							case '1': return number.toLocaleString('es-PE'); break;
-							case '0': return '<span class="text-danger">'+number.toLocaleString('es-PE')+'</span>'; break;
-						}*/
-						return number.toLocaleString('es-PE');
+						number = number.toFixed(2);
+						return isNaN(number)? 0 : number.toLocaleString('es-PE');
 					}
 				},
 				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ let number = parseFloat(data); return (number == 0)? '0.00' : number.toLocaleString('es-PE'); } },
@@ -85,7 +82,8 @@ $(document).ready(function (){
 					render: function(data,type,row,meta){
 						let number = parseFloat(data);
 						if(number < 0) number *= -1;
-						return number.toLocaleString('es-PE');
+						number = number.toFixed(2);
+						return isNaN(number)? 0 : number.toLocaleString('es-PE');
 					}
 				},
 				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
@@ -151,8 +149,8 @@ $(document).ready(function (){
 					}
 				},
 			],
-			columnDefs: headersIng, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-			'copy','csv','excel','pdf','print']},order: [],
+			columnDefs: headersIng,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']},*/order: [],
 		});
 		/* Tabla Detalle de los Ingresos */
 		tablaIngDetalle = $('#tablaIngDetalle').DataTable({
@@ -170,18 +168,18 @@ $(document).ready(function (){
 				{
 					data: 'cantidad',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
 				},
 				{ data: 'sucursal' },
 				{ 
 					data: 'cantidad_valorizada',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
 				},
 				{
 					data: 'costo',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
 				},
 			],
 			columnDefs:[
@@ -207,7 +205,8 @@ $(document).ready(function (){
 					data: 'cantidad',
 					render: function(data){
 						let number = parseFloat(data);
-						return number.toLocaleString('es-PE');
+						number = number.toFixed(2);
+						return isNaN(number)? 0 : number.toLocaleString('es-PE');
 					}
 				},
 				{
@@ -218,13 +217,13 @@ $(document).ready(function (){
 				},
 				{
 					render: function(data,type,full,meta){
-						return '<input type="text" placeholder="0" value="" class="form-control input-sm cantidad" disabled />';
+						return '<input type="text" placeholder="0.00" class="form-control input-sm cantidad moneda" disabled />';
 					},
 					orderable: false,
 				},
 				{
 					render: function(data,type,full,meta){
-						return '<input type="text" placeholder="0" id="costo" value="" class="form-control input-sm costo" disabled />';
+						return '<input type="text" placeholder="0.00" id="costo" class="form-control input-sm costo moneda" disabled />';
 					},
 					orderable: false,
 				},
@@ -271,9 +270,10 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){
 						let number = parseFloat(data);
+						number = number.toFixed(2);
 						switch(row.activo){
-							case '1': return number.toLocaleString('es-PE'); break;
-							case '0': return '<span class="text-danger">'+number.toLocaleString('es-PE')+'</span>'; break;
+							case '1': return isNaN(number)? 0 : number.toLocaleString('es-PE'); break;
+							case '0': return '<span class="text-danger">'+isNaN(number)? 0 : number.toLocaleString('es-PE')+'</span>'; break;
 						}
 					}
 				},
@@ -289,8 +289,8 @@ $(document).ready(function (){
 					}
 				},
 			],
-			columnDefs: headersVal, dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
-			'copy','csv','excel','pdf','print']},order: [],
+			columnDefs: headersVal,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
+			'copy','csv','excel','pdf','print']},*/order: [],
 		});
 	}
 });
@@ -377,6 +377,7 @@ $('#form_transacciones').validate({
 		event.preventDefault();
 		var formData = new FormData(document.getElementById('form_transacciones'));
 		formData.set('tipodetalle',$('#tipoop').find(':selected').text());
+		//console.log(parseFloat($('#monto').val()));
 		
 		$.ajax({
 			data: new URLSearchParams(formData).toString(),
@@ -594,13 +595,17 @@ $('#tablaValDetalle').bind('click','input',function(e){
 	let evt = e.target, inputs = $(evt).closest('tr').find('input'), i = 0;
 	//console.log(inputs);
 	if($(evt).attr('type') === 'checkbox'){
-		$.each( inputs, function(i,e){
-			if($(e).attr('type') === 'text'){
-				if($(evt).prop('checked') === true){ $(e).prop('disabled', false); }
-				else $(e).prop('disabled', true);
-			}
-			i++;
-		});
+		if($(evt).prop('checked') === true){
+			$(evt).closest('tr').find('.moneda').removeAttr('disabled');
+		}else
+			$(evt).closest('tr').find('.moneda').attr('disabled','disabled');
+	}
+});
+$('#tablaValDetalle').bind('keydown','input',function(e){
+	let el = e.target;
+	if($(el).attr('type') === 'text'){
+		//console.log(el.value);
+		return mascara(el,cpf);
 	}
 });
 
@@ -608,7 +613,7 @@ $('#guardaVal').bind('click',function(){
 	let jsonDetalle = [], jsonTransaccion = [], i = 0, j = 0, guia = '', mto = 0, mult = 0, salta = true;
 	if(! tablaValDetalle.rows().count() > 0) return false;
 	
-	$('#tablaValDetalle tbody input[type=checkbox]:checked').each(function(i, e) {
+	$('#tablaValDetalle tbody input[type=checkbox]:checked').each(function(i, e){
 		let data = tablaValDetalle.row($(e).parents('tr')).data();
 		let inputCant = $(e).closest('tr').find('input.cantidad'), inputCosto = $(e).closest('tr').find('input.costo');
 		if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
@@ -664,7 +669,6 @@ $('#guardaVal').bind('click',function(){
 $('#sucursalVal').bind('change', function(){
 	tablaValDetalle.ajax.reload();
 });
-
 $('#modalVal').bind('click', function(){
 	tablaValDetalle.ajax.reload();
 });

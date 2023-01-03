@@ -4,6 +4,7 @@
 <link rel="icon" href="<?=base_url()?>/public/images/favicon.jpg" type="image/x-icon">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/datatable/datatables.min.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/datatable/responsive.dataTables.min.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/typography.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/style.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">

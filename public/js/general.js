@@ -44,12 +44,34 @@ $('.tipodoc').bind('change',function(e){
 	}else
 		return false;
 });*/
+function mascara(o,f){  
+	v_obj=o;  
+	v_fun=f;  
+	setTimeout("execmascara()",1);  
+}  
+function execmascara(){   
+	v_obj.value=v_fun(v_obj.value);
+}  
+function cpf(v){     
+	v=v.replace(/([^0-9\.]+)/g,''); 
+	v=v.replace(/^[\.]/,''); 
+	v=v.replace(/[\.][\.]/g,''); 
+	v=v.replace(/\.(\d)(\d)(\d)/g,'.$1$2'); 
+	v=v.replace(/\.(\d{1,2})\./g,'.$1'); 
+	//v = v.toString().split('').reverse().join('').replace(/(\d{3})/g,'$1,');    
+	//v = v.split('').reverse().join('').replace(/^[\,]/,''); 
+	return v;  
+}  
+
+$('.moneda').bind('keydown',function(e){
+	return mascara(this,cpf);
+});
 
 $('.num').bind('input',function(e){
 	jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
 });
 
-$('.numDec').bind('keydown',function(e){
+/*$('.numDec').bind('keydown',function(e){
 	let key = e.which;
 	alert(key);
 	if(key >= 48 && key <= 57 || key >= 96 && key <= 105 || key == 46 || key == 8 || key == 37 || key == 39 || key == 9 || key == 116){
@@ -58,7 +80,7 @@ $('.numDec').bind('keydown',function(e){
 		return false;
 	
 	//jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
-});
+});*/
 
 btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });
 upload.bind('click',function(e){ file.trigger('click'); });
