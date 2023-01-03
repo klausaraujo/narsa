@@ -63,7 +63,7 @@
 															<span class="col-12" style="display:flex;align-items:center"><label for="monto">Monto Operaci&oacute;n:</label></span>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control col-md-7 monto" name="monto" id="monto" autocomplete="off" />
+															<input type="text" class="form-control col-md-7 monto moneda" name="monto" id="monto" autocomplete="off" />
 															<div class="col-md-5 ml-auto" style="display:flex;align-items:center">
 																<button type="submit" class="btn btn-narsa">Ejecutar</button>
 															</div>
@@ -75,7 +75,7 @@
 															<span class="col-12" style="display:flex;align-items:center"><label for="interes">Tasa de Inter&eacute;s:</label></span>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control col-md-4 interes" maxlength="2" name="interes" id="interes" autocomplete="off" />
+															<input type="text" class="form-control col-md-4 interes moneda" maxlength="3" name="interes" id="interes" autocomplete="off" />
 														</div>
 													</div>
 												</div>
@@ -87,7 +87,8 @@
 										<div class="row">
 											<div class="col-12">
 												<a class="btn btn-narsa my-3" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
-													target="_blank">Estado de Cuenta</a></div>
+													target="_blank">Estado de Cuenta</a>
+											</div>
 											<div class="table-responsive" style="overflow-x:scroll">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
@@ -181,7 +182,7 @@
 													</div>
 													<div class="col-md-3 centraVert"><label for="cantidadIng" class="col-md-9 pull-right">Cantidad KG:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control cantidadIng" name="cantidadIng" id="cantidadIng" autocomplete="off" />
+														<input type="text" class="form-control cantidadIng moneda" name="cantidadIng" id="cantidadIng" autocomplete="off" />
 													</div>
 												</div>
 												<div class="row my-4">
@@ -197,11 +198,11 @@
 													</div>
 													<div class="col-md-2 centraVert"><label for="cantidadValoriz" class="col-12">Cantidad:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control col-12" name="cantidadValoriz" id="cantidadValoriz" autocomplete="off" placeholder="0.00" disabled />
+														<input type="text" class="form-control col-12 moneda" name="cantidadValoriz" id="cantidadValoriz" autocomplete="off" placeholder="0.00" disabled />
 													</div>
 													<div class="col-md-2 centraVert"><label for="costoValoriz" class="col-12">Costo:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control col-12" name="costoValoriz" id="costoValoriz" placeholder="0.00" autocomplete="off" />
+														<input type="text" class="form-control col-12 moneda" name="costoValoriz" id="costoValoriz" placeholder="0.00" autocomplete="off" />
 													</div>
 												</div>
 												<div class="row mt-2">
@@ -253,7 +254,7 @@
 													</div>
 													<div class="col-md-2 centraVert"><label for="desembolso" class="col-12">Desembolso:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control col-12" name="desembolso" id="desembolso" 
+														<input type="text" class="form-control col-12 moneda" name="desembolso" id="desembolso" 
 															placeholder="0.00" autocomplete="off" disabled />
 													</div>
 												</div>

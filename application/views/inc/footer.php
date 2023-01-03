@@ -41,6 +41,7 @@
 		<!-- Custom JavaScript -->
 		<script src="<?=base_url()?>/public/js/custom.js"></script>
 		<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
+		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
