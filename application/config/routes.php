@@ -85,6 +85,7 @@ $route['proveedores/valorizaciones/nuevo'] = 'proveedores/main/registrarValoriza
 $route['proveedores/valorizaciones/lista'] = 'proveedores/main/listaValorizaciones';
 $route['proveedores/valorizaciones/anular'] = 'proveedores/main/anulaOp';
 $route['proveedores/valorizaciones/valoriz_pdf'] = 'proveedores/main/informes';
+$route['proveedores/ingresos/comprobante'] = 'proveedores/main/informes';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

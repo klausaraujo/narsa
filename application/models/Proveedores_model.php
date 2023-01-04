@@ -403,4 +403,36 @@ class Proveedores_model extends CI_Model
 		if ($this->db->update('guia_entrada',$data)) return true;
         else return false;
 	}
+	public function traeEdoCta($where){
+		$this->db->select('SUM(monto_factor_final) edocta');
+		$this->db->from('lista_movimientos_proveedor');
+		$this->db->where($where);
+		$rs = $this->db->get();
+		if($rs->num_rows() > 0){
+			$rs = $rs->row();
+			return $rs->edocta;
+		}else return 0;
+	}
+	public function traeProvByIdguia($where){
+		$this->db->select('idproveedor');
+		$this->db->from('guia_entrada');
+		$this->db->where($where);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		if($result->num_rows() > 0){
+			$result = $result->row();
+			return $result->idproveedor;
+		}else return 0;
+	}
+	public function traeProvByIdTran($where){
+		$this->db->select('idproveedor');
+		$this->db->from('movimientos_proveedor');
+		$this->db->where($where);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		if($result->num_rows() > 0){
+			$result = $result->row();
+			return $result->idproveedor;
+		}else return 0;
+	}
 }

@@ -85,9 +85,18 @@
 									<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div class="col-12">
-												<a class="btn btn-narsa my-3" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
+											<div class="col-md-6 mb-3">
+												<a class="btn btn-narsa" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
 													target="_blank">Estado de Cuenta</a>
+											</div>
+											<div class="col-md-6 mb-3">
+												<div class="form-group row">
+													<label class="control-label col-lg-3 align-self-center mb-0 ml-auto px-0" for="rescta">Resumen</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control form-control-sm text-right" id="rescta" 
+															value="<?=number_format($edocta,2,'.',',');?>" readonly >
+													</div>
+												</div>
 											</div>
 											<div class="table-responsive" style="overflow-x:scroll">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->

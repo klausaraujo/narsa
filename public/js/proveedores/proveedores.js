@@ -1,5 +1,16 @@
 let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, precioVal = 0 ;
 
+function formateaNumero(value) {
+  v = parseFloat(value)
+  v = v.toFixed(2);
+  return new Intl.NumberFormat('es-PE', { style: 'decimal' }).format(v);
+}
+function formatMoneda(v){
+	let n = parseFloat(v).toFixed(2);
+	n = (n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return n;
+}
+
 $(document).ready(function (){
 	if(segmento2 == ''){
 		tabla = $('#tablaProveedores').DataTable({
@@ -69,22 +80,13 @@ $(document).ready(function (){
 				{ 
 					data: 'monto',
 					className: 'text-left',
-					render: function(data,type,row,meta){
-						let number = parseFloat(data);
-						number = number.toFixed(2);
-						return isNaN(number)? 0 : number.toLocaleString('es-PE');
-					}
+					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formateaNumero(data); }
 				},
-				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ let number = parseFloat(data); return (number == 0)? '0.00' : number.toLocaleString('es-PE'); } },
+				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formateaNumero(data); } },
 				{
 					data: 'monto_factor_final',
 					className: 'text-left',
-					render: function(data,type,row,meta){
-						let number = parseFloat(data);
-						if(number < 0) number *= -1;
-						number = number.toFixed(2);
-						return isNaN(number)? 0 : number.toLocaleString('es-PE');
-					}
+					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formateaNumero(number); }
 				},
 				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'usuario' },
@@ -168,18 +170,18 @@ $(document).ready(function (){
 				{
 					data: 'cantidad',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
 				},
 				{ data: 'sucursal' },
 				{ 
 					data: 'cantidad_valorizada',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
 				},
 				{
 					data: 'costo',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? 0 : number.toLocaleString('es-PE'); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
 				},
 			],
 			columnDefs:[
@@ -269,11 +271,9 @@ $(document).ready(function (){
 					data: 'monto',
 					className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = parseFloat(data);
-						number = number.toFixed(2);
 						switch(row.activo){
-							case '1': return isNaN(number)? 0 : number.toLocaleString('es-PE'); break;
-							case '0': return '<span class="text-danger">'+isNaN(number)? 0 : number.toLocaleString('es-PE')+'</span>'; break;
+							case '1': return isNaN(data)? '0.00' : formateaNumero(data); break;
+							case '0': return '<span class="text-danger">'+isNaN(data)? '0.00' : formateaNumero(data)+'</span>'; break;
 						}
 					}
 				},
@@ -375,36 +375,46 @@ $('#form_transacciones').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
+		let mayor = false; tipoop = $('#tipoop').val();
 		var formData = new FormData(document.getElementById('form_transacciones'));
 		formData.set('tipodetalle',$('#tipoop').find(':selected').text());
 		//console.log(parseFloat($('#monto').val()));
-		
-		$.ajax({
-			data: new URLSearchParams(formData).toString(),
-			url: base_url + segmento + '/transacciones/operaciones',
-			method: 'POST',
-			dataType: 'JSON',
-			beforeSend: function () {
-				//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
-				$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				$('#form_transacciones button[type=submit]').addClass('disabled');
-			},
-			success: function (data) {
-				//$('.resp').html('');
-				if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
-				$('#form_transacciones')[0].reset();
-				$('#form_transacciones button[type=submit]').html('Ejecutar');
-				$('#form_transacciones button[type=submit]').removeClass('disabled');
-				//console.log(data);
-				if (parseInt(data.status) === 200) {
-					//$('html, body').animate({ scrollTop: 0 }, 'fast');
-					//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
-					tablaOp.ajax.reload();
+		if(tipoop === '2'){
+			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,'');
+			if(parseFloat($('#monto').val()) > parseFloat(mto)){
+				alert('No se puede pagar un monto mayor a la deuda'); mayor = true; return false;
+			} 
+		}
+		if(!mayor){
+			$.ajax({
+				data: new URLSearchParams(formData).toString(),
+				url: base_url + segmento + '/transacciones/operaciones',
+				method: 'POST',
+				dataType: 'JSON',
+				beforeSend: function () {
+					//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
+					$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+					$('#form_transacciones button[type=submit]').addClass('disabled');
+				},
+				success: function (data) {
+					//$('.resp').html('');
+					if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
+					$('#form_transacciones')[0].reset();
+					$('#form_transacciones button[type=submit]').html('Ejecutar');
+					$('#form_transacciones button[type=submit]').removeClass('disabled');
+					//console.log(data);
+					if (parseInt(data.status) === 200) {
+						//$('html, body').animate({ scrollTop: 0 }, 'fast');
+						//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
+						tablaOp.ajax.reload();
+					}
+					
+					$('#rescta').val(formatMoneda(data.edocta));
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 				}
-				$('.resp').html(data.message);
-				setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
-			}
-		});
+			});
+		}
 	}
 });
 
@@ -492,16 +502,12 @@ $('body').bind('click','a',function(e){
 				beforeSend: function () { a.addClass('disabled'); },
 				success: function (data) {
 					if (parseInt(data.status) === 200){
-						if(anula === 'ingresos') tablaReg.ajax.reload();
-						else{
-							tablaVal.ajax.reload();
-							tablaReg.ajax.reload();
-							tablaOp.ajax.reload();
-						}
+						tablaReg.ajax.reload(); tablaOp.ajax.reload(); tablaVal.ajax.reload();
 					}else{
 						a.removeClass('disabled');
 						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
 					}
+					$('#rescta').val(formatMoneda(data.edocta));
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					$('.resp').html(data.message);
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
@@ -584,6 +590,7 @@ $('#generarIng').bind('click',function(){
 					if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
 					if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
 				}
+				$('#rescta').val(formatMoneda(data.edocta));
 				$('.resp').html(data.message);
 				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 			}
@@ -648,7 +655,6 @@ $('#guardaVal').bind('click',function(){
 				$('#guardaVal').removeClass('disabled');
 				$('#cancelVal').removeClass('disabled');
 				if (parseInt(data.status) === 200){
-					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					//tablaReg.ajax.reload();
 					tablaVal.ajax.reload();
@@ -657,10 +663,9 @@ $('#guardaVal').bind('click',function(){
 					$('#modalValorizaciones').modal('hide');
 					$('.resp').html(data.msg);
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
-				}else{
-					alert(data.msg);
-				}
+				}else{ alert(data.msg); }
 				
+				$('#rescta').val(formatMoneda(data.edocta));
 			}
 		});
 	}

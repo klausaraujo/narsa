@@ -88,7 +88,7 @@
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Emisi&oacute;n Gu&iacute;a:</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?php if(!empty($lista)) echo date_format(date_create($lista[0]->fecha),'d-m-Y');?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)? date_format(date_create($lista[0]->fecha),'d-m-Y') : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Sucursal:</td>
@@ -150,8 +150,9 @@
 	?>
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="5" style="text-align:left">&nbsp;<?=$row->articulo?></td>
-					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right"></td>
-					<td style="text-align:right"></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right">
+					<?=is_numeric($row->cantidad_valorizada)? number_format($row->cantidad_valorizada,2,'.',',') : 0;?></td>
+					<td style="text-align:right"><?=number_format($row->costo,2,'.',',');?></td>
 				</tr>
 	<?
 				$i++;

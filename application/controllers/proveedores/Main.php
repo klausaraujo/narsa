@@ -83,7 +83,7 @@ class Main extends CI_Controller
 	public function transacciones()
 	{
 		$this->load->model('Proveedores_model');
-		//$id = $this->input->get('id');
+		$id = $this->input->get('id');
 		$hOperaciones = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'Nro. Oper.', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
@@ -104,6 +104,7 @@ class Main extends CI_Controller
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id]);
 		
 		$data = array(
 			'tipo_op' => $tipo,
@@ -111,6 +112,7 @@ class Main extends CI_Controller
 			'headersOp' => $hOperaciones,
 			'headersIng' => $hIngresos,
 			'headersVal' => $hValorizaciones,
+			'edocta' => $edocta,
 		);
 		$this->load->view('main',$data);
 	}
@@ -225,10 +227,12 @@ class Main extends CI_Controller
 			$status = 200;
 		}
 		
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id]);
+		
 		$data = array(
 			'status' => $status,
 			'message' => $message,
-			'tipodetalle' => $this->input->post('tipodetalle'),
+			'edocta' => $edocta,
 		);
 		
 		echo json_encode($data);
@@ -237,9 +241,11 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo anular';
-		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s');
+		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s'); $idprov = '';
 		
 		if($op === 'operaciones'){
+			$idprov = $this->Proveedores_model->traeProvByIdTran(['idtransaccion'=>$id]);
+			
 			$anula = $this->Proveedores_model->anulaTransaccion(['idtransaccion'=>$id],['activo'=>0],['idusuario_anulacion'=>$this->usuario->idusuario,
 																	'fecha_anulacion'=>date('Y-m-d H:i:s'),'activo'=>0]);
 			if($anula){
@@ -247,6 +253,8 @@ class Main extends CI_Controller
 				$status = 200;
 			}
 		}else if($op === 'ingresos'){
+			$idprov = $this->Proveedores_model->traeProvByIdguia(['idguia'=>$id]);
+			
 			$anula = $this->Proveedores_model->anulaIngreso(['idguia'=>$id],['activo'=>0]);
 			if($anula){
 				$message = 'Gu&iacute;a Anulada';
@@ -263,15 +271,21 @@ class Main extends CI_Controller
 			
 			$anula = $this->Proveedores_model->anulaValorizacion(['idvalorizacion'=>$id],['activo'=>0],['idtransaccion'=>$idtran],
 																	['idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s'),'activo'=>0]);
+			
+			$idprov = $this->Proveedores_model->traeProvByIdTran(['idtransaccion'=>$idtran]);
+			
 			if($anula){
 				$message = 'Valorizaci&oacute;n Anulada';
 				$status = 200;
 			}
 		}
 		
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$idprov]);
+		
 		$data = array(
 			'status' => $status,
 			'message' => $message,
+			'edocta' => $edocta,
 		);
 		
 		echo json_encode($data);
@@ -347,18 +361,18 @@ class Main extends CI_Controller
 			$status = 200;
 		}
 		
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$data[0]->idproveedor]);
+		
 		$data = array(
 			'status' => $status,
 			'message' => $message,
-			'data' => $data,
-			'val'=>$dataVal,
-			'tipo' => $tipoop,
+			'edocta' => $edocta,
 		);
 		
 		echo json_encode($data);
 	}
 	public function informes(){
-		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null;
+		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null; $j = 0;	$suc = [];
 		$this->load->model('Proveedores_model');
 		
 		if($this->input->get('op') === 'guiaing'){
@@ -367,8 +381,8 @@ class Main extends CI_Controller
 			//$html = $this->load->view('proveedores/guia-pdf', null, true);
 			//var_dump($lista);
 		}elseif($this->input->get('op') === 'edocta'){
-			$j = 0;	$suc = [];
 			$lista = $this->Proveedores_model->edoctaProv(['idproveedor' => $id]);
+			$datosProv = $this->Proveedores_model->listaProveedor(['idproveedor' => $id]);
 			foreach($this->usuario->sucursales as $sucursal):
 				foreach($lista as $row):
 					if($row->idsucursal === $sucursal->idsucursal){
@@ -379,18 +393,43 @@ class Main extends CI_Controller
 				$suc[$j] = $sucursal->idsucursal;
 				$j++;
 			endforeach;
-			
-			$html = $this->load->view('proveedores/edo-cta', ['lista' => $filtro,'sucursales'=>$suc], true);
+			//var_dump($datosProv);
+			$html = $this->load->view('proveedores/edo-cta', ['lista' => $filtro,'sucursales'=>$suc,'datos'=>$datosProv], true);
 		
 		}elseif($this->input->get('op') === 'valorizdet'){
 			$lista = $this->Proveedores_model->valorizProv(['idvalorizacion' => $id]);
 			
 			foreach($lista as $row):
 				$saldos = $this->Proveedores_model->saldoValorizaciones(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
-				if(!empty($saldos))$row->saldo = $saldos[$i]->cantidad;
+				$row->saldo = !empty($saldos)? $saldos[$i]->cantidad : 0;
 			endforeach;
 			$html = $this->load->view('proveedores/valorizacion-pdf', ['lista' => $lista], true);
 			//var_dump($lista);
+		}elseif($this->input->get('op') === 'comp'){
+			$guia = $this->Proveedores_model->guiaProv(['idguia' => $id]);
+			$valor = $this->Proveedores_model->valorizProv(['idguia' => $id]);
+			$idprov = $guia[0]->idproveedor;
+			
+			foreach($valor as $row):
+				$saldos = $this->Proveedores_model->saldoValorizaciones(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
+				$row->saldo = !empty($saldos)? $saldos[$i]->cantidad : 0;
+			endforeach;
+			
+			$edocta = $this->Proveedores_model->edoctaProv(['idproveedor' => $idprov]);
+			$datosProv = $this->Proveedores_model->listaProveedor(['idproveedor' => $idprov]);
+			foreach($this->usuario->sucursales as $sucursal):
+				foreach($edocta as $row):
+					if($row->idsucursal === $sucursal->idsucursal){
+						$filtro[$i] = $row;
+						$i++;
+					}
+				endforeach;
+				$suc[$j] = $sucursal->idsucursal;
+				$j++;
+			endforeach;
+			/* var_dump($edocta); var_dump($valor); echo nl2br("\n"); var_dump($guia); */
+			
+			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'edocta' => $edocta], true);
 		}
 		
 		if(floatval(phpversion()) < $versionphp){
@@ -420,15 +459,17 @@ class Main extends CI_Controller
 		
 		
 		$rs = $this->Proveedores_model->regValorizacion($dataVal,$guiaArray);
-		
 		if($rs > 0){
 			$message = 'Productos Valorizados';
 			$status = 200;
 		}
 		
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$data[0]->idproveedor]);
+		
 		$data = array(
 			'status' => $status,
 			'msg' => $message,
+			'edocta' => $edocta,
 		);
 		
 		echo json_encode($data);

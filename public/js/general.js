@@ -26,6 +26,37 @@ $('.tipodoc').bind('change',function(e){
 	$('.numcurl').focus();
 });
 
+
+function currencyFormatter(value) {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    minimumFractionDigits: 2,
+    //currency (codigo de moneda que se quiere utilizar)
+  });
+  return formatter.format(value);
+}
+
+/*const dollar = currencyFormatter({
+  currency: "USD",
+  value
+}) //$123,456.00
+
+const pound = currencyFormatter({
+  currency: "GBP",
+  value
+}) // £123,456.00
+
+
+const peso =  currencyFormatter({
+  currency: "CLP",
+  value
+}) // CLP 123,456.00
+
+const dinar = currencyFormatter({
+  currency: "DZD",
+  value
+}) // DZD 123,456.00
+
 /*$('.numcurl').bind('keydown',function(e){
 	let key = e.which, len = ($('.numcurl').val()).length + 1;
 	//alert(key);

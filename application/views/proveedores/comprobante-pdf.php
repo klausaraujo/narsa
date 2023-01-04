@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
     <head>
-	<title>Edo. de Cuenta al <?=date('d-m-Y')?></title>
+	<title>Comprobante Nro <?=(!empty($guia))?sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia:'';?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
             /** Margenes de la pagina en 0 **/
@@ -76,86 +76,128 @@
         <!-- Etiqueta principal del pdf -->
         <main>
             <table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm">
-				<tr><td><b>REPORTE DE ESTADO DE CUENTA DE PROVEEDORES</b></td></tr>
-				<tr><td><b>ACTUALIZADO AL: <span style="color:blue"><?=date('d/m/Y')?></span></b></td></tr>
-				<tr><td class="espaciocm"></td></tr>
+				<tr><td><b>COMPROBANTE DE INGRESO DE PRODUCTOS</b></td></tr>
+				<tr><td class="espaciomm"></td></tr>
 			</table>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Emisi&oacute;n Gu&iacute;a:</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)? date_format(date_create($guia[0]->fecha),'d-m-Y') : '&nbsp;';?></td></tr></table>
+					</td>
+					<td colspan="1" style="width:1.5cm"></td>
+					<td colspan="3" style="text-align:left;font-weight:bold;">Sucursal:</td>
+					<td colspan="2" style="text-align:left;width:3cm">
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->sucursal : '&nbsp;';?></td></tr></table>
+					</td>
+				</tr>
+				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->numero_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->celular : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->celular : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->correo : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->correo : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->nombre : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->domicilio : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->zona : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>
 			<div class="espaciocm"></div>
+			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
+				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
+				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
+					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="5">Art. Ingresado</td><td colspan="2">Cantidad Kg.</td>
+					<td>Valorizado</td><td>Costo</td>
+				</tr>
 	<?
-		foreach($sucursales as $s):
-			$mto = 0; $essucursal = false; $i = 0;
-			foreach($lista as $row):
-				if($row->idsucursal === $s){
-					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto_factor_final); $essucursal = true;
-					$mtofinal = floatval($row->monto_factor_final) < 0? floatval($row->monto_factor_final) * -1 : $row->monto_factor_final;
-					//number_format($numero, 2, ",", ".");
-					if($i === 0){
+			$i = 1;
+			foreach($guia as $row):
 	?>
-	
+				<tr>
+					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="5" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right">
+					<?=is_numeric($row->cantidad_valorizada)? number_format($row->cantidad_valorizada,2,'.',',') : 0;?></td>
+					<td style="text-align:right"><?=number_format($row->costo,2,'.',',');?></td>
+				</tr>
+	<?
+				$i++;
+			endforeach;
+	?>
+			</table>
+			<div class="espaciocm"></div>
+			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
+				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
+				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
+					<td>&Iacute;tem</td><td colspan="2">N&uacute;mero Gu&iacute;a</td><td colspan="3">Art&iacute;culo Valorizado</td><td colspan="2">Saldo</td>
+					<td>Cantidad</td><td>Costo</td><td colspan="2">Importe</td>
+				</tr>
+	<?
+			$i = 1;
+			foreach($valoriz as $row):
+	?>
+				<tr>
+					<td><?=$i?></td><td colspan="2"><?=sprintf("%'05s",$row->numero).'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td colspan="2" style="text-align:right"><?=number_format($row->saldo,2,'.',',')?></td><td style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td>
+					<td style="text-align:right"><?=number_format($row->costo,2,'.',',')?></td><td colspan="2" style="text-align:right"><?=number_format($row->importe,2,'.',',')?></td>
+				</tr>
+	<?
+				$i++;
+			endforeach;
+	?>
+			</table>
+			<div class="espaciocm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE TRANSACCIONES DEL PROVEEDOR</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
 					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>
-				</tr>				
+				</tr>
 	<?
-						$i++;
-					}
+			$i = 1; $mto = 0;
+			foreach($edocta as $row):
+				$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto_factor_final);
+				$mtofinal = floatval($row->monto_factor_final) < 0? floatval($row->monto_factor_final) * -1 : $row->monto_factor_final;
 	?>
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=$row->sucursal?></td><td colspan="4"><?=$row->tipo_operacion?></td><td colspan="2"><?=$fecha?></td>
 					<td><?=sprintf("%'05s",$row->idtransaccion)?></td>
 					<td colspan="2" style="text-align:right"><?=number_format($mtofinal, 2, '.', ',')?></td>
-				</tr>	
+				</tr>
 	<?
-					$i++;
-				}
+				$i++;
 			endforeach;
-			if($essucursal){
 	?>
 				<tr>
-					<td colspan="10" align="right" style="font-weight:bold">TOTAL POR SUCURSAL:&nbsp;</td>
+					<td colspan="10" align="right" style="font-weight:bold">TOTAL DE LA SUCURSAL:&nbsp;</td>
 					<td colspan="2" style="font-weight:bold;text-align:right">
 						<?
 							$formatmto = number_format($mto, 2, '.', ',');
@@ -168,13 +210,8 @@
 							}
 						?>
 					</td>
-				</tr>					
+				</tr>
 			</table>
-			<div class="espaciomm"></div>
-	<?		
-			}
-		endforeach;
-	?>
         </main>
     </body>
 </html>
