@@ -80,13 +80,13 @@ $(document).ready(function (){
 				{ 
 					data: 'monto',
 					className: 'text-left',
-					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formateaNumero(data); }
+					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); }
 				},
-				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formateaNumero(data); } },
+				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{
 					data: 'monto_factor_final',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formateaNumero(number); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number); }
 				},
 				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'usuario' },
@@ -224,8 +224,9 @@ $(document).ready(function (){
 					orderable: false,
 				},
 				{
+					data: 'costo',
 					render: function(data,type,full,meta){
-						return '<input type="text" placeholder="0.00" id="costo" class="form-control input-sm costo moneda" disabled />';
+						return '<input type="text" placeholder="0.00" id="costo" class="form-control input-sm costo moneda" value="'+data+'" disabled />';
 					},
 					orderable: false,
 				},
@@ -272,8 +273,8 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){
 						switch(row.activo){
-							case '1': return isNaN(data)? '0.00' : formateaNumero(data); break;
-							case '0': return '<span class="text-danger">'+isNaN(data)? '0.00' : formateaNumero(data)+'</span>'; break;
+							case '1': return isNaN(data)? '0.00' : formatMoneda(data); break;
+							case '0': return '<span class="text-danger">'+isNaN(data)? '0.00' : formatMoneda(data)+'</span>'; break;
 						}
 					}
 				},

@@ -187,7 +187,9 @@ class Main extends CI_Controller
 		
 		foreach($lista as $row):
 			if($row->idsucursal === $suc){
+				$costo = $this->Proveedores_model->costoValoriz(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
 				$filtro[$i] = $row;
+				$filtro[$i]->costo = !empty($costo)? $costo[0]->costo : 0;
 				$i++;
 			}		
 		endforeach;
@@ -351,7 +353,7 @@ class Main extends CI_Controller
 			}
 		}
 		
-		if($guia && $pagar){
+		if($guia || $pagar){
 			$this->Proveedores_model->actualizaGuia(['idguia'=>$guia],['pago'=>$pago,'tipo_pago'=>$tipoOpPago,'idtransaccion_valorizacion'=>$idtranVal,
 					'idtransaccion_pago'=>$idtranPago,'monto_valor'=>$mtoValor,'monto_pagado'=>$montopag]);
 		}
@@ -406,30 +408,32 @@ class Main extends CI_Controller
 			$html = $this->load->view('proveedores/valorizacion-pdf', ['lista' => $lista], true);
 			//var_dump($lista);
 		}elseif($this->input->get('op') === 'comp'){
-			$guia = $this->Proveedores_model->guiaProv(['idguia' => $id]);
-			$valor = $this->Proveedores_model->valorizProv(['idguia' => $id]);
-			$idprov = $guia[0]->idproveedor;
+			$guia = $this->Proveedores_model->guiaComprobante(['gd.idguia' => $id]);
+			$valor = $this->Proveedores_model->valorizProv(['idtransaccion' => $guia[0]->idtransaccion_valorizacion]);
 			
 			foreach($valor as $row):
 				$saldos = $this->Proveedores_model->saldoValorizaciones(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
 				$row->saldo = !empty($saldos)? $saldos[$i]->cantidad : 0;
 			endforeach;
 			
-			$edocta = $this->Proveedores_model->edoctaProv(['idproveedor' => $idprov]);
+			$idprov = $guia[0]->idproveedor;
 			$datosProv = $this->Proveedores_model->listaProveedor(['idproveedor' => $idprov]);
-			foreach($this->usuario->sucursales as $sucursal):
-				foreach($edocta as $row):
-					if($row->idsucursal === $sucursal->idsucursal){
-						$filtro[$i] = $row;
-						$i++;
-					}
-				endforeach;
-				$suc[$j] = $sucursal->idsucursal;
-				$j++;
+			
+			$movValor = $this->Proveedores_model->edoctaProv(['idtransaccion' => $guia[0]->idtransaccion_valorizacion]);
+			$movPago = $this->Proveedores_model->edoctaProv(['idtransaccion' => $guia[0]->idtransaccion_pago]);
+			$edocta = [];
+			foreach($movValor as $row):
+				$edocta[$i] = $row;
+				$i++;
 			endforeach;
+			foreach($movPago as $row):
+				$edocta[$i] = $row;
+				$i++;
+			endforeach;
+			
 			/* var_dump($edocta); var_dump($valor); echo nl2br("\n"); var_dump($guia); */
 			
-			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'edocta' => $edocta], true);
+			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'datos' => $datosProv,'edocta' => $edocta], true);
 		}
 		
 		if(floatval(phpversion()) < $versionphp){

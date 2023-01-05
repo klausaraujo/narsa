@@ -138,14 +138,14 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
-	public function listaValorizaciones($data)
+	public function listaValorizaciones($where)
     {
         $this->db->select('va.*,su.sucursal,pr.nombre,monto');
         $this->db->from('valorizacion va');
 		$this->db->join('sucursal su','su.idsucursal = va.idsucursal');
 		$this->db->join('proveedor pr','pr.idproveedor = va.idproveedor');
 		$this->db->join('transacciones tr','tr.idtransaccion = va.idtransaccion');
-		$this->db->where($data);
+		$this->db->where($where);
 		$this->db->order_by('va.idvalorizacion', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
@@ -155,7 +155,16 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idguia,anio_guia,numero,idarticulo,articulo,cantidad,idsucursal');
         $this->db->from('lista_ingresos_valorizaciones_saldo');
 		$this->db->where($data);
-		$this->db->order_by('idguia', 'ASC');
+		$this->db->order_by('idguia ASC, idarticulo ASC');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function costoValoriz($where)
+	{
+		$this->db->select('costo');
+        $this->db->from('guia_entrada_detalle');
+		$this->db->where($where);
+		$this->db->limit(1);
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
@@ -434,5 +443,17 @@ class Proveedores_model extends CI_Model
 			$result = $result->row();
 			return $result->idproveedor;
 		}else return 0;
+	}
+	public function guiaComprobante($where)
+	{
+		$this->db->select('gd.*,ge.*,a.articulo,s.sucursal');
+		$this->db->from('guia_entrada_detalle gd');
+		$this->db->join('guia_entrada ge','ge.idguia = gd.idguia');
+		$this->db->join('articulo a','a.idarticulo = gd.idarticulo');
+		$this->db->join('sucursal s','s.idsucursal = ge.idsucursal');
+		$this->db->where($where);
+		$this->db->order_by('idarticulo', 'ASC');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 }

@@ -21,41 +21,11 @@ $('.tipodoc').bind('change',function(e){
 	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
 	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
 	
-	$('.numcurl').val(''), $('.nombres').val(''), $('.direccion').val(''), $('.apellidos').val(''), $('.usuario').val('');
+	$('.borra').val('');
+	$('.perfil option[value = 1]'). attr('selected', true);
 	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
 	$('.numcurl').focus();
 });
-
-
-function currencyFormatter(value) {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    minimumFractionDigits: 2,
-    //currency (codigo de moneda que se quiere utilizar)
-  });
-  return formatter.format(value);
-}
-
-/*const dollar = currencyFormatter({
-  currency: "USD",
-  value
-}) //$123,456.00
-
-const pound = currencyFormatter({
-  currency: "GBP",
-  value
-}) // £123,456.00
-
-
-const peso =  currencyFormatter({
-  currency: "CLP",
-  value
-}) // CLP 123,456.00
-
-const dinar = currencyFormatter({
-  currency: "DZD",
-  value
-}) // DZD 123,456.00
 
 /*$('.numcurl').bind('keydown',function(e){
 	let key = e.which, len = ($('.numcurl').val()).length + 1;

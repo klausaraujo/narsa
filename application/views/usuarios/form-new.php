@@ -20,26 +20,26 @@
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
+											<input type="text" class="form-control col-sm-3 doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
 											<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="apellidos">Apellidos:</label></span>
-											<input type="text" class="form-control col-sm-5 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" readonly />
+											<input type="text" class="form-control col-sm-5 borra apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" readonly />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Nombres:</label></span>
-											<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Nombres" value="" readonly />
+											<input type="text" class="form-control col-sm-5 borra nombres" name="nombres" id="nombres" placeholder="Nombres" value="" readonly />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
 											<span class="col-sm-3" style="display:flex;align-items:center"><label for="usuario">Usuario:</label></span>
-											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario" value="" readonly />
+											<input type="text" class="form-control col-sm-5 borra usuario" name="usuario" id="usuario" placeholder="Usuario" value="" readonly />
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">

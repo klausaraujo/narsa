@@ -109,7 +109,5 @@
 				else if(e.idpermiso === '8') btnAnulValor = true;
 				else if(e.idpermiso === '9') btnVerValor = true;
 			});
-			
-			
 		</script>
 		<?}?>

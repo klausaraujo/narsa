@@ -94,41 +94,41 @@
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->tipo_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->numero_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->celular : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->celular : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->correo : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->correo : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->nombre : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->domicilio : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->zona : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>
@@ -166,7 +166,7 @@
 			foreach($valoriz as $row):
 	?>
 				<tr>
-					<td><?=$i?></td><td colspan="2"><?=sprintf("%'05s",$row->numero).'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td><?=$i?></td><td colspan="2"><?=sprintf("%'05s",$row->numero_guia).'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
 					<td colspan="2" style="text-align:right"><?=number_format($row->saldo,2,'.',',')?></td><td style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td>
 					<td style="text-align:right"><?=number_format($row->costo,2,'.',',')?></td><td colspan="2" style="text-align:right"><?=number_format($row->importe,2,'.',',')?></td>
 				</tr>
