@@ -17,10 +17,10 @@
 										</select>
 									</div>
 									<div class="row my-1">
-										<span class="col-md-3 centraVert"><label for="doc">N&uacute;mero de Documento:</label></span>
+										<label class="control-label col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
 										<input type="text" class="form-control col-md-2 doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
 											placeholder="Nro. Documento" />&nbsp;&nbsp;&nbsp;
-										<div class="col-md-1 centraVert">
+										<div class="col-md-1 align-self-center">
 											<button type="button" class="btn btn-info btn-small btn_curl col-12"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</div>
 									</div>
