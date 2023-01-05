@@ -22,7 +22,7 @@ $('.tipodoc').bind('change',function(e){
 	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
 	
 	$('.borra').val('');
-	$('.perfil option[value = 1]'). attr('selected', true);
+	$('.perfil').val('2');
 	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
 	$('.numcurl').focus();
 });

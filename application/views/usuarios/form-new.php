@@ -19,9 +19,12 @@
 									</div>
 									<div class="col-sm-12 my-1">
 										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
-											<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<label class="control-label col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
+											<input type="text" class="form-control col-md-2 doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
+												placeholder="Nro. Documento" />&nbsp;&nbsp;&nbsp;
+											<div class="col-md-1 centraVert">
+												<button type="button" class="btn btn-info btn-small btn_curl col-12"><i class="fa fa-search" aria-hidden="true"></i></button>
+											</div>
 										</div>
 									</div>
 									<div class="col-sm-12 my-1">

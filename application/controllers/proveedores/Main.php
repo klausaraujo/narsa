@@ -422,14 +422,8 @@ class Main extends CI_Controller
 			$movValor = $this->Proveedores_model->edoctaProv(['idtransaccion' => $guia[0]->idtransaccion_valorizacion]);
 			$movPago = $this->Proveedores_model->edoctaProv(['idtransaccion' => $guia[0]->idtransaccion_pago]);
 			$edocta = [];
-			foreach($movValor as $row):
-				$edocta[$i] = $row;
-				$i++;
-			endforeach;
-			foreach($movPago as $row):
-				$edocta[$i] = $row;
-				$i++;
-			endforeach;
+			foreach($movValor as $row): $edocta[$i] = $row; $i++; endforeach;
+			foreach($movPago as $row): $edocta[$i] = $row; $i++; endforeach;
 			
 			/* var_dump($edocta); var_dump($valor); echo nl2br("\n"); var_dump($guia); */
 			
