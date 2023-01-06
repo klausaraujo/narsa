@@ -10,7 +10,7 @@ function ceros( number, width ){
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
-	setTimeout(function () { $('.msg').hide('slow'); }, 700);
+	setTimeout(function () { $('.msg').hide('slow'); }, 1000);
 });
 
 $('body').bind('click','a',function(e){
@@ -116,6 +116,7 @@ btnCurl.bind('click',function(){
 		if(tipodoc === '01' && doc.length !== 8){ alert('Debe ingresar un número de doc válido, 8 caracteres'); $('#doc').focus(); return}
 		if(tipodoc === '03' && doc.length < 9){ alert('Debe ingresar un número de documento válido, 9 caracteres'); $('#doc').focus(); return}
 		/*if(tipodoc === '04')tipodoc = '0' + (parseInt(tipodoc)-1).toString();*/
+		$('.error_curl').html('');
 		
 		$.ajax({
 			data: { tipo: tipodoc, doc: doc },

@@ -3,12 +3,8 @@
 								<h4 class="">Listado General de Proveedores</h4>
 								<hr>
 								<div class="row justify-content-center py-2">
-								<?if($this->session->flashdata('claseMsg')){?><div class="col-sm-5 border border-<?=$this->session->flashdata('claseMsg'); ?> rounded alert alert-dismissible fade show py-0 
-											text-center msg text-<?=$this->session->flashdata('claseMsg'); ?>" role="alert">
-										<strong class="mx-auto text-center"><?=$this->session->flashdata('flashSuccess'); ?></strong>
-										<button type="button" class="close py-0" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true" class="text-<?=$this->session->flashdata('claseMsg'); ?>">&times;</span>
-										</button>
+									<?if($this->session->flashdata('claseMsg')){?><div class="alert <?=$this->session->flashdata('claseMsg')?> py-1 px-5 msg fade show" role="alert">
+										<div class="iq-alert-text"><?=$this->session->flashdata('flashMessage')?></div>
 									</div><?}?>
 								</div>
 								<div class="container-fluid">

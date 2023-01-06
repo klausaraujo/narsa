@@ -86,6 +86,7 @@ $('#modalPermisos').on('hidden.bs.modal',function(e){
 	/*tablaIngDetalle.clear().draw();
 	$('#sucursalIng').removeAttr('disabled');
 	$('#form_ingresos select').prop('selectedIndex',0);*/
+	$(this).find('.nav-tabs a:first').tab('show');
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
 });
@@ -206,7 +207,7 @@ $('#form_usuarios').validate({
 	errorClass: 'form_error',
 	rules: {
 		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
-		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8 },
+		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8, },
 		apellidos: { required: function () { if ($('.apellidos').css('display') != 'none') return true; else return false; } },
 		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
 		usuario: { required: function () { if ($('.usuario').css('display') != 'none') return true; else return false; } },
@@ -221,8 +222,9 @@ $('#form_usuarios').validate({
 		perfil: { required : '&nbsp;&nbsp;Campo Requerido' },
 	},
 	errorPlacement: function(error, element) {
-		if (element.attr('name') == 'doc') {
-			error.insertAfter('.btn_curl');
+		if (element.attr('name') == 'doc'){
+			$('.error_curl').html(error.html());
+			//error.insertAfter('.btn_curl');
 		}else error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {

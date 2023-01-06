@@ -326,7 +326,7 @@ $('#form_proveedor').validate({
 	errorClass: 'form_error',
 	rules: {
 		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
-		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8 },
+		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8, },
 		/*ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },*/
 		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
 		direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
@@ -342,8 +342,8 @@ $('#form_proveedor').validate({
 	},
 	errorPlacement: function(error, element) {
 		if (element.attr('name') == 'doc'){
-			//$('#curl-error').html(error.html());
-			error.insertAfter('.btn_curl');
+			$('.error_curl').html(error.html());
+			//error.insertAfter('.btn_curl');
 		}else error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
@@ -548,7 +548,6 @@ $('#generarIng').bind('click',function(){
 			alert('El monto a pagar no debe ser mayor que el monto total');
 			return false;
 		}
-			
 		
 		tablaIngDetalle.rows().data().each(function(row){
 			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),

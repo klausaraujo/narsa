@@ -2,13 +2,9 @@
 							<div class="card-body">
 								<h4 class="">Listado General de Usuarios del Sistema</h4>
 								<hr>
-								<div class="row justify-content-center py-2">
-								<?if($this->session->flashdata('claseMsg')){?><div class="col-sm-5 border border-<?=$this->session->flashdata('claseMsg'); ?> rounded alert alert-dismissible fade show py-0 
-											text-center msg text-<?=$this->session->flashdata('claseMsg'); ?>" role="alert">
-										<strong class="mx-auto text-center"><?=$this->session->flashdata('flashSuccess'); ?></strong>
-										<button type="button" class="close py-0" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true" class="text-<?=$this->session->flashdata('claseMsg'); ?>">&times;</span>
-										</button>
+								<div class="row justify-content-center">
+									<?if($this->session->flashdata('claseMsg')){?><div class="alert <?=$this->session->flashdata('claseMsg')?> py-1 px-5 msg fade show" role="alert">
+										<div class="iq-alert-text"><?=$this->session->flashdata('flashMessage')?></div>
 									</div><?}?>
 									<div class="col-md-12 text-center resp" style="font-size:1.3em">&nbsp;</div>
 								</div>
@@ -46,14 +42,21 @@
 																	<!--<div class="clearfix"></div>-->
 																	<div class="row my-2">
 																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones Proveedores</h5>
-																	  <?php foreach($permisos as $row):
+																	  <?php 
+																			$i = 1;
+																			foreach($permisos as $row):
 																				if($row->idmodulo === '1'){
 																		?>
-																		<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="proveedoresPer[]" value="<?=$row->idpermiso?>" />
-																			<label for="proveedoresPer">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																		<div class="custom-control custom-switch col-12 ml-3">
+																			<input type="checkbox" class="custom-control-input" name="proveedoresPer[]" value="<?=$row->idpermiso?>" id="checkPermisos<?=$i?>">
+																			<label class="custom-control-label" for="checkPermisos<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
+																		<!--<div class="checkbox checkbox-primary col-12">
+																			<input type="checkbox" name="proveedoresPer[]" value="" />
+																			<label for="proveedoresPer">&nbsp;&nbsp;</label>
+																		</div>-->
 																		<?php
+																					$i++;
 																				}
 																			endforeach;?>
 																	</div>
@@ -61,14 +64,21 @@
 																<div id="usuarios" class="tab-pane fade in">
 																	<div class="row my-2">
 																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones Usuarios</h5>
-																	  <?php foreach($permisos as $row):
+																	  <?php
+																			$i = 1;
+																			foreach($permisos as $row):
 																				if($row->idmodulo === '4'){
 																		?>
-																		<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="usuariosPer[]" value="<?=$row->idpermiso?>" />
-																			<label for="usuariosPer">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																		<div class="custom-control custom-switch col-12 ml-3">
+																			<input type="checkbox" class="custom-control-input" name="usuariosPer[]" value="<?=$row->idpermiso?>" id="checkAccionesUser<?=$i?>">
+																			<label class="custom-control-label" for="checkAccionesUser<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
+																		<!--<div class="checkbox checkbox-primary col-12">
+																			<input type="checkbox" name="usuariosPer[]" value="" />
+																			<label for="usuariosPer">&nbsp;&nbsp;</label>
+																		</div>-->
 																		<?php
+																					$i++;
 																				}
 																			endforeach;?>
 																	</div>
@@ -107,12 +117,20 @@
 													<div class="row">
 														<div class="col-sm-12">
 															<div class="row my-2">
-															  <?php foreach($sucursales as $row): ?>
-																<div class="checkbox checkbox-primary col-12">
-																	<input type="checkbox" name="usuariosSuc[]" value="<?=$row->idsucursal?>" />
-																	<label for="usuariosSuc">&nbsp;&nbsp;<?=$row->sucursal?></label>
+															  <?php
+																	$i = 1;
+																	foreach($sucursales as $row): ?>
+																<div class="custom-control custom-switch col-12 ml-3">
+																	<input type="checkbox" class="custom-control-input" name="usuariosSuc[]" value="<?=$row->idsucursal?>" id="checkSucursal<?=$i?>">
+																	<label class="custom-control-label" for="checkSucursal<?=$i?>">&nbsp;&nbsp;<?=$row->sucursal?></label>
 																</div>
-																<?php endforeach; ?>
+																<!--<div class="checkbox checkbox-primary col-12">
+																	<input type="checkbox" name="usuariosSuc[]" value="" />
+																	<label for="usuariosSuc">&nbsp;&nbsp;</label>
+																</div>-->
+																<?php 
+																		$i++;
+																	endforeach; ?>
 															</div>
 														</div>
 													</div>

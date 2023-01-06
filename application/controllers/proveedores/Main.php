@@ -38,7 +38,7 @@ class Main extends CI_Controller
 	}
 	public function registrar()
 	{
-		$this->session->set_flashdata('claseMsg', 'danger');
+		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Proveedores_model');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''
 				&& $this->input->post('tiporegistro') === 'registrar')
@@ -54,14 +54,14 @@ class Main extends CI_Controller
 				'zona' => $this->input->post('zona'),
 				'activo' => 1,
 			);
-			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
+			$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
 			if($this->Proveedores_model->registrar($data)){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
-				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Registrado Exitosamente');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
 		}elseif($this->input->post('tiporegistro') === 'editar'){
 			$id = $this->input->post('idproveedor');
-			$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Proveedor');
+			$this->session->set_flashdata('flashMessage', 'No se pudo actualizar el <b>Proveedor</b>');
 			
 			$data = array(
 				'RUC' => $this->input->post('ruc'),
@@ -72,11 +72,11 @@ class Main extends CI_Controller
 			);
 			
 			if($this->Proveedores_model->editar( $data, ['idproveedor'=>$id] )){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
-				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Actualizado');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
 		}else{
-			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
+			$this->session->set_flashdata('flashMessage', 'Campos Vac&iacute;os');
 		}
 		header('location:'.base_url().'proveedores');
 	}
