@@ -38,7 +38,7 @@ class Main extends CI_Controller
 	}
 	public function registrar()
 	{
-		$this->session->set_flashdata('claseMsg', 'danger');
+		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Proveedores_model');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''
 				&& $this->input->post('tiporegistro') === 'registrar')
@@ -54,14 +54,14 @@ class Main extends CI_Controller
 				'zona' => $this->input->post('zona'),
 				'activo' => 1,
 			);
-			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Proveedor');
+			$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
 			if($this->Proveedores_model->registrar($data)){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Registrado Exitosamente');
-				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Registrado Exitosamente');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
 		}elseif($this->input->post('tiporegistro') === 'editar'){
 			$id = $this->input->post('idproveedor');
-			$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Proveedor');
+			$this->session->set_flashdata('flashMessage', 'No se pudo actualizar el <b>Proveedor</b>');
 			
 			$data = array(
 				'RUC' => $this->input->post('ruc'),
@@ -72,11 +72,11 @@ class Main extends CI_Controller
 			);
 			
 			if($this->Proveedores_model->editar( $data, ['idproveedor'=>$id] )){
-				$this->session->set_flashdata('flashSuccess', 'Proveedor Actualizado');
-				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Actualizado');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
 		}else{
-			$this->session->set_flashdata('flashSuccess', 'Campos Vac&iacute;os');
+			$this->session->set_flashdata('flashMessage', 'Campos Vac&iacute;os');
 		}
 		header('location:'.base_url().'proveedores');
 	}
@@ -187,7 +187,9 @@ class Main extends CI_Controller
 		
 		foreach($lista as $row):
 			if($row->idsucursal === $suc){
+				$costo = $this->Proveedores_model->costoValoriz(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
 				$filtro[$i] = $row;
+				$filtro[$i]->costo = !empty($costo)? $costo[0]->costo : 0;
 				$i++;
 			}		
 		endforeach;
@@ -351,7 +353,7 @@ class Main extends CI_Controller
 			}
 		}
 		
-		if($guia && $pagar){
+		if($guia || $pagar){
 			$this->Proveedores_model->actualizaGuia(['idguia'=>$guia],['pago'=>$pago,'tipo_pago'=>$tipoOpPago,'idtransaccion_valorizacion'=>$idtranVal,
 					'idtransaccion_pago'=>$idtranPago,'monto_valor'=>$mtoValor,'monto_pagado'=>$montopag]);
 		}
@@ -406,30 +408,26 @@ class Main extends CI_Controller
 			$html = $this->load->view('proveedores/valorizacion-pdf', ['lista' => $lista], true);
 			//var_dump($lista);
 		}elseif($this->input->get('op') === 'comp'){
-			$guia = $this->Proveedores_model->guiaProv(['idguia' => $id]);
-			$valor = $this->Proveedores_model->valorizProv(['idguia' => $id]);
-			$idprov = $guia[0]->idproveedor;
+			$guia = $this->Proveedores_model->guiaComprobante(['gd.idguia' => $id]);
+			$valor = $this->Proveedores_model->valorizProv(['idtransaccion' => $guia[0]->idtransaccion_valorizacion]);
 			
 			foreach($valor as $row):
 				$saldos = $this->Proveedores_model->saldoValorizaciones(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
 				$row->saldo = !empty($saldos)? $saldos[$i]->cantidad : 0;
 			endforeach;
 			
-			$edocta = $this->Proveedores_model->edoctaProv(['idproveedor' => $idprov]);
+			$idprov = $guia[0]->idproveedor;
 			$datosProv = $this->Proveedores_model->listaProveedor(['idproveedor' => $idprov]);
-			foreach($this->usuario->sucursales as $sucursal):
-				foreach($edocta as $row):
-					if($row->idsucursal === $sucursal->idsucursal){
-						$filtro[$i] = $row;
-						$i++;
-					}
-				endforeach;
-				$suc[$j] = $sucursal->idsucursal;
-				$j++;
-			endforeach;
+			
+			$movValor = $this->Proveedores_model->edoctaProv(['idtransaccion' => $guia[0]->idtransaccion_valorizacion]);
+			$movPago = $this->Proveedores_model->edoctaProv(['idtransaccion' => $guia[0]->idtransaccion_pago]);
+			$edocta = [];
+			foreach($movValor as $row): $edocta[$i] = $row; $i++; endforeach;
+			foreach($movPago as $row): $edocta[$i] = $row; $i++; endforeach;
+			
 			/* var_dump($edocta); var_dump($valor); echo nl2br("\n"); var_dump($guia); */
 			
-			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'edocta' => $edocta], true);
+			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'datos' => $datosProv,'edocta' => $edocta], true);
 		}
 		
 		if(floatval(phpversion()) < $versionphp){

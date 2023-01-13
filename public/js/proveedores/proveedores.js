@@ -80,13 +80,13 @@ $(document).ready(function (){
 				{ 
 					data: 'monto',
 					className: 'text-left',
-					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formateaNumero(data); }
+					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); }
 				},
-				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formateaNumero(data); } },
+				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{
 					data: 'monto_factor_final',
 					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formateaNumero(number); }
+					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number); }
 				},
 				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'usuario' },
@@ -224,8 +224,9 @@ $(document).ready(function (){
 					orderable: false,
 				},
 				{
+					data: 'costo',
 					render: function(data,type,full,meta){
-						return '<input type="text" placeholder="0.00" id="costo" class="form-control input-sm costo moneda" disabled />';
+						return '<input type="text" placeholder="0.00" id="costo" class="form-control input-sm costo moneda" value="'+data+'" disabled />';
 					},
 					orderable: false,
 				},
@@ -272,8 +273,8 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){
 						switch(row.activo){
-							case '1': return isNaN(data)? '0.00' : formateaNumero(data); break;
-							case '0': return '<span class="text-danger">'+isNaN(data)? '0.00' : formateaNumero(data)+'</span>'; break;
+							case '1': return isNaN(data)? '0.00' : formatMoneda(data); break;
+							case '0': return '<span class="text-danger">'+isNaN(data)? '0.00' : formatMoneda(data)+'</span>'; break;
 						}
 					}
 				},
@@ -325,7 +326,7 @@ $('#form_proveedor').validate({
 	errorClass: 'form_error',
 	rules: {
 		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
-		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8 },
+		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8, },
 		/*ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },*/
 		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
 		direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
@@ -341,8 +342,8 @@ $('#form_proveedor').validate({
 	},
 	errorPlacement: function(error, element) {
 		if (element.attr('name') == 'doc'){
-			//$('#curl-error').html(error.html());
-			error.insertAfter('.btn_curl');
+			$('.error_curl').html(error.html());
+			//error.insertAfter('.btn_curl');
 		}else error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
@@ -547,7 +548,6 @@ $('#generarIng').bind('click',function(){
 			alert('El monto a pagar no debe ser mayor que el monto total');
 			return false;
 		}
-			
 		
 		tablaIngDetalle.rows().data().each(function(row){
 			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),

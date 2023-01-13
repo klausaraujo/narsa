@@ -6,9 +6,10 @@
 							<form method="post" id="form_usuarios" action="<?=base_url()?>usuarios/registrar">
 								<input type="hidden" name="tiporegistro" value="registrar" />
 								<div class="row">
-									<div class="col-sm-12 my-1">
-										<div class="row">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="tipodoc">Tipo de Documento:</label></span>
+									<div class="col-12 m-1">
+										<div class="row my-1">
+											<label class="control-label col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
+											<!--<span class="col-sm-3" style="display:flex;align-items:center"><label for="tipodoc">Tipo de Documento:</label></span>-->
 											<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc">
 											<?
 													foreach($tipodoc as $row):	?>
@@ -16,35 +17,29 @@
 											<?		endforeach;	?>
 											</select>
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
 										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off" />&nbsp;&nbsp;
-											<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<label class="control-label col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
+											<input type="text" class="form-control col-md-2 doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
+													placeholder="Nro. Documento" />&nbsp;&nbsp;&nbsp;
+											<div class="col-md-1 align-self-center">
+												<button type="button" class="btn btn-info btn-small btn_curl col-12"><i class="fa fa-search" aria-hidden="true"></i></button>
+											</div>
+											<label class="form_error error_curl col-md-4 my-0"></label>
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
 										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="apellidos">Apellidos:</label></span>
-											<input type="text" class="form-control col-sm-5 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" readonly />
+											<label class="control-label col-lg-3 align-self-center mb-0" for="apellidos">Apellidos:</label>
+											<input type="text" class="form-control col-sm-5 borra apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" readonly />
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
 										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Nombres:</label></span>
-											<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Nombres" value="" readonly />
+											<label class="control-label col-lg-3 align-self-center mb-0" for="nombres">Nombres:</label>
+											<input type="text" class="form-control col-sm-5 borra nombres" name="nombres" id="nombres" placeholder="Nombres" value="" readonly />
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
 										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="usuario">Usuario:</label></span>
-											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario" value="" readonly />
+											<label class="control-label col-lg-3 align-self-center mb-0" for="usuario">Usuario:</label>
+											<input type="text" class="form-control col-sm-5 borra usuario" name="usuario" id="usuario" placeholder="Usuario" value="" readonly />
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
 										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="perfil">Perfil:</label></span>
+											<label class="control-label col-lg-3 align-self-center mb-0" for="perfil">Perfil:</label>
 											<select class="form-control col-sm-3 perfil" name="perfil" id="perfil">
 											<?
 												foreach($perfil as $row):	?>

@@ -40,7 +40,7 @@ class Main extends CI_Controller
 	}
 	public function registrar()
 	{
-		$this->session->set_flashdata('claseMsg', 'danger');
+		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Usuarios_model');
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('apellidos') != '' && $this->input->post('nombres') != ''
 			&& $this->input->post('usuario') != '' && $this->input->post('perfil') != '' && $this->input->post('tiporegistro') === 'registrar')
@@ -56,20 +56,20 @@ class Main extends CI_Controller
 				'passwd' => sha1($this->input->post('doc')),
 				'activo' => 1,
 			);
-			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario');
+			$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Usuario</b>');
 			if($this->Usuarios_model->registrar($data)){
-				$this->session->set_flashdata('claseMsg', 'success');
-				$this->session->set_flashdata('flashSuccess', 'Usuario Registrado Exitosamente');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
+				$this->session->set_flashdata('flashMessage', '<b>Usuario</b> Registrado Exitosamente');
 			}
 		}elseif($this->input->post('perfil') != '' && $this->input->post('tiporegistro') === 'editar'){
 			$id = $this->input->post('idusuario');
-			$this->session->set_flashdata('flashSuccess', 'No se pudo actualizar el Usuario');
+			$this->session->set_flashdata('flashMessage', 'No se pudo actualizar el <b>Usuario</b>');
 			if($this->Usuarios_model->actualizar( ['idperfil' => $this->input->post('perfil')], ['idusuario'=>$id] )){
-				$this->session->set_flashdata('flashSuccess', 'Usuario Actualizado');
-				$this->session->set_flashdata('claseMsg', 'success');
+				$this->session->set_flashdata('flashMessage', '<b>Usuario</b> Actualizado');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
 		}else{
-			$this->session->set_flashdata('flashSuccess', 'No se pudo registrar el Usuario por campos vac&iacute;os');
+			$this->session->set_flashdata('flashMessage', 'No se pudo registrar el Usuario por campos vac&iacute;os');
 		}
 		
 		header('location:'.base_url().'usuarios');

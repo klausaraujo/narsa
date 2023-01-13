@@ -10,7 +10,7 @@ function ceros( number, width ){
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
-	setTimeout(function () { $('.msg').hide('slow'); }, 700);
+	setTimeout(function () { $('.msg').hide('slow'); }, 1000);
 });
 
 $('body').bind('click','a',function(e){
@@ -21,41 +21,11 @@ $('.tipodoc').bind('change',function(e){
 	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
 	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
 	
-	$('.numcurl').val(''), $('.nombres').val(''), $('.direccion').val(''), $('.apellidos').val(''), $('.usuario').val('');
+	$('.borra').val('');
+	$('.perfil').val('2');
 	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
 	$('.numcurl').focus();
 });
-
-
-function currencyFormatter(value) {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    minimumFractionDigits: 2,
-    //currency (codigo de moneda que se quiere utilizar)
-  });
-  return formatter.format(value);
-}
-
-/*const dollar = currencyFormatter({
-  currency: "USD",
-  value
-}) //$123,456.00
-
-const pound = currencyFormatter({
-  currency: "GBP",
-  value
-}) // £123,456.00
-
-
-const peso =  currencyFormatter({
-  currency: "CLP",
-  value
-}) // CLP 123,456.00
-
-const dinar = currencyFormatter({
-  currency: "DZD",
-  value
-}) // DZD 123,456.00
 
 /*$('.numcurl').bind('keydown',function(e){
 	let key = e.which, len = ($('.numcurl').val()).length + 1;
@@ -146,6 +116,7 @@ btnCurl.bind('click',function(){
 		if(tipodoc === '01' && doc.length !== 8){ alert('Debe ingresar un número de doc válido, 8 caracteres'); $('#doc').focus(); return}
 		if(tipodoc === '03' && doc.length < 9){ alert('Debe ingresar un número de documento válido, 9 caracteres'); $('#doc').focus(); return}
 		/*if(tipodoc === '04')tipodoc = '0' + (parseInt(tipodoc)-1).toString();*/
+		$('.error_curl').html('');
 		
 		$.ajax({
 			data: { tipo: tipodoc, doc: doc },
