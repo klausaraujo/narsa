@@ -2365,6 +2365,7 @@ idtransaccion_valorizacion smallint(4) DEFAULT 0,
 idtransaccion_pago smallint(4) DEFAULT 0,
 monto_valor decimal(20,2) Default 0,
 monto_pagado decimal(20,2) Default 0,
+observaciones varchar(1000), 
 idusuario_registro smallint(4),
 fecha_registro datetime,
 idusuario_modificacion smallint(4),
@@ -2383,6 +2384,8 @@ idarticulo smallint(4) NOT NULL,
 cantidad decimal(20,2),
 valorizado char(1)DEFAULT '0',
 cantidad_valorizada decimal(20,2) Default 0,
+humedad decimal(20,2) Default 0,
+calidad decimal(20,2) Default 0,
 costo decimal(20,2) DEFAULT 0,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
@@ -2443,7 +2446,7 @@ where mp.activo='1';
 
 create view lista_ingresos_proveedores
 as
-select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,ged.idarticulo,a.articulo,ged.cantidad,ged.cantidad_valorizada,ged.costo
+select ge.idguia,ge.idsucursal,s.sucursal,ge.anio_guia,ge.numero,ge.fecha,ge.observaciones,ge.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,ged.idarticulo,a.articulo,ged.cantidad,ged.cantidad_valorizada,ged.costo
 from guia_entrada as ge inner join sucursal as s on s.idsucursal = ge.idsucursal inner join proveedor as p on p.idproveedor = ge.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join guia_entrada_detalle as ged on ged.idguia=ge.idguia inner join articulo as a on a.idarticulo = ged.idarticulo 
 where ge.activo='1' and ged.activo='1';
 
