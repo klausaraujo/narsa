@@ -69,6 +69,69 @@
 										</div>
 									</div>
 									<div class="row mt-3">
+										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="dep">Departamento:</label>
+										<div class="col-md-6 col-lg-3">
+											<div class="row">
+												<select class="form-control dep" name="dep" id="dep" required="">
+												<?
+														foreach($dep as $row):	?>
+															<option value="<?=$row->cod_dep;?>" <?=($row->cod_dep === substr($proveedor->ubigeo,0,2)? 'selected' : '')?> >
+																<?=$row->departamento;?>
+															</option>
+												<?		endforeach;	?>
+												</select>
+												<div class="invalid-feedback">Debe elegir un Departamento</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="pro">Provincia:</label>
+										<div class="col-md-6 col-lg-3">
+											<div class="row">
+												<select class="form-control pro" name="pro" id="pro" required="">
+													<?
+														foreach($pro as $row):	?>
+															<option value="<?=$row->cod_pro;?>" <?=($row->cod_pro === substr($proveedor->ubigeo,3,2)? 'selected' : '')?> >
+																<?=$row->provincia;?>
+															</option>
+													<?		endforeach;	?>
+												</select>
+												<div class="invalid-feedback">Debe elegir una Provincia</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="dis">Distrito:</label>
+										<div class="col-md-6 col-lg-3">
+											<div class="row">
+												<select class="form-control dis" name="dis" id="dis" required="">
+													<?
+														foreach($dis as $row):	?>
+															<option value="<?=$row->cod_dis;?>" <?=($row->cod_dis === substr($proveedor->ubigeo,4,2)? 'selected' : '')?> >
+																<?=$row->distrito;?>
+															</option>
+													<?		endforeach;	?>
+												</select>
+												<div class="invalid-feedback">Debe elegir un Distrito</div>
+											</div>
+										</div>
+									</div>
+									<div class="row ajaxMap mt-3">
+										<div class="col-12 px-0">
+											<!--<div class="pac-card" id="pac-card">
+											  <div id="pac-container" class="place-map">
+												<input id="pac-input" type="text" placeholder="Enter a location" />
+											  </div>
+											</div>
+											<div id="infowindow-content">
+											  <div id="place-name" class="title"></div>
+											  <div id="place-address"></div>
+											</div>-->
+											<input type="hidden" name="lat" id="lat" /><input type="hidden" name="lng" id="lng" />
+											<div id="map" style="min-height:350px;width:100%;margin:auto"></div>
+										</div>
+									</div>
+									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="zona">Zona:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">

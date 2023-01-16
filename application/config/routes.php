@@ -63,6 +63,9 @@ $route['curl'] = 'main/curl';
 $route['upload'] = 'main/upload';
 $route['cambiapass'] = 'main/password';
 $route['usuarios'] = 'main/usuarios';
+$route['provincias'] = 'main/provincias';
+$route['distritos'] = 'main/distritos';
+$route['cargarLatLng'] = 'main/cargarLatLng';
 
 /* Proveedores */
 $route['proveedores/lista'] = 'proveedores/main/listaProveedores';

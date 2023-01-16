@@ -110,4 +110,16 @@
 				else if(e.idpermiso === '9') btnVerValor = true;
 			});
 		</script>
+		<?}else if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>
+		<script src="<?=base_url()?>public/js/mapa/map.js"></script>
+		<script>
+			let map = null;
+			window.onload = function(){
+				var opt = {lat: parseFloat(<?=$lat?>), lng: parseFloat(<?=$lng?>),zoom: 16};
+				<?if($this->uri->segment(2) === 'nuevo'){?> $('.ajaxMap').hide();<?}?>
+				/*console.log(parseFloat(<?=$lat?>));
+				console.log(parseFloat(<?=$lng?>));*/
+				map = mapa(opt);
+			}
+		</script>
 		<?}?>

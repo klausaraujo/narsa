@@ -29,3 +29,8 @@
 .modal-ing { max-width: 1100px; }
 table.dataTable tr, th, td{font-size: 0.8rem;}
 </style>
+
+<?if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default" async ></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async ></script>
+<?}?>

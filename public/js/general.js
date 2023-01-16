@@ -218,3 +218,69 @@ $('#formPassword').validate({
 		});
 	}
 });
+
+$('.dep').bind('change', function(){
+	let cod = this.value, html = '<option value="">-- Seleccione --</option>';
+	$.ajax({
+		data: { cod_dep: cod },
+		url: base_url + 'provincias',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () {
+			$('.dis').html('<option>-- Seleccione --</option>'); $('.pro').html('<option> Cargando...</option>');
+		},
+		success: function (data) {
+			$.each(data, function (i, e){ html += '<option value="' + e.cod_pro + '">' + e.provincia + '</option>'; });
+			$('.pro').html(html);
+			console.log(data);
+		}
+	});
+});
+$('.pro').bind('change', function(){
+	let cod = this.value, html = '<option value="">-- Seleccione --</option>';
+	$.ajax({
+		data: { cod_dep: $('.dep').val(),cod_pro: cod },
+		url: base_url + 'distritos',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () {
+			$('.dis').html('<option> Cargando...</option>');
+		},
+		success: function (data) {
+			$.each(data, function (i, e){ html += '<option value="' + e.cod_dis + '">' + e.distrito + '</option>'; });
+			$('.dis').html(html);
+			console.log(data);
+		}
+	});
+});
+$('.dis').change(function(){
+	let id = this.value, dpto = $('.dep').val(), prov = $('.pro').val();
+    if (id.length > 0) {
+		$.ajax({
+			data: { cod_dep: dpto, cod_pro: prov, cod_dis: id },
+			url: base_url + 'cargarLatLng',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function(){},
+			success: function (data) {
+				console.log(data);
+				/*const {ubigeo} = data;*/
+				var opt = {lat: parseFloat(data[0].latitud), lng: parseFloat(data[0].longitud), zoom: 16};
+				//console.log(map.getZoom());
+				console.log(opt);
+				map.setCenter(opt);
+				if($('.ajaxMap').css('display') == 'none' || $('.ajaxMap').css('opacity') == 0) $('.ajaxMap').show();
+				/*$.ajax({
+					data: {lat: parseFloat(ubigeo[0].latitud), lng: parseFloat(ubigeo[0].longitud), zoom: 16},
+					url: 'urlCurl',
+					method: "POST",
+					dataType: "json",
+					beforeSend: function () {},
+					success: function (data) {
+						console.log(data);
+					}
+				});*/
+			}
+		});
+	}
+});

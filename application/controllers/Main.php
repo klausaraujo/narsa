@@ -142,4 +142,24 @@ class Main extends CI_Controller
         }
         echo json_encode(array('status'=>$status,'message'=>$message));
     }
+	public function provincias(){
+		$this->load->model('Proveedores_model');
+		
+		$listaProv = $this->Proveedores_model->provincias(['cod_dep'=>$this->input->post('cod_dep')]);
+		
+        echo json_encode($listaProv);
+	}
+	public function distritos(){
+		$this->load->model('Proveedores_model');
+		
+		$listaDis = $this->Proveedores_model->distritos(['cod_dep'=>$this->input->post('cod_dep'),'cod_pro'=>$this->input->post('cod_pro')]);
+		
+        echo json_encode($listaDis);
+	}
+	public function cargarLatLng(){
+		$this->load->model('Proveedores_model');
+		$ubigeo = $this->input->post('cod_dep').$this->input->post('cod_pro').$this->input->post('cod_dis');
+		$latLng = $listaDis = $this->Proveedores_model->latLng(['ubigeo'=>$ubigeo]);
+		echo json_encode($latLng);
+	}
 }
