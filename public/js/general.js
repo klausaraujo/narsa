@@ -2,7 +2,7 @@ let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upl
 let scW = screen.width;
 
 window.onresize = function(){
-	console.log(screen.width);
+	console.log(window.innerWidth);
 }
 
 $(document).ready(function (){

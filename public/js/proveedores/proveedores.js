@@ -625,11 +625,14 @@ $('#tablaValDetalle').bind('click','input',function(e){
 			$(evt).closest('tr').find('.moneda').attr('disabled','disabled');
 	}
 });
-$('#tablaValDetalle').bind('keydown','input',function(e){
+$('#tablaValDetalle').bind('input',function(e){
 	let el = e.target;
 	if($(el).attr('type') === 'text'){
-		//console.log(el.value);
-		return mascara(el,cpf);
+		jQuery(el).val(jQuery(el).val().replace(/([^0-9\.]+)/g, ''));
+		jQuery(el).val(jQuery(el).val().replace(/^[\.]/,''));
+		jQuery(el).val(jQuery(el).val().replace(/[\.][\.]/g,''));
+		jQuery(el).val(jQuery(el).val().replace(/\.(\d)(\d)(\d)/g,'.$1$2'));
+		jQuery(el).val(jQuery(el).val().replace(/\.(\d{1,2})\./g,'.$1'));
 	}
 });
 
@@ -640,7 +643,8 @@ $('#guardaVal').bind('click',function(){
 	$('#tablaValDetalle tbody input[type=checkbox]:checked').each(function(i, e){
 		let data = tablaValDetalle.row($(e).parents('tr')).data();
 		let inputCant = $(e).closest('tr').find('input.cantidad'), inputCosto = $(e).closest('tr').find('input.costo');
-		if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
+		consoe.log(parseFloat(inputCosto));
+		/*if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
 			jsonDetalle[i] = { 'idproveedor':id, 'idsucursal': data.idsucursal, 'idguia': data.idguia, 'idarticulo': data.idarticulo, 'cantidad': inputCant.val(),
 				'costo': inputCosto.val() };
 			
@@ -653,7 +657,7 @@ $('#guardaVal').bind('click',function(){
 			else if(inputCosto.val() == ''){ alert('El costo es Requerido'); inputCosto.focus(); }
 			salta = true;
 			return false;
-		}
+		}*/
 	});
 	if(! salta){
 		$.ajax({
