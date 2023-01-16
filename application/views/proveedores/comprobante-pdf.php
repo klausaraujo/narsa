@@ -7,7 +7,7 @@
             /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2.3cm;margin-bottom:2.6cm }
+			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:2.6cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;
@@ -30,14 +30,13 @@
 			
 			/** Reglas del contenido **/
 			/* *{ text-transform: uppercase; }*/
-			*{ font-size: 9px; }
-			.datos{font-size: 9px;}
+			*{ font-size: 13px; }
 			.espaciocm{ height:1cm; }
 			.espaciomm{ height:7mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
-			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse}
-			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse}
-			table.datos td{ font-size:9px; overflow:hidden;}
+			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
+			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
+			table.datos td{ font-size:0.87em; overflow:hidden;}
         </style>
     </head>
     <body>

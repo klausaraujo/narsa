@@ -7,7 +7,7 @@
             /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2.3cm;margin-bottom:2.6cm }
+			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:2.6cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;
@@ -30,14 +30,13 @@
 			
 			/** Reglas del contenido **/
 			/* *{ text-transform: uppercase; }*/
-			*{ font-size: 14px; }
-			.datos{font-size: 10px;}
+			*{ font-size: 13px; }
 			.espaciocm{ height:1cm; }
 			.espaciomm{ height:7mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
-			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse}
-			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse}
-			table.datos td{ font-size:0.85em; overflow:hidden;}
+			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
+			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
+			table.datos td{ font-size:0.87em; overflow:hidden;}
         </style>
     </head>
     <body>
@@ -77,13 +76,12 @@
         <main>
             <table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm">
 				<tr><td><b>REPORTE DE VALORIZACI&Oacute;N DE PRODUCTOS POR PROVEEDOR</b></td></tr>
-				<tr><td class="espaciomm"></td></tr>
 				<tr><td>
 					<b>VALORIZACI&Oacute;N NRO 
 						<span style="color:blue"><? if(!empty($lista)) echo sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_valorizacion; ?></span>
 					</b></td></tr>
-				<tr><td class="espaciocm"></td></tr>
 			</table>
+			<div class="espaciocm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">N&uacute;mero Operaci&oacute;n:</td>
@@ -152,8 +150,8 @@
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">N&uacute;mero Gu&iacute;a</td><td colspan="3">Art&iacute;culo Valorizado</td><td colspan="2">Saldo</td>
-					<td>Cantidad</td><td>Costo</td><td colspan="2">Importe</td>
+					<td>&Iacute;tem</td><td colspan="2">N&uacute;mero Gu&iacute;a</td><td colspan="3">Producto Valorizado</td><td colspan="2">Saldo (KG)</td>
+					<td>Cantidad (KG)</td><td>Precio (S/)</td><td colspan="2">Importe (S/)</td>
 				</tr>
 	<?
 			$i = 1;
