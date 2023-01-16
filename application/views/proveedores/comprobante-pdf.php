@@ -136,26 +136,38 @@
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="3">Art. Ingresado</td><td>Humedad(%)</td><td>Calidad(%)</td>
-					<td colspan="2">Cantidad Kg.</td><td>Valorizado</td><td>Costo</td>
+					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="3">Producto</td><td>Humedad</td><td>Calidad</td>
+					<td>Cantidad Total</td><td>Cantidad Valorizada</td><td>Precio</td><td>Importe</td>
 				</tr>
 	<?
-			$i = 1;
+			$i = 1; $total = 0;
 			foreach($guia as $row):
+				$total += $row->cantidad_valorizada * $row->costo;
+				$importe = $row->cantidad_valorizada * $row->costo;
 	?>
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
 					<td style="text-align:right">&nbsp;<?=number_format($row->humedad,2,'.',',')?>%</td>
 					<td style="text-align:right">&nbsp;<?=number_format($row->calidad,2,'.',',')?>%</td>
-					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right">
+					<td style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right">
 					<?=/*is_numeric($row->cantidad_valorizada)? */number_format($row->cantidad_valorizada,2,'.',',')/* : 0.00;*/?></td>
-					<td style="text-align:right"><?=number_format($row->costo,2,'.',',');?></td>
+					<td style="text-align:right"><?=number_format($row->costo,2,'.',',');?></td><td style="text-align:right"><?=number_format($importe,2,'.',',');?></td>
 				</tr>
 	<?
 				$i++;
 			endforeach;
 	?>
+				<tr>
+					<td colspan="10" align="right" style="font-weight:bold">TOTAL:&nbsp;</td>
+					<td colspan="2" style="font-weight:bold;text-align:right"><?=number_format($total,2,'.',',');?></td>
+				</tr>
 			</table>
+			<div style="height:3mm"></div>
+			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
+				<tr style="text-align:left;font-weight:bold;"><td>&nbsp;OBSERVACIONES</td></tr>
+				<tr style="text-align:left"><td>&nbsp;<?if($guia[0]->observaciones) echo $guia[0]->observaciones; else echo '&nbsp;';?></td></tr>
+			</table>
+			
 			<div class="espaciocm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
