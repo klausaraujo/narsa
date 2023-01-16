@@ -7,7 +7,7 @@
             /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:2.6cm }
+			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:1.5cm;margin-bottom:1.5cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;
@@ -32,11 +32,12 @@
 			/* *{ text-transform: uppercase; }*/
 			*{ font-size: 13px; }
 			.espaciocm{ height:1cm; }
-			.espaciomm{ height:6mm; }
-			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
-			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
-			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
-			table.datos td{ font-size:0.87em; overflow:hidden;}
+			.espaciomm{ height:5mm; }
+			.tablaround{ border-collapse:separate;border-spacing:1; border:solid black 1px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
+			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
+			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
+			.acciones b{ font-size: 10px; }
+			table.datos td{ font-size:10px; overflow:hidden;}
         </style>
     </head>
     <body>
@@ -146,7 +147,7 @@
 					</td>
 				</tr>
 			</table>
-			<div class="espaciocm"></div>
+			<div class="espaciomm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
