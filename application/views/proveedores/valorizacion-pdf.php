@@ -32,7 +32,7 @@
 			/* *{ text-transform: uppercase; }*/
 			*{ font-size: 13px; }
 			.espaciocm{ height:1cm; }
-			.espaciomm{ height:7mm; }
+			.espaciomm{ height:6mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
 			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
@@ -81,7 +81,7 @@
 						<span style="color:blue"><? if(!empty($lista)) echo sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_valorizacion; ?></span>
 					</b></td></tr>
 			</table>
-			<div class="espaciocm"></div>
+			<div class="espaciomm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">N&uacute;mero Operaci&oacute;n:</td>

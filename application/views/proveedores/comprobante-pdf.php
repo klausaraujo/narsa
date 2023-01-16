@@ -32,11 +32,12 @@
 			/* *{ text-transform: uppercase; }*/
 			*{ font-size: 13px; }
 			.espaciocm{ height:1cm; }
-			.espaciomm{ height:7mm; }
+			.espaciomm{ height:6mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
 			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
-			table.datos td{ font-size:0.87em; overflow:hidden;}
+			.acciones b{ font-size: 10px; }
+			table.datos td{ font-size:11px; overflow:hidden;}
         </style>
     </head>
     <body>
@@ -166,8 +167,9 @@
 			</table>
 			<div style="height:3mm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
-				<tr style="text-align:left;font-weight:bold;"><td>&nbsp;OBSERVACIONES</td></tr>
-				<tr style="text-align:left"><td>&nbsp;<?if($guia[0]->observaciones) echo $guia[0]->observaciones; else echo '&nbsp;';?></td></tr>
+				<tr style="text-align:left">
+					<td>&nbsp;<b>OBSERVACIONES:</b>&nbsp;&nbsp;<?if($guia[0]->observaciones) echo $guia[0]->observaciones; else echo '&nbsp;';?></td>
+				</tr>
 			</table>
 			
 			<!--<div class="espaciocm"></div>

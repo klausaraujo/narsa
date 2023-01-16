@@ -32,7 +32,7 @@
 			/* *{ text-transform: uppercase; }*/
 			*{ font-size: 13px; }
 			.espaciocm{ height:1cm; }
-			.espaciomm{ height:7mm; }
+			.espaciomm{ height:6mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 11px;}
 			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 11px;}
@@ -79,8 +79,8 @@
 				<tr><td>
 					<b>GU&Iacute;A DE INGRESO NRO  <span style="color:blue"><? if(!empty($guia)) echo sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia; ?></span></b>
 				</td></tr>
-				<tr><td class="espaciocm"></td></tr>
 			</table>
+			<div class="espaciomm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Emisi&oacute;n Gu&iacute;a:</td>
