@@ -453,10 +453,10 @@ class Main extends CI_Controller
 		
 		if(floatval(phpversion()) < $versionphp){
 			$this->load->library('dom');
-			$this->dom->generate("portrait", "informe", $html, "Informe");
+			$this->dom->generate('portrait', 'letter', $html, 'Informe');
 		}else{
 			$this->load->library('dom1');
-			$this->dom1->generate("portrait", "informe", $html, "Informe");
+			$this->dom1->generate('portrait', 'letter', $html, 'Informe');
 		}
 	}
 	public function registrarValorizacion()

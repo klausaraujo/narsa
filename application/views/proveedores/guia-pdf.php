@@ -35,8 +35,8 @@
 			.espaciocm{ height:1cm; }
 			.espaciomm{ height:7mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
-			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse}
-			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse}
+			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
+			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 12px;}
 			table.datos td{ font-size:0.85em; overflow:hidden;}
         </style>
     </head>
@@ -139,8 +139,8 @@
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="3">Art. Ingresado</td><td>Humedad(%)</td><td>Calidad(%)</td>
-					<td colspan="2">Cantidad Kg.</td><td>Valorizado</td><td>Costo</td>
+					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td style="width:4cm" colspan="3">Producto</td><td>Humedad(%)</td><td>Calidad(%)</td>
+					<td colspan="2">Cantidad Total (Kg)</td><td>Cantidad Valorizada (KG)</td><td>Precio(S/)</td>
 				</tr>
 	<?
 			$i = 1;

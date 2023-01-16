@@ -458,6 +458,7 @@ $('#form_ingresos').validate({
 		event.preventDefault();
 		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val())? 0 : parseFloat($('#cantidadValoriz').val());
 		let costoValor = isNaN($('#costoValoriz').val())? 0 : parseFloat($('#costoValoriz').val()), importe = (isNaN(kgValor) || isNaN(costoValor))? 0 : kgValor * costoValor;
+		let obs = $('#obsIng').val();
 		
 		//console.log(parseFloat(costoValor) + "   " + parseFloat(kgValor));
 		if(parseFloat(kgValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar la cantidad a Valorizar'); return false; }
@@ -497,6 +498,7 @@ $('#form_ingresos').validate({
 		if(ids !== '')
 			$('#sucursalIng option[value='+ids+']').attr('selected', true);
 		//$('#form_ingresos select').prop('selectedIndex',0);
+		$('#obsIng').val(obs);
 	}
 });
 
