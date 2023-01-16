@@ -377,8 +377,12 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		
 		if($this->input->get('op') === 'guiaing'){
-			$lista = $this->Proveedores_model->guiaProv(['idguia' => $id]);
-			$html = $this->load->view('proveedores/guia-pdf', ['lista' => $lista], true);
+			//$lista = $this->Proveedores_model->guiaProv(['idguia' => $id]);
+			$guia = $this->Proveedores_model->guiaComprobante(['gd.idguia' => $id]);
+			$idprov = $guia[0]->idproveedor;
+			$datosProv = $this->Proveedores_model->listaProveedor(['idproveedor' => $idprov]);
+			
+			$html = $this->load->view('proveedores/guia-pdf', ['guia' => $guia,'datos'=>$datosProv], true);
 			//$html = $this->load->view('proveedores/guia-pdf', null, true);
 			//var_dump($lista);
 		}elseif($this->input->get('op') === 'edocta'){
@@ -471,5 +475,4 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	
 }

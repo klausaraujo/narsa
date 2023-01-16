@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
     <head>
-	<title>Gu&iacute;a Nro <?=(!empty($lista))?sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_guia:'';?></title>
+	<title>Gu&iacute;a Nro <?=(!empty($guia))?sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia:'';?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
             /** Margenes de la pagina en 0 **/
@@ -80,7 +80,7 @@
 				<tr><td class="espaciomm"></td></tr>
 				<tr><td>
 					<b>GU&Iacute;A DE INGRESO NRO 
-						<span style="color:blue"><? if(!empty($lista)) echo sprintf("%'05s",$lista[0]->numero).'-'.$lista[0]->anio_guia; ?></span>
+						<span style="color:blue"><? if(!empty($guia)) echo sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia; ?></span>
 					</b></td></tr>
 				<tr><td class="espaciocm"></td></tr>
 			</table>
@@ -88,52 +88,52 @@
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Emisi&oacute;n Gu&iacute;a:</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)? date_format(date_create($lista[0]->fecha),'d-m-Y') : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)? date_format(date_create($guia[0]->fecha),'d-m-Y') : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Sucursal:</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->sucursal : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($guia)?$guia[0]->sucursal : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->tipo_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->numero_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->celular : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->celular : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->correo : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->correo : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->nombre : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->domicilio : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($lista)?$lista[0]->zona : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>
@@ -141,17 +141,19 @@
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="5">Art. Ingresado</td><td colspan="2">Cantidad Kg.</td>
-					<td>Valorizado</td><td>Costo</td>
+					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td colspan="3">Art. Ingresado</td><td>Humedad(%)</td><td>Calidad(%)</td>
+					<td colspan="2">Cantidad Kg.</td><td>Valorizado</td><td>Costo</td>
 				</tr>
 	<?
 			$i = 1;
-			foreach($lista as $row):
+			foreach($guia as $row):
 	?>
 				<tr>
-					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="5" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td><?=$i?></td><td colspan="2"><?=sprintf("%'06s",$row->idarticulo)?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
+					<td style="text-align:right">&nbsp;<?=number_format($row->humedad,2,'.',',')?>%</td>
+					<td style="text-align:right">&nbsp;<?=number_format($row->calidad,2,'.',',')?>%</td>
 					<td colspan="2" style="text-align:right"><?=number_format($row->cantidad,2,'.',',')?></td><td style="text-align:right">
-					<?=is_numeric($row->cantidad_valorizada)? number_format($row->cantidad_valorizada,2,'.',',') : 0;?></td>
+					<?=/*is_numeric($row->cantidad_valorizada)? */number_format($row->cantidad_valorizada,2,'.',',')/* : 0.00;*/?></td>
 					<td style="text-align:right"><?=number_format($row->costo,2,'.',',');?></td>
 				</tr>
 	<?
