@@ -1,30 +1,18 @@
 let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upload-button'), file = $('.file-upload'), imgperfil = $('.profile-pic'), perfiltop = $('.top-avatar');
+let scW = screen.width;
+
+window.onresize = function(){
+	console.log(screen.width);
+}
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
 	setTimeout(function () { $('.msg').hide('slow'); }, 1000);
 });
 
-function ceros( number, width ){
-	width -= number.toString().length;
-	if ( width > 0 ){
-		return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
-	}
-	return number + ""; // siempre devuelve tipo cadena
-}
 /*$('body').bind('click','a',function(e){
 	let el = e.target, a = el.closest('a');
 });*/
-$('.tipodoc').bind('change',function(e){
-	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
-	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
-	
-	$('.borra').val('');
-	$('.perfil').val('2');
-	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
-	$('.numcurl').focus();
-});
-
 /*$('#form_proveedores').validate({
 	submitHandler: function (form, event){
 		let btnSubmit = $('#form_proveedor button[type=submit]');
@@ -63,7 +51,7 @@ $('#form_usuarios').validate({
 	}else
 		return false;
 });*/
-function mascara(o,f){  
+/*function mascara(o,f){  
 	v_obj=o;  
 	v_fun=f;  
 	setTimeout("execmascara()",1);  
@@ -80,16 +68,7 @@ function cpf(v){
 	//v = v.toString().split('').reverse().join('').replace(/(\d{3})/g,'$1,');    
 	//v = v.split('').reverse().join('').replace(/^[\,]/,''); 
 	return v;
-}  
-
-$('.moneda').bind('input',function(e){
-	return mascara(this,cpf);
-});
-
-$('.num').bind('input',function(e){
-	jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
-});
-
+}*/
 /*$('.numDec').bind('keydown',function(e){
 	let key = e.which;
 	alert(key);
@@ -100,6 +79,36 @@ $('.num').bind('input',function(e){
 	
 	//jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
 });*/
+function ceros( number, width ){
+	width -= number.toString().length;
+	if ( width > 0 ){
+		return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+	}
+	return number + ""; // siempre devuelve tipo cadena
+}
+
+$('.tipodoc').bind('change',function(e){
+	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
+	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
+	
+	$('.borra').val('');
+	$('.perfil').val('2');
+	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
+	$('.numcurl').focus();
+});
+
+$('.moneda').bind('input',function(e){
+	//return mascara(this,cpf);
+	jQuery(this).val(jQuery(this).val().replace(/([^0-9\.]+)/g, ''));
+	jQuery(this).val(jQuery(this).val().replace(/^[\.]/,''));
+	jQuery(this).val(jQuery(this).val().replace(/[\.][\.]/g,''));
+	jQuery(this).val(jQuery(this).val().replace(/\.(\d)(\d)(\d)/g,'.$1$2'));
+	jQuery(this).val(jQuery(this).val().replace(/\.(\d{1,2})\./g,'.$1'));
+});
+
+$('.num').bind('input',function(e){
+	jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+});
 
 btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });
 upload.bind('click',function(e){ file.trigger('click'); });

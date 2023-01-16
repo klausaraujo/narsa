@@ -77,8 +77,11 @@
         <main>
             <table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm">
 				<tr><td><b>COMPROBANTE DE INGRESO DE PRODUCTOS</b></td></tr>
-				<tr><td class="espaciomm"></td></tr>
+				<tr><td>
+					<b>GU&Iacute;A DE INGRESO NRO  <span style="color:blue"><? if(!empty($guia)) echo sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia; ?></span></b>
+				</td></tr>
 			</table>
+			<div class="espaciomm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Fecha Emisi&oacute;n Gu&iacute;a:</td>
@@ -168,7 +171,7 @@
 				<tr style="text-align:left"><td>&nbsp;<?if($guia[0]->observaciones) echo $guia[0]->observaciones; else echo '&nbsp;';?></td></tr>
 			</table>
 			
-			<div class="espaciocm"></div>
+			<!--<div class="espaciocm"></div>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
@@ -225,7 +228,7 @@
 						?>
 					</td>
 				</tr>
-			</table>
+			</table>-->
         </main>
     </body>
 </html>

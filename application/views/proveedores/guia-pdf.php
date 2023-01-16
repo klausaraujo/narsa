@@ -77,11 +77,9 @@
         <main>
             <table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm">
 				<tr><td><b>REPORTE DE INGRESO DE PRODUCTOS A ALMAC&Eacute;N</b></td></tr>
-				<tr><td class="espaciomm"></td></tr>
 				<tr><td>
-					<b>GU&Iacute;A DE INGRESO NRO 
-						<span style="color:blue"><? if(!empty($guia)) echo sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia; ?></span>
-					</b></td></tr>
+					<b>GU&Iacute;A DE INGRESO NRO  <span style="color:blue"><? if(!empty($guia)) echo sprintf("%'05s",$guia[0]->numero).'-'.$guia[0]->anio_guia; ?></span></b>
+				</td></tr>
 				<tr><td class="espaciocm"></td></tr>
 			</table>
 			<table cellspacing="0" cellpadding="1" align="center" class="datos" width="15cm">
