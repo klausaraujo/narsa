@@ -621,6 +621,7 @@ $('#tablaValDetalle').bind('click','input',function(e){
 	if($(evt).attr('type') === 'checkbox'){
 		if($(evt).prop('checked') === true){
 			$(evt).closest('tr').find('.moneda').removeAttr('disabled');
+			$(evt).closest('tr').find('.cantidad').focus();
 		}else
 			$(evt).closest('tr').find('.moneda').attr('disabled','disabled');
 	}
@@ -643,8 +644,7 @@ $('#guardaVal').bind('click',function(){
 	$('#tablaValDetalle tbody input[type=checkbox]:checked').each(function(i, e){
 		let data = tablaValDetalle.row($(e).parents('tr')).data();
 		let inputCant = $(e).closest('tr').find('input.cantidad'), inputCosto = $(e).closest('tr').find('input.costo');
-		console.log(inputCosto);
-		/*if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
+		if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != '' && parseFloat(inputCosto.val()) > 0){
 			jsonDetalle[i] = { 'idproveedor':id, 'idsucursal': data.idsucursal, 'idguia': data.idguia, 'idarticulo': data.idarticulo, 'cantidad': inputCant.val(),
 				'costo': inputCosto.val() };
 			
@@ -655,9 +655,10 @@ $('#guardaVal').bind('click',function(){
 			if(inputCant.val() == ''){ alert('Cantidad requerida'); inputCant.focus() }
 			else if(parseFloat(inputCant.val()) > parseFloat(data.cantidad)){ alert('La cantidad a valorizar no puede ser mayor que el saldo'); inputCant.focus(); }
 			else if(inputCosto.val() == ''){ alert('El costo es Requerido'); inputCosto.focus(); }
+			else if(!parseFloat(inputCosto.val()) > 0){ alert('El costo es Requerido'); inputCosto.focus(); }
 			salta = true;
 			return false;
-		}*/
+		}
 	});
 	if(! salta){
 		$.ajax({
