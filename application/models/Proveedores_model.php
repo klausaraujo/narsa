@@ -184,13 +184,13 @@ class Proveedores_model extends CI_Model
 					$numero = floatval( $result->numero ) + 1;
 				} 
 				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
-								'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
+								'observaciones'=>$row->observacion,'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
 				//$guia_entrada[] = $tran;
 				$this->db->insert('guia_entrada',$guia_entrada);
 				$idguia = $this->db->insert_id();
 			}
 			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->chk_valorizar,
-					'cantidad_valorizada'=>$row->cantidad_valorizada,'costo'=>$row->costo,'activo'=>1];
+					'cantidad_valorizada'=>$row->cantidad_valorizada,'humedad'=>$row->humedad,'calidad'=>$row->calidad,'costo'=>$row->costo,'activo'=>1];
 			$i++;
 		endforeach;
 		/* Insertar array de valores en la base */
@@ -419,7 +419,7 @@ class Proveedores_model extends CI_Model
 		$rs = $this->db->get();
 		if($rs->num_rows() > 0){
 			$rs = $rs->row();
-			return $rs->edocta;
+			return is_null($rs->edocta)? 0 : $rs->edocta;
 		}else return 0;
 	}
 	public function traeProvByIdguia($where){

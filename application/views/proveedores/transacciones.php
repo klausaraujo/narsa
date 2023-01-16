@@ -4,21 +4,21 @@
 							<div class="iq-header-title"><h4><b><?=ucwords(strtolower($this->input->get('name')))?></b> (Transacciones Financieras)</h4></div>
 						</div>
 						<div class="iq-card-body">
-							<div class="row">
+							<!--<div class="row">
 								<!-- Nav pills -->
-								<div class="nav nav-pills" id="nav-tab" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#pill-operaciones">Registro de Operaciones</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#pill-ingresos">Ingreso de Productos</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#pill-valorizaciones">Valorizaci&oacute;n de Productos</a>
+								<div class="nav nav-pills row" id="nav-tab" role="tablist">
+									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center active" data-toggle="tab" href="#pill-operaciones">Registro de Operaciones</a>
+									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-ingresos">Ingreso de Productos</a>
+									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-valorizaciones">Valorizaci&oacute;n de Productos</a>
 								</div>
-							</div>
+							<!--</div>-->
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div class="tab-pane active mx-auto" id="pill-operaciones">
 									<form method="post" id="form_transacciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/operaciones">
 										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
 										<div class="row container mx-auto">
-											<div class="col-10 mx-auto">
+											<div class="col-lg-10 mx-auto">
 												<div class="row">
 													<div class="col-md-6 mt-4">
 														<div class="row">
@@ -42,7 +42,7 @@
 															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Sucursal:</label></span>
 														</div>
 														<div class="row">
-															<select class="form-control col-md-9 sucursal" name="sucursal" id="sucursal">
+															<select class="form-control col-md-11 sucursal" name="sucursal" id="sucursal">
 														<?
 														foreach($usuario->sucursales as $row):	?>
 																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
@@ -86,19 +86,19 @@
 									<div class="container-fluid my-2">
 										<div class="row">
 											<div class="col-md-6 mb-3">
-												<a class="btn btn-narsa" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
+												<a class="btn btn-narsa ml-3" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
 													target="_blank">Estado de Cuenta</a>
 											</div>
 											<div class="col-md-6 mb-3">
 												<div class="form-group row">
-													<label class="control-label col-lg-3 align-self-center mb-0 ml-auto px-0" for="rescta">Resumen</label>
-													<div class="col-lg-4">
-														<input type="text" class="form-control form-control-sm text-right" id="rescta" 
+													<label class="control-label col-md-3 align-self-center mb-md-0 ml-md-auto px-0" for="rescta">Resumen</label>
+													<div class="col-xs-10 mx-xs-auto col-md-4 mr-md-3">
+														<input type="text" class="form-control form-control-sm text-md-right" id="rescta" 
 															value="<?=number_format($edocta,2,'.',',');?>" readonly >
 													</div>
 												</div>
 											</div>
-											<div class="table-responsive" style="overflow-x:scroll">
+											<div style="overflow-x:hidden" class="mx-auto"><!--class="table-responsive" -->
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>
@@ -107,9 +107,9 @@
 								</div>
 								<div class="tab-pane container fade" id="pill-ingresos">
 									<div class="row container mx-auto">
-										<div class="col-10 mx-auto">
+										<div class="container mx-auto">
 											<div class="row">
-												<div class="col-md-12 mt-4">
+												<div class="col-md-11 mt-4">
 													<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
 													<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalIng" data-target="#modalIngresos">Nuevo Ingreso</button>
 												</div>
@@ -119,7 +119,7 @@
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div class="table-responsive" style="overflow-x:scroll">
+											<div style="overflow-x:hidden" class="col-md-12">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaIngresos" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>
@@ -127,20 +127,18 @@
 									</div>
 								</div>
 								<div class="tab-pane container fade" id="pill-valorizaciones">
-									<div class="row container mx-auto">
-										<div class="col-10 mx-auto">
-											<div class="row">
-												<div class="col-md-12 mt-4">
-													<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
-													<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalVal" data-target="#modalValorizaciones">Nueva Valorizaci&oacute;n</button>
-												</div>
+									<div class="container mx-auto">
+										<div class="row">
+											<div class="col-md-11 mt-4">
+												<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
+												<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalVal" data-target="#modalValorizaciones">Nueva Valorizaci&oacute;n</button>
 											</div>
 										</div>
 									</div>
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div class="table-responsive" style="overflow-x:scroll">
+											<div style="overflow-x:hidden" class="mx-auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaValorizaciones" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>
@@ -152,7 +150,7 @@
 					</div>
 			
 					<div class="modal fade" id="modalIngresos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-dialog modal-ing" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h4 class="modal-title" id="myModalLabel">Ingreso de Productos</h4>
@@ -179,6 +177,12 @@
 													</div>
 												</div>
 												<div class="row my-4">
+													<div class="col-md-2 centraVert"><label for="articulo" class="col-12">Observaciones:</label></div>
+													<div class="col-md-10">
+														<input type="text" class="form-control" name="obsIng" id="obsIng" onKeyUp="mayus(this)" autocomplete="off" placeholder="Observaciones" />
+													</div>
+												</div>
+												<div class="row my-4">
 													<div class="col-md-2 centraVert"><label for="articulo" class="col-12">Producto:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 articuloIng" name="articuloIng" id="articuloIng">
@@ -191,7 +195,17 @@
 													</div>
 													<div class="col-md-3 centraVert"><label for="cantidadIng" class="col-md-9 pull-right">Cantidad KG:</label></div>
 													<div class="col-md-3">
-														<input type="text" class="form-control cantidadIng moneda" name="cantidadIng" id="cantidadIng" autocomplete="off" />
+														<input type="text" class="form-control cantidadIng moneda" name="cantidadIng" id="cantidadIng" autocomplete="off" placeholder="0.00" />
+													</div>
+												</div>
+												<div class="row my-4">
+													<div class="col-md-2 centraVert pr-0"><label for="articulo" class="col-12">Humedad (%):</label></div>
+													<div class="col-md-4">
+														<input type="text" class="form-control col-md-9 moneda" name="humedadIng" id="humedadIng" autocomplete="off" placeholder="0.00" />
+													</div>
+													<div class="col-md-3 centraVert"><label for="articulo" class="col-12">Calidad (%):</label></div>
+													<div class="col-md-3">
+														<input type="text" class="form-control moneda" name="calidadIng" id="calidadIng" autocomplete="off" placeholder="0.00" />
 													</div>
 												</div>
 												<div class="row my-4">

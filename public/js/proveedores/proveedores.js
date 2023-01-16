@@ -172,7 +172,17 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
 				},
-				{ data: 'sucursal' },
+				/*{ data: 'sucursal' },*/
+				{
+					data: 'humedad',
+					className: 'text-left',
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+				},
+				{
+					data: 'calidad',
+					className: 'text-left',
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+				},
 				{ 
 					data: 'cantidad_valorizada',
 					className: 'text-left',
@@ -183,10 +193,16 @@ $(document).ready(function (){
 					className: 'text-left',
 					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
 				},
+				{
+					data: 'importe',
+					className: 'text-left',
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+				},
 			],
 			columnDefs:[
-				{ title: 'Acciones', targets: 0 },{ title: 'Producto', targets: 1 },{ title: 'Cantidad', targets: 2 },{ title: 'Sucursal', targets: 3 },
-				{ title: 'Valorizado', targets: 4 },{ title: 'Costo', targets: 5 }
+				{ title: 'Acciones', targets: 0 },{ title: 'Producto', targets: 1 },{ title: 'Cantidad Total KG', targets: 2 },/*{ title: 'Sucursal', targets: 3 },*/
+				{ title: 'Humedad (%)', targets: 3 },{ title: 'Calidad (%)', targets: 4 },{ title: 'Cantidad Valorizada KG', targets: 5 },{ title: 'Precio', targets: 6 },
+				{ title: 'Importe', targets: 7 }
 			],
 			dom: '<"row"rt>', order: [],
 		});
@@ -325,26 +341,24 @@ $('#modalValorizaciones').on('hidden.bs.modal',function(e){
 $('#form_proveedor').validate({
 	errorClass: 'form_error',
 	rules: {
-		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
-		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8, },
-		/*ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },*/
+		//tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
+		doc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; }, minlength: 8 },
+		//ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },
 		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
-		direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
-		zona: { required: function () { if ($('.zona').css('display') != 'none') return true; else return false; } },
+		//direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
+		//zona: { required: function () { if ($('.zona').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
-		tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
+		//tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
 		doc: { required : '&nbsp;&nbsp;Documento Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
-		/*ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },*/
+		//ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },
 		nombres: { required : '&nbsp;&nbsp;Campo Requerido' },
-		direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
-		zona: { required : '&nbsp;&nbsp;Campo Requerido' },
+		//direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
+		//zona: { required : '&nbsp;&nbsp;Campo Requerido' },
 	},
 	errorPlacement: function(error, element) {
-		if (element.attr('name') == 'doc'){
-			$('.error_curl').html(error.html());
-			//error.insertAfter('.btn_curl');
-		}else error.insertAfter(element);
+		if(element.attr('name') === 'doc') $('#error-doc').html(error.html());
+		if(element.attr('name') === 'nombres') $('#error-razon').html(error.html());
 	},
 	submitHandler: function (form, event) {
 		//alert('Enviando');
@@ -443,7 +457,7 @@ $('#form_ingresos').validate({
 	submitHandler: function (form, event) {
 		event.preventDefault();
 		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val())? 0 : parseFloat($('#cantidadValoriz').val());
-		let costoValor = isNaN($('#costoValoriz').val())? 0 : parseFloat($('#costoValoriz').val());
+		let costoValor = isNaN($('#costoValoriz').val())? 0 : parseFloat($('#costoValoriz').val()), importe = (isNaN(kgValor) || isNaN(costoValor))? 0 : kgValor * costoValor;
 		
 		//console.log(parseFloat(costoValor) + "   " + parseFloat(kgValor));
 		if(parseFloat(kgValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar la cantidad a Valorizar'); return false; }
@@ -459,8 +473,8 @@ $('#form_ingresos').validate({
 		
 		let valor = false, ids = $('#sucursalIng').val();
 		var json = [{ 'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
-				'sucursal':$('#sucursalIng :selected').text(),'cantidad_valorizada':kgValor,'costo':$('#costoValoriz').val(),
-				'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),
+				'sucursal':$('#sucursalIng :selected').text(),'humedad':$('#humedadIng').val(),'calidad':$('#calidadIng').val(),'cantidad_valorizada':kgValor,
+				'costo':$('#costoValoriz').val(),'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),'importe':importe,
 		}];
 		
 		if(tablaIngDetalle.rows().count() === 0){
@@ -552,7 +566,8 @@ $('#generarIng').bind('click',function(){
 		tablaIngDetalle.rows().data().each(function(row){
 			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),
 						'cantidad_valorizada': row.cantidad_valorizada, 'costo': row.costo, 'chk_valorizar': row.chk_valorizar, 'tipo_op': $('#pagoValoriz').val(),
-						'chk_pago': ($('#chkPagoValoriz').prop('checked')? 1 : 0), 'subtotal': $('#subTotalPago').val(), 'desembolso': $('#desembolso').val(),		
+						'chk_pago': ($('#chkPagoValoriz').prop('checked')? 1 : 0), 'subtotal': $('#subTotalPago').val(), 'desembolso': $('#desembolso').val(),'humedad': row.humedad,
+						'calidad': row.calidad,'observacion':$('#obsIng').val(),
 					};
 			i++;
 		});

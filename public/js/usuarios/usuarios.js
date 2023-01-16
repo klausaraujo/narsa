@@ -206,31 +206,30 @@ $('#tablaUsuarios').bind('click','a',function(e){
 $('#form_usuarios').validate({
 	errorClass: 'form_error',
 	rules: {
-		tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
-		doc: { required: function () { if ($('.doc').css('display') != 'none') return true; else return false; }, minlength: 8, },
-		apellidos: { required: function () { if ($('.apellidos').css('display') != 'none') return true; else return false; } },
+		//tipodoc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; } },
+		doc: { required: function () { if ($('.tipodoc').css('display') != 'none') return true; else return false; }, minlength: 8 },
+		//ruc: { required: function () { if ($('.ruc').css('display') != 'none') return true; else return false; }, minlength: 11 },
 		nombres: { required: function () { if ($('.nombres').css('display') != 'none') return true; else return false; } },
-		usuario: { required: function () { if ($('.usuario').css('display') != 'none') return true; else return false; } },
-		perfil: { required: function () { if ($('.perfil').css('display') != 'none') return true; else return false; } },
+		//direccion: { required: function () { if ($('.direccion').css('display') != 'none') return true; else return false; } },
+		//zona: { required: function () { if ($('.zona').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
-		tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
-		doc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
-		apellidos: { required : '&nbsp;&nbsp;Campo Requerido' },
+		//tipodoc: { required : '&nbsp;&nbsp;Campo Requerido' },
+		doc: { required : '&nbsp;&nbsp;Documento Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 8 caracteres' },
+		//ruc: { required : '&nbsp;&nbsp;Campo Requerido', minlength: '&nbsp;&nbsp;Debe ingresar mínimo 11 caracteres' },
 		nombres: { required : '&nbsp;&nbsp;Campo Requerido' },
-		usuario: { required : '&nbsp;&nbsp;Campo Requerido' },
-		perfil: { required : '&nbsp;&nbsp;Campo Requerido' },
+		//direccion: { required : '&nbsp;&nbsp;Campo Requerido' },
+		//zona: { required : '&nbsp;&nbsp;Campo Requerido' },
 	},
 	errorPlacement: function(error, element) {
-		if (element.attr('name') == 'doc'){
-			$('.error_curl').html(error.html());
-			//error.insertAfter('.btn_curl');
-		}else error.insertAfter(element);
+		if(element.attr('name') === 'doc') $('#error-doc').html(error.html());
+		if(element.attr('name') === 'nombres') $('#error-nombres').html(error.html());
 	},
 	submitHandler: function (form, event) {
 		//alert('Enviando');
-		$('#formPassword button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-		$('#formPassword button[type=submit]').addClass('disabled');
+		$('#form_usuarios button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$('#form_usuarios button[type=submit]').addClass('disabled');
+		btnCancelar.addClass('disabled');
 		return true;
 	}
 });

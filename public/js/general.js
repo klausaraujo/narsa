@@ -1,5 +1,10 @@
 let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upload-button'), file = $('.file-upload'), imgperfil = $('.profile-pic'), perfiltop = $('.top-avatar');
 
+$(document).ready(function (){
+	$('html, body').animate({ scrollTop: 0 }, 'fast');
+	setTimeout(function () { $('.msg').hide('slow'); }, 1000);
+});
+
 function ceros( number, width ){
 	width -= number.toString().length;
 	if ( width > 0 ){
@@ -7,16 +12,9 @@ function ceros( number, width ){
 	}
 	return number + ""; // siempre devuelve tipo cadena
 }
-
-$(document).ready(function (){
-	$('html, body').animate({ scrollTop: 0 }, 'fast');
-	setTimeout(function () { $('.msg').hide('slow'); }, 1000);
-});
-
-$('body').bind('click','a',function(e){
+/*$('body').bind('click','a',function(e){
 	let el = e.target, a = el.closest('a');
-});
-
+});*/
 $('.tipodoc').bind('change',function(e){
 	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
 	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
@@ -26,6 +24,26 @@ $('.tipodoc').bind('change',function(e){
 	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
 	$('.numcurl').focus();
 });
+
+/*$('#form_proveedores').validate({
+	submitHandler: function (form, event){
+		let btnSubmit = $('#form_proveedor button[type=submit]');
+		
+		btnSubmit.html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		btnSubmit.addClass('disabled');
+		btnCancelar.addClass('disabled');
+	}
+});
+
+$('#form_usuarios').validate({
+	submitHandler: function (form, event){
+		let btnSubmit = $('#form_usuarios button[type=submit]');
+		
+		btnSubmit.html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		btnSubmit.addClass('disabled');
+		btnCancelar.addClass('disabled');
+	}
+});*/
 
 /*$('.numcurl').bind('keydown',function(e){
 	let key = e.which, len = ($('.numcurl').val()).length + 1;
@@ -61,10 +79,10 @@ function cpf(v){
 	v=v.replace(/\.(\d{1,2})\./g,'.$1'); 
 	//v = v.toString().split('').reverse().join('').replace(/(\d{3})/g,'$1,');    
 	//v = v.split('').reverse().join('').replace(/^[\,]/,''); 
-	return v;  
+	return v;
 }  
 
-$('.moneda').bind('keydown',function(e){
+$('.moneda').bind('input',function(e){
 	return mascara(this,cpf);
 });
 

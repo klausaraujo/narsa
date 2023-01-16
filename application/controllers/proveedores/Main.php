@@ -40,25 +40,26 @@ class Main extends CI_Controller
 	{
 		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Proveedores_model');
-		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''
-				&& $this->input->post('tiporegistro') === 'registrar')
-		{
-			$data = array(
-				'idtipodocumento' => $this->input->post('tipodoc'),
-				'numero_documento' => $this->input->post('doc'),
-				'RUC' => $this->input->post('ruc'),
-				'nombre' => $this->input->post('nombres'),
-				'domicilio' => $this->input->post('direccion'),
-				'celular' => $this->input->post('celular'),
-				'correo' => $this->input->post('correo'),
-				'zona' => $this->input->post('zona'),
-				'activo' => 1,
-			);
-			$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
-			if($this->Proveedores_model->registrar($data)){
-				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Registrado Exitosamente');
-				$this->session->set_flashdata('claseMsg', 'alert-primary');
-			}
+		if($this->input->post('tiporegistro') === 'registrar'){
+			if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''){
+				$data = array(
+					'idtipodocumento' => $this->input->post('tipodoc'),
+					'numero_documento' => $this->input->post('doc'),
+					'RUC' => $this->input->post('ruc'),
+					'nombre' => $this->input->post('nombres'),
+					'domicilio' => $this->input->post('direccion'),
+					'celular' => $this->input->post('celular'),
+					'correo' => $this->input->post('email'),
+					'zona' => $this->input->post('zona'),
+					'activo' => 1,
+				);
+				$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
+				if($this->Proveedores_model->registrar($data)){
+					$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Registrado Exitosamente');
+					$this->session->set_flashdata('claseMsg', 'alert-primary');
+				}
+			}else{ $this->session->set_flashdata('flashMessage', 'Campos Vac&iacute;os'); }
+				
 		}elseif($this->input->post('tiporegistro') === 'editar'){
 			$id = $this->input->post('idproveedor');
 			$this->session->set_flashdata('flashMessage', 'No se pudo actualizar el <b>Proveedor</b>');
@@ -67,7 +68,7 @@ class Main extends CI_Controller
 				'RUC' => $this->input->post('ruc'),
 				'domicilio' => $this->input->post('direccion'),
 				'celular' => $this->input->post('celular'),
-				'correo' => $this->input->post('correo'),
+				'correo' => $this->input->post('email'),
 				'zona' => $this->input->post('zona'),
 			);
 			
@@ -75,8 +76,6 @@ class Main extends CI_Controller
 				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Actualizado');
 				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
-		}else{
-			$this->session->set_flashdata('flashMessage', 'Campos Vac&iacute;os');
 		}
 		header('location:'.base_url().'proveedores');
 	}

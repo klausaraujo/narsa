@@ -9,55 +9,53 @@
 								<div class="row">
 									<div class="col-sm-12 my-1">
 										<div class="row">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="tipodoc">Tipo de Documento:</label></span>
-											<select class="form-control col-sm-3 tipodoc" name="tipodoc" id="tipodoc" disabled >
-											<?
-													foreach($tipodoc as $row):	?>
-														<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $usuario->idtipodocumento)?'selected':'';?>>
-															<?=$row->tipo_documento;?></option>
-											<?		endforeach;	?>
-											</select>
+											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
+											<div class="col-md-6 col-lg-3">
+												<div class="row">
+													<select class="form-control tipodoc" name="tipodoc" id="tipodoc" disabled >
+													<?
+															foreach($tipodoc as $row):	?>
+																<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $usuario->idtipodocumento)?'selected':'';?>>
+																	<?=$row->tipo_documento;?></option>
+													<?		endforeach;	?>
+													</select>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
-										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="doc">N&uacute;mero de Documento:</label></span>
-											<input type="text" class="form-control col-sm-3 doc" name="doc" id="doc" autocomplete="off"
-												value="<?=$usuario->numero_documento;?>" disabled />&nbsp;&nbsp;
+										<div class="row mt-3">
+											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
+											<input type="text" class="form-control col-md-6 col-lg-3 doc" name="doc" id="doc" autocomplete="off"
+												value="<?=$usuario->numero_documento;?>" disabled />
 											<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
-										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="apellidos">Apellidos:</label></span>
-											<input type="text" class="form-control col-sm-5 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos"
+										<div class="row mt-3">
+											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="apellidos">Apellidos:</label>
+											<input type="text" class="form-control col-md-6 col-lg-4 apellidos" name="apellidos" id="apellidos" placeholder="Apellidos"
 												value="<?=$usuario->apellidos;?>" disabled />
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
-										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="nombres">Nombres:</label></span>
-											<input type="text" class="form-control col-sm-5 nombres" name="nombres" id="nombres" placeholder="Nombres"
+										<div class="row mt-3">
+											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Nombres:</label>
+											<input type="text" class="form-control col-md-6 col-lg-4 nombres" name="nombres" id="nombres" placeholder="Nombres"
 												value="<?=$usuario->nombres;?>" disabled />
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
-										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="usuario">Usuario:</label></span>
-											<input type="text" class="form-control col-sm-5 usuario" name="usuario" id="usuario" placeholder="Usuario"
+										<div class="row mt-3">
+											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="usuario">Usuario:</label>
+											<input type="text" class="form-control col-md-6 col-lg-4 usuario" name="usuario" id="usuario" placeholder="Usuario"
 												value="<?=$usuario->usuario;?>" disabled />
 										</div>
-									</div>
-									<div class="col-sm-12 my-1">
-										<div class="row my-1">
-											<span class="col-sm-3" style="display:flex;align-items:center"><label for="perfil">Perfil:</label></span>
-											<select class="form-control col-sm-3 perfil" name="perfil" id="perfil">
-											<?
+										<div class="row mt-3">
+											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="perfil">Perfil:</label>
+											<div class="col-md-6 col-lg-4">
+												<div class="row">
+													<select class="form-control perfil" name="perfil" id="perfil"  required="" >
+												<?
 													foreach($perfil as $row):	?>
-														<option value="<?=$row->idperfil;?>" <?=($row->idperfil === $usuario->idperfil)?'selected':'';?>>
-															<?=$row->perfil;?></option>
-											<?		endforeach;	?>
-											</select>
+														<option value="<?=$row->idperfil;?>" <?if($row->idperfil === '2')echo 'selected';?> ><?=$row->perfil;?></option>
+												<?	endforeach;	?>
+													</select>
+													<div class="invalid-feedback">Campo requerido</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>

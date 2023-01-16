@@ -9,7 +9,7 @@
 								</div>
 								<div class="container-fluid">
 									<div class="row">
-										<div class="table-responsive" style="overflow-x:scroll">
+										<div style="overflow-x:hidden" class="mx-auto"> <!--class="table-responsive" -->
 										<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 											<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 										</div>

@@ -26,5 +26,6 @@
 	.iq-top-navbar .iq-navbar-custom .iq-menu-bt { right: 80px; }
 }
 .modal-lg, .modal-xl { max-width: 900px; }
+.modal-ing { max-width: 1100px; }
 table.dataTable tr, th, td{font-size: 0.8rem;}
 </style>
