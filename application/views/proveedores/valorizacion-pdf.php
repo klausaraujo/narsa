@@ -155,8 +155,9 @@
 					<td>Cantidad (KG)</td><td>Precio (S/)</td><td colspan="2">Importe (S/)</td>
 				</tr>
 	<?
-			$i = 1;
+			$i = 1; $importe = 0;
 			foreach($lista as $row):
+				$importe += $row->importe;
 	?>
 				<tr>
 					<td><?=$i?></td><td colspan="2"><?=sprintf("%'05s",$row->numero).'-'.$row->anio_valorizacion?></td><td colspan="3" style="text-align:left">&nbsp;<?=$row->articulo?></td>
@@ -167,6 +168,10 @@
 				$i++;
 			endforeach;
 	?>
+				<tr>
+					<td colspan="10" align="right" style="font-weight:bold">TOTAL (S/):&nbsp;</td>
+					<td colspan="2" style="font-weight:bold;text-align:right"><?=number_format($importe,2,'.',',');?></td>
+				</tr>
 			</table>
         </main>
     </body>

@@ -391,7 +391,7 @@ class Main extends CI_Controller
 		echo json_encode($data);
 	}
 	public function informes(){
-		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null; $j = 0;	$suc = [];
+		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null; $j = 0;	$suc = []; $a5 = 'A5'; $direccion = 'landscape';
 		$this->load->model('Proveedores_model');
 		
 		if($this->input->get('op') === 'guiaing'){
@@ -418,7 +418,8 @@ class Main extends CI_Controller
 			endforeach;
 			//var_dump($datosProv);
 			$html = $this->load->view('proveedores/edo-cta', ['lista' => $filtro,'sucursales'=>$suc,'datos'=>$datosProv], true);
-		
+			$a5 = 'A4'; $direccion = 'portrait';
+			
 		}elseif($this->input->get('op') === 'valorizdet'){
 			$lista = $this->Proveedores_model->valorizProv(['idvalorizacion' => $id]);
 			
@@ -453,10 +454,10 @@ class Main extends CI_Controller
 		
 		if(floatval(phpversion()) < $versionphp){
 			$this->load->library('dom');
-			$this->dom->generate('landscape', 'A5', $html, 'Informe');
+			$this->dom->generate($direccion, $a5, $html, 'Informe');
 		}else{
 			$this->load->library('dom1');
-			$this->dom1->generate('landscape', 'A5', $html, 'Informe');
+			$this->dom1->generate($direccion, $a5, $html, 'Informe');
 		}
 	}
 	public function registrarValorizacion()

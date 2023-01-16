@@ -643,7 +643,8 @@ $('#guardaVal').bind('click',function(){
 	$('#tablaValDetalle tbody input[type=checkbox]:checked').each(function(i, e){
 		let data = tablaValDetalle.row($(e).parents('tr')).data();
 		let inputCant = $(e).closest('tr').find('input.cantidad'), inputCosto = $(e).closest('tr').find('input.costo');
-		if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
+		console.log(inputCosto);
+		/*if(inputCant.val() != '' && parseFloat(inputCant.val()) <= parseFloat(data.cantidad) && inputCosto.val() != ''){
 			jsonDetalle[i] = { 'idproveedor':id, 'idsucursal': data.idsucursal, 'idguia': data.idguia, 'idarticulo': data.idarticulo, 'cantidad': inputCant.val(),
 				'costo': inputCosto.val() };
 			
@@ -656,7 +657,7 @@ $('#guardaVal').bind('click',function(){
 			else if(inputCosto.val() == ''){ alert('El costo es Requerido'); inputCosto.focus(); }
 			salta = true;
 			return false;
-		}
+		}*/
 	});
 	if(! salta){
 		$.ajax({
