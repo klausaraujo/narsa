@@ -391,7 +391,7 @@ class Main extends CI_Controller
 		echo json_encode($data);
 	}
 	public function informes(){
-		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null; $j = 0;	$suc = []; $a5 = 'A5'; $direccion = 'landscape';
+		$versionphp = 7; $filtro = []; $i = 0; $id = $this->input->get('id'); $html = null; $j = 0;	$suc = []; $a5 = 'A4'; $direccion = 'portrait';
 		$this->load->model('Proveedores_model');
 		
 		if($this->input->get('op') === 'guiaing'){
