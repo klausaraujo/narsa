@@ -30,14 +30,14 @@
 			
 			/** Reglas del contenido **/
 			/* *{ text-transform: uppercase; }*/
-			*{ font-size: 14px; }
-			.datos{font-size: 10px;}
+			*{ font-size: 9px; }
+			.datos{font-size: 9px;}
 			.espaciocm{ height:1cm; }
 			.espaciomm{ height:7mm; }
 			.tablaround{ border-collapse:separate;border-spacing:3; border:solid black 1px; border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px;}
 			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse}
 			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse}
-			table.datos td{ font-size:0.85em; overflow:hidden;}
+			table.datos td{ font-size:9px; overflow:hidden;}
         </style>
     </head>
     <body>
