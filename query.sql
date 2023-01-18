@@ -1936,6 +1936,7 @@ activo char(1) DEFAULT '1',
 PRIMARY KEY (idanio)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 INSERT INTO anio (anio) VALUES(2022);
+INSERT INTO anio (anio) VALUES(2023);
 
 CREATE TABLE mes  (
 idmes smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2008,7 +2009,7 @@ CREATE TABLE modulo  (
   PRIMARY KEY (idmodulo)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 	
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (1,'Módulo de Registro de Proveedores y Transacciones','Módulo Proveedores','proveedores.png','proveedores','1','fa fa-bar-chart',1);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro de Servicios Generales y Facturación','Módulo Facturación','servicios.png','servicios','1','fa fa-money',2);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro de Movimientos de Caja','Módulo Caja','servicios.png','servicios','1','fa fa-money',2);
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Configuraciones y Tablas Padre del Sistema','Módulo Configuraciones','utilitarios.png','utilitarios','1','fa fa-cog',3);
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Registro de Usuarios y Accesos Personalizados','Módulo Usuarios','usuarios.png','usuarios','1','fa fa-users',4);
 	
@@ -2025,7 +2026,7 @@ CREATE TABLE modulo_rol  (
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(2,1,'1');
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(3,1,'1');
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(4,1,'1');
-			
+		
 	/*Estandar*/
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(1,2,'1');
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(2,2,'1');
@@ -2054,7 +2055,6 @@ CREATE TABLE permiso  (
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(8,'Anular Valorización','1',8,1);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(9,'Ver Valorización','1',9,1);
 	
-	
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(10,'Editar Usuario','1',10,4);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(11,'Asignar Sucursales','1',11,4);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(12,'Asignar Permisos','1',12,4);
@@ -2079,6 +2079,10 @@ CREATE TABLE menu  (
 	/*Menus del Módulo de Usuarios*/
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(4,4,'Lista Usuarios','0','usuarios','fa fa-list');
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(5,4,'Nuevo Registro','0','nuevousuario','fa fa-pencil-square-o');
+	/*Menus del Módulo de Usuarios*/
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(6,2,'Lista Movimientos','0','cajas','fa fa-list');
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(7,4,'Nuevo Registro','0','nuevacaja','fa fa-pencil-square-o');
+	
 
 CREATE TABLE menu_detalle  (
   idmenudetalle smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2232,7 +2236,7 @@ zona varchar(30)NULL,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idproveedor)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-insert into proveedor(idproveedor,idtipodocumento,numero_documento,RUC,nombre) values (1,1,'00000000','00000000000','NARSA CENTRAL');
+insert into proveedor(idproveedor,idtipodocumento,numero_documento,RUC,nombre) values (1,1,'00000000','20365581569','NARSA CENTRAL');
 
 create table tipo_operacion_proveedor(
 idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2257,16 +2261,19 @@ combo_movimientos char(1) default '0',
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idtipooperacion))  ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (1,'PRESTAMOS A PROVEEDORES','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (2,'PAGOS A PROVEEDORES','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (3,'COBROS A PROVEEDORES','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (4,'PAGOS DE INTERESES A PROVEEDORES','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (5,'COBROS DE INTERESES A PROVEEDORES','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (6,'PRESTAMOS A LA EMPRESA','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (1,'PRESTAMOS A PROVEEDORES','0');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (2,'PAGOS A PROVEEDORES','0');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (3,'COBROS A PROVEEDORES','0');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (4,'PAGOS DE INTERESES A PROVEEDORES','0');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (5,'COBROS DE INTERESES A PROVEEDORES','0');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (6,'PRESTAMOS A LA EMPRESA','0');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (7,'INGRESO DE EFECTIVO A CAJA','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (8,'TRANSFERENCIA A SUCURSALES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (8,'TRANSFERENCIA A SUCURSALES','0');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (9,'GASTOS OPERATIVOS','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (10,'ADELANTOS A PROVEEDORES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (10,'ADELANTOS A PROVEEDORES','0');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (11,'PAGO DE PLANILLAS','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (12,'PAGO DE SERVICIOS BASICOS','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (13,'PAGO DE VIATICOS','1');
 
 create table transacciones(
 idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2303,6 +2310,12 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (14,2,7,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (15,2,8,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (16,2,9,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (18,2,10,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (19,2,11,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (20,2,12,-1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (21,2,13,-1);
+
+
+
 
 create table movimientos_proveedor(
 	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
