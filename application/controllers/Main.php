@@ -52,6 +52,21 @@ class Main extends CI_Controller
 		);
 		$this->load->view('main',$data);
 	}
+	public function servicios()
+	{
+		$this->load->model('Servicios_model');
+		$anio = $this->Servicios_model->anio();
+		$mes = $this->Servicios_model->mes();
+		
+		$headers = array(
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
+			'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
+			'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
+			'9'=>['targets' => 1, 'visible' => false],
+		);
+		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes];
+		$this->load->view('main',$data);
+	}
 	public function curl(){
 		$token_ruc = 'Bearer apis-token-1.aTSI1U7KEuT-6bbbCguH-4Y8TI6KS73N';//10460278975
 		$api = 'http://mpi.minsa.gob.pe/api/v1/ciudadano/ver/';

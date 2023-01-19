@@ -121,7 +121,7 @@ class Main extends CI_Controller
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
-		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id]);
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id, 'idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
 		
 		$data = array(
 			'tipo_op' => $tipo,
@@ -137,8 +137,8 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Proveedores_model');
 		
-		$id = $this->input->post('id');
-		$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id]);
+		$id = $this->input->post('id'); $suc = $this->input->post('sucursal');
+		$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc]);
 		$filtro = []; $i = 0;
 		
 		foreach($this->usuario->sucursales as $sucursal):
@@ -213,6 +213,14 @@ class Main extends CI_Controller
 		
 		echo json_encode(['data' => $filtro]);
 	}
+	public function edocta()
+	{
+		$this->load->model('Proveedores_model');
+		$id = $this->input->post('id'); $suc = $this->input->post('sucursal');
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id, 'idsucursal' => $suc]);
+		
+		echo floatVal($edocta);
+	}
 	public function registraOp()
 	{
 		$this->load->model('Proveedores_model');
@@ -234,7 +242,7 @@ class Main extends CI_Controller
 			'idproveedor' => $id,
 			'monto' => $this->input->post('monto'),
 			'interes' => $this->input->post('interes'),
-			'idfactor' => (!empty($factor)? $factor->idfactor : 0),
+			'idfactor' => (!empty($factor)? $factor->idfactor : 1),
 			'fecha_vencimiento' => $vence,
 			'fecha_movimiento' => $fecha,
 			'idusuario_registro' => $this->usuario->idusuario,

@@ -1,15 +1,10 @@
 let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, precioVal = 0 ;
 
-function formateaNumero(value) {
+/*function formateaNumero(value) {
   v = parseFloat(value)
   v = v.toFixed(2);
   return new Intl.NumberFormat('es-PE', { style: 'decimal' }).format(v);
-}
-function formatMoneda(v){
-	let n = parseFloat(v).toFixed(2);
-	n = (n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	return n;
-}
+}*/
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -55,7 +50,8 @@ $(document).ready(function (){
 				url: base_url + 'proveedores/transacciones/lista',
 				type: 'POST',
 				data: function (d) {
-					d.id = id
+					d.id = id,
+					d.sucursal = $('.sucursal').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
@@ -695,6 +691,20 @@ $('#guardaVal').bind('click',function(){
 
 $('#sucursalVal').bind('change', function(){
 	tablaValDetalle.ajax.reload();
+});
+$('#sucursal').bind('change', function(){
+	tablaOp.ajax.reload();
+	$.ajax({
+		data: {'sucursal': $('#sucursal').val(), id: id },
+		url: base_url + 'proveedores/edocta',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function (){ },
+		success: function (data){
+			precioVal = data;
+			$('#rescta').val(formatMoneda(precioVal));
+		}
+	});
 });
 $('#modalVal').bind('click', function(){
 	tablaValDetalle.ajax.reload();

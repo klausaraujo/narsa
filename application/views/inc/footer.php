@@ -86,9 +86,11 @@
 			});
 			<?}?>
 		</script>
+		<?}else if($this->uri->segment(1) === 'servicios'){ ?>
+		<script src="<?=base_url()?>public/js/servicios/servicios.js"></script>
 		<?}
 		/* Rutinas Javascript por cada uno de los segmentos 2 */
-		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios') && $this->uri->segment(2) == ''){ ?>
+		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
@@ -117,8 +119,6 @@
 			window.onload = function(){
 				var opt = {lat: parseFloat(<?=$lat?>), lng: parseFloat(<?=$lng?>),zoom: 16};
 				<?if($this->uri->segment(2) === 'nuevo'){?> $('.ajaxMap').hide();<?}?>
-				/*console.log(parseFloat(<?=$lat?>));
-				console.log(parseFloat(<?=$lng?>));*/
 				map = mapa(opt);
 			}
 		</script>

@@ -59,15 +59,17 @@ $route['logout'] = 'login/logout';
 
 /* Programacion en general */
 $route['proveedores'] = 'main/proveedores';
+$route['servicios'] = 'main/servicios';
+$route['usuarios'] = 'main/usuarios';
 $route['curl'] = 'main/curl';
 $route['upload'] = 'main/upload';
 $route['cambiapass'] = 'main/password';
-$route['usuarios'] = 'main/usuarios';
 $route['provincias'] = 'main/provincias';
 $route['distritos'] = 'main/distritos';
 $route['cargarLatLng'] = 'main/cargarLatLng';
 
 /* Proveedores */
+$route['proveedores/edocta'] = 'proveedores/main/edocta';
 $route['proveedores/lista'] = 'proveedores/main/listaProveedores';
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';
@@ -89,6 +91,13 @@ $route['proveedores/valorizaciones/lista'] = 'proveedores/main/listaValorizacion
 $route['proveedores/valorizaciones/anular'] = 'proveedores/main/anulaOp';
 $route['proveedores/valorizaciones/valoriz_pdf'] = 'proveedores/main/informes';
 $route['proveedores/ingresos/comprobante'] = 'proveedores/main/informes';
+
+/* Servicios */
+$route['servicios/lista'] = 'servicios/main/listaOperaciones';
+$route['nuevacaja'] = 'servicios/main/nuevo';
+$route['servicios/nuevo'] = 'servicios/main/nuevo';
+$route['servicios/registrar'] = 'servicios/main/registrar';
+$route['cajas'] = 'servicios/main/cajas';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

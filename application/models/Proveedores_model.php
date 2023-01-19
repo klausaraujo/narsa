@@ -419,7 +419,7 @@ class Proveedores_model extends CI_Model
 		$rs = $this->db->get();
 		if($rs->num_rows() > 0){
 			$rs = $rs->row();
-			return is_null($rs->edocta)? 0 : $rs->edocta;
+			return is_null($rs->edocta)? 0 : sprintf("%1.2f",$rs->edocta);
 		}else return 0;
 	}
 	public function traeProvByIdguia($where){

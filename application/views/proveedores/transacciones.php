@@ -365,7 +365,7 @@
 														<input type="text" class="form-control col-12" value="<?=ucwords(strtolower($this->input->get('name')))?>"
 															name="proveedorIng" id="proveedorIng" readonly />
 													</div>
-													<div class="col-md-2 align-items-center"><label for="sucursal" class="col-12">Sucursal:</label></div>
+													<div class="col-md-2 align-items-center"><label for="sucursalIng" class="col-12">Sucursal:</label></div>
 													<div class="col-md-4">
 														<select class="form-control col-12 sucursalIng" name="sucursalIng" id="sucursalIng">
 													<?
