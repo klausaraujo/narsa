@@ -2079,9 +2079,9 @@ CREATE TABLE menu  (
 	/*Menus del Módulo de Usuarios*/
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(4,4,'Lista Usuarios','0','usuarios','fa fa-list');
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(5,4,'Nuevo Registro','0','nuevousuario','fa fa-pencil-square-o');
-	/*Menus del Módulo de Usuarios*/
+	/*Menus del Módulo de Cajas*/
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(6,2,'Lista Movimientos','0','cajas','fa fa-list');
-	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(7,4,'Nuevo Registro','0','nuevacaja','fa fa-pencil-square-o');
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(7,2,'Nuevo Registro','0','nuevacaja','fa fa-pencil-square-o');
 	
 
 CREATE TABLE menu_detalle  (
@@ -2358,6 +2358,7 @@ create table movimientos_caja(
 	fecha_modificacion datetime,
 	idusuario_anulacion smallint(4),
 	fecha_anulacion datetime,
+	observaciones varchar(1000),
 	activo char(1) DEFAULT '1',
 	PRIMARY KEY (idmovimiento),
 	FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion_caja (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -2482,3 +2483,9 @@ As
 select v.idvalorizacion,v.anio_valorizacion,v.numero,v.fecha,v.idsucursal,s.sucursal,v.idproveedor,p.idtipodocumento,td.tipo_documento,p.numero_documento,p.RUC,p.nombre,p.domicilio,p.zona,p.celular,p.correo,v.idtransaccion,vd.idguia,ge.anio_guia,ge.numero as 'numero_guia',ge.fecha as 'fecha_guia',vd.idarticulo,a.articulo,vd.cantidad,vd.costo,vd.cantidad * vd.costo as 'importe'
 from valorizacion as v inner join sucursal as s on s.idsucursal = v.idsucursal inner join proveedor as p on p.idproveedor = v.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join valorizacion_detalle as vd on vd.idvalorizacion = v.idvalorizacion inner join articulo as a on a.idarticulo = vd.idarticulo inner join guia_entrada as ge on ge.idguia = vd.idguia
 where v.activo='1' and vd.activo='1';
+
+create view lista_movimientos_caja
+as
+select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.sucursal,mc.idtransaccion,mc.monto,mc.interes as 'tasa',mc.monto * (mc.interes/100) as 'intereses',f.idfactor,f.factor * mc.monto as monto_factor,f.factor * ((mc.monto)+mc.monto * (mc.interes/100)) as monto_factor_final,mc.fecha_vencimiento,mc.fecha_movimiento 
+from movimientos_caja as mc inner join tipo_operacion_caja as toc on toc.idtipooperacion=mc.idtipooperacion inner join sucursal as s on s.idsucursal = mc.idsucursal inner join factor as f on f.idfactor=mc.idfactor
+where mc.activo='1';
