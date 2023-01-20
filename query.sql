@@ -33,6 +33,7 @@ DROP VIEW IF EXISTS lista_ingresos_valorizaciones_pre;
 DROP VIEW IF EXISTS lista_ingresos_valorizaciones_saldo;
 DROP VIEW IF EXISTS lista_valorizaciones_proveedores;
 DROP VIEW IF EXISTS lista_ubigeo;
+DROP VIEW IF EXISTS lista_movimientos_caja;
 
 CREATE TABLE ubigeo(
 	idubigeo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2061,6 +2062,10 @@ CREATE TABLE permiso  (
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(13,'Resetar Clave','1',13,4);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(14,'Activar/Desactivar','1',14,4);
 
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(15,'Editar Movimiento','1',15,2);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(16,'Anular Movimiento','1',16,2);
+
+
 
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2106,6 +2111,8 @@ CREATE TABLE menu_detalle  (
 	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(8,3,'Reporte Salidas','#','fa fa-newspaper-o',8);
 	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(9,3,'Operaciones Usuarios','#','fa fa-newspaper-o',9);
 	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(10,3,'Reporte Transacciones','#','fa fa-newspaper-o',10);
+	
+	
 
 CREATE TABLE permisos_menu  (
   idpermisosmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2121,6 +2128,8 @@ CREATE TABLE permisos_menu  (
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(3,3,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(4,4,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(5,5,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(9,6,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(10,7,1);
 
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(6,1,2);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(7,2,2);
@@ -2174,6 +2183,8 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(13,13,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(14,14,1);
 	
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(17,15,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(18,16,1);
 	
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(15,1,2);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(16,2,2);
