@@ -46,12 +46,12 @@ class Main extends CI_Controller
 	{
 		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Servicios_model'); $this->load->model('Proveedores_model');
-		$tipo = $this->input->post('tipoCaja'); $mto = $this->input->post('monto'); $fecha = $this->input->post('fecha');
+		$tipo = $this->input->post('tipoCaja'); $mto = $this->input->post('monto'); $fecha = $this->input->post('fecha'); $suc = $this->input->post('sucursalCaja');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$tipo,'activo'=>1]);
 		if($this->input->post('tiporegistro') === 'registrar'){
 			$this->session->set_flashdata('flashMessage', 'No se pudo registrar la <b>Operaci&oacute;n</b>');
-			$dataTransaccion = array(
+			$dataTran = array(
 				'fecha' => $fecha,
 				'vencimiento' => $fecha,
 				'monto' => $mto,
@@ -59,7 +59,7 @@ class Main extends CI_Controller
 			);
 			$dataOp = array(
 				'idtipooperacion' => $tipo,
-				'idsucursal' => $this->input->post('sucursalCaja'),
+				'idsucursal' => $suc,
 				'monto' => $mto,
 				'interes' => 0,
 				'idfactor' => (!empty($factor)? $factor->idfactor : 1),
@@ -69,12 +69,26 @@ class Main extends CI_Controller
 				'fecha_registro' => $fecha,
 				'activo' => 1,
 			);
-			if($this->Servicios_model->movCaja($dataTransaccion,$dataOp) > 0){
+			if($this->Servicios_model->movCaja($dataTran,$dataOp) > 0){
 				$this->session->set_flashdata('flashMessage', '<b>Operaci&oacute;n</b> Registrada Exitosamente');
 				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
 		}elseif($this->input->post('tiporegistro') === 'editar'){
+			
 			$this->session->set_flashdata('flashMessage', 'No se pudo actualizar la <b>Operaci&oacute;n</b>');
+			$dataTran = array('monto' => $mto);
+			$dataOp = array(
+				'idtipooperacion' => $tipo,
+				'idsucursal' => $suc,
+				'monto' => $mto,
+				'fecha_movimiento' => $fecha,
+				'idusuario_modificacion' => $this->usuario->idusuario,
+				'fecha_modificacion' => date('Y-m-d H:i:s'),
+			);
+			if($this->Servicios_model->editar($dataTran,$dataOp,['idtransaccion'=>$this->input->post('idtran')],['idmovimiento'=>$this->input->post('idmov')])){
+				$this->session->set_flashdata('flashMessage', '<b>Operaci&oacute;n</b> Actualizada');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
+			}
 		}
 		/*$this->load->model('Proveedores_model');
 		$ubigeo = $this->input->post('dep').$this->input->post('pro').$this->input->post('dis');

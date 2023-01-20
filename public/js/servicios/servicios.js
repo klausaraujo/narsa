@@ -59,7 +59,6 @@ $('.sucursal').bind('change', function(){
 		beforeSend: function (){ },
 		success: function (data){
 			//precioVal = data;
-			console.log(data);
 			muestraSaldo(data);
 			//$('#rescta').val(formatMoneda(precioVal));
 		}

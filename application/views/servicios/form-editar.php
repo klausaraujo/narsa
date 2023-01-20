@@ -6,6 +6,8 @@
 						<div class="iq-card-body">
 							<form method="post" id="form_caja" action="<?=base_url()?>servicios/registrar" class="needs-validation form-horizontal" novalidate="">
 								<input type="hidden" name="tiporegistro" value="editar" />
+								<input type="hidden" name="idmov" value="<?=$servicio->idmovimiento?>" />
+								<input type="hidden" name="idtran" value="<?=$servicio->idtransaccion?>" />
 								<div class="form-row">
 									<div class="col-12 my-1">
 										<div class="row">

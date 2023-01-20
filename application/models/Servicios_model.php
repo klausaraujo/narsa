@@ -75,6 +75,25 @@ class Servicios_model extends CI_Model
 			return $idtran;
 		}
 	}
+	public function editar($trans,$movcaja,$whereTran,$whereMov)
+	{
+		$this->db->trans_begin();
+		
+		$this->db->db_debug = FALSE;
+		$this->db->where($whereTran);
+		$this->db->update('transacciones',$trans);
+
+		$this->db->where($whereMov);
+		$this->db->update('movimientos_caja',$movcaja);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return 1;
+		}
+	}
 	public function traeSaldo($where)
 	{
 		$this->db->select('saldo');
