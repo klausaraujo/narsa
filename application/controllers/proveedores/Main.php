@@ -226,7 +226,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc'); $tipo = $this->input->post('tipoop');
-		$tipoDet = $this->input->post('tipodetalle');
+		$tipoDet = $this->input->post('tipodetalle'); $suc = $this->input->post('sucursal');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipo,'activo'=>1]);
 		
@@ -238,7 +238,7 @@ class Main extends CI_Controller
 		);
 		$dataOp = array(
 			'idtipooperacion' => $tipo,
-			'idsucursal' => $this->input->post('sucursal'),
+			'idsucursal' => $suc,
 			'idproveedor' => $id,
 			'monto' => $this->input->post('monto'),
 			'interes' => $this->input->post('interes'),
@@ -254,7 +254,7 @@ class Main extends CI_Controller
 			$status = 200;
 		}
 		
-		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id]);
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id, 'idsucursal' => $suc]);
 		
 		$data = array(
 			'status' => $status,
@@ -269,6 +269,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo anular';
 		$id = $this->input->get('id'); $op = $this->input->get('op'); $fecha = date('Y-m-d H:i:s'); $idprov = '';
+		$suc = $this->input->get('suc');
 		
 		if($op === 'operaciones'){
 			$idprov = $this->Proveedores_model->traeProvByIdTran(['idtransaccion'=>$id]);
@@ -307,7 +308,7 @@ class Main extends CI_Controller
 			}
 		}
 		
-		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$idprov]);
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$idprov,'idsucursal' => $suc]);
 		
 		$data = array(
 			'status' => $status,
@@ -388,7 +389,7 @@ class Main extends CI_Controller
 			$status = 200;
 		}
 		
-		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$data[0]->idproveedor]);
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$data[0]->idproveedor,'idsucursal' => $data[0]->idsucursal]);
 		
 		$data = array(
 			'status' => $status,

@@ -96,8 +96,10 @@ $route['proveedores/ingresos/comprobante'] = 'proveedores/main/informes';
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';
 $route['nuevacaja'] = 'servicios/main/nuevo';
 $route['servicios/nuevo'] = 'servicios/main/nuevo';
+$route['servicios/editar'] = 'servicios/main/nuevo';
 $route['servicios/registrar'] = 'servicios/main/registrar';
 $route['cajas'] = 'servicios/main/cajas';
+$route['servicios/saldo'] = 'servicios/main/saldoCaja';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

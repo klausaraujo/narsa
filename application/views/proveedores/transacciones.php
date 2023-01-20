@@ -16,7 +16,7 @@
 							<div class="tab-content">
 								<div class="tab-pane active mx-auto" id="pill-operaciones">
 									<form method="post" id="form_transacciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/operaciones">
-										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>"/>
+										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>" />
 										<div class="row container mx-auto">
 											<div class="col-lg-10 mx-auto">
 												<div class="row">
@@ -93,12 +93,17 @@
 												<div class="form-group row">
 													<label class="control-label col-md-3 align-self-center mb-md-0 ml-md-auto px-0" for="rescta">Resumen</label>
 													<div class="col-xs-10 mx-xs-auto col-md-4 mr-md-3">
-														<input type="text" class="form-control form-control-sm text-md-right" id="rescta" 
+													<?
+														$clase = 'text-success';
+														if(floatVal($edocta) > 0) $clase = 'text-primary';
+														elseif(floatVal($edocta) < 0) $clase = 'text-danger';
+													?>
+														<input type="text" class="form-control form-control-sm text-md-right font-weight-bold <?=$clase?>" id="rescta" 
 															value="<?=number_format($edocta,2,'.',',');?>" readonly >
 													</div>
 												</div>
 											</div>
-											<div style="overflow-x:hidden" class="mx-auto"><!--class="table-responsive" -->
+											<div style="overflow-x:hidden" class="col-12"><!--class="table-responsive" -->
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>

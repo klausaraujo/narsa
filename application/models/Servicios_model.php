@@ -31,14 +31,21 @@ class Servicios_model extends CI_Model
 	}
 	public function listaOperacionesCaja($where)
     {
-        $this->db->select('mc.idtipooperacion,mc.idsucursal,mc.monto,DATE_FORMAT(mc.fecha_registro,"%d/%m/%Y") as fecha_registro,mc.activo,su.sucursal,tc.tipo_operacion');
-        $this->db->from('movimientos_caja mc');
-		$this->db->join('sucursal su','su.idsucursal = mc.idsucursal');
-		$this->db->join('tipo_operacion_caja tc','tc.idtipooperacion = mc.idtipooperacion');
+        $this->db->select('*,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha_registro');
+        $this->db->from('lista_movimientos_caja');
 		$this->db->where($where);
 		$this->db->order_by('idmovimiento', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+    }
+	public function listaServicio($where)
+    {
+        $this->db->select('*');
+        $this->db->from('lista_movimientos_caja');
+		$this->db->where($where);
+		$this->db->limit(1);
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
     }
 	public function tipoOperacion($where)
 	{
@@ -67,5 +74,16 @@ class Servicios_model extends CI_Model
 			$this->db->trans_commit();
 			return $idtran;
 		}
+	}
+	public function traeSaldo($where)
+	{
+		$this->db->select('saldo');
+		$this->db->from('saldos_caja');
+		$this->db->where($where);
+		$rs = $this->db->get();
+		if($rs->num_rows() > 0){
+			$rs = $rs->row();
+			return is_null($rs->saldo)? 0 : sprintf("%1.2f",$rs->saldo);
+		}else return 0;
 	}
 }

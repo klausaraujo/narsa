@@ -29,7 +29,7 @@ class Main extends CI_Controller
 			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'RUC', 'targets' => 5],'6'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 6],'7'=>['title' => 'Direcci&oacute;n', 'targets' => 7],
 			'8'=>['title' => 'Zona', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 2, 'visible' => false],
 		);
-		$this->load->view('main',['headers' => $headers,'botones' => $bot]);
+		$this->load->view('main',['headers' => $headers]);
 	}
 	public function usuarios()
 	{
@@ -55,16 +55,21 @@ class Main extends CI_Controller
 	public function servicios()
 	{
 		$this->load->model('Servicios_model');
+		$this->load->model('Usuarios_model');
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 2,'po.activo' => 1]);
+		$this->session->set_userdata('perServ', json_encode($bot));
 		$anio = $this->Servicios_model->anio();
 		$mes = $this->Servicios_model->mes();
+		
+		$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
 		
 		$headers = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
 			'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
-			'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-			'9'=>['targets' => 1, 'visible' => false],
+			'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
+			'8'=>['targets' => 1, 'visible' => false],
 		);
-		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes];
+		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes, 'saldo' => $saldo];
 		$this->load->view('main',$data);
 	}
 	public function curl(){

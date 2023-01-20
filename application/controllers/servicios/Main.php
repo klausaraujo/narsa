@@ -22,8 +22,8 @@ class Main extends CI_Controller
 	{
 		$anio = $this->input->post('anio'); $mes = $this->input->post('mes'); $sucursal = $this->input->post('sucursal');
 		$this->load->model('Servicios_model'); $operaciones = [];
-		$operaciones = $this->Servicios_model->listaOperacionesCaja(['mc.idsucursal' => $sucursal,'SUBSTRING(mc.fecha_registro,1,4)' => $anio,
-				'SUBSTRING(mc.fecha_registro,6,2)' => sprintf("%'02s",$mes)]);
+		$operaciones = $this->Servicios_model->listaOperacionesCaja(['idsucursal' => $sucursal,'SUBSTRING(fecha_movimiento,1,4)' => $anio,
+				'SUBSTRING(fecha_movimiento,6,2)' => sprintf("%'02s",$mes)]);
 		echo json_encode(['data' => $operaciones]);
 	}
 	public function nuevo()
@@ -32,24 +32,14 @@ class Main extends CI_Controller
 		else{
 			$this->load->model('Servicios_model');
 			$tipo = $this->Servicios_model->tipoOperacion(['combo_movimientos' => 1, 'activo' => 1]);
-			/*$dep = $this->Proveedores_model->departamentos();
-			$pro = null; $dis = null; $proveedor = [];
-			$data = array( 'tipodoc' => $tipodoc, 'dep' => $dep );
+			$data = array('tipo' => $tipo);
 			
 			if($this->uri->segment(2) === 'editar'){
 				$id = $this->input->get('id');
-				$proveedor = $this->Proveedores_model->listaProveedor(['idproveedor' => $id]);
-				$pro = !empty($proveedor)? $this->Proveedores_model->provincias(['cod_dep'=>substr($proveedor->ubigeo,0,2)]) : array();
-				$dis = !empty($proveedor)? $this->Proveedores_model->distritos(['cod_dep'=>substr($proveedor->ubigeo,0,2),'cod_pro'=>substr($proveedor->ubigeo,2,2)]) : array();
-				$data['proveedor'] = $proveedor;
-				$data['pro'] = $pro;
-				$data['dis'] = $dis;
+				$serv = $this->Servicios_model->listaServicio(['idmovimiento' => $id]);
+				$data['servicio'] = $serv;
 			}
-			
-			$data['lat'] = !empty($proveedor)? $proveedor->latitud : 42.1382114;
-			$data['lng'] = !empty($proveedor)? $proveedor->longitud : -71.5212585;
-			//echo substr($proveedor->ubigeo,0,2).'  '.substr($proveedor->ubigeo,2,2).'  '.substr($proveedor->ubigeo,4,2);*/
-			$this->load->view('main',['tipo' => $tipo]);
+			$this->load->view('main',$data);
 		}
 	}
 	public function registrar()
@@ -131,5 +121,13 @@ class Main extends CI_Controller
 			}
 		}*/
 		header('location:'.base_url().'servicios');
+	}
+	public function saldoCaja()
+	{
+		$this->load->model('Servicios_model');
+		$suc = $this->input->post('sucursal');
+		$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $suc]);
+		
+		echo floatVal($saldo);
 	}
 }
