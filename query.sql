@@ -2499,7 +2499,7 @@ where v.activo='1' and vd.activo='1';
 
 create view lista_movimientos_caja
 as
-select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.sucursal,mc.idtransaccion,mc.monto,mc.interes as 'tasa',mc.monto * (mc.interes/100) as 'intereses',f.idfactor,f.factor * mc.monto as monto_factor,f.factor * ((mc.monto)+mc.monto * (mc.interes/100)) as monto_factor_final,mc.fecha_vencimiento,mc.fecha_movimiento 
+select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.sucursal,mc.idtransaccion,mc.monto,mc.interes as 'tasa',mc.monto * (mc.interes/100) as 'intereses',f.idfactor,f.factor * mc.monto as monto_factor,f.factor * ((mc.monto)+mc.monto * (mc.interes/100)) as monto_factor_final,mc.fecha_vencimiento,mc.fecha_movimiento,mc.observaciones 
 from movimientos_caja as mc inner join tipo_operacion_caja as toc on toc.idtipooperacion=mc.idtipooperacion inner join sucursal as s on s.idsucursal = mc.idsucursal inner join factor as f on f.idfactor=mc.idfactor
 where mc.activo='1';
 
