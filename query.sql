@@ -2508,4 +2508,50 @@ as
 select idsucursal,sucursal,sum(monto_factor_final) as saldo from lista_movimientos_caja group by idsucursal,sucursal;
 
 
+create table proceso(
+idproceso smallint(4) NOT NULL AUTO_INCREMENT,
+proceso varchar(30) NOT NULL,
+activo char(1) DEFAULT '1');
+
+insert into proceso(proceso) values('SUAVE LAVADO');
+
+create table variedad(
+idvariedad smallint(4) NOT NULL AUTO_INCREMENT,
+variedad varchar(30) NOT NULL,
+activo char(1) DEFAULT '1');
+
+insert into variedad(variedad) values('BLEND');
+
+create table certificado(
+idcertificado smallint(4) NOT NULL AUTO_INCREMENT,
+anio_certificado smallint(4) NOT NULL,
+numero smallint(4) NOT NULL,
+fecha datetime NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+pago char(1) DEFAULT '0',
+idtransaccion smallint(4) DEFAULT 0,
+monto_valor decimal(20,2) Default 0,
+monto_pagado decimal(20,2) Default 0,
+observaciones varchar(1000), 
+idusuario_registro smallint(4),
+fecha_registro datetime,
+idusuario_modificacion smallint(4),
+fecha_modificacion datetime,
+idusuario_anulacion smallint(4),
+fecha_anulacion datetime,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idcertificado),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table certificado_detalle(
+iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
+idcertificado smallint(4) NOT NULL,
+
+
+
+
+
+
 
