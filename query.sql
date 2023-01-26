@@ -2121,6 +2121,9 @@ CREATE TABLE permisos_menu  (
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(3,3,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(4,4,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(5,5,1);
+	
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(9,6,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(10,7,1);
 
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(6,1,2);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(7,2,2);
