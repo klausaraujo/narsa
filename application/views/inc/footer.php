@@ -86,9 +86,22 @@
 			});
 			<?}?>
 		</script>
+		<?}else if($this->uri->segment(1) === 'servicios'){ ?>
+		<script src="<?=base_url()?>public/js/servicios/servicios.js"></script>
+		<script>
+			let botonesServ = JSON.parse('<?=$this->session->userdata('perServ')?>');
+			<?if($this->uri->segment(2) == ''){?>
+			let btnEdit = false, btnAnular = false;
+			
+			$.each(botonesServ,function(i,e){
+				if(e.idpermiso === '15') btnEdit = true;
+				else if(e.idpermiso === '16') btnAnular = true;
+			});
+			<?}?>
+		</script>
 		<?}
 		/* Rutinas Javascript por cada uno de los segmentos 2 */
-		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios') && $this->uri->segment(2) == ''){ ?>
+		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
@@ -117,8 +130,6 @@
 			window.onload = function(){
 				var opt = {lat: parseFloat(<?=$lat?>), lng: parseFloat(<?=$lng?>),zoom: 16};
 				<?if($this->uri->segment(2) === 'nuevo'){?> $('.ajaxMap').hide();<?}?>
-				/*console.log(parseFloat(<?=$lat?>));
-				console.log(parseFloat(<?=$lng?>));*/
 				map = mapa(opt);
 			}
 		</script>

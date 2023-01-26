@@ -1,14 +1,17 @@
 let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, precioVal = 0 ;
 
-function formateaNumero(value) {
+/*function formateaNumero(value) {
   v = parseFloat(value)
   v = v.toFixed(2);
   return new Intl.NumberFormat('es-PE', { style: 'decimal' }).format(v);
-}
-function formatMoneda(v){
-	let n = parseFloat(v).toFixed(2);
-	n = (n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	return n;
+}*/
+function muestraEdoCta(val){
+	let valor = formatMoneda(val);
+	$('#rescta').removeClass('text-danger'); $('#rescta').removeClass('text-success'); $('#rescta').removeClass('text-primary');
+	if(parseFloat(valor) < 0) $('#rescta').addClass('text-danger');
+	else if(parseFloat(valor) > 0) $('#rescta').addClass('text-primary');
+	else $('#rescta').addClass('text-success');
+	$('#rescta').val(valor);
 }
 
 $(document).ready(function (){
@@ -55,7 +58,8 @@ $(document).ready(function (){
 				url: base_url + 'proveedores/transacciones/lista',
 				type: 'POST',
 				data: function (d) {
-					d.id = id
+					d.id = id,
+					d.sucursal = $('.sucursal').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
@@ -423,8 +427,7 @@ $('#form_transacciones').validate({
 						//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
 						tablaOp.ajax.reload();
 					}
-					
-					$('#rescta').val(formatMoneda(data.edocta));
+					muestraEdoCta(data.edocta);
 					$('.resp').html(data.message);
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 				}
@@ -513,7 +516,7 @@ $('body').bind('click','a',function(e){
 			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
 			$.ajax({
 				data: {},
-				url: a.attr('href'),
+				url: a.attr('href')+'&suc='+ $('#sucursal').val(),
 				method: 'GET',
 				dataType: 'JSON',
 				beforeSend: function () { a.addClass('disabled'); },
@@ -524,7 +527,8 @@ $('body').bind('click','a',function(e){
 						a.removeClass('disabled');
 						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
 					}
-					$('#rescta').val(formatMoneda(data.edocta));
+					muestraEdoCta(data.edocta);
+					//$('#rescta').val(formatMoneda(data.edocta));
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					$('.resp').html(data.message);
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
@@ -607,7 +611,8 @@ $('#generarIng').bind('click',function(){
 					if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
 					if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
 				}
-				$('#rescta').val(formatMoneda(data.edocta));
+				muestraEdoCta(data.edocta);
+				//$('#rescta').val(formatMoneda(data.edocta));
 				$('.resp').html(data.message);
 				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 			}
@@ -687,7 +692,8 @@ $('#guardaVal').bind('click',function(){
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 				}else{ alert(data.msg); }
 				
-				$('#rescta').val(formatMoneda(data.edocta));
+				muestraEdoCta(data.edocta)
+				//$('#rescta').val(formatMoneda(data.edocta));
 			}
 		});
 	}
@@ -695,6 +701,21 @@ $('#guardaVal').bind('click',function(){
 
 $('#sucursalVal').bind('change', function(){
 	tablaValDetalle.ajax.reload();
+});
+$('#sucursal').bind('change', function(){
+	tablaOp.ajax.reload();
+	$.ajax({
+		data: {'sucursal': $('#sucursal').val(), id: id },
+		url: base_url + 'proveedores/edocta',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function (){ },
+		success: function (data){
+			//precioVal = data;
+			muestraEdoCta(data);
+			//$('#rescta').val(formatMoneda(precioVal));
+		}
+	});
 });
 $('#modalVal').bind('click', function(){
 	tablaValDetalle.ajax.reload();

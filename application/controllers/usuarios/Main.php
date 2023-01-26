@@ -121,8 +121,11 @@ class Main extends CI_Controller
 	public function asignarPermisos()
 	{
 		$this->load->model('Usuarios_model');
-		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array()); $id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
+		$id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
+		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array());
 		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
+		$perServ = (isset($_POST['cajasPer'])?$_POST['cajasPer'] : array());
+		
 		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500;
 		
 		if(!empty($perProv)){
@@ -137,7 +140,13 @@ class Main extends CI_Controller
 				$i++;
 			endforeach;
 		}
-		
+		if(!empty($perServ)){
+			foreach($perServ as $row):
+				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+				
 		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'permisos_opcion');
 		
 		if($regPer){

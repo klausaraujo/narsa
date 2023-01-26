@@ -1,9 +1,9 @@
 let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upload-button'), file = $('.file-upload'), imgperfil = $('.profile-pic'), perfiltop = $('.top-avatar');
 let scW = screen.width;
 
-window.onresize = function(){
+/*window.onresize = function(){
 	console.log(window.innerWidth);
-}
+}*/
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
@@ -79,6 +79,11 @@ function cpf(v){
 	
 	//jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
 });*/
+function formatMoneda(v){
+	let n = parseFloat(v).toFixed(2);
+	n = (n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return n;
+}
 function ceros( number, width ){
 	width -= number.toString().length;
 	if ( width > 0 ){

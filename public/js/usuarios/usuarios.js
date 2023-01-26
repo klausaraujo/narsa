@@ -174,6 +174,8 @@ $('#tablaUsuarios').bind('click','a',function(e){
 							$(this).prop('checked',true);
 						}else if($(this).attr('name') === 'usuariosPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'cajasPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
 						}
 					});
 				});

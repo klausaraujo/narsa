@@ -10,7 +10,7 @@
 								</div>
 								<div class="container-fluid">
 									<div class="row">
-										<div class="table-responsive" style="overflow-x:scroll">
+										<div class="table-responsive" style="col-12">
 										<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 											<table id="tablaUsuarios" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 										</div>
@@ -36,6 +36,7 @@
 															<ul class="nav nav-tabs" role="tablist">
 																<li class="nav-item"><a aria-selected="true" class="nav-link active" role="tab" data-toggle="tab" href="#proveedores">Proveedores</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#usuarios">Usuarios</a></li>
+																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#cajas">Cajas</a></li>
 															</ul>
 															<div class="tab-content mt-3">
 																<div id="proveedores" class="tab-pane fade in active show">
@@ -72,6 +73,28 @@
 																		<div class="custom-control custom-switch col-12 ml-3">
 																			<input type="checkbox" class="custom-control-input" name="usuariosPer[]" value="<?=$row->idpermiso?>" id="checkAccionesUser<?=$i?>">
 																			<label class="custom-control-label" for="checkAccionesUser<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																		</div>
+																		<!--<div class="checkbox checkbox-primary col-12">
+																			<input type="checkbox" name="usuariosPer[]" value="" />
+																			<label for="usuariosPer">&nbsp;&nbsp;</label>
+																		</div>-->
+																		<?php
+																					$i++;
+																				}
+																			endforeach;?>
+																	</div>
+																</div>
+																<div id="cajas" class="tab-pane fade in">
+																	<div class="row my-2">
+																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones Cajas</h5>
+																	  <?php
+																			$i = 1;
+																			foreach($permisos as $row):
+																				if($row->idmodulo === '2'){
+																		?>
+																		<div class="custom-control custom-switch col-12 ml-3">
+																			<input type="checkbox" class="custom-control-input" name="cajasPer[]" value="<?=$row->idpermiso?>" id="checkAccionesCaja<?=$i?>">
+																			<label class="custom-control-label" for="checkAccionesCaja<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
 																		<!--<div class="checkbox checkbox-primary col-12">
 																			<input type="checkbox" name="usuariosPer[]" value="" />
