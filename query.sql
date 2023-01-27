@@ -2491,7 +2491,6 @@ create view lista_movimientos_caja
 as
 select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.sucursal,mc.idtransaccion,mc.monto,mc.interes as 'tasa',mc.monto * (mc.interes/100) as 'intereses',f.idfactor,f.factor * mc.monto as monto_factor,f.factor * ((mc.monto)+mc.monto * (mc.interes/100)) as monto_factor_final,mc.fecha_vencimiento,mc.fecha_movimiento 
 from movimientos_caja as mc inner join tipo_operacion_caja as toc on toc.idtipooperacion=mc.idtipooperacion inner join sucursal as s on s.idsucursal = mc.idsucursal inner join factor as f on f.idfactor=mc.idfactor
-<<<<<<< HEAD
 where mc.activo='1';
 
 create view saldos_caja
@@ -2539,16 +2538,9 @@ FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE O
 create table certificado_detalle(
 iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idcertificado smallint(4) NOT NULL,
-de aca en adenate subir cambios
+
+
+seguir desarrollo
 
 
 
-
-
-
-
-
-
-=======
-where mc.activo='1';
->>>>>>> @{u}
