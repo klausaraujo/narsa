@@ -2548,6 +2548,8 @@ FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE O
 create table certificado_detalle(
 iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idcertificado smallint(4) NOT NULL,
+de aca en adenate subir
+
 
 
 
