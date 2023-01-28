@@ -20,19 +20,29 @@ DROP TABLE IF EXISTS valorizacion;
 DROP TABLE IF EXISTS guia_entrada;
 DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS articulo;
-DROP TABLE IF EXISTS proveedor;
 DROP TABLE IF EXISTS usuarios_sucursal;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS tipo_documento;
 DROP TABLE IF EXISTS perfil;
-DROP TABLE IF EXISTS sucursal;
 DROP TABLE IF EXISTS ubigeo;
+DROP TABLE IF EXISTS certificado_detalle;
+DROP TABLE IF EXISTS quaker;
+DROP TABLE IF EXISTS apariencia;
+DROP TABLE IF EXISTS color;
+DROP TABLE IF EXISTS olor;
+DROP TABLE IF EXISTS certificado;
+DROP TABLE IF EXISTS sucursal;
+DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS proceso;
+DROP TABLE IF EXISTS variedad;
 DROP VIEW IF EXISTS lista_movimientos_proveedor;
 DROP VIEW IF EXISTS lista_ingresos_proveedores;
 DROP VIEW IF EXISTS lista_ingresos_valorizaciones_pre;
 DROP VIEW IF EXISTS lista_ingresos_valorizaciones_saldo;
 DROP VIEW IF EXISTS lista_valorizaciones_proveedores;
 DROP VIEW IF EXISTS lista_ubigeo;
+DROP VIEW IF EXISTS lista_movimientos_caja;
+DROP VIEW IF EXISTS saldos_caja;
 
 CREATE TABLE ubigeo(
 	idubigeo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2010,7 +2020,7 @@ CREATE TABLE modulo  (
 	
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (1,'Módulo de Registro de Proveedores y Transacciones','Módulo Proveedores','proveedores.png','proveedores','1','fa fa-bar-chart',1);
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro de Movimientos de Caja','Módulo Caja','servicios.png','servicios','1','fa fa-money',2);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Configuraciones y Tablas Padre del Sistema','Módulo Configuraciones','utilitarios.png','utilitarios','1','fa fa-cog',3);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Registro de Certificaciones','Módulo Certificaciones','utilitarios.png','certificaciones','1','fa fa-cog',3);
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Registro de Usuarios y Accesos Personalizados','Módulo Usuarios','usuarios.png','usuarios','1','fa fa-users',4);
 	
 CREATE TABLE modulo_rol  (	
@@ -2030,7 +2040,7 @@ CREATE TABLE modulo_rol  (
 	/*Estandar*/
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(1,2,'1');
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(2,2,'1');
-	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(3,2,'0');
+	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(3,2,'1');
 	INSERT INTO modulo_rol(idmodulo,idperfil,activo) VALUES(4,2,'0');
 
 CREATE TABLE permiso  (
@@ -2061,6 +2071,10 @@ CREATE TABLE permiso  (
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(13,'Resetar Clave','1',13,4);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(14,'Activar/Desactivar','1',14,4);
 
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(15,'Editar Certificado','1',15,3);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(16,'Asignar Parámetros','1',16,3);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(17,'Anular Certificado','1',17,3);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(18,'Emitir PDF','1',18,3);
 
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2082,6 +2096,10 @@ CREATE TABLE menu  (
 	/*Menus del Módulo de Cajas*/
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(6,2,'Lista Movimientos','0','cajas','fa fa-list');
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(7,2,'Nuevo Registro','0','nuevacaja','fa fa-pencil-square-o');
+	
+	/*Menus del Módulo de Certificaciones*/
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(8,3,'Lista Certificados','0','certificaciones','fa fa-list');
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(9,3,'Nuevo Registro','0','nuevacertificacion','fa fa-pencil-square-o');
 	
 
 CREATE TABLE menu_detalle  (
@@ -2124,6 +2142,8 @@ CREATE TABLE permisos_menu  (
 	
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(9,6,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(10,7,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(11,8,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(12,9,1);
 
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(6,1,2);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(7,2,2);
@@ -2172,10 +2192,15 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(8,8,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(9,9,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(10,10,1);
-	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(11,11,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(12,12,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(11,11,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(13,13,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(14,14,1);
+	
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(17,15,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(18,16,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(19,17,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(20,18,1);
 	
 	
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(15,1,2);
@@ -2497,18 +2522,19 @@ create view saldos_caja
 as
 select idsucursal,sucursal,sum(monto_factor_final) as saldo from lista_movimientos_caja group by idsucursal,sucursal;
 
-
 create table proceso(
 idproceso smallint(4) NOT NULL AUTO_INCREMENT,
 proceso varchar(30) NOT NULL,
-activo char(1) DEFAULT '1');
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idproceso)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 insert into proceso(proceso) values('SUAVE LAVADO');
 
 create table variedad(
 idvariedad smallint(4) NOT NULL AUTO_INCREMENT,
 variedad varchar(30) NOT NULL,
-activo char(1) DEFAULT '1');
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idvariedad))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 insert into variedad(variedad) values('BLEND');
 
@@ -2521,8 +2547,12 @@ idsucursal smallint(4) NOT NULL,
 idproveedor smallint(4) NOT NULL,
 pago char(1) DEFAULT '0',
 idtransaccion smallint(4) DEFAULT 0,
-monto_valor decimal(20,2) Default 0,
 monto_pagado decimal(20,2) Default 0,
+altitud int DEFAULT 0,
+h2overde decimal (20,2) default 0,
+idproceso smallint(4) NOT NULL,
+idvariedad smallint(4) NOT NULL,
+densidad decimal(20,2) default 0,
 observaciones varchar(1000), 
 idusuario_registro smallint(4),
 fecha_registro datetime,
@@ -2533,14 +2563,136 @@ fecha_anulacion datetime,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idcertificado),
 FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproceso) REFERENCES proceso (idproceso) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idvariedad) REFERENCES variedad (idvariedad) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table color(
+idcolor smallint(4) NOT NULL AUTO_INCREMENT,
+color varchar(30) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idcolor))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into color (color) values ('VERDE');
+insert into color (color) values ('MARRÓN');
+
+create table olor(
+idolor smallint(4) NOT NULL AUTO_INCREMENT,
+olor varchar(30) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idolor))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into olor (olor) values ('FRESCO');
+insert into olor (olor) values ('SECO');
+
+create table apariencia(
+idapariencia smallint(4) NOT NULL AUTO_INCREMENT,
+apariencia varchar(30) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idapariencia))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into apariencia (apariencia) values ('HOMOGÈNEO');
+
+create table quaker(
+idquaker smallint(4) NOT NULL AUTO_INCREMENT,
+quaker varchar(30) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY(idquaker))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into quaker (quaker) values ('GRADO ESPECIAL');
 
 create table certificado_detalle(
 iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idcertificado smallint(4) NOT NULL,
+idcolor smallint(4) NOT NULL,
+idolor smallint(4) NOT NULL,
+granumelometria_malla_1620_nro decimal (20,2) default 0,
+granumelometria_malla_1620_por decimal (20,2) default 0,
+granumelometria_malla_15_nro decimal (20,2) default 0,
+granumelometria_malla_15_por decimal (20,2) default 0,
+granumelometria_malla_14_nro decimal (20,2) default 0,
+granumelometria_malla_14_por decimal (20,2) default 0,
+granumelometria_malla_base_nro decimal (20,2) default 0,
+granumelometria_malla_base_por decimal (20,2) default 0,
+analisis_cafe_exportable_peso decimal (20,2) default 0,
+analisis_cafe_exportable_por decimal (20,2) default 0,
+analisis_sub_procuto_peso decimal (20,2) default 0,
+analisis_sub_procuto_por decimal (20,2) default 0,
+analisis_descarte_peso decimal (20,2) default 0,
+analisis_descarte_por decimal (20,2) default 0,
+analisis_cascara_peso decimal (20,2) default 0,
+analisis_cascara_por decimal (20,2) default 0,
+tostado_tiempo decimal (20,2) default 0,
+tostado_color_agtron decimal (20,2) default 0,
+tostado_perdida decimal (20,2) default 0,
+idapariencia smallint(4) NOT NULL,
+idquaker smallint(4) NOT NULL,
+def_pri_negro_completo_num smallint(4)  default 0,
+def_pri_negro_completo_equi smallint(4)  default 0,
+def_pri_agrio_completo_num smallint(4)  default 0,
+def_pri_agrio_completo_equi smallint(4) default 0,
+def_pri_cereza_seca_num smallint(4) default 0,
+def_pri_cereza_seca_equi smallint(4) default 0,
+def_pri_danado_num smallint(4) default 0,
+def_pri_danado_equi smallint(4) default 0,
+def_pri_danado_severo_num smallint(4) default 0,
+def_pri_danado_severo_equi smallint(4) default 0,
+def_pri_materia_num smallint(4) default 0,
+def_pri_materia_equi smallint(4) default 0,
+def_sec_negro_parcial_num smallint(4) default 0,
+def_sec_negro_parcial_equi smallint(4) default 0,
+def_sec_agrio_parcial_num smallint(4) default 0,
+def_sec_agrio_parcial_equi smallint(4) default 0,
+def_sec_pergamino_num smallint(4) default 0,
+def_sec_pergamino_equi smallint(4) default 0,
+def_sec_flotador_num smallint(4) default 0,
+def_sec_flotador_equi smallint(4) default 0,
+def_sec_inmaduro_num smallint(4) default 0,
+def_sec_inmaduro_equi smallint(4) default 0,
+def_sec_averanado_num smallint(4) default 0,
+def_sec_averanado_equi smallint(4) default 0,
+def_sec_concha_num smallint(4) default 0,
+def_sec_concha_equi smallint(4) default 0,
+def_sec_quebrado_num smallint(4) default 0,
+def_sec_quebrado_equi smallint(4) default 0,
+def_sec_cascara_num smallint(4) default 0,
+def_sec_cascara_equi smallint(4) default 0,
+def_sec_insectos_num smallint(4) default 0,
+def_sec_insectos_equi smallint(4) default 0,
+atributos_fragancia_puntos decimal(20,2) default 0,
+atributos_fragancia_caracteristicas varchar(100),
+atributos_sabor_puntos decimal(20,2) default 0,
+atributos_sabor_caracteristicas varchar(100),
+atributos_residual_puntos decimal(20,2) default 0,
+atributos_residual_caracteristicas varchar(100),
+atributos_acidez_puntos decimal(20,2) default 0,
+atributos_acidez_caracteristicas varchar(100),
+atributos_cuerpo_puntos decimal(20,2) default 0,
+atributos_cuerpo_caracteristicas varchar(100),
+atributos_uniformidad_puntos decimal(20,2) default 0,
+atributos_uniformidad_caracteristicas varchar(100),
+atributos_balance_puntos decimal(20,2) default 0,
+atributos_balance_caracteristicas varchar(100),
+atributos_taza_puntos decimal(20,2) default 0,
+atributos_taza_caracteristicas varchar(100),
+atributos_dulzura_puntos decimal(20,2) default 0,
+atributos_dulzura_caracteristicas varchar(100),
+atributos_apreciacion_puntos decimal(20,2) default 0,
+atributos_apreciacion_caracteristicas varchar(100),
+atributos_numero_tasas decimal(20,2) default 0,
+atributos_numero_intensidad decimal(20,2) default 0,
+atributos_defectos_sustraer decimal(20,2) default 0,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (iddetalle),
+FOREIGN KEY (idcertificado) REFERENCES certificado (idcertificado) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idcolor) REFERENCES color (idcolor) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idolor) REFERENCES olor (idolor) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idapariencia) REFERENCES apariencia (idapariencia) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idquaker) REFERENCES quaker (idquaker) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 
-seguir desarrollo
+
+
 
 
 
