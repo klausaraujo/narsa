@@ -49,8 +49,8 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="direccion">Domicilio:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control direccion" name="direccion" id="direccion" placeholder="Domicilio" 
-													value="<?=$proveedor->domicilio;?>" onKeyUp="mayus(this)" />
+												<input type="text" class="form-control direccion mayusc" name="direccion" id="direccion" placeholder="Domicilio" 
+													value="<?=$proveedor->domicilio;?>" />
 											</div>
 										</div>
 									</div>
@@ -135,8 +135,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="zona">Zona:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control zona" name="zona" id="zona" placeholder="Zona" value="<?=$proveedor->zona;?>"
-													onKeyUp="mayus(this)" />
+												<input type="text" class="form-control zona mayusc" name="zona" id="zona" placeholder="Zona" value="<?=$proveedor->zona;?>" />
 											</div>
 										</div>
 									</div>

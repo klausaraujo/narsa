@@ -50,7 +50,7 @@
 															</select>
 														</div>
 													</div>
-													<div class="col-md-6 mt-4">
+													<div class="col-md-6 mt-2">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="fechavenc">Fecha de Vencimiento:</label></span>
 														</div>
@@ -58,7 +58,7 @@
 															<input type="date" class="form-control col-md-9 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
 														</div>
 													</div>
-													<div class="col-md-6 mt-4">
+													<div class="col-md-6 mt-2">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="monto">Monto Operaci&oacute;n:</label></span>
 														</div>
@@ -70,7 +70,7 @@
 															<label id="monto-error" class="form_error" for="monto"></label>
 														</div>
 													</div>
-													<div class="col-md-6 mt-4 interesAjax" style="display:none">
+													<div class="col-md-6 mt-2 interesAjax" style="display:none">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="interes">Tasa de Inter&eacute;s:</label></span>
 														</div>

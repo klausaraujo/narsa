@@ -1,7 +1,7 @@
 						<? $usuario = json_decode($this->session->userdata('user')); ?>
 						<div class="col-12 card px-0 my-3">
 							<div class="card-body">
-								<h4 class="">Listado General de Movimientos de Caja</h4>
+								<h4 class="">Listado General de Certificaciones</h4>
 								<hr>
 								<div class="row">
 									<div class="col-md-11 mx-auto">
@@ -30,16 +30,6 @@
 												<? endforeach;	?>
 												</select>
 											</div>
-											<div class="col-md-3">
-												<label class="control-label align-self-center mb-0 col-12 text-left text-md-right" for="saldo">Saldo Final:</label>
-												<?
-													$clase = 'text-success';
-													if(floatVal($saldo) > 0) $clase = 'text-primary';
-													elseif(floatVal($saldo) < 0) $clase = 'text-danger';
-												?>
-												<input type="text" class="form-control form-control-sm saldo col-md-8 ml-auto text-md-right font-weight-bold <?=$clase?>"
-														value="<?=number_format($saldo,2,'.',',');?>" name="saldo" id="saldo" readonly />
-											</div>
 										</div>
 									</div>
 								</div>
@@ -54,7 +44,7 @@
 									<div class="row">
 										<div style="overflow-x:hidden" class="col-12"> <!--class="table-responsive" -->
 										<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-											<table id="tablaServicios" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+											<table id="tablaCertificaciones" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 										</div>
 									</div>
 								</div>

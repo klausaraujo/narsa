@@ -99,9 +99,12 @@
 			});
 			<?}?>
 		</script>
-		<?}
+		<?}else if($this->uri->segment(1) === 'certificaciones'){ ?>
+		<script src="<?=base_url()?>public/js/certificaciones/certificaciones.js"></script>
+		<?}?>
 		/* Rutinas Javascript por cada uno de los segmentos 2 */
-		if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios') && $this->uri->segment(2) == ''){ ?>
+		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
+				$this->uri->segment(1) === 'certificaciones') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>

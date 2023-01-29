@@ -347,7 +347,7 @@ class Main extends CI_Controller
 				$montopag = $data[0]->tipo_op === '8'? $data[0]->desembolso : $data[0]->subtotal;
 				
 				$f = $this->Proveedores_model->factor([ 'destino' => 1,'idtipooperacion' => $data[0]->tipo_op,'activo' => 1 ]);
-				$factor = (!empty($f)? $f->idfactor : 0);
+				$factor = (!empty($f)? $f->idfactor : 1);
 							
 				$dataTransaccion = [
 					'fecha' => date('Y-m-d H:i:s'),

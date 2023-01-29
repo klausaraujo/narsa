@@ -52,7 +52,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="direccion">Domicilio:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control borra direccion" name="direccion" id="direccion" placeholder="Domicilio" value="" onKeyUp="mayus(this)" required="" />
+												<input type="text" class="form-control borra direccion mayusc" name="direccion" id="direccion" placeholder="Domicilio" value="" required="" />
 												<div class="invalid-feedback">Campo requerido</div>
 											</div>
 										</div>
@@ -126,7 +126,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="zona">Zona:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control borra zona" name="zona" id="zona" placeholder="Zona" value="" onKeyUp="mayus(this)" required="" />
+												<input type="text" class="form-control borra zona mayusc" name="zona" id="zona" placeholder="Zona" value="" required="" />
 												<label class="invalid-feedback">Campo requerido</label>
 											</div>
 										</div>

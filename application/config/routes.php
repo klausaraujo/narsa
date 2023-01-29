@@ -60,6 +60,7 @@ $route['logout'] = 'login/logout';
 /* Programacion en general */
 $route['proveedores'] = 'main/proveedores';
 $route['servicios'] = 'main/servicios';
+$route['certificaciones'] = 'main/servicios';
 $route['usuarios'] = 'main/usuarios';
 $route['curl'] = 'main/curl';
 $route['upload'] = 'main/upload';
@@ -100,6 +101,12 @@ $route['servicios/editar'] = 'servicios/main/nuevo';
 $route['servicios/registrar'] = 'servicios/main/registrar';
 $route['cajas'] = 'servicios/main/cajas';
 $route['servicios/saldo'] = 'servicios/main/saldoCaja';
+$route['servicios/anular'] = 'servicios/main/anular';
+
+/* Certificado */
+$route['certificaciones/lista'] = 'certificaciones/main/listaCertificaciones';
+$route['nuevacertificacion'] = 'certificaciones/main/nuevo';
+$route['certificaciones/nuevo'] = 'certificaciones/main/nuevo';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

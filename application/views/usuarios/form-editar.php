@@ -50,7 +50,7 @@
 													<select class="form-control perfil" name="perfil" id="perfil"  required="" >
 												<?
 													foreach($perfil as $row):	?>
-														<option value="<?=$row->idperfil;?>" <?if($row->idperfil === '2')echo 'selected';?> ><?=$row->perfil;?></option>
+														<option value="<?=$row->idperfil;?>" <?if($row->idperfil === $usuario->idperfil)echo 'selected';?> ><?=$row->perfil;?></option>
 												<?	endforeach;	?>
 													</select>
 													<div class="invalid-feedback">Campo requerido</div>

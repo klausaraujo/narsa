@@ -7,7 +7,7 @@ let scW = screen.width;
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
-	setTimeout(function () { $('.msg').hide('slow'); }, 1000);
+	setTimeout(function () { $('.msg').hide('slow'); }, 3000);
 });
 
 /*$('body').bind('click','a',function(e){
@@ -115,6 +115,9 @@ $('.num').bind('input',function(e){
 	jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
 });
 
+$('.mayusc').bind('input',function(e){
+	jQuery(this).val(jQuery(this).val().toUpperCase());
+});
 btnCancelar.bind('click', function(){ $(location).attr('href',base_url+segmento); });
 upload.bind('click',function(e){ file.trigger('click'); });
 

@@ -56,19 +56,32 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Servicios_model');
 		$this->load->model('Usuarios_model');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 2,'po.activo' => 1]);
+		$bot = null; $saldo = 0; $headers = null;
+		
+		if($this->uri->segment(1) === 'servicios'){
+			$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 2,'po.activo' => 1]);
+			$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
+			$headers = array(
+				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
+				'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
+				'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
+				'8'=>['targets' => 1, 'visible' => false],
+			);
+		}else{
+			$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 3,'po.activo' => 1]);
+			$headers = array(
+				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
+				'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
+				'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
+				'8'=>['targets' => 1, 'visible' => false],
+			);
+		}
+		
 		$this->session->set_userdata('perServ', json_encode($bot));
 		$anio = $this->Servicios_model->anio();
 		$mes = $this->Servicios_model->mes();
 		
-		$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
 		
-		$headers = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
-			'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
-			'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
-			'8'=>['targets' => 1, 'visible' => false],
-		);
 		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes, 'saldo' => $saldo];
 		$this->load->view('main',$data);
 	}
