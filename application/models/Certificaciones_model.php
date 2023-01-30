@@ -77,4 +77,14 @@ class Certificaciones_model extends CI_Model
 		if($this->db->insert('certificado',$data)) return true;
 		else return false;
 	}
+	public function traeDatosProv($where)
+	{
+		$this->db->select('c.idproveedor,p.nombre');
+        $this->db->from('certificado c');
+		$this->db->join('proveedor p','p.idproveedor = c.idproveedor');
+		$this->db->where($where);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
 }

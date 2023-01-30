@@ -84,7 +84,14 @@ class Main extends CI_Controller
 			$this->session->set_flashdata('flashMessage', '<b>Certificado</b> Registrado Exitosamente');
 			$this->session->set_flashdata('claseMsg', 'alert-primary');
 		}
-				
+		
 		header('location:'.base_url().'certificaciones');
+	}
+	public function parametros()
+	{
+		$this->load->model('Certificaciones_model');
+		$id = $this->input->get('id');
+		$proveedor = $this->Certificaciones_model->traeDatosProv(['idcertificado' => $id]);
+		$this->load->view('main',['proveedor' => $proveedor]);
 	}
 }
