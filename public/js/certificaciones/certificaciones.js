@@ -36,8 +36,8 @@ jQuery(document).ready(function($){
 						return btnAccion;
 					}
 				},
-				{ data: 'idcertificado' },{ data: 'anio_certificado' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'sucursal' },
-				{ data: 'fecha_registro' },{ data: 'nombre' },
+				{ data: 'idcertificado' },{ data: 'anio_certificado' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'nombre' },
+				{ data: 'sucursal' },{ data: 'fecha_registro' },
 				{
 					data: 'activo',
 					render: function(data){
