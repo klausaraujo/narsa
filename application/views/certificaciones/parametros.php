@@ -24,6 +24,7 @@
 												</div>
 											</div>
 										</div>
+										<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 										<div class="modal-footer">
 											<div class="row">
 												<div class="col-md-12">
@@ -43,6 +44,7 @@
 												</div>
 											</div>
 										</div>
+										<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 										<div class="modal-footer">
 											<div class="row">
 												<div class="col-md-12">
@@ -62,6 +64,7 @@
 												</div>
 											</div>
 										</div>
+										<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 										<div class="modal-footer">
 											<div class="row">
 												<div class="col-md-12">
