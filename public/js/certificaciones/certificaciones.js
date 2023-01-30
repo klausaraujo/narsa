@@ -146,3 +146,18 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 });
 
 $('#modalProveedores').on('show.bs.modal',function(e){});
+/*
+$('form').validate({
+	rules: {
+		sucursalCert: { required: function () { if ($('.sucursalCert').css('display') != 'none') return true; else return false; } },
+	},
+	messages: {
+		sucursalCert: { required: '' },
+	},
+	submitHandler: function (form, event) {
+		let boton = $(this).find('button');
+		$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$(boton).addClass('disabled');
+		return true;
+	}
+});*/

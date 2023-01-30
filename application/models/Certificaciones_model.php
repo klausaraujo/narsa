@@ -87,4 +87,36 @@ class Certificaciones_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
+	public function color()
+	{
+		$this->db->select('*');
+        $this->db->from('color');
+		$this->db->where('activo',1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function olor()
+	{
+		$this->db->select('*');
+        $this->db->from('olor');
+		$this->db->where('activo',1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function apariencia()
+	{
+		$this->db->select('*');
+        $this->db->from('apariencia');
+		$this->db->where('activo',1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function quaker()
+	{
+		$this->db->select('*');
+        $this->db->from('quaker');
+		$this->db->where('activo',1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }

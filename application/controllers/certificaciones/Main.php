@@ -91,7 +91,20 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Certificaciones_model');
 		$id = $this->input->get('id');
+		$color = $this->Certificaciones_model->color();
+		$olor = $this->Certificaciones_model->olor();
+		$apariencia = $this->Certificaciones_model->apariencia();
+		$quaker = $this->Certificaciones_model->quaker();
 		$proveedor = $this->Certificaciones_model->traeDatosProv(['idcertificado' => $id]);
-		$this->load->view('main',['proveedor' => $proveedor]);
+		
+		$data = array(
+			'proveedor' => $proveedor,
+			'color' => $color,
+			'olor' => $olor,
+			'apariencia' => $apariencia,
+			'quaker' => $quaker,
+		);
+		
+		$this->load->view('main',$data);
 	}
 }

@@ -5,7 +5,7 @@
 							<div class="iq-header-title"><h4>Registro Certificado</h4></div>
 						</div>
 						<div class="iq-card-body">
-							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/registrar" class="needs-validation form-horizontal" novalidate="">
+							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/registrar" class="needs-validation was-validated" novalidate="">
 								<input type="hidden" name="tiporegistro" value="registrar" />
 								<input type="hidden" name="idproveedor" id="idproveedor" />
 								<div class="form-row">
@@ -89,7 +89,7 @@
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="obs">&nbsp;&nbsp;Observaciones:</label>
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
 													<textarea type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" maxlength="1000" ></textarea>
