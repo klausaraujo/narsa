@@ -107,6 +107,8 @@ $route['servicios/anular'] = 'servicios/main/anular';
 $route['certificaciones/lista'] = 'certificaciones/main/listaCertificaciones';
 $route['nuevacertificacion'] = 'certificaciones/main/nuevo';
 $route['certificaciones/nuevo'] = 'certificaciones/main/nuevo';
+$route['certificaciones/proveedores'] = 'certificaciones/main/listaProveedores';
+$route['certificaciones/registrar'] = 'certificaciones/main/registrarCertificado';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

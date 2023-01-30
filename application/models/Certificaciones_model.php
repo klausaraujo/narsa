@@ -11,12 +11,14 @@ class Certificaciones_model extends CI_Model
 		else header('location:' .base_url());
 	}
 	
-	public function listaOperacionesCaja($where)
+	public function listaCertificaciones($where)
     {
-        $this->db->select('*,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha_registro');
-        $this->db->from('lista_movimientos_caja');
+        $this->db->select('c.*,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha_registro,nombre,sucursal');
+        $this->db->from('certificado c');
+		$this->db->join('sucursal s','s.idsucursal=c.idsucursal');
+		$this->db->join('proveedor p','p.idproveedor=c.idproveedor');
 		$this->db->where($where);
-		$this->db->order_by('idmovimiento', 'DESC');
+		$this->db->order_by('idcertificado', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -57,5 +59,22 @@ class Certificaciones_model extends CI_Model
 		$this->db->order_by('idproveedor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function numeroCert($where)
+	{
+		$this->db->select('MAX(numero) numero');
+		$this->db->from('certificado');
+		$this->db->where($where);
+		$result = $this->db->get();
+		if($result->num_rows() > 0){
+			$result = $result->row();
+			return floatval( $result->numero ) + 1;
+		}else
+			return 1;
+	}
+	public function guardaCert($data)
+	{
+		if($this->db->insert('certificado',$data)) return true;
+		else return false;
 	}
 }

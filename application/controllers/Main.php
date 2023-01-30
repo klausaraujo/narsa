@@ -70,9 +70,9 @@ class Main extends CI_Controller
 		}else{
 			$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 3,'po.activo' => 1]);
 			$headers = array(
-				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
-				'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
-				'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
+				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o','targets' => 2],
+				'3'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Productor', 'targets' => 4],'5'=>['title' => 'Sucursal', 'targets' => 5],
+				'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
 				'8'=>['targets' => 1, 'visible' => false],
 			);
 		}

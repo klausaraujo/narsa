@@ -17,12 +17,23 @@ class Main extends CI_Controller
 	
 	public function listaCertificaciones()
 	{
-		$anio = $this->input->post('anio'); $mes = $this->input->post('mes'); $sucursal = $this->input->post('sucursal');
-		$this->load->model('Certificaciones_model'); $operaciones = [];
-		/*$operaciones = $this->Servicios_model->listaCertificaciones(['idsucursal' => $sucursal,'SUBSTRING(fecha_movimiento,1,4)' => $anio,
-				'SUBSTRING(fecha_movimiento,6,2)' => sprintf("%'02s",$mes)]);
-		echo json_encode(['data' => $operaciones]);*/
-		echo json_encode(array());
+		$this->load->model('Certificaciones_model');
+		$anio = $this->input->post('anio'); $mes = $this->input->post('mes'); $sucursal = $this->input->post('sucursal'); $certificaciones = [];
+		
+		$certificaciones = $this->Certificaciones_model->listaCertificaciones(['c.idsucursal' => $sucursal,'SUBSTRING(fecha,1,4)' => $anio,
+				'SUBSTRING(fecha,6,2)' => sprintf("%'02s",$mes)]);
+		echo json_encode(['data' => $certificaciones]);
+	}
+	public function listaProveedores()
+	{
+		$this->load->library('datatables_server_side', array(
+			'table' => 'proveedor',
+			'primary_key' => 'idproveedor',
+			'columns' => array('idproveedor', 'nombre'),
+			'where' => array()
+		));
+
+		$this->datatables_server_side->process();
 	}
 	public function nuevo()
 	{
@@ -43,5 +54,37 @@ class Main extends CI_Controller
 			);
 			$this->load->view('main',$data);
 		}
+	}
+	public function registrarCertificado()
+	{
+		$this->load->model('Certificaciones_model');
+		$status = 500; $message = 'No se pudo registrar el Certificado';
+		$fecha = $this->input->post('fecha'); $anio = substr($fecha,0,4); $suc = $this->input->post('sucursalCert');
+		
+		$numero = $this->Certificaciones_model->numeroCert(['idsucursal'=>$suc,'anio_certificado'=>date('Y')]);
+		
+		$dataCert = array(
+			'anio_certificado' => $anio,
+			'numero' => $numero,
+			'fecha' => $fecha,
+			'idsucursal' => $suc,
+			'idproveedor' => $this->input->post('idproveedor'),
+			'altitud' => $this->input->post('altitud'),
+			'h2overde' => $this->input->post('h2o'),
+			'idproceso' => $this->input->post('proceso'),
+			'idvariedad' => $this->input->post('variedad'),
+			'densidad' => $this->input->post('densidad'),
+			'observaciones' => $this->input->post('obs'),
+			'idusuario_registro' => $this->usuario->idusuario,
+			'fecha_registro' => date('Y-m-d H:i:s'),
+			'activo' => '1',
+		);
+		
+		if($this->Certificaciones_model->guardaCert($dataCert)){
+			$this->session->set_flashdata('flashMessage', '<b>Certificado</b> Registrado Exitosamente');
+			$this->session->set_flashdata('claseMsg', 'alert-primary');
+		}
+				
+		header('location:'.base_url().'certificaciones');
 	}
 }

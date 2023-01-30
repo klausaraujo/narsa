@@ -121,12 +121,18 @@ class Main extends CI_Controller
 	public function asignarPermisos()
 	{
 		$this->load->model('Usuarios_model');
+		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500;
+		
 		$id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
 		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array());
 		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
 		$perServ = (isset($_POST['cajasPer'])?$_POST['cajasPer'] : array());
+		$perCert = (isset($_POST['certPer'])?$_POST['certPer'] : array());
 		
-		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500;
+		/*if(isset($_POST['proveedoresPer'])$data['proveedores'] = $_POST['proveedoresPer'];
+		if(isset($_POST['usuariosPer'])$data['usuarios'] = $_POST['usuariosPer'];
+		if(isset($_POST['cajasPer'])$data['cajas'] = $_POST['cajasPer'];
+		if(isset($_POST['certPer'])$data['certificado'] = $_POST['certPer'];*/
 		
 		if(!empty($perProv)){
 			foreach($perProv as $row):
@@ -142,6 +148,12 @@ class Main extends CI_Controller
 		}
 		if(!empty($perServ)){
 			foreach($perServ as $row):
+				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+		if(!empty($perCert)){
+			foreach($perCert as $row):
 				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
 				$i++;
 			endforeach;

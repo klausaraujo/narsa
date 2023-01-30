@@ -1070,6 +1070,7 @@ a.disabled{ pointer-events: none; color: grey }
 .btnDesactivar{ color: green; border: 1px solid darkgrey } .btnDesactivar:hover{ color: red; border: 1px solid darkgreen }
 .btnActivar{ color: red; border: 1px solid darkgrey } .btnActivar:hover{ color: green; border: 1px solid darkred }
 .btn-small { padding: 0.3rem 0.4rem; font-size: .875rem; line-height: 1.5; border-radius: 0.3rem; height: 30px; }
+.text-small { font-size: 0.75rem }
 .centraVert{ display:flex; align-items:center;/* justify-content: center;*/ }
 .custom-control-input:checked~.custom-control-label::before { border-color: #dd5f1a; background-color: #dd5f1a; }
 .custom-control-input:focus:not(:checked)~.custom-control-label::before { border-color: #adb5bd; }

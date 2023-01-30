@@ -1,9 +1,9 @@
-let tablaCert = null;
+let tablaCert = null, tablaProv = null;
 
 jQuery(document).ready(function($){
 	if(segmento2 == ''){
 		tablaCert = $('#tablaCertificaciones').DataTable({
-			/*ajax:{
+			ajax:{
 				url: base_url + 'certificaciones/lista',
 				type: 'POST',
 				data: function (d) {
@@ -11,28 +11,60 @@ jQuery(document).ready(function($){
 					d.mes = $('.mes').val(),
 					d.sucursal = $('.sucursal').val();
 				}
-			},*/data : [],
+			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
 				{
 					data: null,
 					orderable: false,
 					render: function(data){
-						let nulable = 1; /*if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
+						/*let nulable = 1; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
 							data.idtipooperacion === '13') nulable = 1;*/
-						let hrefEdit = '';//btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
-						let hrefAnular = '';//btnAnular && nulable ? 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						let hrefEdit = btnEdit && data.activo ?  'href="'+base_url+'certificaciones/editar?id='+data.idcertificado+'"' : '';
+						let hrefParam = btnParam && data.activo ?  'href="'+base_url+'certificaciones/parametros?id='+data.idcertificado+'"' : '';
+						let hrefAnular = btnAnular && data.activo ? 'href="'+base_url+'servicios/anular?id='+data.idcertificado+'"' : '';
+						let hrefPdf = btnPdf && data.activo ?  'href="'+base_url+'certificaciones/comp_pdf?id='+data.idcertificado+'"' : '';
 						let btnAccion =
-						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="far fa-trash" aria-hidden="true"></i></a>';
+						'<a title="Editar Certificado" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !data.activo?'disabled':'')+'">'+
+							'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<a title="Asignar Parámetros" '+hrefParam+' class="bg-success btnTable param '+(!btnParam || !data.activo?'disabled':'')+'">'+
+							'<i class="far fa-house" aria-hidden="true"></i></a>'+
+						'<a title="Anular Certificado" '+hrefAnular+' class="bg-danger btnTable anular '+(!btnAnular || !data.activo?'disabled':'')+'">'+
+							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+						'<a title="Ver Certificado" '+hrefPdf+' class="bg-info btnTable '+(!btnAnular || !data.activo?'disabled':'')+'" target="_blank">'+
+							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
-				{ data: 'idtipooperacion' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'tipo_operacion' },
-				{ data: 'monto', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
-				{ data: 'fecha_registro' },
+				{ data: 'idcertificado' },{ data: 'anio_certificado' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'sucursal' },
+				{ data: 'fecha_registro' },{ data: 'nombre' },
+				{
+					data: 'activo',
+					render: function(data){
+						let var_status = '';
+						switch(data){
+							case '1': var_status = '<span class="text-success">Activo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
+						}
+						return var_status;
+					}
+				},
 			],
 			columnDefs:headers,order: [],
+		});
+	}else if(segmento2 === 'nuevo'){
+		tablaProv = $('#tablaProveedores').DataTable({
+			processing: true,
+			serverSide: true,
+			ajax:{
+				url: base_url + 'certificaciones/proveedores',
+				type: 'GET',
+				error: function(){
+					$("#post_list_processing").css("display","none");
+				}
+			},
+			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
+			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language:{ lngDataTable },
 		});
 	}
 });
@@ -93,3 +125,24 @@ $('#tablaCertificaciones').bind('click','a',function(e){
 		return false;
 	}
 });
+
+$('#buscar').bind('click',function(e){
+	let prod = $('#productor').val();
+	$('#idproveedor').val('');
+	$('#productor').val('');
+	$('#tablaProveedores_processing').css('opacity',0);
+	$('input[type="search"]').val(prod); tablaProv.search(prod).draw();
+});
+$('#modalProveedores').on('hidden.bs.modal',function(e){
+	//$('input[type="search"]').val('');
+	//tablaProv.ajax.reload();
+	//console.log($('input[type="search"]').select());
+});
+$('#tablaProveedores').on('dblclick','tr',function(){
+	let data = tablaProv.row( this ).data();
+	$('#idproveedor').val(data[0]);
+	$('#productor').val(data[1]);
+	$('#modalProveedores').modal('hide');
+});
+
+$('#modalProveedores').on('show.bs.modal',function(e){});

@@ -93,22 +93,36 @@
 			<?if($this->uri->segment(2) == ''){?>
 			let btnEdit = false, btnAnular = false;
 			
-			$.each(botonesServ,function(i,e){
+			/*$.each(botonesServ,function(i,e){
 				if(e.idpermiso === '15') btnEdit = true;
 				else if(e.idpermiso === '16') btnAnular = true;
-			});
+			});*/
 			<?}?>
 		</script>
 		<?}else if($this->uri->segment(1) === 'certificaciones'){ ?>
 		<script src="<?=base_url()?>public/js/certificaciones/certificaciones.js"></script>
+		<script>
+			let botonesCert = JSON.parse('<?=$this->session->userdata('perServ')?>');
+			<?if($this->uri->segment(2) == ''){?>
+			let btnEdit = false, btnParam = false, btnAnular = false, btnPdf = false;
+			
+			$.each(botonesCert,function(i,e){
+				if(e.idpermiso === '15') btnEdit = true;
+				else if(e.idpermiso === '16') btnParam = true;
+				else if(e.idpermiso === '17') btnAnular = true;
+				else if(e.idpermiso === '18') btnPdf = true;
+			});
+			<?}?>
+		</script>
 		<?}?>
-		/* Rutinas Javascript por cada uno de los segmentos 2 */
 		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
 				$this->uri->segment(1) === 'certificaciones') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
-		<?}else if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones'){ ?>
+		<?}
+		/*Rutinas para los segmentos 2*/
+		if($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones'){ ?>
 		<script>
 			const headersOp = JSON.parse('<?=json_encode($headersOp)?>');
 			const headersIng = JSON.parse('<?=json_encode($headersIng)?>');

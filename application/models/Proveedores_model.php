@@ -182,7 +182,7 @@ class Proveedores_model extends CI_Model
 				if($result->num_rows() > 0){
 					$result = $result->row();
 					$numero = floatval( $result->numero ) + 1;
-				} 
+				}
 				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
 								'observaciones'=>$row->observacion,'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
 				//$guia_entrada[] = $tran;
