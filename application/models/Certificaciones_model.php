@@ -119,4 +119,37 @@ class Certificaciones_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function hayCertificado($where)
+	{
+		$this->db->select('COUNT(iddetalle) cuenta');
+		$this->db->from('certificado_detalle');
+		$this->db->where($where);
+		$result = $this->db->get();
+		if($result->num_rows() > 0){
+			$result = $result->row();
+			return intval($result->cuenta);
+		}else
+			return 0;
+	}
+	public function guardaParametros($data)
+	{
+		if($this->db->insert('certificado_detalle',$data)) return true;
+		else return false;
+	}
+	public function actualizaParametros($id,$data)
+	{
+		$this->db->db_debug = FALSE;
+		$this->db->where($id);
+		if ($this->db->update('certificado_detalle',$data)) return true;
+        else return false;
+	}
+	public function certificadoDetalle($where)
+	{
+		$this->db->select('*');
+        $this->db->from('certificado_detalle');
+		$this->db->where($where);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
 }

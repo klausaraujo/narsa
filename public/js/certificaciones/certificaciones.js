@@ -20,12 +20,12 @@ jQuery(document).ready(function($){
 					render: function(data){
 						/*let nulable = 1; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
 							data.idtipooperacion === '13') nulable = 1;*/
-						let hrefEdit = btnEdit && data.activo ?  'href="'+base_url+'certificaciones/editar?id='+data.idcertificado+'"' : '';
+						//let hrefEdit = btnEdit && data.activo ?  'href="'+base_url+'certificaciones/editar?id='+data.idcertificado+'"' : '';
 						let hrefParam = btnParam && data.activo ?  'href="'+base_url+'certificaciones/parametros?id='+data.idcertificado+'"' : '';
 						let hrefAnular = btnAnular && data.activo ? 'href="'+base_url+'servicios/anular?id='+data.idcertificado+'"' : '';
 						let hrefPdf = btnPdf && data.activo ?  'href="'+base_url+'certificaciones/comp_pdf?id='+data.idcertificado+'"' : '';
 						let btnAccion =
-						'<a title="Editar Certificado" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !data.activo?'disabled':'')+'">'+
+						'<a title="Editar Certificado" '+hrefParam+' class="bg-warning btnTable editar '+(!btnEdit || !data.activo?'disabled':'')+'">'+
 							'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Asignar Parámetros" '+hrefParam+' class="bg-success btnTable param '+(!btnParam || !data.activo?'disabled':'')+'">'+
 							'<i class="far fa-house" aria-hidden="true"></i></a>'+
@@ -161,3 +161,26 @@ $('form').validate({
 		return true;
 	}
 });*/
+$('.form').on('submit',function(e){
+	e.preventDefault();
+	let boton = $(this).find('button'), f = e.target;
+	
+	$.ajax({
+		data: $(f).serialize(),
+		url: $(f).attr('action'),
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () { 
+			$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+			//$(boton).addClass('disabled');
+		},
+		success: function (data) {
+			console.log(data);
+			$(boton).html('Guardar Par&aacute;metro');
+			$(boton).removeClass('disabled');
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			$('.resp').html(data.message);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+		}
+	});
+});
