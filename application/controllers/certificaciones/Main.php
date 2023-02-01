@@ -110,6 +110,34 @@ class Main extends CI_Controller
 		
 		$this->load->view('main',$data);
 	}
+	public function editarCertificacion()
+	{
+		$this->load->model('Certificaciones_model');
+		$id = $this->input->get('id');
+		$color = $this->Certificaciones_model->color();
+		$olor = $this->Certificaciones_model->olor();
+		$apariencia = $this->Certificaciones_model->apariencia();
+		$quaker = $this->Certificaciones_model->quaker();
+		$proveedor = $this->Certificaciones_model->traeDatosProv(['idcertificado' => $id]);
+		$detalle = $this->Certificaciones_model->certificadoDetalle(['idcertificado' => $id, 'activo' => 1]);
+		if(empty($detalle)){
+			$this->session->set_flashdata('flashMessage', 'No hay Certificaciones registradas');
+			$this->session->set_flashdata('claseMsg', 'alert-danger');
+			header('location:'.base_url().'certificaciones');
+		}else{
+			$data = array(
+				'proveedor' => $proveedor,
+				'color' => $color,
+				'olor' => $olor,
+				'apariencia' => $apariencia,
+				'quaker' => $quaker,
+				'idcertificado' => $id,
+				'detalle' => $detalle,
+			);
+			
+			$this->load->view('main',$data);
+		}
+	}
 	public function fisico()
 	{
 		$this->load->model('Certificaciones_model');

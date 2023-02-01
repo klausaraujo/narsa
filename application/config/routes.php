@@ -110,6 +110,7 @@ $route['certificaciones/nuevo'] = 'certificaciones/main/nuevo';
 $route['certificaciones/proveedores'] = 'certificaciones/main/listaProveedores';
 $route['certificaciones/registrar'] = 'certificaciones/main/registrarCertificado';
 $route['certificaciones/parametros'] = 'certificaciones/main/parametros';
+$route['certificaciones/editar'] = 'certificaciones/main/editarCertificacion';
 $route['certificaciones/parametros/fisico'] = 'certificaciones/main/fisico';
 $route['certificaciones/parametros/conteo'] = 'certificaciones/main/conteo';
 

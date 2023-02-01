@@ -36,7 +36,7 @@
 						if($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) === 'editar') $this->load->view('servicios/form-editar');
 						if($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) == '') $this->load->view('certificaciones/certificaciones');
 						if($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) === 'nuevo') $this->load->view('certificaciones/form-new');
-						if($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) === 'parametros') $this->load->view('certificaciones/parametros');
+						if($this->uri->segment(1) === 'certificaciones' && ($this->uri->segment(2) === 'parametros' || $this->uri->segment(2) === 'editar')) $this->load->view('certificaciones/parametros');
 						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == '') $this->load->view('usuarios/usuarios');
 						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'nuevo') $this->load->view('usuarios/form-new');
 						if($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'editar') $this->load->view('usuarios/form-editar');
