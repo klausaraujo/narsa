@@ -366,4 +366,21 @@ class Main extends CI_Controller
 		);
 		echo json_encode($data);
 	}
+	public function anular()
+	{
+		$this->load->model('Certificaciones_model');
+		$id = $this->input->get('id'); $resp = 'No se pudo Anular'; $status = 500;
+		
+		if($this->Certificaciones_model->anular(['idcertificado' => $id],['activo' => 0])){
+			$resp = 'Se Anul&oacute; exitosamente';
+			$status = 200;
+		}
+		
+		$data = array(
+			'message' => $resp,
+			'status' => $status,
+		);
+		
+		echo json_encode($data);
+	}
 }

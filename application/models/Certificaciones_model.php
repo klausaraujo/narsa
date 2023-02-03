@@ -169,4 +169,25 @@ class Certificaciones_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
+	public function anular($where,$data)
+	{
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('certificado');
+		
+		$this->db->set($data,TRUE);
+		$this->db->where($where);
+		$this->db->update('certificado_detalle');
+				
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }
