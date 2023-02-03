@@ -21,7 +21,7 @@ class Main extends CI_Controller
 		$anio = $this->input->post('anio'); $mes = $this->input->post('mes'); $sucursal = $this->input->post('sucursal'); $certificaciones = [];
 		
 		$certificaciones = $this->Certificaciones_model->listaCertificaciones(['c.idsucursal' => $sucursal,'SUBSTRING(fecha,1,4)' => $anio,
-				'SUBSTRING(fecha,6,2)' => sprintf("%'02s",$mes)]);
+				'SUBSTRING(fecha,6,2)' => sprintf("%'02s",$mes), 'c.activo' => 1]);
 		echo json_encode(['data' => $certificaciones]);
 	}
 	public function listaProveedores()
@@ -40,17 +40,21 @@ class Main extends CI_Controller
 		if($this->uri->segment(1) === 'nuevacertificacion')header('location:' .base_url(). 'certificaciones/nuevo');
 		else{
 			$this->load->model('Certificaciones_model');
+			$id = ''; $certificado = null;
 			$proveedores = $this->Certificaciones_model->proveedores();
 			$proceso = $this->Certificaciones_model->proceso();
 			$variedad = $this->Certificaciones_model->variedad();
 						
 			if($this->uri->segment(2) === 'editar'){
 				$id = $this->input->get('id');
+				$certificado = $this->Certificaciones_model->certificado(['idcertificado' => $id, 'c.activo' => 1]);
 			}
 			$data = array(
 				'proveedores' => $proveedores,
 				'proceso' => $proceso,
 				'variedad' => $variedad,
+				'id' => $id,
+				'certificado' => $certificado,
 			);
 			$this->load->view('main',$data);
 		}
@@ -61,11 +65,8 @@ class Main extends CI_Controller
 		$status = 500; $message = 'No se pudo registrar el Certificado';
 		$fecha = $this->input->post('fecha'); $anio = substr($fecha,0,4); $suc = $this->input->post('sucursalCert');
 		
-		$numero = $this->Certificaciones_model->numeroCert(['idsucursal'=>$suc,'anio_certificado'=>date('Y')]);
-		
 		$dataCert = array(
 			'anio_certificado' => $anio,
-			'numero' => $numero,
 			'fecha' => $fecha,
 			'idsucursal' => $suc,
 			'idproveedor' => $this->input->post('idproveedor'),
@@ -75,14 +76,27 @@ class Main extends CI_Controller
 			'idvariedad' => $this->input->post('variedad'),
 			'densidad' => $this->input->post('densidad'),
 			'observaciones' => $this->input->post('obs'),
-			'idusuario_registro' => $this->usuario->idusuario,
-			'fecha_registro' => date('Y-m-d H:i:s'),
-			'activo' => '1',
 		);
 		
-		if($this->Certificaciones_model->guardaCert($dataCert)){
-			$this->session->set_flashdata('flashMessage', '<b>Certificado</b> Registrado Exitosamente');
-			$this->session->set_flashdata('claseMsg', 'alert-primary');
+		if($this->input->post('tiporegistro') === 'registrar'){
+			$numero = $this->Certificaciones_model->numeroCert(['idsucursal'=>$suc,'anio_certificado'=>date('Y')]); 
+			$dataCert['numero'] = $numero;
+			$dataCert['idusuario_registro'] = $this->usuario->idusuario;
+			$dataCert['fecha_registro'] = date('Y-m-d H:i:s');
+			$dataCert['activo'] = 1;
+
+			if($this->Certificaciones_model->guardaCert($dataCert)){
+				$this->session->set_flashdata('flashMessage', '<b>Certificado</b> Registrado Exitosamente');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
+			}
+		}elseif($this->input->post('tiporegistro') === 'editar'){
+			$dataCert['idusuario_modificacion'] = $this->usuario->idusuario;
+			$dataCert['fecha_modificacion'] = date('Y-m-d H:i:s');
+			
+			if($this->Certificaciones_model->actualizaCert(['idcertificado' => $this->input->post('idcertificado')],$dataCert)){
+				$this->session->set_flashdata('flashMessage', '<b>Certificado</b> Actualizado');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
+			}
 		}
 		
 		header('location:'.base_url().'certificaciones');
@@ -110,39 +124,13 @@ class Main extends CI_Controller
 		
 		$this->load->view('main',$data);
 	}
-	public function editarCertificacion()
-	{
-		$this->load->model('Certificaciones_model');
-		$id = $this->input->get('id');
-		$color = $this->Certificaciones_model->color();
-		$olor = $this->Certificaciones_model->olor();
-		$apariencia = $this->Certificaciones_model->apariencia();
-		$quaker = $this->Certificaciones_model->quaker();
-		$proveedor = $this->Certificaciones_model->traeDatosProv(['idcertificado' => $id]);
-		$detalle = $this->Certificaciones_model->certificadoDetalle(['idcertificado' => $id, 'activo' => 1]);
-		if(empty($detalle)){
-			$this->session->set_flashdata('flashMessage', 'No hay Certificaciones registradas');
-			$this->session->set_flashdata('claseMsg', 'alert-danger');
-			header('location:'.base_url().'certificaciones');
-		}else{
-			$data = array(
-				'proveedor' => $proveedor,
-				'color' => $color,
-				'olor' => $olor,
-				'apariencia' => $apariencia,
-				'quaker' => $quaker,
-				'idcertificado' => $id,
-				'detalle' => $detalle,
-			);
-			
-			$this->load->view('main',$data);
-		}
-	}
 	public function fisico()
 	{
 		$this->load->model('Certificaciones_model');
 		$id = $this->input->post('idcertificado'); $resp = 'No se pudo guardar';
-		if(!$hay = $this->Certificaciones_model->hayCertificado(['idcertificado' => $id, 'activo' => 1])){
+		$hay = $this->Certificaciones_model->hayCertificado(['idcertificado' => $id]);
+		
+		if(!$hay){
 			$data = array(
 				'idcertificado' => $id,
 				'idcolor' => $this->input->post('color'),
@@ -168,6 +156,7 @@ class Main extends CI_Controller
 				'tostado_perdida' => $this->input->post('porcPerdida'),
 				'idapariencia' => $this->input->post('apariencia'),
 				'idquaker' => $this->input->post('quaker'),
+				'activo' => 1,
 			);
 			
 			if($this->Certificaciones_model->guardaParametros($data)){
@@ -200,7 +189,7 @@ class Main extends CI_Controller
 				'idquaker' => $this->input->post('quaker'),
 			);
 			
-			if($this->Certificaciones_model->actualizaParametros($id,$data)){
+			if($this->Certificaciones_model->actualizaParametros(['idcertificado' => $id],$data)){
 				$resp = 'Guardado exitosamente';
 			}
 		}
@@ -213,7 +202,9 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Certificaciones_model');
 		$id = $this->input->post('idcertificado'); $resp = 'No se pudo guardar';
-		if(!$hay = $this->Certificaciones_model->hayCertificado(['idcertificado' => $id,'activo' => 1])){
+		$hay = $this->Certificaciones_model->hayCertificado(['idcertificado' => $id]);
+		
+		if(!$hay){
 			$data = array(
 				'idcertificado' => $id,
 				'idcolor' => 1,
@@ -252,6 +243,7 @@ class Main extends CI_Controller
 				'def_sec_cascara_equi' => $this->input->post('eqpul'),
 				'def_sec_insectos_num' => $this->input->post('nrolgins'),
 				'def_sec_insectos_equi' => $this->input->post('eqlgins'),
+				'activo' => 1,
 			);
 			
 			if($this->Certificaciones_model->guardaParametros($data)){
@@ -293,7 +285,7 @@ class Main extends CI_Controller
 				'def_sec_insectos_equi' => $this->input->post('eqlgins'),
 			);
 			
-			if($this->Certificaciones_model->actualizaParametros($id,$data)){
+			if($this->Certificaciones_model->actualizaParametros(['idcertificado' => $id],$data)){
 				$resp = 'Guardado exitosamente';
 			}
 		}
@@ -301,6 +293,77 @@ class Main extends CI_Controller
 			'message' => $resp,
 		);
 		echo json_encode($data);
+	}
+	public function sensorial()
+	{
+		$this->load->model('Certificaciones_model');
+		$id = $this->input->post('idcertificado'); $resp = 'No se pudo guardar';
+		$hay = $this->Certificaciones_model->hayCertificado(['idcertificado' => $id]);
 		
+		if(!$hay){
+			$data = array(
+				'idcertificado' => $id,
+				'idcolor' => 1,
+				'idolor' => 1,
+				'idapariencia' => 1,
+				'idquaker' => 1,
+				'atributos_fragancia_puntos' => $this->input->post('fragptos'),
+				'atributos_fragancia_caracteristicas' => $this->input->post('fragcaract'),
+				'atributos_sabor_puntos' => $this->input->post('sabptos'),
+				'atributos_sabor_caracteristicas' => $this->input->post('sabcaract'),
+				'atributos_residual_puntos' => $this->input->post('sabreptos'),
+				'atributos_residual_caracteristicas' => $this->input->post('sabrecaract'),
+				'atributos_acidez_puntos' => $this->input->post('aciptos'),
+				'atributos_acidez_caracteristicas' => $this->input->post('acicaract'),
+				'atributos_cuerpo_puntos' => $this->input->post('cuerptos'),
+				'atributos_cuerpo_caracteristicas' => $this->input->post('cuerpocaract'),
+				'atributos_uniformidad_puntos' => $this->input->post('uniptos'),
+				'atributos_uniformidad_caracteristicas' => $this->input->post('unicaract'),
+				'atributos_balance_puntos' => $this->input->post('balptos'),
+				'atributos_balance_caracteristicas' => $this->input->post('balcaract'),
+				'atributos_taza_puntos' => $this->input->post('tazptos'),
+				'atributos_taza_caracteristicas' => $this->input->post('tazcaract'),
+				'atributos_dulzura_puntos' => $this->input->post('dulptos'),
+				'atributos_dulzura_caracteristicas' => $this->input->post('dulcaract'),
+				'atributos_apreciacion_puntos' => $this->input->post('apreptos'),
+				'atributos_apreciacion_caracteristicas' => $this->input->post('aprecaract'),
+				'activo' => 1,
+			);
+			
+			if($this->Certificaciones_model->guardaParametros($data)){
+				$resp = 'Guardado exitosamente';
+			}
+		}else{
+			$data = array(
+				'atributos_fragancia_puntos' => $this->input->post('fragptos'),
+				'atributos_fragancia_caracteristicas' => $this->input->post('fragcaract'),
+				'atributos_sabor_puntos' => $this->input->post('sabptos'),
+				'atributos_sabor_caracteristicas' => $this->input->post('sabcaract'),
+				'atributos_residual_puntos' => $this->input->post('sabreptos'),
+				'atributos_residual_caracteristicas' => $this->input->post('sabrecaract'),
+				'atributos_acidez_puntos' => $this->input->post('aciptos'),
+				'atributos_acidez_caracteristicas' => $this->input->post('acicaract'),
+				'atributos_cuerpo_puntos' => $this->input->post('cuerptos'),
+				'atributos_cuerpo_caracteristicas' => $this->input->post('cuerpocaract'),
+				'atributos_uniformidad_puntos' => $this->input->post('uniptos'),
+				'atributos_uniformidad_caracteristicas' => $this->input->post('unicaract'),
+				'atributos_balance_puntos' => $this->input->post('balptos'),
+				'atributos_balance_caracteristicas' => $this->input->post('balcaract'),
+				'atributos_taza_puntos' => $this->input->post('tazptos'),
+				'atributos_taza_caracteristicas' => $this->input->post('tazcaract'),
+				'atributos_dulzura_puntos' => $this->input->post('dulptos'),
+				'atributos_dulzura_caracteristicas' => $this->input->post('dulcaract'),
+				'atributos_apreciacion_puntos' => $this->input->post('apreptos'),
+				'atributos_apreciacion_caracteristicas' => $this->input->post('aprecaract'),
+			);
+			
+			if($this->Certificaciones_model->actualizaParametros(['idcertificado' => $id],$data)){
+				$resp = 'Guardado exitosamente';
+			}
+		}
+		$data = array(
+			'message' => $resp,
+		);
+		echo json_encode($data);
 	}
 }

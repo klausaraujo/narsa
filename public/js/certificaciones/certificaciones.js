@@ -52,7 +52,7 @@ jQuery(document).ready(function($){
 			],
 			columnDefs:headers,order: [],
 		});
-	}else if(segmento2 === 'nuevo'){
+	}else if(segmento2 === 'nuevo' || segmento2 === 'editar'){
 		tablaProv = $('#tablaProveedores').DataTable({
 			processing: true,
 			serverSide: true,

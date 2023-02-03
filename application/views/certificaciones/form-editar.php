@@ -5,16 +5,17 @@
 							<div class="iq-header-title"><h4>Registro Certificado</h4></div>
 						</div>
 						<div class="iq-card-body">
-							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/registrar" class="needs-validation" novalidate="">
-								<input type="hidden" name="tiporegistro" value="registrar" />
-								<input type="hidden" name="idproveedor" id="idproveedor" />
+							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/editar" class="needs-validation" novalidate="">
+								<input type="hidden" name="tiporegistro" value="editar" />
+								<input type="hidden" name="idcertificado" value="<?=$id?>" />
+								<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$certificado->idproveedor?>" />
 								<div class="form-row">
 									<div class="col-12 my-1">
 										<div class="row">
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="productor">&nbsp;&nbsp;Productor:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control fecha col-8" id="productor" name="productor" required="">
+													<input type="text" class="form-control fecha col-8" id="productor" name="productor" value="<?=$certificado->nombre?>" required="">
 													<a type="button" class="btn btn-small btn-narsa align-self-center text-small ml-1 text-white" data-toggle="modal" 
 															data-target="#modalProveedores" id="buscar">Buscar</a>
 													<div class="invalid-feedback">Debe indicar un productor</div>
@@ -25,7 +26,7 @@
 												<div class="row">
 													<select class="form-control sucursalCert" name="sucursalCert" id="sucursalCert" required="">
 													<? foreach($usuario->sucursales as $row): ?>
-														<option value="<?=$row->idsucursal;?>" ><?=$row->sucursal;?></option>
+														<option value="<?=$row->idsucursal;?>" <?=$certificado->idsucursal === $row->idsucursal? 'selected':'';?> ><?=$row->sucursal;?></option>
 													<? endforeach;	?>
 													</select>
 													<div class="invalid-feedback">Debe elegir una Sucursal</div>
@@ -36,14 +37,15 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="fecha">&nbsp;&nbsp;Fecha:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="date" class="form-control fecha" value="<?=date('Y-m-d')?>" name="fecha" id="fecha" required="" />
+													<input type="date" class="form-control fecha" value="<?=date_format(date_create($certificado->fecha),'Y-m-d')?>"
+														name="fecha" id="fecha" required="" />
 													<div class="invalid-feedback">Debe elegir la fecha</div>
 												</div>
 											</div>
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="h2o">&nbsp;&nbsp;H2O verde (ISO):</label>
 											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
 												<div class="row">
-													<input type="text" class="form-control h2o" name="h2o" id="h2o" required="" />
+													<input type="text" class="form-control h2o" name="h2o" id="h2o" required="" value="<?=$certificado->h2overde;?>" />
 													<div class="invalid-feedback">Campo Requerido</div>
 												</div>
 											</div>
@@ -52,7 +54,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="altitud">&nbsp;&nbsp;Altitud:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control altitud" name="altitud" id="altitud" required="" />
+													<input type="text" class="form-control altitud" name="altitud" id="altitud" value="<?=$certificado->altitud;?>" required="" />
 													<div class="invalid-feedback">Debe indicar la Altitud</div>
 												</div>
 											</div>
@@ -61,7 +63,7 @@
 												<div class="row">
 													<select class="form-control proceso" name="proceso" id="proceso" required="">
 													<? foreach($proceso as $row): ?>
-														<option value="<?=$row->idproceso;?>" ><?=$row->proceso;?></option>
+														<option value="<?=$row->idproceso;?>" <?=$certificado->idproceso === $row->idproceso? 'selected':'';?> ><?=$row->proceso;?></option>
 													<? endforeach;	?>
 													</select>
 													<div class="invalid-feedback">Debe elegir un Proceso</div>
@@ -72,7 +74,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="densidad">&nbsp;&nbsp;Densidad:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control densidad" name="densidad" id="densidad" required="" />
+													<input type="text" class="form-control densidad" name="densidad" id="densidad" value="<?=$certificado->densidad?>" required="" />
 													<div class="invalid-feedback">Debe indicar la Densidad</div>
 												</div>
 											</div>
@@ -81,7 +83,7 @@
 												<div class="row">
 													<select class="form-control variedad" name="variedad" id="variedad" required="">
 													<? foreach($variedad as $row): ?>
-														<option value="<?=$row->idvariedad;?>" ><?=$row->variedad;?></option>
+														<option value="<?=$row->idvariedad;?>" <?=$certificado->idvariedad === $row->idvariedad? 'selected':'';?> ><?=$row->variedad;?></option>
 													<? endforeach;	?>
 													</select>
 													<div class="invalid-feedback">Debe elegir la Variedad</div>
