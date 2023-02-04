@@ -17,7 +17,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div><!--Anular-->
 						<!-- Modal Permisos -->
 						<div class="modal fade" id="modalPermisos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-lg" role="document">

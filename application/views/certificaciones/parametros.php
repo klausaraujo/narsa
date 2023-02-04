@@ -554,7 +554,7 @@
 														<!--<div class="row mt-3">
 															<label class="control-label col-md-3 align-self-center mb-0" for="productor">&nbsp;&nbsp;Observaciones:</label>
 															<input type="text" class="form-control col-md-8 mayusc" name="obs" id="obs" placeholder="Observaciones" />
-														</div>-->
+														</div> Anular-->
 													</div>
 												</div>
 											</div>

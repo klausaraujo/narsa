@@ -4,7 +4,7 @@
 						<div class="iq-card-header d-flex justify-content-between">
 							<div class="iq-header-title"><h4>Registro Certificado</h4></div>
 						</div>
-						<div class="iq-card-body">
+						<div class="iq-card-body"><!--Anular-->
 							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/editar" class="needs-validation" novalidate="">
 								<input type="hidden" name="tiporegistro" value="editar" />
 								<input type="hidden" name="idcertificado" value="<?=$id?>" />

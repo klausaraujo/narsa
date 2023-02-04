@@ -29,7 +29,7 @@
 													<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>	
 												<? endforeach;	?>
 												</select>
-											</div>
+											</div><!--Anular-->
 										</div>
 									</div>
 								</div>

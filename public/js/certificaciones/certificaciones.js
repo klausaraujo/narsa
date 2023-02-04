@@ -19,7 +19,7 @@ jQuery(document).ready(function($){
 					orderable: false,
 					render: function(data){
 						/*let nulable = 1; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
-							data.idtipooperacion === '13') nulable = 1;*/
+							data.idtipooperacion === '13') nulable = 1;*///Anular
 						let hrefEdit = btnEdit && data.activo ?  'href="'+base_url+'certificaciones/editar?id='+data.idcertificado+'"' : '';
 						let hrefParam = btnParam && data.activo ?  'href="'+base_url+'certificaciones/parametros?id='+data.idcertificado+'"' : '';
 						let hrefAnular = btnAnular && data.activo ? 'href="'+base_url+'certificaciones/anular?id='+data.idcertificado+'"' : '';

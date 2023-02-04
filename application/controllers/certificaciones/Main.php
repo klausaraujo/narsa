@@ -382,5 +382,5 @@ class Main extends CI_Controller
 		);
 		
 		echo json_encode($data);
-	}
+	}//Anular
 }

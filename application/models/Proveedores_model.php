@@ -494,5 +494,5 @@ class Proveedores_model extends CI_Model
 		$this->db->where($where);
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
-	}
+	}//Anular
 }
