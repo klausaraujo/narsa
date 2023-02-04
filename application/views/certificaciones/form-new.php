@@ -1,4 +1,4 @@
-					<? $usuario = json_decode($this->session->userdata('user')); ?>
+<? $usuario = json_decode($this->session->userdata('user')); ?>
 					
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">

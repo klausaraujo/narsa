@@ -1,4 +1,4 @@
-						<? $usuario = json_decode($this->session->userdata('user')); ?>
+<? $usuario = json_decode($this->session->userdata('user')); ?>
 						<div class="col-12 card px-0 my-3">
 							<div class="card-body">
 								<h4 class="">Listado General de Certificaciones</h4>

@@ -1,4 +1,4 @@
-						<div class="col-12 card px-0 my-3">
+<div class="col-12 card px-0 my-3">
 							<div class="card-body">
 								<h4 class="">Listado General de Usuarios del Sistema</h4>
 								<hr>

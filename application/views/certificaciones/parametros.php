@@ -1,4 +1,4 @@
-					<? $usuario = json_decode($this->session->userdata('user'));?>
+<? $usuario = json_decode($this->session->userdata('user'));?>
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
 							<div class="iq-header-title"><h4><b><?=ucwords(strtolower($proveedor->nombre))?></b> (Certificaciones)</h4></div>
