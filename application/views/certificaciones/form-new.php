@@ -1,4 +1,4 @@
-<? $usuario = json_decode($this->session->userdata('user')); ?>
+					<? $usuario = json_decode($this->session->userdata('user')); ?>
 					
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
@@ -92,7 +92,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
 											<div class="col-sm-6 col-lg-8">
 												<div class="row">
-													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" value="<?=$certificado->observaciones;?>" />
+													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" />
 												</div>
 											</div>
 										</div>
