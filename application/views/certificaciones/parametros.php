@@ -10,6 +10,7 @@
 									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center active" data-toggle="tab" href="#pill-fisico">Aspecto F&iacute;sico y Tostado</a>
 									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-conteo">Conteo de Defectos</a>
 									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-sensorial">An&aacute;lisis Sensorial</a>
+									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-catadores">Catadores</a>
 								</div>
 							<!--</div>-->
 							<!-- Tab panes -->
@@ -21,7 +22,7 @@
 										<input type="hidden" class="idproveedor" name="idproveedor" value="<?=$proveedor->idproveedor?>"/>
 										<input type="hidden" name="idcertificado" value="<?=$idcertificado?>"/>
 										<div class="form-row container-fluid mt-1">
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label class="control-label mb-0" for="color">&nbsp;&nbsp;&nbsp;Color:</label>
 												<select class="form-control color" name="color" id="color">
 												<? foreach($color as $row): ?>
@@ -29,7 +30,7 @@
 												<? endforeach;	?>
 												</select>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label class="control-label mb-0" for="olor">&nbsp;&nbsp;&nbsp;Olor:</label>
 												<select class="form-control olor" name="olor" id="olor">
 												<? foreach($olor as $row): ?>
@@ -120,7 +121,7 @@
 													<div class="row"><h5 class="car-title col-12 font-weight-bold">Granulometr&iacute;a</h5></div>
 													<div class="row mt-2">
 														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted">Malla</h6></div>
-														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted">350 Gr.</h6></div>
+														<div class="col-4"><input type="text" class="form-control form-control-sm moneda" id="grm" name="grm" /></div>
 														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted">%</h6></div>
 													</div>
 												</div>
@@ -182,7 +183,7 @@
 										<hr>
 										<div class="form-row container-fluid mt-3">
 											<div class="col-12 mb-3"><h5 style="text-decoration:underline"><b>Categor&iacute;a / Tostado</b></h5></div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label class="control-label mb-0" for="apariencia">&nbsp;&nbsp;&nbsp;Apariencia:</label>
 												<select class="form-control apariencia" name="apariencia" id="apariencia">
 												<? foreach($apariencia as $row): ?>
@@ -191,7 +192,7 @@
 												</select>
 												<!--<div class="invalid-feedback">Campo Requerido</div>-->
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label class="control-label mb-0" for="quaker">&nbsp;&nbsp;&nbsp;Quaker:</label>
 												<select class="form-control quaker" name="quaker" id="quaker">
 												<? foreach($quaker as $row): ?>
@@ -568,6 +569,44 @@
 										</div>
 									</form>
 								</div>
+								<div class="tab-pane container fade" id="pill-catadores">
+									<div class="col-md-12 text-center pt-4 resp" style="font-size:1.3em">&nbsp;</div>
+									<input type="hidden" name="idcertificado" id="idcertificado" value="<?=$idcertificado?>"/>
+								
+									<!--<form method="post" id="form_sensorial" action="<?=base_url().$this->uri->segment(1)?>/parametros/catadores" class="form">
+										<input type="hidden" class="idproveedor" name="idproveedor" value="<?=$proveedor->idproveedor?>"/>
+										<input type="hidden" name="idcertificado" value="<?=$idcertificado?>"/>
+										<div class="row container mt-1">
+											<div class="col-12">
+												<div class="form-row">
+												</div>
+											</div>
+										</div>
+									</form>-->
+									<div class="container mx-auto">
+										<div class="row">
+											<div class="col-md-11 mt-4 mb-2">
+												<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
+												<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalCat" data-target="#modalCatadores">Buscar Catador</button>
+											</div>
+										</div>
+									</div>
+									<div class="container-fluid mt-2 mb-3">
+										<div class="row">
+											<div style="overflow-x:hidden" class="col-12 col-md-8 mx-auto"> <!--class="table-responsive" -->
+											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+												<table id="tablaSeleccionCatadores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<div class="row">
+											<div class="col-md-12">
+												<button class="btn btn-narsa" id="guardaCatadores">Guardar Catador</button>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<hr class="mt-0">
@@ -575,6 +614,29 @@
 							<div class="row">
 								<div class="col-md-12">
 									<button class="btn btn-narsa btn-cancelar">Volver</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal catadores -->
+					<div class="modal fade" id="modalCatadores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">Seleccionar Catador</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body" style="overflow: hidden;">
+									<div class="container-fluid mt-2">
+										<div class="row">
+											<div style="overflow-x:hidden" class="col-12"> <!--class="table-responsive" -->
+											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+												<table id="tablaCatadores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto" style="width:100%">
+													<thead><tr><th>ID</th><th>Documento</th><th>Nombres del Catador</th><th>nombres</th></tr></thead>
+												</table>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

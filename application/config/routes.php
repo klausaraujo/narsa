@@ -115,6 +115,8 @@ $route['certificaciones/parametros/fisico'] = 'certificaciones/main/fisico';
 $route['certificaciones/parametros/conteo'] = 'certificaciones/main/conteo';
 $route['certificaciones/parametros/sensorial'] = 'certificaciones/main/sensorial';
 $route['certificaciones/anular'] = 'certificaciones/main/anular';//Anular
+$route['certificaciones/parametros/listacatadores'] = 'certificaciones/main/listaCatadores';
+$route['certificaciones/parametros/catadores'] = 'certificaciones/main/catadores';
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

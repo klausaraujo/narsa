@@ -150,4 +150,8 @@
 				map = mapa(opt);
 			}
 		</script>
+		<?}else if($this->uri->segment(2) === 'parametros'){?>
+		<script>
+			let catadores = JSON.parse('<?=json_encode($catadores)?>');
+		</script>
 		<?}?>

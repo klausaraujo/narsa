@@ -188,6 +188,31 @@ class Certificaciones_model extends CI_Model
 		}else{
 			$this->db->trans_commit();
 			return true;
-		}//Anular
+		}
+	}
+	public function guardaCatadores($data)
+	{
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		
+		$this->db->delete('certificado_catador', array('idcertificado' => $data[0]->idcertificado));
+		$this->db->insert_batch('certificado_catador',$data);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	public function traeCatadores($where)
+	{
+		$this->db->select('cc.idcatador,numero_documento as documento,CONCAT(apellidos," ",nombres) as nombres');
+        $this->db->from('certificado_catador cc');
+		$this->db->join('catador c','c.idcatador = cc.idcatador');
+		$this->db->where($where);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 }

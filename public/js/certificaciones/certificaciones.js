@@ -1,4 +1,4 @@
-let tablaCert = null, tablaProv = null;
+let tablaCert = null, tablaProv = null, tablaCat = null, tablaCatSelec = null;
 
 jQuery(document).ready(function($){
 	if(segmento2 == ''){
@@ -66,6 +66,49 @@ jQuery(document).ready(function($){
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
 			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language:{ lngDataTable },
 		});
+	}else if(segmento2 === 'parametros'){
+		tablaCatSelec = $('#tablaCatadores').DataTable({
+			processing: true,
+			serverSide: true,
+			ajax:{
+				url: base_url + 'certificaciones/parametros/listacatadores',
+				type: 'GET',
+				error: function(){
+					$("#post_list_processing").css("display","none");
+				}
+			},
+			columns:[
+				{ data: 0, visible: false },{ data: 1 },				
+				{
+					data: 2,
+					render: function(data,type,row,meta){
+						return row[2] + ' ' + row[3];
+					}
+				},
+				{ data: 3, visible: false }
+			],
+			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
+			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language:{ lngDataTable },
+		});
+		tablaCat = $('#tablaSeleccionCatadores').DataTable({
+			data: [],
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			columns:[
+				{
+					data: null,
+					orderable: false,
+					render: function(data){
+						let btnAccion =
+						'<a title="Remover Catador" href="#" class="bg-danger btnTable remover"><i class="far fa-trash" aria-hidden="true"></i></a>';
+						return btnAccion;
+					}
+				},
+				{ data: 'idcatador', visible: false },{ data: 'documento' },{ data: 'nombres' },
+			],
+			columnDefs:[{ title: 'Acciones', targets: 0 },{ title: 'ID', targets: 1 },{ title: 'Documento', targets: 2 },{ title: 'Nombres', targets: 3 }],
+			order: [],
+		});
+		tablaCat.rows.add(catadores).draw();
 	}
 });
 $('.anio').bind('change', function(){
@@ -144,6 +187,28 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	$('#productor').val(data[1]);
 	$('#modalProveedores').modal('hide');
 });
+$('#tablaCatadores').on('dblclick','tr',function(){
+	let data = tablaCatSelec.row( this ).data(), row = [];
+	//console.log(data);
+	if(tablaCat.rows().count() > 0){
+		tablaCat.rows().data().each(function (value){
+			console.log(value);
+			if(value['idcatador'] == data[0]){
+				alert('El Catador ya fue agregado al detalle');
+			}else{
+				row = [{'idcatador': data[0], 'documento': data[1], 'nombres': data[2]+' '+data[2]}];
+				tablaCat.rows.add(row).draw();
+			}
+		});
+	}else{
+		row = [{'idcatador': data[0], 'documento': data[1], 'nombres': data[2]+' '+data[2]}];
+		tablaCat.rows.add(row).draw();
+	}
+	$('#modalCatadores').modal('hide');
+});
+$('#tablaSeleccionCatadores').on('click','a', function(){
+	if($(this).hasClass('remover')){ tablaCat.row($(this).parents("tr")).remove().draw(); }
+});
 
 $('#modalProveedores').on('show.bs.modal',function(e){});
 /*
@@ -172,7 +237,7 @@ $('.form').on('submit',function(e){
 		dataType: 'JSON',
 		beforeSend: function () { 
 			$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-			//$(boton).addClass('disabled');
+			$(boton).addClass('disabled');
 		},
 		success: function (data) {
 			console.log(data);
@@ -183,4 +248,32 @@ $('.form').on('submit',function(e){
 			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 		}
 	});
+});
+$('#guardaCatadores').bind('click', function(){
+	let boton = this, json = [], i = 0, id = $('#idcertificado').val();
+	
+	if(tablaCat.rows().count() > 0){
+		tablaCat.rows().data().each(function(value){
+			json = [{ 'idcertificado': id, 'idcatador': value['idcatador'], 'activo': 1 }]
+		});
+		
+		$.ajax({
+			data: JSON.stringify(json),
+			url: base_url + 'certificaciones/parametros/catadores',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function () { 
+				$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				//$(boton).addClass('disabled');
+			},
+			success: function (data) {
+				console.log(data);
+				$(boton).html('Guardar Catador');
+				$(boton).removeClass('disabled');
+				$('html, body').animate({ scrollTop: 0 }, 'fast');
+				$('.resp').html(data.message);
+				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+			}
+		});
+	}
 });

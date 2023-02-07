@@ -11,6 +11,7 @@ class Main extends CI_Controller
 		//$this->load->library('User');
 		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
 		else header('location:' .base_url());
+		//$this->output->enable_profiler(TRUE);
 	}
 
     public function index(){}
@@ -30,7 +31,18 @@ class Main extends CI_Controller
 			'table' => 'proveedor',
 			'primary_key' => 'idproveedor',
 			'columns' => array('idproveedor', 'nombre'),
-			'where' => array()
+			'where' => array('activo' => 1),
+		));
+
+		$this->datatables_server_side->process();
+	}
+	public function listaCatadores()
+	{
+		$this->load->library('datatables_server_side', array(
+			'table' => 'catador',
+			'primary_key' => 'idcatador',
+			'columns' => array('idcatador','numero_documento','apellidos','nombres'),
+			'where' => array('activo' => 1),
 		));
 
 		$this->datatables_server_side->process();
@@ -111,6 +123,7 @@ class Main extends CI_Controller
 		$quaker = $this->Certificaciones_model->quaker();
 		$proveedor = $this->Certificaciones_model->traeDatosProv(['idcertificado' => $id]);
 		$detalle = $this->Certificaciones_model->certificadoDetalle(['idcertificado' => $id, 'activo' => 1]);
+		$catadores = $this->Certificaciones_model->traeCatadores(['idcertificado' => $id, 'cc.activo' => 1]);
 				
 		$data = array(
 			'proveedor' => $proveedor,
@@ -120,6 +133,7 @@ class Main extends CI_Controller
 			'quaker' => $quaker,
 			'idcertificado' => $id,
 			'detalle' => $detalle,
+			'catadores' => $catadores,
 		);
 		
 		$this->load->view('main',$data);
@@ -364,6 +378,23 @@ class Main extends CI_Controller
 		$data = array(
 			'message' => $resp,
 		);
+		echo json_encode($data);
+	}
+	public function catadores()
+	{
+		$this->load->model('Certificaciones_model');
+		$resp = 'No se pudo guardar';
+		
+		$json = file_get_contents('php://input');
+		// Converts it into a PHP object
+		$data = json_decode($json);
+		
+		if($this->Certificaciones_model->guardaCatadores($data)){
+			$resp = 'Guardado exitosamente';
+		}
+		
+		$data = array( 'message' => $resp );
+		
 		echo json_encode($data);
 	}
 	public function anular()
