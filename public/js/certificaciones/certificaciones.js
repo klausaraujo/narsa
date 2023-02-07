@@ -192,7 +192,7 @@ $('#tablaCatadores').on('dblclick','tr',function(){
 	//console.log(data);
 	if(tablaCat.rows().count() > 0){
 		tablaCat.rows().data().each(function (value){
-			console.log(value);
+			//console.log(value);
 			if(value['idcatador'] == data[0]){
 				alert('El Catador ya fue agregado al detalle');
 			}else{
@@ -256,7 +256,6 @@ $('#guardaCatadores').bind('click', function(){
 		tablaCat.rows().data().each(function(value){
 			json = [{ 'idcertificado': id, 'idcatador': value['idcatador'], 'activo': 1 }]
 		});
-		
 		$.ajax({
 			data: JSON.stringify(json),
 			url: base_url + 'certificaciones/parametros/catadores',
@@ -264,7 +263,7 @@ $('#guardaCatadores').bind('click', function(){
 			dataType: 'JSON',
 			beforeSend: function () { 
 				$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				//$(boton).addClass('disabled');
+				$(boton).addClass('disabled');
 			},
 			success: function (data) {
 				console.log(data);
@@ -276,4 +275,49 @@ $('#guardaCatadores').bind('click', function(){
 			}
 		});
 	}
+});
+
+$('#malla_gen').on('change', function(){
+	$('#malla16').val(''), $('#malla15').val(''), $('#malla14').val(''), $('#mallabase').val(''), $('#grtotmalla').val('');
+	$('#mallaporc').val(''), $('#malla15porc').val(''), $('#malla14porc').val(''), $('#mallabaseporc').val(''), $('#portotmalla').val('');
+});
+
+$('.blur').on('blur',function(){
+	let id = $(this).attr('id');
+	if(id === 'pesocafe' || id === 'pesosub' || id === 'pesodesc' || id === 'pesocasc'){
+		let totFisico = 0, porcFisico = 0, porc = 0;
+		if($('#pesocafe').val() !== ''){ totFisico += parseFloat($('#pesocafe').val()); }else{ $('#cafeporc').val(''); }
+		if($('#pesosub').val() !== ''){ totFisico += parseFloat($('#pesosub').val()); }else{ $('#subporc').val(''); }
+		if($('#pesodesc').val() !== ''){ totFisico += parseFloat($('#pesodesc').val()); }else{ $('#descporc').val(''); }
+		if($('#pesocasc').val() !== ''){ totFisico += parseFloat($('#pesocasc').val()); }else{ $('#cascporc').val(''); }
+		if($('#pesocafe').val() !== ''){ porc = (parseFloat($('#pesocafe').val())/totFisico)*100; $('#cafeporc').val(formatMoneda(porc)); porcFisico += porc; }
+		if($('#pesosub').val() !== ''){ porc = (parseFloat($('#pesosub').val())/totFisico)*100; $('#subporc').val(formatMoneda(porc)); porcFisico += porc; }
+		if($('#pesodesc').val() !== ''){ porc = (parseFloat($('#pesodesc').val())/totFisico)*100; $('#descporc').val(formatMoneda(porc)); porcFisico += porc; }
+		if($('#pesocasc').val() !== ''){ porc = (parseFloat($('#pesocasc').val())/totFisico)*100; $('#cascporc').val(formatMoneda(porc)); porcFisico += porc; }
+		
+		$('#pesototal').val(formatMoneda(totFisico));
+		$('#porctotal').val(formatMoneda(porcFisico));
+	}
+	/*if(id === 'malla16' || id === 'malla15' || id === 'malla14' || id === 'mallabase'){
+		let totmalla = parseFloat($('#malla_gen').val()), valor = 0, porc = 0;
+		
+		if($('#malla16').val() !== ''){ 
+			if(parseFloat($('#malla16').val()) > totmalla){
+				alert('No puede ser mayor al valor de la malla');
+			}else{
+				
+			}
+		}
+		/*if($('#pesosub').val() !== ''){ totFisico += parseFloat($('#pesosub').val()); }
+		if($('#pesodesc').val() !== ''){ totFisico += parseFloat($('#pesodesc').val()); }
+		if($('#pesocasc').val() !== ''){ totFisico += parseFloat($('#pesocasc').val()); }
+		if($('#malla16').val() !== ''){ porc = (parseFloat($('#malla16').val())/totFisico)*100; $('#mallaporc').val(formatMoneda(porc)); porcFisico += porc; }
+		if($('#pesosub').val() !== ''){ porc = (parseFloat($('#pesosub').val())/totFisico)*100; $('#subporc').val(formatMoneda(porc)); porcFisico += porc; }
+		if($('#pesodesc').val() !== ''){ porc = (parseFloat($('#pesodesc').val())/totFisico)*100; $('#descporc').val(formatMoneda(porc)); porcFisico += porc; }
+		if($('#pesocasc').val() !== ''){ porc = (parseFloat($('#pesocasc').val())/totFisico)*100; $('#cascporc').val(formatMoneda(porc)); porcFisico += porc; }
+		
+		$('#pesototal').val(formatMoneda(totFisico));
+		$('#porctotal').val(formatMoneda(porcFisico));*/
+		//$('#grtotmalla').val(formatMoneda(totmalla));
+	//}
 });

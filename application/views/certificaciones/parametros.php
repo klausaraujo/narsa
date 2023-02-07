@@ -55,12 +55,12 @@
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Caf&eacute; Exportable</p>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="pesocafe" id="pesocafe" 
+																<input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="pesocafe" id="pesocafe" 
 																	value="<?=!empty($detalle)? $detalle->analisis_cafe_exportable_peso : ''?>" />
 															</div>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="cafeporc" id="cafeporc"
-																	value="<?=!empty($detalle)? $detalle->analisis_cafe_exportable_por : ''?>" />
+																<input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="cafeporc" id="cafeporc"
+																	value="<?=!empty($detalle)? $detalle->analisis_cafe_exportable_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
@@ -68,12 +68,12 @@
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Sub Producto</p>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="pesosub" id="pesosub"
+																<input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="pesosub" id="pesosub"
 																	value="<?=!empty($detalle)? $detalle->analisis_sub_procuto_peso : ''?>" />
 															</div>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="subporc" id="subporc"
-																	value="<?=!empty($detalle)? $detalle->analisis_sub_procuto_por : ''?>" />
+																<input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="subporc" id="subporc"
+																	value="<?=!empty($detalle)? $detalle->analisis_sub_procuto_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
@@ -81,12 +81,12 @@
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Descarte</p>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="pesodesc" id="pesodesc" 
+																<input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="pesodesc" id="pesodesc" 
 																	value="<?=!empty($detalle)? $detalle->analisis_descarte_peso : ''?>" />
 															</div>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="descporc" id="descporc"
-																	value="<?=!empty($detalle)? $detalle->analisis_descarte_por : ''?>" />
+																<input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="descporc" id="descporc"
+																	value="<?=!empty($detalle)? $detalle->analisis_descarte_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
@@ -94,12 +94,12 @@
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">C&aacute;scara</p>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="pesocasc" id="pesocasc"
+																<input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="pesocasc" id="pesocasc"
 																	value="<?=!empty($detalle)? $detalle->analisis_cascara_peso : ''?>" />
 															</div>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 moneda" type="text" name="cascporc" id="cascporc"
-																	value="<?=!empty($detalle)? $detalle->analisis_cascara_por : ''?>" />
+																<input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="cascporc" id="cascporc"
+																	value="<?=!empty($detalle)? $detalle->analisis_cascara_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
@@ -107,10 +107,10 @@
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Total</p>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2" type="text" name="pesototal" id="pesototal" readonly />
+																<input class="form-control form-control-sm mx-2 text-right" type="text" name="pesototal" id="pesototal" readonly />
 															</div>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2" type="text" name="porctotal" id="porctotal" readonly />
+																<input class="form-control form-control-sm mx-2 text-right" type="text" name="porctotal" id="porctotal" readonly />
 															</div>
 														</div>
 													</li>
@@ -120,61 +120,66 @@
 												<div class="card-header text-center">
 													<div class="row"><h5 class="car-title col-12 font-weight-bold">Granulometr&iacute;a</h5></div>
 													<div class="row mt-2">
-														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted">Malla</h6></div>
-														<div class="col-4"><input type="text" class="form-control form-control-sm moneda" id="grm" name="grm" /></div>
-														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted">%</h6></div>
+														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted align-self-center mb-0">Malla</h6></div>
+														<div class="col-4">
+															<select class="form-control form-control-sm align-self-center" id="malla_gen" name="malla_gen">
+																<option value="350">350</option>
+																<option value="500">500</option>
+															</select>
+														</div>
+														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted align-self-center mb-0">%</h6></div>
 													</div>
 												</div>
 												<ul class="list-group list-group">
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">16 al 20</p>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="malla16" id="malla16"
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="malla16" id="malla16"
 																value="<?=!empty($detalle)? $detalle->granumelometria_malla_1620_nro : ''?>" />
 															</div>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="mallaporc" id="mallaporc"
-																value="<?=!empty($detalle)? $detalle->granumelometria_malla_1620_por : ''?>" />
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="mallaporc" id="mallaporc"
+																value="<?=!empty($detalle)? $detalle->granumelometria_malla_1620_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">15</p>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="malla15" id="malla15"
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="malla15" id="malla15"
 																value="<?=!empty($detalle)? $detalle->granumelometria_malla_15_nro : ''?>" />
 															</div>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="malla15porc" id="malla15porc"
-																value="<?=!empty($detalle)? $detalle->granumelometria_malla_15_por : ''?>" />											
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="malla15porc" id="malla15porc"
+																value="<?=!empty($detalle)? $detalle->granumelometria_malla_15_por : ''?>" readonly />											
 															</div>
 														</div>
 													</li>
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">14</p>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="malla14" id="malla14"
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="malla14" id="malla14"
 																value="<?=!empty($detalle)? $detalle->granumelometria_malla_14_nro : ''?>" />
 															</div>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="malla14porc" id="malla14porc"
-																value="<?=!empty($detalle)? $detalle->granumelometria_malla_14_por : ''?>" />
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="malla14porc" id="malla14porc"
+																value="<?=!empty($detalle)? $detalle->granumelometria_malla_14_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Base</p>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="mallabase" id="mallabase"
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="mallabase" id="mallabase"
 																value="<?=!empty($detalle)? $detalle->granumelometria_malla_base_nro : ''?>" />
 															</div>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="mallabaseporc" id="mallabaseporc"
-																value="<?=!empty($detalle)? $detalle->granumelometria_malla_base_por : ''?>" />
+															<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="mallabaseporc" id="mallabaseporc"
+																value="<?=!empty($detalle)? $detalle->granumelometria_malla_base_por : ''?>" readonly />
 															</div>
 														</div>
 													</li>
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Total</p>
-															<div class="col-4"><input class="form-control form-control-sm mx-2" type="text" name="grtotmalla" id="grtotmalla" readonly /></div>
-															<div class="col-4"><input class="form-control form-control-sm mx-2" type="text" name="portotmalla" id="portotmalla" readonly /></div>
+															<div class="col-4"><input class="form-control form-control-sm mx-2 text-right" type="text" name="grtotmalla" id="grtotmalla" readonly /></div>
+															<div class="col-4"><input class="form-control form-control-sm mx-2 text-right" type="text" name="portotmalla" id="portotmalla" readonly /></div>
 														</div>
 													</li>
 												</ul>
