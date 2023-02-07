@@ -22,9 +22,10 @@ DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS articulo;
 DROP TABLE IF EXISTS usuarios_sucursal;
 DROP TABLE IF EXISTS usuarios;
-DROP TABLE IF EXISTS tipo_documento;
 DROP TABLE IF EXISTS perfil;
 DROP TABLE IF EXISTS ubigeo;
+DROP TABLE IF EXISTS certificado_catador;
+DROP TABLE IF EXISTS catador;
 DROP TABLE IF EXISTS certificado_detalle;
 DROP TABLE IF EXISTS quaker;
 DROP TABLE IF EXISTS apariencia;
@@ -33,6 +34,7 @@ DROP TABLE IF EXISTS olor;
 DROP TABLE IF EXISTS certificado;
 DROP TABLE IF EXISTS sucursal;
 DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS tipo_documento;
 DROP TABLE IF EXISTS proceso;
 DROP TABLE IF EXISTS variedad;
 DROP VIEW IF EXISTS lista_movimientos_proveedor;
@@ -2606,6 +2608,7 @@ iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idcertificado smallint(4) NOT NULL,
 idcolor smallint(4) NOT NULL,
 idolor smallint(4) NOT NULL,
+granumelometria_malla_general decimal (20,2) default 0,
 granumelometria_malla_1620_nro decimal (20,2) default 0,
 granumelometria_malla_1620_por decimal (20,2) default 0,
 granumelometria_malla_15_nro decimal (20,2) default 0,
@@ -2690,9 +2693,25 @@ FOREIGN KEY (idolor) REFERENCES olor (idolor) ON DELETE CASCADE ON UPDATE CASCAD
 FOREIGN KEY (idapariencia) REFERENCES apariencia (idapariencia) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idquaker) REFERENCES quaker (idquaker) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+create table catador(
+idcatador smallint(4) NOT NULL AUTO_INCREMENT,
+idtipodocumento smallint(4) NOT NULL,
+numero_documento varchar(10) NOT NULL,
+apellidos varchar(50) NOT NULL,
+nombres varchar(50) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idcatador),
+FOREIGN KEY (idtipodocumento) REFERENCES tipo_documento (idtipodocumento) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+insert into catador (idcatador,idtipodocumento,numero_documento,apellidos,nombres) values (1,1,'42545573','ARAUJO CUADROS','KLAUS JOSEPH');
 
-
-
+create table certificado_catador(
+idcertificadocatador smallint(4) NOT NULL AUTO_INCREMENT,
+idcertificado smallint(4) NOT NULL,
+idcatador smallint(4) NOT NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idcertificadocatador),
+FOREIGN KEY (idcertificado) REFERENCES certificado (idcertificado) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idcatador) REFERENCES catador (idcatador) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 
