@@ -215,4 +215,17 @@ class Certificaciones_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function certificadopdf($where)
+	{
+		$this->db->select('c.*,p.nombre,pr.proceso,v.variedad,s.sucursal');
+        $this->db->from('certificado c');
+		$this->db->join('proveedor p','p.idproveedor=c.idproveedor');
+		$this->db->join('proceso pr','pr.idproceso=c.idproceso');
+		$this->db->join('variedad v','v.idvariedad=c.idvariedad');
+		$this->db->join('sucursal s','s.idsucursal=c.idsucursal');
+		$this->db->where($where);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
 }

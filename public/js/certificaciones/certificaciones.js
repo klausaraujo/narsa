@@ -256,25 +256,25 @@ $('#guardaCatadores').bind('click', function(){
 		tablaCat.rows().data().each(function(value){
 			json = [{ 'idcertificado': id, 'idcatador': value['idcatador'], 'activo': 1 }]
 		});
-		$.ajax({
-			data: JSON.stringify(json),
-			url: base_url + 'certificaciones/parametros/catadores',
-			method: 'POST',
-			dataType: 'JSON',
-			beforeSend: function () { 
-				$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				$(boton).addClass('disabled');
-			},
-			success: function (data) {
-				console.log(data);
-				$(boton).html('Guardar Catador');
-				$(boton).removeClass('disabled');
-				$('html, body').animate({ scrollTop: 0 }, 'fast');
-				$('.resp').html(data.message);
-				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
-			}
-		});
 	}
+	$.ajax({
+		data: JSON.stringify(json),
+		url: base_url + 'certificaciones/parametros/catadores',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () { 
+			$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+			$(boton).addClass('disabled');
+		},
+		success: function (data) {
+			//console.log(data);
+			$(boton).html('Guardar Catador');
+			$(boton).removeClass('disabled');
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			$('.resp').html(data.message);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+		}
+	});
 });
 
 $('#malla_gen').on('change', function(){

@@ -149,6 +149,7 @@ class Main extends CI_Controller
 				'idcertificado' => $id,
 				'idcolor' => $this->input->post('color'),
 				'idolor' => $this->input->post('olor'),
+				'granumelometria_malla_general' => $this->input->post('malla_gen'),
 				'granumelometria_malla_1620_nro' => $this->input->post('malla16'),
 				'granumelometria_malla_1620_por' => $this->input->post('mallaporc'),
 				'granumelometria_malla_15_nro' => $this->input->post('malla15'),
@@ -180,6 +181,7 @@ class Main extends CI_Controller
 			$data = array(
 				'idcolor' => $this->input->post('color'),
 				'idolor' => $this->input->post('olor'),
+				'granumelometria_malla_general' => $this->input->post('malla_gen'),
 				'granumelometria_malla_1620_nro' => $this->input->post('malla16'),
 				'granumelometria_malla_1620_por' => $this->input->post('mallaporc'),
 				'granumelometria_malla_15_nro' => $this->input->post('malla15'),
@@ -396,6 +398,28 @@ class Main extends CI_Controller
 		$data = array( 'message' => $resp );
 		
 		echo json_encode($data);
+	}
+	public function comprobante()
+	{
+		$this->load->model('Certificaciones_model');
+		$id = $this->input->get('id'); $versionphp = 7;
+		$detalle = $this->Certificaciones_model->certificadoDetalle(['idcertificado' => $id, 'activo' => 1]);
+		$catadores = $this->Certificaciones_model->traeCatadores(['idcertificado' => $id, 'cc.activo' => 1]);
+		$certificado = $this->Certificaciones_model->certificadopdf(['idcertificado' => $id, 'c.activo' => 1]);
+		
+		$data = array(
+			'certificado' => $certificado,
+			'detalle' => $detalle,
+			'catadores' => $catadores,
+		);
+		$html = $this->load->view('certificaciones/comprobante',$data, true);
+		if(floatval(phpversion()) < $versionphp){
+			$this->load->library('dom');
+			$this->dom->generate('portrait', 'A4', $html, 'Comprobante');
+		}else{
+			$this->load->library('dom1');
+			$this->dom1->generate('portrait', 'A4', $html, 'Comprobante');
+		}
 	}
 	public function anular()
 	{
