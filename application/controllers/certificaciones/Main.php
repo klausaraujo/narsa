@@ -343,6 +343,7 @@ class Main extends CI_Controller
 				'atributos_dulzura_caracteristicas' => $this->input->post('dulcaract'),
 				'atributos_apreciacion_puntos' => $this->input->post('apreptos'),
 				'atributos_apreciacion_caracteristicas' => $this->input->post('aprecaract'),
+				'atributos_defectos_sustraer' => $this->input->post('defsustraer'),
 				'activo' => 1,
 			);
 			
@@ -371,6 +372,7 @@ class Main extends CI_Controller
 				'atributos_dulzura_caracteristicas' => $this->input->post('dulcaract'),
 				'atributos_apreciacion_puntos' => $this->input->post('apreptos'),
 				'atributos_apreciacion_caracteristicas' => $this->input->post('aprecaract'),
+				'atributos_defectos_sustraer' => $this->input->post('defsustraer'),
 			);
 			
 			if($this->Certificaciones_model->actualizaParametros(['idcertificado' => $id],$data)){
@@ -403,7 +405,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Certificaciones_model');
 		$id = $this->input->get('id'); $versionphp = 7;
-		$detalle = $this->Certificaciones_model->certificadoDetalle(['idcertificado' => $id, 'activo' => 1]);
+		$detalle = $this->Certificaciones_model->detallePdf(['idcertificado' => $id, 'cd.activo' => 1]);
 		$catadores = $this->Certificaciones_model->traeCatadores(['idcertificado' => $id, 'cc.activo' => 1]);
 		$certificado = $this->Certificaciones_model->certificadopdf(['idcertificado' => $id, 'c.activo' => 1]);
 		

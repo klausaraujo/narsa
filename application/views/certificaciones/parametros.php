@@ -550,6 +550,13 @@
 																	<div class="col-md-6 col-lg-4"><input class="form-control form-control-sm mx-2" type="text" id="ptotal" readonly /></div>
 																</div>
 															</li>
+															<li class="list-group-item">
+																<div class="row">
+																	<p class="col-4 align-self-center mb-0">Defectos a Sustraer</p>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="defsustraer" id="defsustraer"
+																		value="<?=!empty($detalle)? $detalle->atributos_defectos_sustraer : '';?>" /></div>
+																</div>
+															</li>
 															<li class="list-group-item py-0">
 																<div class="row card-header">
 																	<p class="col-md-6 col-lg-4 align-self-center mb-0">Puntaje Final SCA</p>
