@@ -122,7 +122,7 @@
 													<div class="row mt-2">
 														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted align-self-center mb-0">Malla</h6></div>
 														<div class="col-4">
-															<select class="form-control form-control-sm align-self-center" id="malla_gen" name="malla_gen">
+															<select class="form-control form-control-sm text-center" id="malla_gen" name="malla_gen">
 																<option value="350">350</option>
 																<option value="500">500</option>
 															</select>
@@ -130,7 +130,7 @@
 														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted align-self-center mb-0">%</h6></div>
 													</div>
 												</div>
-												<ul class="list-group list-group">
+												<ul class="list-group list-group" id="granu">
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">16 al 20</p>
@@ -457,7 +457,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Fragancia/Aroma</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="fragptos" id="fragptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="fragptos" id="fragptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_fragancia_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="fragcaract" id="fragcaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_fragancia_caracteristicas : '';?>" /></div>
@@ -466,7 +466,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Sabor</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="sabptos" id="sabptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="sabptos" id="sabptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_sabor_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="sabcaract" id="sabcaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_sabor_caracteristicas : '';?>" /></div>
@@ -475,7 +475,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Sabor Residual</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="sabreptos" id="sabreptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="sabreptos" id="sabreptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_residual_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="sabrecaract" id="sabrecaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_residual_caracteristicas : '';?>" /></div>
@@ -484,7 +484,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Acidez</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="aciptos" id="aciptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="aciptos" id="aciptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_acidez_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="acicaract" id="acicaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_acidez_caracteristicas : '';?>" /></div>
@@ -493,7 +493,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Cuerpo</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="cuerptos" id="cuerptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="cuerptos" id="cuerptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_cuerpo_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="cuerpocaract" id="cuerpocaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_cuerpo_caracteristicas : '';?>" /></div>
@@ -502,7 +502,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Uniformidad</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="uniptos" id="uniptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="uniptos" id="uniptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_uniformidad_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="unicaract" id="unicaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_uniformidad_caracteristicas : '';?>" /></div>
@@ -511,7 +511,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Balance</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="balptos" id="balptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="balptos" id="balptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_balance_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="balcaract" id="balcaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_balance_caracteristicas : '';?>" /></div>
@@ -520,7 +520,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Taza Limpia</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="tazptos" id="tazptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="tazptos" id="tazptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_taza_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="tazcaract" id="tazcaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_taza_caracteristicas : '';?>" /></div>
@@ -529,7 +529,7 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Dulzura</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="dulptos" id="dulptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="dulptos" id="dulptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_dulzura_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="dulcaract" id="dulcaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_dulzura_caracteristicas : '';?>" /></div>
@@ -538,29 +538,41 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Apreciaci&oacute;n General</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="apreptos" id="apreptos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="apreptos" id="apreptos"
 																		value="<?=!empty($detalle)? $detalle->atributos_apreciacion_puntos : '';?>" /></div>
 																	<div class="col-4"><input class="form-control form-control-sm mx-2 mayusc" type="text" name="aprecaract" id="aprecaract"
 																		value="<?=!empty($detalle)? $detalle->atributos_apreciacion_caracteristicas : '';?>" /></div>
 																</div>
 															</li>
+															<?
+																$total = 0; $totalmenos = 0;
+																if(!empty($detalle)){
+																	$total += floatval($detalle->atributos_fragancia_puntos)+floatval($detalle->atributos_sabor_puntos)+floatval($detalle->atributos_residual_puntos)+floatval($detalle->atributos_acidez_puntos);
+																	$total += floatval($detalle->atributos_cuerpo_puntos)+floatval($detalle->atributos_uniformidad_puntos)+floatval($detalle->atributos_balance_puntos)+floatval($detalle->atributos_taza_puntos);
+																	$total += floatval($detalle->atributos_dulzura_puntos)+floatval($detalle->atributos_apreciacion_puntos);
+																	$totalmenos = $total - floatval($detalle->atributos_defectos_sustraer);
+																}
+															
+															?>
 															<li class="list-group-item py-0">
 																<div class="row card-header">
-																	<p class="col-md-6 col-lg-4 align-self-center mb-0">Puntaje Total</p>
-																	<div class="col-md-6 col-lg-4"><input class="form-control form-control-sm mx-2" type="text" id="ptotal" readonly /></div>
+																	<p class="col-4 align-self-center mb-0">Puntaje Total</p>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 text-right mr-auto" type="text" 
+																		id="ptotal" value="<?=!empty($detalle)?number_format($total,2,'.',','):''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Defectos a Sustraer</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda" type="text" name="defsustraer" id="defsustraer"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda blur text-right" type="text" name="defsustraer" id="defsustraer"
 																		value="<?=!empty($detalle)? $detalle->atributos_defectos_sustraer : '';?>" /></div>
 																</div>
 															</li>
 															<li class="list-group-item py-0">
 																<div class="row card-header">
-																	<p class="col-md-6 col-lg-4 align-self-center mb-0">Puntaje Final SCA</p>
-																	<div class="col-md-6 col-lg-4"><input class="form-control form-control-sm mx-2" type="text" id="pfinal" readonly /></div>
+																	<p class="col-4 align-self-center mb-0">Puntaje Final SCA</p>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 text-right mr-auto" type="text" 
+																			id="pfinal" value="<?=!empty($detalle)?number_format($totalmenos,2,'.',','):''?>" readonly /></div>
 																</div>
 															</li>
 														</ul>
