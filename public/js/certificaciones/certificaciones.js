@@ -188,18 +188,20 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	$('#modalProveedores').modal('hide');
 });
 $('#tablaCatadores').on('dblclick','tr',function(){
-	let data = tablaCatSelec.row( this ).data(), row = [];
+	let data = tablaCatSelec.row( this ).data(), row = [], esta = false;
 	//console.log(data);
 	if(tablaCat.rows().count() > 0){
 		tablaCat.rows().data().each(function (value){
 			//console.log(value);
-			if(value['idcatador'] == data[0]){
+			if(value['idcatador'] === data[0]){
 				alert('El Catador ya fue agregado al detalle');
-			}else{
-				row = [{'idcatador': data[0], 'documento': data[1], 'nombres': data[2]+' '+data[2]}];
-				tablaCat.rows.add(row).draw();
+				esta = true;
 			}
 		});
+		if(!esta){
+			row = [{'idcatador': data[0], 'documento': data[1], 'nombres': data[2]+' '+data[2]}];
+			tablaCat.rows.add(row).draw();
+		}
 	}else{
 		row = [{'idcatador': data[0], 'documento': data[1], 'nombres': data[2]+' '+data[2]}];
 		tablaCat.rows.add(row).draw();
@@ -254,7 +256,8 @@ $('#guardaCatadores').bind('click', function(){
 	
 	if(tablaCat.rows().count() > 0){
 		tablaCat.rows().data().each(function(value){
-			json = [{ 'idcertificado': id, 'idcatador': value['idcatador'], 'activo': 1 }]
+			json[i] = {'idcertificado': id, 'idcatador': value['idcatador'], 'activo': 1};
+			i++;
 		});
 	}
 	$.ajax({
@@ -264,15 +267,15 @@ $('#guardaCatadores').bind('click', function(){
 		dataType: 'JSON',
 		beforeSend: function () { 
 			$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-			$(boton).addClass('disabled');
+			//$(boton).addClass('disabled');
 		},
 		success: function (data) {
-			//console.log(data);
-			$(boton).html('Guardar Catador');
+			console.log(data);
+			/*$(boton).html('Guardar Catador');
 			$(boton).removeClass('disabled');
 			$('html, body').animate({ scrollTop: 0 }, 'fast');
 			$('.resp').html(data.message);
-			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);*/
 		}
 	});
 });

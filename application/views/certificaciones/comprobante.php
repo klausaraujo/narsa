@@ -258,17 +258,18 @@
 				</tr>
 			</table>
 			<?
-				$i = 0;
-				if(!empty($catadores)){
-					for($i = 0;$i < count($catadores);$i++){
-			?>
-			<table align="left" width="5cm" style="margin-top:1cm;margin-left:2cm">
-				<tr><td style="border-top:1px solid #4B4B4B;font-size:10px;text-align:center"><?=$catadores[$i]->nombres?></td></tr>
-			</table>
+				$i = 0; $cta = count($catadores); $cm = ($cta * 4) + ($cta*0.7);
+				if(!empty($catadores)){?>
+			<table align="center" width="<?=$cm?>cm" style="margin-top:2cm">
+				<tr>
 			<?
-					}
-				}
+					for($i = 0;$i < $cta;$i++){
 			?>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:3cm"><?=$catadores[$i]->nombres?></td><td style="width:0.7cm"></td>
+			<?		}	?>
+				</tr>
+			</table>
+			<?	}	?>
         </main>
     </body>
 </html>
