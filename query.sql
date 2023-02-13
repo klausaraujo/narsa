@@ -2703,7 +2703,9 @@ activo char(1) DEFAULT '1',
 PRIMARY KEY (idcatador),
 FOREIGN KEY (idtipodocumento) REFERENCES tipo_documento (idtipodocumento) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-insert into catador (idcatador,idtipodocumento,numero_documento,apellidos,nombres) values (1,1,'42545573','ARAUJO CUADROS','KLAUS JOSEPH');
+insert into catador (idcatador,idtipodocumento,numero_documento,apellidos,nombres) values (1,1,'04319898','AREVALO TELLO','JULIO ABEL');
+insert into catador (idcatador,idtipodocumento,numero_documento,apellidos,nombres) values (2,1,'44804102','VELASQUE DAMIANO','RICHARD');
+insert into catador (idcatador,idtipodocumento,numero_documento,apellidos,nombres) values (3,1,'70322894','CUYA CORONEL','MEGUMI HORTENCIA');
 
 create table certificado_catador(
 idcertificadocatador smallint(4) NOT NULL AUTO_INCREMENT,
