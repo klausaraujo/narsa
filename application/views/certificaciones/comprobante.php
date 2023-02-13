@@ -96,29 +96,33 @@
 					<th colspan="2" bgcolor="#DDDDDD">COLOR</th><th colspan="2" bgcolor="#DDDDDD">OLOR</th>
 				</tr>
 				<tr>
-					<td><b>MALLA</b></td><td><b><?=!empty($detalle)?$detalle->granumelometria_malla_general:'';?></b></td><td><b>%</b></td>
+					<td><b>MALLA</b></td><td><b><?=!empty($detalle)?number_format($detalle->granumelometria_malla_general,2,'.',','):'';?></b></td><td><b>%</b></td>
 					<td colspan="2"><?=!empty($detalle)?$detalle->color:'&nbsp;';?></td><td colspan="2"><?=!empty($detalle)?$detalle->olor:'&nbsp;';?></td>
 				</tr>
 				<tr>
 					<td>16 al 20</td>
-					<td><?=!empty($detalle)?$detalle->granumelometria_malla_1620_nro:'';?></td><td><?=!empty($detalle)?$detalle->granumelometria_malla_1620_por:'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_1620_nro,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_1620_por,2,'.',','):'';?></td>
 					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td>15</td>
-					<td><?=!empty($detalle)?$detalle->granumelometria_malla_15_nro:'';?></td><td><?=!empty($detalle)?$detalle->granumelometria_malla_15_por:'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_15_nro,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_15_por,2,'.',','):'';?></td>
 					<th bgcolor="#DDDDDD" colspan="4">AN&Aacute;LISIS F&Iacute;SICO</th>
 				</tr>
 				<tr>
 					<td>14</td>
-					<td><?=!empty($detalle)?$detalle->granumelometria_malla_14_nro:'';?></td><td><?=!empty($detalle)?$detalle->granumelometria_malla_14_por:'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_14_nro,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_14_por,2,'.',','):'';?></td>
 					<td colspan="2"><b>DETALLE</b></td><td><b>PESO</b></td><td><b>%</b></td>
 				</tr>
 				<tr>
 					<td>BASE</td>
-					<td><?=!empty($detalle)?$detalle->granumelometria_malla_base_nro:'';?></td><td><?=!empty($detalle)?$detalle->granumelometria_malla_base_por:'';?></td>
-					<td style="text-align:left" colspan="2">&nbsp;Caf&eacute; Exportable</td><td><?=!empty($detalle)?$detalle->analisis_cafe_exportable_peso:'0.00';?></td>
-					<td><?=!empty($detalle)?$detalle->analisis_cafe_exportable_por:'0.00';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_base_nro,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_base_por,2,'.',','):'';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Caf&eacute; Exportable</td><td><?=!empty($detalle)?number_format($detalle->analisis_cafe_exportable_peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->analisis_cafe_exportable_por,2,'.',','):'';?></td>
 				</tr>
 				<?
 					$malla = 0; $porcmalla = 0;
@@ -129,18 +133,18 @@
 				?>
 				<tr>
 					<td style="border:0">&nbsp;</td>
-					<td><?=!empty($detalle)?$malla:'0.00';?></td><td><?=!empty($detalle)?$porcmalla:'0.00';?></td>
-					<td style="text-align:left" colspan="2">&nbsp;Sub Producto</td><td><?=!empty($detalle)?$detalle->analisis_sub_procuto_peso:'0.00';?></td>
-					<td><?=!empty($detalle)?$detalle->analisis_sub_procuto_por:'0.00';?></td>
+					<td><?=!empty($detalle)?number_format($malla,2,'.',','):'';?></td><td><?=!empty($detalle)?number_format($porcmalla,2,'.',','):'';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Sub Producto</td><td><?=!empty($detalle)?number_format($detalle->analisis_sub_procuto_peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->analisis_sub_procuto_por,2,'.',','):'';?></td>
 				</tr>
 				<tr>
 					<td colspan="3" rowspan="3" style="border:0"></td><td rowspan="3" style="border:0"></td>
-					<td style="text-align:left" colspan="2">&nbsp;Descarte</td><td><?=!empty($detalle)?$detalle->analisis_descarte_peso:'0.00';?></td>
-					<td><?=!empty($detalle)?$detalle->analisis_descarte_por:'0.00';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Descarte</td><td><?=!empty($detalle)?number_format($detalle->analisis_descarte_peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->analisis_descarte_por,2,'.',','):'';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left" colspan="2">&nbsp;C&aacute;scara</td><td><?=!empty($detalle)?$detalle->analisis_cascara_peso:'0.00';?></td>
-					<td><?=!empty($detalle)?$detalle->analisis_cascara_por:'0.00';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;C&aacute;scara</td><td><?=!empty($detalle)?number_format($detalle->analisis_cascara_peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->analisis_cascara_por,2,'.',','):'';?></td>
 				</tr>
 				<?
 					$peso = 0; $porcpeso = 0;
@@ -149,18 +153,21 @@
 						$porcpeso += floatval($detalle->analisis_cafe_exportable_por)+floatval($detalle->analisis_sub_procuto_por)+floatval($detalle->analisis_descarte_por)+floatval($detalle->analisis_cascara_por);
 					}
 				?>
-				<tr><td colspan="2"><b>TOTAL</b></td><td><?=!empty($detalle)?$peso:'0.00';?></td><td><?=!empty($detalle)?$porcpeso:'0.00';?></td></tr>
+				<tr>
+					<td colspan="2"><b>TOTAL</b></td><td><?=!empty($detalle)?number_format($peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($porcpeso,2,'.',','):'';?></td>
+				</tr>
 				<tr><th colspan="3" bgcolor="#DDDDDD">DATOS TOSTADO</th><td style="border:0"></td><td colspan="4" style="border:0"></td></tr>
 				<tr>
-					<td style="text-align:left" colspan="2">&nbsp;Tiempo de Tostado</td><td><?=!empty($detalle)?$detalle->tostado_tiempo:'0.00';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Tiempo de Tostado</td><td><?=!empty($detalle)?number_format($detalle->tostado_tiempo,2,'.',','):'';?></td>
 					<td rowspan="3" style="border:0"></td><th colspan="4" bgcolor="#DDDDDD">CATEGOR&Iacute;A / TOSTADO</th>
 				</tr>
 				<tr>
-					<td style="text-align:left" colspan="2">&nbsp;Color / agtron</td><td><?=!empty($detalle)?$detalle->tostado_color_agtron:'0.00';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Color / agtron</td><td><?=!empty($detalle)?number_format($detalle->tostado_color_agtron,2,'.',','):'';?></td>
 					<td style="text-align:left" colspan="2">&nbsp;Apariencia</td><td colspan="2"><?=!empty($detalle)?$detalle->apariencia:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left" colspan="2">&nbsp;% P&eacute;rdida</td><td><?=!empty($detalle)?$detalle->tostado_perdida:'0.00';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;% P&eacute;rdida</td><td><?=!empty($detalle)?number_format($detalle->tostado_perdida,2,'.',','):'';?></td>
 					<td style="text-align:left" colspan="2">&nbsp;QUAKER</td><td colspan="2"><?=!empty($detalle)?$detalle->quaker:'&nbsp;';?></td>
 				</tr>
 			</table>
@@ -187,80 +194,108 @@
 				?>
 				<tr>
 					<td rowspan="6" bgcolor="#DDDDDD" width="2cm"><b>DEFECTOS PRIMARIOS</b></td>
-					<td style="text-align:left">&nbsp;NEGRO COMPLETO</td><td><?=!empty($detalle)?$detalle->def_pri_negro_completo_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_pri_negro_completo_equi:'0.00';?></td>
+					<td style="text-align:left">&nbsp;NEGRO COMPLETO</td><td><?=!empty($detalle)?number_format($detalle->def_pri_negro_completo_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_pri_negro_completo_equi,2,'.',','):'';?></td>
 					<td><b>ATRIBUTOS</b></td><td><b>PUNTOS</b></td><td colspan="2"><b>CARACTERISTICAS</b></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;AGRIO COMPLETO</td><td><?=!empty($detalle)?$detalle->def_pri_agrio_completo_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_pri_agrio_completo_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;FRAGANCIA/AROMA</td><td><?=!empty($detalle)?$detalle->atributos_fragancia_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_fragancia_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;AGRIO COMPLETO</td><td><?=!empty($detalle)?number_format($detalle->def_pri_agrio_completo_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_pri_agrio_completo_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;FRAGANCIA/AROMA</td><td><?=!empty($detalle)?number_format($detalle->atributos_fragancia_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_fragancia_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;CEREZA SECA</td><td><?=!empty($detalle)?$detalle->def_pri_cereza_seca_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_pri_cereza_seca_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;SABOR</td><td><?=!empty($detalle)?$detalle->atributos_sabor_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_sabor_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;CEREZA SECA</td><td><?=!empty($detalle)?number_format($detalle->def_pri_cereza_seca_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_pri_cereza_seca_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;SABOR</td><td><?=!empty($detalle)?number_format($detalle->atributos_sabor_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_sabor_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;DA&Ntilde;ADO POR HONGOS</td><td><?=!empty($detalle)?$detalle->def_pri_danado_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_pri_danado_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;SABOR RESIDUAL</td><td><?=!empty($detalle)?$detalle->atributos_residual_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_residual_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;DA&Ntilde;ADO POR HONGOS</td><td><?=!empty($detalle)?number_format($detalle->def_pri_danado_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_pri_danado_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;SABOR RESIDUAL</td><td><?=!empty($detalle)?number_format($detalle->atributos_residual_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_residual_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;DA&Ntilde;O SEVERO DE INSECTOS</td><td><?=!empty($detalle)?$detalle->def_pri_danado_severo_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_pri_danado_severo_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;ACIDEZ</td><td><?=!empty($detalle)?$detalle->atributos_acidez_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_acidez_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;DA&Ntilde;O SEVERO DE INSECTOS</td><td><?=!empty($detalle)?number_format($detalle->def_pri_danado_severo_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_pri_danado_severo_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;ACIDEZ</td><td><?=!empty($detalle)?number_format($detalle->atributos_acidez_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_acidez_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;MATERIA EXTRA&Ntilde;A</td><td><?=!empty($detalle)?$detalle->def_pri_materia_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_pri_materia_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;CUERPO</td><td><?=!empty($detalle)?$detalle->atributos_cuerpo_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_cuerpo_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;MATERIA EXTRA&Ntilde;A</td><td><?=!empty($detalle)?number_format($detalle->def_pri_materia_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_pri_materia_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;CUERPO</td><td><?=!empty($detalle)?number_format($detalle->atributos_cuerpo_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_cuerpo_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
 					<td rowspan="10" bgcolor="#DDDDDD" width="2cm"><b>DEFECTOS SECUNDARIOS</b></td>
-					<td style="text-align:left">&nbsp;NEGRO PARCIAL</td><td><?=!empty($detalle)?$detalle->def_sec_negro_parcial_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_negro_parcial_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;UNIFORMIDAD</td><td><?=!empty($detalle)?$detalle->atributos_uniformidad_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_uniformidad_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;NEGRO PARCIAL</td><td><?=!empty($detalle)?number_format($detalle->def_sec_negro_parcial_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_negro_parcial_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;UNIFORMIDAD</td><td><?=!empty($detalle)?number_format($detalle->atributos_uniformidad_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_uniformidad_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;AGRIO PARCIAL</td><td><?=!empty($detalle)?$detalle->def_sec_agrio_parcial_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_agrio_parcial_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;BALANCE</td><td><?=!empty($detalle)?$detalle->atributos_balance_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_balance_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;AGRIO PARCIAL</td><td><?=!empty($detalle)?number_format($detalle->def_sec_agrio_parcial_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_agrio_parcial_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;BALANCE</td><td><?=!empty($detalle)?number_format($detalle->atributos_balance_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_balance_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;PERGAMINO</td><td><?=!empty($detalle)?$detalle->def_sec_pergamino_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_pergamino_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;TAZA LIMPIA</td><td><?=!empty($detalle)?$detalle->atributos_taza_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_taza_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;PERGAMINO</td><td><?=!empty($detalle)?number_format($detalle->def_sec_pergamino_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_pergamino_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;TAZA LIMPIA</td><td><?=!empty($detalle)?number_format($detalle->atributos_taza_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_taza_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;FLOTADOR</td><td><?=!empty($detalle)?$detalle->def_sec_flotador_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_flotador_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;DULZURA</td><td><?=!empty($detalle)?$detalle->atributos_dulzura_puntos:'0.00';?></td><td colspan="2"><?=!empty($detalle)?$detalle->atributos_dulzura_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;FLOTADOR</td><td><?=!empty($detalle)?number_format($detalle->def_sec_flotador_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_flotador_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;DULZURA</td><td><?=!empty($detalle)?number_format($detalle->atributos_dulzura_puntos,2,'.',','):'';?></td>
+					<td colspan="2"><?=!empty($detalle)?$detalle->atributos_dulzura_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;INMADURO</td><td><?=!empty($detalle)?$detalle->def_sec_inmaduro_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_inmaduro_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;APRECIACI&Oacute;N GENERAL</td><td><?=!empty($detalle)?$detalle->atributos_apreciacion_puntos:'0.00';?></td><td colspan="2" rowspan="2"><?=!empty($detalle)?$detalle->atributos_apreciacion_caracteristicas:'&nbsp;';?></td>
+					<td style="text-align:left">&nbsp;INMADURO</td><td><?=!empty($detalle)?number_format($detalle->def_sec_inmaduro_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_inmaduro_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;APRECIACI&Oacute;N GENERAL</td><td><?=!empty($detalle)?number_format($detalle->atributos_apreciacion_puntos,2,'.',','):'';?></td>
+					<td colspan="2" rowspan="2"><?=!empty($detalle)?$detalle->atributos_apreciacion_caracteristicas:'&nbsp;';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;AVERANADO</td><td><?=!empty($detalle)?$detalle->def_sec_averanado_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_averanado_equi:'0.00';?></td>
-					<td style="text-align:left">&nbsp;PUNTAJE TOTAL</td><td><?=!empty($detalle)?$ptos:'0.00';?></td>
+					<td style="text-align:left">&nbsp;AVERANADO</td><td><?=!empty($detalle)?number_format($detalle->def_sec_averanado_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_averanado_equi,2,'.',','):'';?></td>
+					<td style="text-align:left">&nbsp;PUNTAJE TOTAL</td><td><?=!empty($detalle)?number_format($ptos,2,'.',','):'';?></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;CONCHA</td><td><?=!empty($detalle)?$detalle->def_sec_concha_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_concha_equi:'0.00';?></td>
-					<td bgcolor="#DDDDDD"><b>TOTAL CATADORES</b></td><td bgcolor="#DDDDDD"><?=!empty($catadores)?count($catadores):'0;';?></td><td bgcolor="#DDDDDD">Nº TAZAS</td><td bgcolor="#DDDDDD">x INTENSIDAD</td>
+					<td style="text-align:left">&nbsp;CONCHA</td><td><?=!empty($detalle)?number_format($detalle->def_sec_concha_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_concha_equi,2,'.',','):'';?></td>
+					<td bgcolor="#DDDDDD"><b>TOTAL CATADORES</b></td><td bgcolor="#DDDDDD"><?=!empty($catadores)?count($catadores):'';?></td>
+					<td bgcolor="#DDDDDD">Nº TAZAS</td><td bgcolor="#DDDDDD">x INTENSIDAD</td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;QUEBRADO/CORTADO/MORDIDO</td><td><?=!empty($detalle)?$detalle->def_sec_quebrado_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_quebrado_equi:'0.00';?></td>
-					<td style="text-align:left" bgcolor="#DDDDDD">&nbsp;DEFECTOS A SUSTRAER</td><td><?=!empty($detalle)?$detalle->atributos_defectos_sustraer:'0';?></td><td style="border-bottom:1px solid #4B4B4B"></td><td style="border-bottom:1px solid #4B4B4B"></td>
+					<td style="text-align:left">&nbsp;QUEBRADO/CORTADO/MORDIDO</td><td><?=!empty($detalle)?number_format($detalle->def_sec_quebrado_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_quebrado_equi,2,'.',','):'';?></td>
+					<td style="text-align:left" bgcolor="#DDDDDD">&nbsp;DEFECTOS A SUSTRAER</td><td><?=!empty($detalle)?number_format($detalle->atributos_defectos_sustraer,0,'.',','):'';?></td>
+					<td style="border-bottom:1px solid #4B4B4B"></td><td style="border-bottom:1px solid #4B4B4B"></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;C&Aacute;SCARA / PULPA</td><td><?=!empty($detalle)?$detalle->def_sec_cascara_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_cascara_equi:'0.00';?></td>
-					<td bgcolor="#DDDDDD">&nbsp;PUNTAJE FINAL SCA</td><td bgcolor="#DDDDDD"><?=!empty($detalle)?$ptotal:'0.00';?></td>
+					<td style="text-align:left">&nbsp;C&Aacute;SCARA / PULPA</td><td><?=!empty($detalle)?number_format($detalle->def_sec_cascara_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_cascara_equi,2,'.',','):'';?></td>
+					<td bgcolor="#DDDDDD">&nbsp;PUNTAJE FINAL SCA</td><td bgcolor="#DDDDDD"><?=!empty($detalle)?number_format($ptotal,2,'.',','):'';?></td>
 					<td colspan="2" style="border:0"></td>
 				</tr>
 				<tr>
-					<td style="text-align:left">&nbsp;DA&Ntilde;O LIGERO DE INSECTOS</td><td><?=!empty($detalle)?$detalle->def_sec_insectos_num:'0.00';?></td><td><?=!empty($detalle)?$detalle->def_sec_insectos_equi:'0.00';?></td>
+					<td style="text-align:left">&nbsp;DA&Ntilde;O LIGERO DE INSECTOS</td><td><?=!empty($detalle)?number_format($detalle->def_sec_insectos_num,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->def_sec_insectos_equi,2,'.',','):'';?></td>
 					<td style="border:0"></td><td style="border:0"></td>
 				</tr>
 				<tr>
 					<td style="border:0"></td>
-					<td colspan="2">TOTAL</td><td><?=!empty($detalle)?$equi:'0.00';?></td><td bgcolor="#DDDDDD">OBSERVACIONES</td><td colspan="3"></td>
+					<td colspan="2">TOTAL</td><td><?=!empty($detalle)?number_format($equi,2,'.',','):'';?></td><td bgcolor="#DDDDDD">OBSERVACIONES</td><td colspan="3"></td>
 				</tr>
 			</table>
 			<?
 				$i = 0; $cta = count($catadores); $cm = ($cta * 4) + ($cta*0.7);
 				if(!empty($catadores)){?>
-			<table align="center" width="<?=$cm?>cm" style="margin-top:2cm">
+			<table align="center" width="<?=$cm?>cm" style="margin-top:2cm;text-transform:uppercase;">
 				<tr>
 			<?
 					for($i = 0;$i < $cta;$i++){
