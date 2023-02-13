@@ -103,14 +103,21 @@
 															</div>
 														</div>
 													</li>
+													<?
+														$totPeso = 0; $totPesoPor = 0;
+														if(!empty($detalle)){
+															$totPeso = number_format(floatval($detalle->analisis_cafe_exportable_peso)+floatval($detalle->analisis_sub_procuto_peso)+floatval($detalle->analisis_descarte_peso)+floatval($detalle->analisis_cascara_peso),2,'.',',');
+															$totPesoPor = number_format(floatval($detalle->analisis_cafe_exportable_por)+floatval($detalle->analisis_sub_procuto_por)+floatval($detalle->analisis_descarte_por)+floatval($detalle->analisis_cascara_por),2,'.',',');
+														}
+													?>
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Total</p>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 text-right" type="text" name="pesototal" id="pesototal" readonly />
+																<input class="form-control form-control-sm mx-2 text-right" type="text" name="pesototal" id="pesototal" value="<?=!empty($detalle)?$totPeso:'';?>" readonly />
 															</div>
 															<div class="col-4">
-																<input class="form-control form-control-sm mx-2 text-right" type="text" name="porctotal" id="porctotal" readonly />
+																<input class="form-control form-control-sm mx-2 text-right" type="text" name="porctotal" id="porctotal" value="<?=!empty($detalle)?$totPesoPor:'';?>" readonly />
 															</div>
 														</div>
 													</li>
@@ -123,14 +130,14 @@
 														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted align-self-center mb-0">Malla</h6></div>
 														<div class="col-4">
 															<select class="form-control form-control-sm text-center" id="malla_gen" name="malla_gen">
-																<option value="350">350</option>
-																<option value="500">500</option>
+																<option value="350" <?if(!empty($detalle)){echo (intval($detalle->granumelometria_malla_general)=== 350)? 'selected':'';}?>>350</option>
+																<option value="500" <?if(!empty($detalle)){echo (intval($detalle->granumelometria_malla_general)=== 500)? 'selected':'';}?>>500</option>
 															</select>
 														</div>
 														<div class="col-4"><h6 class="car-subtitle font-weight-bold text-muted align-self-center mb-0">%</h6></div>
 													</div>
 												</div>
-												<ul class="list-group list-group" id="granu">
+												<ul class="list-group list-group">
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">16 al 20</p>
@@ -175,11 +182,22 @@
 															</div>
 														</div>
 													</li>
+													<?
+														$totMalla = 0; $totMallaPor = 0;
+														if(!empty($detalle)){
+															$totMalla = number_format(floatval($detalle->granumelometria_malla_1620_nro)+floatval($detalle->granumelometria_malla_15_nro)+floatval($detalle->granumelometria_malla_14_nro)+floatval($detalle->granumelometria_malla_base_nro),2,'.',',');
+															$totMallaPor = number_format(floatval($detalle->granumelometria_malla_1620_por)+floatval($detalle->granumelometria_malla_15_por)+floatval($detalle->granumelometria_malla_14_por)+floatval($detalle->granumelometria_malla_base_por),2,'.',',');
+														}
+													?>
 													<li class="list-group-item">
 														<div class="row">
 															<p class="col-4 align-self-center mb-0">Total</p>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 text-right" type="text" name="grtotmalla" id="grtotmalla" readonly /></div>
-															<div class="col-4"><input class="form-control form-control-sm mx-2 text-right" type="text" name="portotmalla" id="portotmalla" readonly /></div>
+															<div class="col-4">
+																<input class="form-control form-control-sm mx-2 text-right" type="text" name="grtotmalla" id="grtotmalla" value="<?=!empty($detalle)?$totMalla:'';?>" readonly />
+															</div>
+															<div class="col-4">
+																<input class="form-control form-control-sm mx-2 text-right" type="text" name="portotmalla" id="portotmalla" value="<?=!empty($detalle)?$totMallaPor:'';?>" readonly />
+															</div>
 														</div>
 													</li>
 												</ul>

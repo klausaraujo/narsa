@@ -290,46 +290,41 @@ $('#malla_gen').on('change', function(){
 $('.blur').on('blur',function(){
 	let id = $(this).attr('id');
 	if(id === 'pesocafe' || id === 'pesosub' || id === 'pesodesc' || id === 'pesocasc'){
-		let totFisico = 0, porcFisico = 0, porc = 0, sib = $(this).closest('div').siblings().find('input');
+		let totPeso = 0, porcPeso = 0, porc = 0, sib = $(this).closest('div').siblings().find('input'), h = null, input = $(this).closest('ul').find('input.blur');
 		
-		if($(this).val() == '') sib.val('');
-		if($('#pesocafe').val() !== '' && parseFloat($('#pesocafe').val()) > 0){ totFisico += parseFloat($('#pesocafe').val()); }
-		if($('#pesosub').val() !== '' && parseFloat($('#pesosub').val()) > 0){ totFisico += parseFloat($('#pesosub').val()); }
-		if($('#pesodesc').val() !== '' && parseFloat($('#pesodesc').val()) > 0){ totFisico += parseFloat($('#pesodesc').val()); }
-		if($('#pesocasc').val() !== '' && parseFloat($('#pesocasc').val()) > 0){ totFisico += parseFloat($('#pesocasc').val()); }
-		if($('#pesocafe').val() !== '' && parseFloat($('#pesocafe').val()) > 0){ porc = (parseFloat($('#pesocafe').val())/totFisico)*100; $('#cafeporc').val(formatMoneda(porc)); porcFisico += porc; }
-		if($('#pesosub').val() !== '' && parseFloat($('#pesosub').val()) > 0){ porc = (parseFloat($('#pesosub').val())/totFisico)*100; $('#subporc').val(formatMoneda(porc)); porcFisico += porc; }
-		if($('#pesodesc').val() !== '' && parseFloat($('#pesodesc').val()) > 0){ porc = (parseFloat($('#pesodesc').val())/totFisico)*100; $('#descporc').val(formatMoneda(porc)); porcFisico += porc; }
-		if($('#pesocasc').val() !== '' && parseFloat($('#pesocasc').val()) > 0){ porc = (parseFloat($('#pesocasc').val())/totFisico)*100; $('#cascporc').val(formatMoneda(porc)); porcFisico += porc; }
+		$.each(input,function(i,e){
+			if(e.value !== '') totPeso += parseFloat(e.value);
+			else e.value = '0.00', h = $(e).closest('div').siblings('div').find('input'), h.val('0.00');
+		});
 		
-		if(totFisico > 0) $('#pesototal').val(formatMoneda(totFisico)), $('#porctotal').val(formatMoneda(porcFisico));
-		else $('#pesototal').val(''), $('#porctotal').val('');
+		$.each(input,function(i,e){
+			h = $(e).closest('div').siblings('div').find('input');
+			if(e.value !== '' && parseFloat(e.value) > 0){ porc = (parseFloat(e.value)/totPeso)*100, h.val(formatMoneda(porc)), porcPeso += porc; }
+		});
+		
+		if(totPeso > 0) $('#pesototal').val(formatMoneda(totPeso)), $('#porctotal').val(formatMoneda(porcPeso));
+		else $('#pesototal').val('0.00'), $('#porctotal').val('0.00');
 	}
 	if(id === 'malla16' || id === 'malla15' || id === 'malla14' || id === 'mallabase'){
-		let totmalla = parseFloat($('#malla_gen').val()), parmalla = 0, sib = $(this).closest('div').siblings().find('input'), porc = 0, porcMalla = 0;
-		console.log(parseFloat($('#malla16').val()));
-		if($(this).val() == '') sib.val('');
-		if($('#malla16').val() !== '' && parseFloat($('#malla16').val()) > 0 ){ parmalla += parseFloat($('#malla16').val()); }
-		if($('#malla15').val() !== '' && parseFloat($('#malla15').val()) > 0){ parmalla += parseFloat($('#malla15').val()); }
-		if($('#malla14').val() !== '' && parseFloat($('#malla14').val()) > 0){ parmalla += parseFloat($('#malla14').val()); }
-		if($('#mallabase').val() !== '' && parseFloat($('#mallabase').val()) > 0){ parmalla += parseFloat($('#mallabase').val()); }
+		let totmalla = parseFloat($('#malla_gen').val()), totMall = 0, sib = $(this).closest('div').siblings().find('input'), h = null, totPorc = 0;
+		let input = $(this).closest('ul').find('input.blur');
 		
-		if(parmalla > totmalla){
+		$.each(input,function(i,e){
+			if(e.value !== '')totMall += parseFloat(e.value);
+			else e.value = '0.00', h = $(e).closest('div').siblings('div').find('input'), h.val('0.00');
+		});
+		if(totMall > totmalla){
 			alert('El total no puede exceder el valor de la malla');
-			parmalla -= this.value, $(this).val(''), sib.val(''), $(this).focus();
-			if($('#malla16').val() !== '' && parseFloat($('#malla16').val()) > 0){ porc = (parseFloat($('#malla16').val())/parmalla)*100; $('#mallaporc').val(formatMoneda(porc)); porcMalla += porc; }
-			if($('#malla15').val() !== '' && parseFloat($('#malla15').val()) > 0){ porc = (parseFloat($('#malla15').val())/parmalla)*100; $('#malla15porc').val(formatMoneda(porc)); porcMalla += porc; }
-			if($('#malla14').val() !== '' && parseFloat($('#malla14').val()) > 0){ porc = (parseFloat($('#malla14').val())/parmalla)*100; $('#malla14porc').val(formatMoneda(porc)); porcMalla += porc; }
-			if($('#mallabase').val() !== '' && parseFloat($('#mallabase').val()) > 0){ porc = (parseFloat($('#mallabase').val())/parmalla)*100; $('#mallabaseporc').val(formatMoneda(porc)); porcMalla += porc; }
+			totMall -= parseFloat(this.value), $(this).val(''), sib.val(''), $(this).focus();
 		}else{
-			if($('#malla16').val() !== '' && parseFloat($('#malla16').val()) > 0){ porc = (parseFloat($('#malla16').val())/parmalla)*100; $('#mallaporc').val(formatMoneda(porc)); porcMalla += porc; }
-			if($('#malla15').val() !== '' && parseFloat($('#malla15').val()) > 0){ porc = (parseFloat($('#malla15').val())/parmalla)*100; $('#malla15porc').val(formatMoneda(porc)); porcMalla += porc; }
-			if($('#malla14').val() !== '' && parseFloat($('#malla14').val()) > 0){ porc = (parseFloat($('#malla14').val())/parmalla)*100; $('#malla14porc').val(formatMoneda(porc)); porcMalla += porc; }
-			if($('#mallabase').val() !== '' && parseFloat($('#mallabase').val()) > 0){ porc = (parseFloat($('#mallabase').val())/parmalla)*100; $('#mallabaseporc').val(formatMoneda(porc)); porcMalla += porc; }
+			let porc = 0;
+			$.each(input,function(i,e){
+				h = $(e).closest('div').siblings('div').find('input');
+				if(e.value !== '' && parseFloat(e.value) > 0){ porc = (parseFloat(e.value)/totMall)*100, h.val(formatMoneda(porc)), totPorc += porc; }
+			});
+			if(totMall > 0) $('#grtotmalla').val(formatMoneda(totMall)), $('#portotmalla').val(formatMoneda(totPorc));
+			else $('#grtotmalla').val('0.00'), $('#portotmalla').val('0.00');
 		}
-		
-		if(parmalla > 0) $('#grtotmalla').val(formatMoneda(parmalla)), $('#portotmalla').val(formatMoneda(porcMalla));
-		else $('#grtotmalla').val(''), $('#portotmalla').val('');
 	}
 	if(id === 'fragptos' || id === 'sabptos' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos' || id === 'uniptos' || id === 'balptos' || id === 'tazptos'
 			|| id === 'dulptos' || id === 'apreptos'){
