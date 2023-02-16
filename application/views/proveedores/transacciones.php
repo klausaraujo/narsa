@@ -99,7 +99,7 @@
 														elseif(floatVal($edocta) < 0) $clase = 'text-danger';
 													?>
 														<input type="text" class="form-control form-control-sm text-md-right font-weight-bold <?=$clase?>" id="rescta" 
-															value="<?=number_format($edocta,2,'.',',');?>" readonly >
+															value="<?=$edocta;?>" readonly >
 													</div>
 												</div>
 											</div>
@@ -184,7 +184,7 @@
 												<div class="row my-4">
 													<div class="col-md-2 centraVert"><label for="articulo" class="col-12">Observaciones:</label></div>
 													<div class="col-md-10">
-														<input type="text" class="form-control" name="obsIng" id="obsIng" onKeyUp="mayus(this)" autocomplete="off" placeholder="Observaciones" />
+														<input type="text" class="form-control mayusc" name="obsIng" id="obsIng" autocomplete="off" placeholder="Observaciones" />
 													</div>
 												</div>
 												<div class="row my-4">
@@ -335,7 +335,7 @@
 								<div class="container-fluid my-2">
 									<div class="row">
 										<div class="table-responsive">
-											<table id="tablaValDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-11"></table>
+											<table id="tablaValDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-11" style="100%"></table>
 										</div>
 									</div>
 								</div>

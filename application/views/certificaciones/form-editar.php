@@ -5,7 +5,7 @@
 							<div class="iq-header-title"><h4>Registro Certificado</h4></div>
 						</div>
 						<div class="iq-card-body"><!--Anular-->
-							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/editar" class="needs-validation" novalidate="">
+							<form method="post" id="form_certificado" action="<?=base_url()?>certificaciones/registrar" class="needs-validation" novalidate="">
 								<input type="hidden" name="tiporegistro" value="editar" />
 								<input type="hidden" name="idcertificado" value="<?=$id?>" />
 								<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$certificado->idproveedor?>" />

@@ -222,7 +222,9 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language:{ lngDataTable }, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
 			columns:[
-				{ data: 'idarticulo' },{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render:function(data){ return ceros( data, 6 );} },{ data: 'articulo' },
+				{ data: 'idarticulo' },{ data: 'idguia' },
+				{ data: 'anio_guia', visible: (window.innerWidth < 674? false : true), },
+				{ data: 'numero', render:function(data){ return ceros( data, 6 );}, visible: (window.innerWidth < 674? false : true), },{ data: 'articulo' },
 				{
 					data: 'cantidad',
 					render: function(data){
@@ -239,14 +241,14 @@ $(document).ready(function (){
 				},
 				{
 					render: function(data,type,full,meta){
-						return '<input type="text" placeholder="0.00" class="form-control input-sm cantidad moneda" disabled />';
+						return '<input type="text" placeholder="0.00" class="form-control form-control-sm input-sm cantidad moneda" style="width:5em" disabled />';
 					},
 					orderable: false,
 				},
 				{
 					data: 'costo',
 					render: function(data,type,full,meta){
-						return '<input type="text" placeholder="0.00" id="costo" class="form-control input-sm costo moneda" value="'+data+'" disabled />';
+						return '<input type="text" placeholder="0.00" id="costo" class="form-control form-control-sm input-sm costo moneda" style="width:5em" value="'+data+'" disabled />';
 					},
 					orderable: false,
 				},
@@ -316,13 +318,20 @@ $(document).ready(function (){
 	}
 });
 
+window.onresize = function(){
+	//console.log(window.innerWidth);
+	//console.log(tablaValDetalle.columns(2).visible()[0]);
+	if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
+	else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
+}
+
 $('#modalIngresos').on('hidden.bs.modal',function(e){
 	$('#form_ingresos')[0].reset();
-	$('#form_ingresos select').prop('selectedIndex',0);
+	//$('#form_ingresos select').prop('selectedIndex',0);
 	$('#cantidadValoriz').attr('disabled','disabled');
 	
 	$('#formPagoIngreso')[0].reset();
-	$('#formPagoIngreso select').prop('selectedIndex',0);
+	//$('#formPagoIngreso select').prop('selectedIndex',0);
 	$('#desembolso').attr('disabled',true);
 	$('.pagoValoriz').attr('disabled',true);
 	$('#chkPagoValoriz').attr('disabled',true);
@@ -338,7 +347,7 @@ $('#modalIngresos').on('hidden.bs.modal',function(e){
 $('#modalValorizaciones').on('hidden.bs.modal',function(e){
 	$('#form_valorizaciones')[0].reset();
 	tablaValDetalle.clear().draw();
-	$('#form_valorizaciones select').prop('selectedIndex',0);
+	//$('#form_valorizaciones select').prop('selectedIndex',0);
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
 
@@ -372,7 +381,6 @@ $('#form_proveedor').validate({
 		return true;
 	}
 });
-
 $('#form_transacciones').validate({
 	errorClass: 'form_error',
 	rules: {
@@ -395,16 +403,14 @@ $('#form_transacciones').validate({
 	submitHandler: function (form, event) {
 		event.preventDefault();
 		let mayor = false; tipoop = $('#tipoop').val();
-		var formData = new FormData(document.getElementById('form_transacciones'));
-		formData.set('tipodetalle',$('#tipoop').find(':selected').text());
-		//console.log(parseFloat($('#monto').val()));
 		if(tipoop === '2'){
-			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,'');
-			if(parseFloat($('#monto').val()) > parseFloat(mto)){
-				alert('No se puede pagar un monto mayor a la deuda'); mayor = true; return false;
-			} 
+			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,''), monto = $('#monto').val();
+			if(parseFloat(monto) > parseFloat(mto)){ alert('No se puede pagar un monto mayor a la deuda'), mayor = true; return false; }
 		}
 		if(!mayor){
+			let formData = new FormData(document.getElementById('form_transacciones'));
+			formData.set('tipodetalle',$('#tipoop').find(':selected').text());
+			//console.log(parseFloat($('#monto').val()));
 			$.ajax({
 				data: new URLSearchParams(formData).toString(),
 				url: base_url + segmento + '/transacciones/operaciones',
@@ -417,19 +423,24 @@ $('#form_transacciones').validate({
 				},
 				success: function (data) {
 					//$('.resp').html('');
-					if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
-					$('#form_transacciones')[0].reset();
 					$('#form_transacciones button[type=submit]').html('Ejecutar');
 					$('#form_transacciones button[type=submit]').removeClass('disabled');
 					//console.log(data);
-					if (parseInt(data.status) === 200) {
+					if(parseInt(data.status) === 200){
 						//$('html, body').animate({ scrollTop: 0 }, 'fast');
 						//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
 						tablaOp.ajax.reload();
 					}
+					if(parseInt(data.status) === 100) alert(data.message);
+					else{
+						if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
+						let suc = $('#sucursal').prop('selectedIndex');
+						$('#form_transacciones')[0].reset();
+						$('#sucursal').prop('selectedIndex',suc);
+						$('.resp').html(data.message);
+						setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
+					}
 					muestraEdoCta(data.edocta);
-					$('.resp').html(data.message);
-					setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 				}
 			});
 		}
@@ -547,7 +558,7 @@ $('body').bind('click','a',function(e){
 		}
 		if(precioVal === 0){
 			$('#formPagoIngreso')[0].reset();
-			$('#formPagoIngreso select').prop('selectedIndex',0);
+			//$('#formPagoIngreso select').prop('selectedIndex',0);
 			if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
 			if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
 		}else{ if($('#chkPagoValoriz').prop('checked')){ $('#subTotalPago').val(precioVal.toFixed(2)); } }
@@ -595,7 +606,7 @@ $('#generarIng').bind('click',function(){
 				$('#generarIng').removeClass('disabled');
 				$('#cancelIng').removeClass('disabled');
 				precioVal = 0;
-				if (parseInt(data.status) === 200){
+				if(parseInt(data.status) === 200){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					tablaReg.ajax.reload(); tablaOp.ajax.reload(); tablaVal.ajax.reload();
@@ -604,17 +615,20 @@ $('#generarIng').bind('click',function(){
 					if(tablaVal.rows().count() === 0) tablaVal.clear().draw();
 					$('#modalIngresos').modal('hide');
 					$('#formPagoIngreso')[0].reset();
-					$('#formPagoIngreso select').prop('selectedIndex',0);
+					//$('#formPagoIngreso select').prop('selectedIndex',0);
 					$('#desembolso').attr('disabled',true);
 					$('.pagoValoriz').attr('disabled',true);
 					$('.chkPagoValoriz').attr('disabled',true);
 					if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
 					if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
 				}
+				if(parseInt(data.status) === 100) alert(data.message);
+				else{
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+				}
+				
 				muestraEdoCta(data.edocta);
-				//$('#rescta').val(formatMoneda(data.edocta));
-				$('.resp').html(data.message);
-				setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 			}
 		});
 	}else{ alert('No hay registros en el detalle'); }
@@ -677,7 +691,7 @@ $('#guardaVal').bind('click',function(){
 				$('#cancelVal').addClass('disabled');
 			},
 			success: function (data) {
-				console.log(data);
+				//console.log(data);
 				$('#guardaVal').html('Valorizar Producto');
 				$('#guardaVal').removeClass('disabled');
 				$('#cancelVal').removeClass('disabled');
@@ -703,6 +717,10 @@ $('#sucursalVal').bind('change', function(){
 	tablaValDetalle.ajax.reload();
 });
 $('#sucursal').bind('change', function(){
+	let suc = $(this).prop('selectedIndex');
+	if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
+	$('#form_transacciones')[0].reset();
+	$('#sucursal').prop('selectedIndex',suc);
 	tablaOp.ajax.reload();
 	$.ajax({
 		data: {'sucursal': $('#sucursal').val(), id: id },
@@ -721,6 +739,9 @@ $('#modalVal').bind('click', function(){
 	tablaValDetalle.ajax.reload();
 });
 $('.tipoop').bind('change', function(){
+	let tipo = $(this).prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
+	$('#form_transacciones')[0].reset();
+	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
 		if($('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 0) $('.interesAjax').show();
@@ -739,7 +760,7 @@ $('#chkPagoValoriz').bind('click',function(e){
 		$('.pagoValoriz').attr('disabled',false);
 	}else{
 		$('#formPagoIngreso')[0].reset();
-		$('#formPagoIngreso select').prop('selectedIndex',0);
+		//$('#formPagoIngreso select').prop('selectedIndex',0);
 		$('#desembolso').attr('disabled',true);
 		$('.pagoValoriz').attr('disabled',true);
 	}

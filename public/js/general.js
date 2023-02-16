@@ -1,9 +1,4 @@
 let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upload-button'), file = $('.file-upload'), imgperfil = $('.profile-pic'), perfiltop = $('.top-avatar');
-let scW = screen.width;
-
-/*window.onresize = function(){
-	console.log(window.innerWidth);
-}*/
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
@@ -299,5 +294,60 @@ $('.dis').change(function(){
 				});*/
 			}
 		});
+	}
+});
+$('.blur').on('blur',function(){
+	let id = $(this).attr('id');
+	if(id === 'pesocafe' || id === 'pesosub' || id === 'pesodesc' || id === 'pesocasc'){
+		let totPeso = 0, porcPeso = 0, porc = 0, sib = $(this).closest('div').siblings().find('input'), h = null, input = $(this).closest('ul').find('input.blur');
+		
+		$.each(input,function(i,e){
+			if(e.value !== '') totPeso += parseFloat(e.value);
+			else e.value = '0.00', h = $(e).closest('div').siblings('div').find('input'), h.val('0.00');
+		});
+		
+		$.each(input,function(i,e){
+			h = $(e).closest('div').siblings('div').find('input');
+			if(e.value !== '' && parseFloat(e.value) > 0){ porc = (parseFloat(e.value)/totPeso)*100, h.val(formatMoneda(porc)), porcPeso += porc; }
+		});
+		
+		if(totPeso > 0) $('#pesototal').val(formatMoneda(totPeso)), $('#porctotal').val(formatMoneda(porcPeso));
+		else $('#pesototal').val('0.00'), $('#porctotal').val('0.00');
+	}
+	if(id === 'malla16' || id === 'malla15' || id === 'malla14' || id === 'mallabase'){
+		let totmalla = parseFloat($('#malla_gen').val()), totMall = 0, sib = $(this).closest('div').siblings().find('input'), h = null, totPorc = 0;
+		let input = $(this).closest('ul').find('input.blur');
+		
+		$.each(input,function(i,e){
+			if(e.value !== '')totMall += parseFloat(e.value);
+			else e.value = '0.00', h = $(e).closest('div').siblings('div').find('input'), h.val('0.00');
+		});
+		if(totMall > totmalla){
+			alert('El total no puede exceder el valor de la malla');
+			totMall -= parseFloat(this.value), $(this).val(''), sib.val(''), $(this).focus();
+		}else{
+			let porc = 0;
+			$.each(input,function(i,e){
+				h = $(e).closest('div').siblings('div').find('input');
+				if(e.value !== '' && parseFloat(e.value) > 0){ porc = (parseFloat(e.value)/totMall)*100, h.val(formatMoneda(porc)), totPorc += porc; }
+			});
+			if(totMall > 0) $('#grtotmalla').val(formatMoneda(totMall)), $('#portotmalla').val(formatMoneda(totPorc));
+			else $('#grtotmalla').val('0.00'), $('#portotmalla').val('0.00');
+		}
+	}
+	if(id === 'fragptos' || id === 'sabptos' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos' || id === 'uniptos' || id === 'balptos' || id === 'tazptos'
+			|| id === 'dulptos' || id === 'apreptos'){
+		let input = $(this).closest('ul').find('input.blur'), totSen = 0;
+		
+		$.each(input,function(i,e){
+			if($(e).hasClass('blur') && e.id !== 'defsustraer'){
+				totSen += parseFloat(this.value);
+			}
+		});
+		$('#ptotal').val(totSen - parseFloat($('#defsustraer').val()));
+		$('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
+	}
+	if(id === 'defsustraer'){
+		$('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
 	}
 });

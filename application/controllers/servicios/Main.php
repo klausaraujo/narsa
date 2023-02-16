@@ -124,6 +124,6 @@ class Main extends CI_Controller
 		$suc = $this->input->post('sucursal');
 		$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $suc]);
 		
-		echo floatVal($saldo);
+		echo floatval($saldo);
 	}
 }

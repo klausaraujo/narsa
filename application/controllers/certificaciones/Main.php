@@ -417,10 +417,10 @@ class Main extends CI_Controller
 		$html = $this->load->view('certificaciones/comprobante',$data, true);
 		if(floatval(phpversion()) < $versionphp){
 			$this->load->library('dom');
-			$this->dom->generate('portrait', 'A4', $html, 'Comprobante');
+			$this->dom->generate('portrait', 'A4', $html, 'Certificado');
 		}else{
 			$this->load->library('dom1');
-			$this->dom1->generate('portrait', 'A4', $html, 'Comprobante');
+			$this->dom1->generate('portrait', 'A4', $html, 'Certificado');
 		}
 	}
 	public function anular()
