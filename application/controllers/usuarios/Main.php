@@ -115,19 +115,32 @@ class Main extends CI_Controller
 		$id = $this->input->get('id');
 		$this->load->model('Usuarios_model');
 		$permisos = $this->Usuarios_model->buscaPermisos(['idusuario'=>$id]);
+		$modulos = $this->Usuarios_model->permisosModulos(['u.idusuario'=>$id,'mr.activo' => 1]);
+		$idperfil = !empty($modulos)? $modulos[0]->idperfil : '';
+		$perfil = !empty($modulos)? $modulos[0]->perfil : '';
 		
-		echo json_encode(['data'=>$permisos,'idusuario'=>$id]);
+		$data = array(
+			'data' => $permisos,
+			'idusuario' => $id,
+			'modulos' => $modulos,
+			'idperfil' => $idperfil,
+			'perfil' => $perfil,
+		);
+		
+		echo json_encode($data);
 	}
 	public function asignarPermisos()
 	{
 		$this->load->model('Usuarios_model');
-		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500;
+		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500; $modulos = [];
 		
 		$id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
+		$idperfil = (isset($_POST['perfilUsuario'])?$_POST['perfilUsuario'] : '');
 		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array());
 		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
 		$perServ = (isset($_POST['cajasPer'])?$_POST['cajasPer'] : array());
 		$perCert = (isset($_POST['certPer'])?$_POST['certPer'] : array());
+		$perMod = (isset($_POST['modPer'])?$_POST['modPer'] : array());
 		
 		/*if(isset($_POST['proveedoresPer'])$data['proveedores'] = $_POST['proveedoresPer'];
 		if(isset($_POST['usuariosPer'])$data['usuarios'] = $_POST['usuariosPer'];
@@ -160,13 +173,14 @@ class Main extends CI_Controller
 		}
 				
 		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'permisos_opcion');
+		$regMod = $this->Usuarios_model->actualizaModulosUser(['activo' => 1],$perMod,['idperfil' => $idperfil]);
 		
 		if($regPer){
 			$msg = 'Permisos Asignados';
 			$status = 200;
 		}
 		
-		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray]);
+		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray,'mod' => $regMod]);
 	}
 	public function sucursalesUsuario()
 	{

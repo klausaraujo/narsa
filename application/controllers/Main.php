@@ -5,6 +5,7 @@ class Main extends CI_Controller
 {
 	private $usuario;
 	private $absolutePath;
+	private $modulo = false;
 	
     public function __construct(){
 		parent::__construct();
@@ -12,6 +13,15 @@ class Main extends CI_Controller
 		if($this->session->userdata('user')){
 			$this->usuario = json_decode($this->session->userdata('user'));
 			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
+			//var_dump($this->usuario->sucursales);
+			foreach($this->usuario->modulos as $mod):
+				if($mod->url === $this->uri->segment(1)){
+					if($mod->activo && !empty($this->usuario->sucursales)) $this->modulo = true;//{ header('location:' .base_url()); return; }
+				}					
+			endforeach;
+			
+			if(!$this->modulo) header('location:' .base_url());
+			
 		}else header('location:' .base_url());
 	}
 
@@ -38,6 +48,7 @@ class Main extends CI_Controller
 		$this->session->set_userdata('perUser', json_encode($bot));
 		$permisos = $this->Usuarios_model->permisosOpciones();
 		$sucursales = $this->Usuarios_model->sucursalesUser();
+		$modulos = $this->Usuarios_model->buscaModulos();
 		
 		$headers = array(
 			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Documento', 'targets' => 3],
@@ -49,6 +60,7 @@ class Main extends CI_Controller
 			'permisos' => $permisos,
 			'headers' => $headers,
 			'sucursales' => $sucursales,
+			'modulos' => $modulos,
 		);
 		$this->load->view('main',$data);
 	}

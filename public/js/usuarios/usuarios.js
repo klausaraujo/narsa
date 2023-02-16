@@ -164,6 +164,8 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				//a.removeClass('disabled');
 				//a.html('<i class="far far fa-cog" aria-hidden="true"></i>');
 				$('#idusuarioPer').val(data.idusuario);
+				$('#perfilUsuario').val(data.idperfil);
+				$('#perfilU').html(data.perfil);
 				/*if(parseInt(data.status) === 200) alert('Se reseteó la clave del usuario exitosamente');
 				else alert('No se pudo resetear la clave del usuario');*/
 				//console.log(data);
@@ -177,6 +179,13 @@ $('#tablaUsuarios').bind('click','a',function(e){
 						}else if($(this).attr('name') === 'cajasPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
 						}else if($(this).attr('name') === 'certPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
+						}
+					});
+				});
+				$.each(data.modulos,function(i,e){
+					$('#form_permisos input:checkbox').each(function(){
+						if($(this).attr('name') === 'modPer[]' && e.idmodulo === $(this).val()){
 							$(this).prop('checked',true);
 						}
 					});

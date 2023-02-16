@@ -1,4 +1,4 @@
-<div class="col-12 card px-0 my-3">
+						<div class="col-12 card px-0 my-3">
 							<div class="card-body">
 								<h4 class="">Listado General de Usuarios del Sistema</h4>
 								<hr>
@@ -38,6 +38,7 @@
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#usuarios">Usuarios</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#cajas">Cajas</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#certificados">Certificaciones</a></li>
+																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#modulos">M&oacute;dulos</a></li>
 															</ul>
 															<div class="tab-content mt-3">
 																<div id="proveedores" class="tab-pane fade in active show">
@@ -126,6 +127,27 @@
 																		<?php
 																					$i++;
 																				}
+																			endforeach;?>
+																	</div>
+																</div>
+																<div id="modulos" class="tab-pane fade in">
+																	<input type="hidden" id="perfilUsuario" name="perfilUsuario" />
+																	<div class="row my-2">
+																		<h5 class="my-2 ml-3"><b>Activar M&oacute;dulos</b> (Perfil: <span id="perfilU" class="text-success font-weight-bold"></span>)</h5>
+																	  <?php
+																			$i = 1;
+																			foreach($modulos as $row):
+																		?>
+																		<div class="custom-control custom-switch col-12 ml-3">
+																			<input type="checkbox" class="custom-control-input" name="modPer[]" value="<?=$row->idmodulo?>" id="checkMod<?=$i?>">
+																			<label class="custom-control-label" for="checkMod<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																		</div>
+																		<!--<div class="checkbox checkbox-primary col-12">
+																			<input type="checkbox" name="usuariosPer[]" value="" />
+																			<label for="usuariosPer">&nbsp;&nbsp;</label>
+																		</div>-->
+																		<?php
+																				$i++;
 																			endforeach;?>
 																	</div>
 																</div>
