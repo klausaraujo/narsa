@@ -122,7 +122,7 @@ file.bind('change',function(){
 	let img = URL.createObjectURL(file[0]);
 	let formData = new FormData($('.uploadFileAjax')[0]);
 	$.ajax({
-        url: base_url + 'upload',
+        url: base_url + 'main/upload',
         type: 'post',
         dataType: 'html',
         data: formData,
@@ -150,7 +150,7 @@ btnCurl.bind('click',function(){
 		
 		$.ajax({
 			data: { tipo: tipodoc, doc: doc },
-			url: base_url + 'curl',
+			url: base_url + 'main/curl',
 			method: 'POST',
 			dataType: 'json',
 			error: function (xhr) { btnCurl.removeAttr('disabled'); btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>'); },
@@ -206,7 +206,7 @@ $('#formPassword').validate({
 		event.preventDefault();
 		$.ajax({
 			data: $('#formPassword').serialize(),
-			url: base_url + 'cambiapass',
+			url: base_url + 'main/cambiapass',
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () {
@@ -235,7 +235,7 @@ $('.dep').bind('change', function(){
 	let cod = this.value, html = '<option value="">-- Seleccione --</option>';
 	$.ajax({
 		data: { cod_dep: cod },
-		url: base_url + 'provincias',
+		url: base_url + 'main/provincias',
 		method: 'POST',
 		dataType: 'JSON',
 		beforeSend: function () {
@@ -244,7 +244,7 @@ $('.dep').bind('change', function(){
 		success: function (data) {
 			$.each(data, function (i, e){ html += '<option value="' + e.cod_pro + '">' + e.provincia + '</option>'; });
 			$('.pro').html(html);
-			console.log(data);
+			//console.log(data);
 		}
 	});
 });
@@ -252,7 +252,7 @@ $('.pro').bind('change', function(){
 	let cod = this.value, html = '<option value="">-- Seleccione --</option>';
 	$.ajax({
 		data: { cod_dep: $('.dep').val(),cod_pro: cod },
-		url: base_url + 'distritos',
+		url: base_url + 'main/distritos',
 		method: 'POST',
 		dataType: 'JSON',
 		beforeSend: function () {
@@ -261,7 +261,7 @@ $('.pro').bind('change', function(){
 		success: function (data) {
 			$.each(data, function (i, e){ html += '<option value="' + e.cod_dis + '">' + e.distrito + '</option>'; });
 			$('.dis').html(html);
-			console.log(data);
+			//console.log(data);
 		}
 	});
 });
@@ -270,16 +270,16 @@ $('.dis').change(function(){
     if (id.length > 0) {
 		$.ajax({
 			data: { cod_dep: dpto, cod_pro: prov, cod_dis: id },
-			url: base_url + 'cargarLatLng',
+			url: base_url + 'main/cargarLatLng',
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function(){},
 			success: function (data) {
-				console.log(data);
+				//console.log(data);
 				/*const {ubigeo} = data;*/
 				var opt = {lat: parseFloat(data[0].latitud), lng: parseFloat(data[0].longitud), zoom: 16};
 				//console.log(map.getZoom());
-				console.log(opt);
+				//console.log(opt);
 				map.setCenter(opt);
 				if($('.ajaxMap').css('display') == 'none' || $('.ajaxMap').css('opacity') == 0) $('.ajaxMap').show();
 				/*$.ajax({
@@ -341,13 +341,15 @@ $('.blur').on('blur',function(){
 		
 		$.each(input,function(i,e){
 			if($(e).hasClass('blur') && e.id !== 'defsustraer'){
-				totSen += parseFloat(this.value);
+				if(this.value !== '') totSen += parseFloat(this.value);
 			}
 		});
-		$('#ptotal').val(totSen - parseFloat($('#defsustraer').val()));
-		$('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
+		$('#ptotal').val(totSen);
+		if($('#defsustraer').val() !== '' && $('#ptotal').val() !== '') $('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
+		else $('#pfinal').val($('#ptotal').val());
 	}
 	if(id === 'defsustraer'){
-		$('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
+		if($('#defsustraer').val() !== '' && $('#ptotal').val() !== '') $('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
+		else $('#pfinal').val($('#ptotal').val());
 	}
 });

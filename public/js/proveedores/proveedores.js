@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, precioVal = 0 ;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal;
 
 /*function formateaNumero(value) {
   v = parseFloat(value)
@@ -315,14 +315,18 @@ $(document).ready(function (){
 			columnDefs: headersVal,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
+		if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
+		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
 	}
 });
 
 window.onresize = function(){
 	//console.log(window.innerWidth);
 	//console.log(tablaValDetalle.columns(2).visible()[0]);
-	if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
-	else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
+	if(segmento2 === 'transacciones'){
+		if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
+		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
+	}
 }
 
 $('#modalIngresos').on('hidden.bs.modal',function(e){
@@ -339,7 +343,6 @@ $('#modalIngresos').on('hidden.bs.modal',function(e){
 	tablaIngDetalle.clear().draw();
 	$('#sucursalIng').removeAttr('disabled');
 	
-	precioVal = 0;
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
 });
@@ -470,31 +473,18 @@ $('#form_ingresos').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val())? 0 : parseFloat($('#cantidadValoriz').val());
-		let costoValor = isNaN($('#costoValoriz').val())? 0 : parseFloat($('#costoValoriz').val()), importe = (isNaN(kgValor) || isNaN(costoValor))? 0 : kgValor * costoValor;
-		let obs = $('#obsIng').val();
+		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val() || $('#cantidadValoriz').val() == '')? 0 : parseFloat($('#cantidadValoriz').val());
+		let costoValor = isNaN($('#costoValoriz').val() || $('#costoValoriz').val() == '')? 0 : parseFloat($('#costoValoriz').val()), ids = $('#sucursalIng').val();
+		let importe = (isNaN(kgValor) || isNaN(costoValor) || costoValor == '' || kgValor == '')? 0 : kgValor * costoValor, obs = $('#obsIng').val(), valor = false;
 		
 		//console.log(parseFloat(costoValor) + "   " + parseFloat(kgValor));
 		if(parseFloat(kgValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar la cantidad a Valorizar'); return false; }
 		if(parseFloat(kg) < parseFloat(kgValor) && $('#valorizaIng').prop('checked') === true){ alert('La cantidad a valorizar no puede ser mayor que el monto'); return false; }
 		if(parseFloat(costoValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar el costo'); return false; }
 		
-		if($('#valorizaIng').prop('checked') === true){
-			precioVal += kgValor * costoValor;
-			if($('#chkPagoValoriz').prop('checked')){
-				$('#subTotalPago').val(precioVal.toFixed(2));
-			}
-		}
-		
-		let valor = false, ids = $('#sucursalIng').val();
-		var json = [{ 'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
-				'sucursal':$('#sucursalIng :selected').text(),'humedad':$('#humedadIng').val(),'calidad':$('#calidadIng').val(),'cantidad_valorizada':kgValor,
-				'costo':$('#costoValoriz').val(),'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),'importe':importe,
-		}];
 		
 		if(tablaIngDetalle.rows().count() === 0){
 			$('#sucursalIng').attr('disabled','disabled');
-			ids = $('#sucursalIng').val();
 			//$('#sucursalIng option[value='+$('#articuloIng').val()+']').attr('selected', true);
 		}else{
 			tablaIngDetalle.rows().data().each(function (value){
@@ -503,14 +493,30 @@ $('#form_ingresos').validate({
 			});
 		}
 		if(!valor){
+			if($('#valorizaIng').prop('checked') === true){
+				let precio = kgValor * costoValor;
+				if($('#chkPagoValoriz').prop('checked')){
+					if(tablaIngDetalle.rows().count() > 0){
+						tablaIngDetalle.rows().data().each(function (value){
+							precio += parseFloat(value['importe']);
+						});
+					}
+					$('#subTotalPago').val(precio.toFixed(2));
+				}
+				if($('#chkPagoValoriz').prop('disabled') && precio > 0)$('#chkPagoValoriz').prop('disabled', false);
+			}
+			
+			var json = [{ 'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
+					'sucursal':$('#sucursalIng :selected').text(),'humedad':$('#humedadIng').val(),'calidad':$('#calidadIng').val(),'cantidad_valorizada':kgValor,
+					'costo':$('#costoValoriz').val(),'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),'importe':importe,
+			}];
+			
 			tablaIngDetalle.rows.add(json).draw();
-			if(precioVal > 0){ if($('#chkPagoValoriz').attr('disabled'))$('#chkPagoValoriz').attr('disabled', false); }
 		}
 		
 		$('#form_ingresos')[0].reset();
 		$('#cantidadValoriz').attr('disabled','disabled');
-		if(ids !== '')
-			$('#sucursalIng option[value='+ids+']').attr('selected', true);
+		$('#sucursalIng option[value='+ids+']').attr('selected', true);
 		//$('#form_ingresos select').prop('selectedIndex',0);
 		$('#obsIng').val(obs);
 	}
@@ -547,21 +553,30 @@ $('body').bind('click','a',function(e){
 			});
 		}
 	}else if(a.hasClass('eliminarIngdetalle')){
+		let precio = 0;
 		if(tablaIngDetalle.row(a).child.isShown()){
 			let fila = tablaIngDetalle.row(a).data();
-			precioVal -= fila.cantidad_valorizada * fila.costo;
 			tablaIngDetalle.row(a).remove().draw();
 		}else{
 			let fila = tablaIngDetalle.row($(a).parents('tr')).data();
-			precioVal -= fila.cantidad_valorizada * fila.costo;
 			tablaIngDetalle.row($(a).parents('tr')).remove().draw();
 		}
-		if(precioVal === 0){
+		
+		if(tablaIngDetalle.rows().count() > 0){
+			tablaIngDetalle.rows().data().each(function (value){
+				precio += parseFloat(value['importe']);
+			});
+		}
+		if(precio === 0){
 			$('#formPagoIngreso')[0].reset();
 			//$('#formPagoIngreso select').prop('selectedIndex',0);
 			if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
 			if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
-		}else{ if($('#chkPagoValoriz').prop('checked')){ $('#subTotalPago').val(precioVal.toFixed(2)); } }
+			$('#desembolso').attr('disabled',true);
+			$('.pagoValoriz').attr('disabled',true);
+		}else{
+			if($('#chkPagoValoriz').prop('checked')){ $('#subTotalPago').val(precio.toFixed(2)); }
+		}
 	}
 });
 
@@ -605,7 +620,6 @@ $('#generarIng').bind('click',function(){
 				$('#generarIng').html('Generar Ingreso');
 				$('#generarIng').removeClass('disabled');
 				$('#cancelIng').removeClass('disabled');
-				precioVal = 0;
 				if(parseInt(data.status) === 200){
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
@@ -756,7 +770,15 @@ $('#valorizaIng').bind('click',function(e){
 });
 $('#chkPagoValoriz').bind('click',function(e){
 	if($(this).prop('checked')){
-		$('#subTotalPago').val(precioVal.toFixed(2));
+		let precio = 0;
+		if(tablaIngDetalle.rows().count() > 0){
+			tablaIngDetalle.rows().data().each(function (value){
+				precio += parseFloat(value['importe']);
+			});
+		}
+		$('#formPagoIngreso')[0].reset();
+		$(this).prop('checked', true);
+		$('#subTotalPago').val(precio.toFixed(2));
 		$('.pagoValoriz').attr('disabled',false);
 	}else{
 		$('#formPagoIngreso')[0].reset();

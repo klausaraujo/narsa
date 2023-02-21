@@ -67,7 +67,7 @@
 														<h5 class="mb-0 text-white line-height"><?=$usuario->nombres." ".$usuario->apellidos?></h5>
 														<span class="text-white font-size-12">Disponible</span>
 													</div>
-													<a href="<?=base_url();?>usuario/perfil" class="iq-sub-card narsa-bg-primary-hover">
+													<a href="<?=base_url();?>main/perfil" class="iq-sub-card narsa-bg-primary-hover">
 														<div class="media align-items-center">
 															<div class="rounded iq-card-icon narsa-bg-primary">
 																<i class="ri-file-user-line"></i>

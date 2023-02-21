@@ -124,7 +124,7 @@
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div style="overflow-x:hidden" class="col-md-12">
+											<div style="overflow-x:hidden" class="col-12">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaIngresos" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>
@@ -143,7 +143,7 @@
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div style="overflow-x:hidden" class="mx-auto">
+											<div style="overflow-x:hidden" class="col-12">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaValorizaciones" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
 											</div>

@@ -62,12 +62,14 @@ $route['proveedores'] = 'main/proveedores';
 $route['servicios'] = 'main/servicios';
 $route['certificaciones'] = 'main/servicios';
 $route['usuarios'] = 'main/usuarios';
-$route['curl'] = 'main/curl';
-$route['upload'] = 'main/upload';
-$route['cambiapass'] = 'main/password';
-$route['provincias'] = 'main/provincias';
-$route['distritos'] = 'main/distritos';
-$route['cargarLatLng'] = 'main/cargarLatLng';
+$route['main/curl'] = 'main/curl';
+$route['main/upload'] = 'main/upload';
+$route['main/cambiapass'] = 'main/password';
+$route['main/provincias'] = 'main/provincias';
+$route['main/distritos'] = 'main/distritos';
+$route['main/cargarLatLng'] = 'main/cargarLatLng';
+/* Cambiar perfil del usuario */
+$route['main/perfil'] = 'main/perfil';
 
 /* Proveedores */
 $route['proveedores/edocta'] = 'proveedores/main/edocta';
@@ -132,8 +134,7 @@ $route['usuarios/permisos/asignar'] = 'usuarios/main/asignarPermisos';
 $route['usuarios/sucursales'] = 'usuarios/main/sucursalesUsuario';
 $route['usuarios/sucursales/asignar'] = 'usuarios/main/asignarSucursales';
 
-/* Cambiar perfil del usuario */
-$route['usuario/perfil'] = 'main/perfil';
+
 /**/
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

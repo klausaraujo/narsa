@@ -175,10 +175,7 @@ class Main extends CI_Controller
 		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'permisos_opcion');
 		$regMod = $this->Usuarios_model->actualizaModulosUser(['activo' => 1],$perMod,['idperfil' => $idperfil]);
 		
-		if($regPer){
-			$msg = 'Permisos Asignados';
-			$status = 200;
-		}
+		if($regPer && $regMod){ $msg = 'Permisos Asignados'; $status = 200; }
 		
 		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray,'mod' => $regMod]);
 	}
@@ -205,10 +202,7 @@ class Main extends CI_Controller
 		
 		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'usuarios_sucursal');
 		
-		if($regPer){
-			$msg = 'Sucursales Asignadas';
-			$status = 200;
-		}
+		if($regPer){ $msg = 'Sucursales Asignadas'; $status = 200; }
 		
 		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray]);
 	}

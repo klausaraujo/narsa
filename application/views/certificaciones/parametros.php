@@ -574,8 +574,8 @@
 															?>
 															<li class="list-group-item py-0">
 																<div class="row card-header">
-																	<p class="col-4 align-self-center mb-0">Puntaje Total</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 text-right mr-auto" type="text" 
+																	<p class="col-sm-4 align-self-center mb-0">Puntaje Total</p>
+																	<div class="col-sm-4"><input class="form-control form-control-sm mx-2 text-right mr-auto" type="text" 
 																		id="ptotal" value="<?=!empty($detalle)?number_format($total,2,'.',','):''?>" readonly /></div>
 																</div>
 															</li>
@@ -588,9 +588,19 @@
 															</li>
 															<li class="list-group-item py-0">
 																<div class="row card-header">
-																	<p class="col-4 align-self-center mb-0">Puntaje Final SCA</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 text-right mr-auto" type="text" 
+																	<p class="col-sm-4 align-self-center mb-0">Puntaje Final SCA</p>
+																	<div class="col-sm-4"><input class="form-control form-control-sm mx-2 text-right mr-auto" type="text" 
 																			id="pfinal" value="<?=!empty($detalle)?number_format($totalmenos,2,'.',','):''?>" readonly /></div>
+																</div>
+															</li>
+															<li class="list-group-item">
+																<div class="row">
+																	<p class="col-sm-3 align-self-center mb-0">Nro. Tazas</p>
+																	<div class="col-sm-3"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="nrotazas" id="nrotazas"
+																		value="<?=!empty($detalle)? $detalle->atributos_numero_tasas : '';?>" /></div>
+																	<p class="col-sm-3 align-self-center mb-0">Nro. Intensidad</p>
+																	<div class="col-sm-3"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="nrointensidad" id="nrointensidad"
+																		value="<?=!empty($detalle)? $detalle->atributos_numero_intensidad : '';?>" /></div>
 																</div>
 															</li>
 														</ul>

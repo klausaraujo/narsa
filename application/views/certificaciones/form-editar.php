@@ -45,7 +45,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="h2o">&nbsp;&nbsp;H2O verde (ISO):</label>
 											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
 												<div class="row">
-													<input type="text" class="form-control h2o" name="h2o" id="h2o" required="" value="<?=$certificado->h2overde;?>" />
+													<input type="text" class="form-control h2o moneda" name="h2o" id="h2o" required="" value="<?=$certificado->h2overde;?>" />
 													<div class="invalid-feedback">Campo Requerido</div>
 												</div>
 											</div>
@@ -54,7 +54,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="altitud">&nbsp;&nbsp;Altitud:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control altitud" name="altitud" id="altitud" value="<?=$certificado->altitud;?>" required="" />
+													<input type="text" class="form-control altitud moneda" name="altitud" id="altitud" value="<?=$certificado->altitud;?>" required="" />
 													<div class="invalid-feedback">Debe indicar la Altitud</div>
 												</div>
 											</div>
@@ -74,7 +74,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="densidad">&nbsp;&nbsp;Densidad:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control densidad" name="densidad" id="densidad" value="<?=$certificado->densidad?>" required="" />
+													<input type="text" class="form-control densidad moneda" name="densidad" id="densidad" value="<?=$certificado->densidad?>" required="" />
 													<div class="invalid-feedback">Debe indicar la Densidad</div>
 												</div>
 											</div>
@@ -102,7 +102,7 @@
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>
 								<div class="col-12 mx-auto pb-2">
-									<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Guardar Registro</button>
+									<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Actualizar Registro</button>
 									<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
 								</div>
 							</form>

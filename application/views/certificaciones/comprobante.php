@@ -274,7 +274,8 @@
 					<td style="text-align:left">&nbsp;QUEBRADO/CORTADO/MORDIDO</td><td><?=!empty($detalle)?number_format($detalle->def_sec_quebrado_num,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->def_sec_quebrado_equi,2,'.',','):'';?></td>
 					<td style="text-align:left" bgcolor="#DDDDDD">&nbsp;DEFECTOS A SUSTRAER</td><td><?=!empty($detalle)?number_format($detalle->atributos_defectos_sustraer,0,'.',','):'';?></td>
-					<td style="border-bottom:1px solid #4B4B4B"></td><td style="border-bottom:1px solid #4B4B4B"></td>
+					<td style="border-bottom:1px solid #4B4B4B"><?=!empty($detalle)?number_format($detalle->atributos_numero_tasas,0,'.',','):'';?></td>
+					<td style="border-bottom:1px solid #4B4B4B"><?=!empty($detalle)?number_format($detalle->atributos_numero_intensidad,0,'.',','):'';?></td>
 				</tr>
 				<tr>
 					<td style="text-align:left">&nbsp;C&Aacute;SCARA / PULPA</td><td><?=!empty($detalle)?number_format($detalle->def_sec_cascara_num,2,'.',','):'';?></td>

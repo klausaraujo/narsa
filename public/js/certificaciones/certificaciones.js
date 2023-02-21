@@ -244,7 +244,7 @@ $('.form').on('submit',function(e){
 			$(boton).addClass('disabled');
 		},
 		success: function (data) {
-			console.log(data);
+			//console.log(data);
 			$(boton).html('Guardar Par&aacute;metro');
 			$(boton).removeClass('disabled');
 			$('html, body').animate({ scrollTop: 0 }, 'fast');

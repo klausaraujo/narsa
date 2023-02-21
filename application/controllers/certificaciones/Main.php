@@ -343,6 +343,8 @@ class Main extends CI_Controller
 				'atributos_dulzura_caracteristicas' => $this->input->post('dulcaract'),
 				'atributos_apreciacion_puntos' => $this->input->post('apreptos'),
 				'atributos_apreciacion_caracteristicas' => $this->input->post('aprecaract'),
+				'atributos_numero_tasas' => $this->input->post('nrotazas'),
+				'atributos_numero_intensidad' => $this->input->post('nrointensidad'),
 				'atributos_defectos_sustraer' => $this->input->post('defsustraer'),
 				'activo' => 1,
 			);
@@ -372,6 +374,8 @@ class Main extends CI_Controller
 				'atributos_dulzura_caracteristicas' => $this->input->post('dulcaract'),
 				'atributos_apreciacion_puntos' => $this->input->post('apreptos'),
 				'atributos_apreciacion_caracteristicas' => $this->input->post('aprecaract'),
+				'atributos_numero_tasas' => $this->input->post('nrotazas'),
+				'atributos_numero_intensidad' => $this->input->post('nrointensidad'),
 				'atributos_defectos_sustraer' => $this->input->post('defsustraer'),
 			);
 			

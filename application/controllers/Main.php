@@ -14,11 +14,14 @@ class Main extends CI_Controller
 			$this->usuario = json_decode($this->session->userdata('user'));
 			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
 			//var_dump($this->usuario->sucursales);
+			$seg = $this->uri->segment(1);
 			foreach($this->usuario->modulos as $mod):
-				if($mod->url === $this->uri->segment(1)){
+				if($mod->url === $seg){
 					if($mod->activo && !empty($this->usuario->sucursales)) $this->modulo = true;//{ header('location:' .base_url()); return; }
-				}					
+				}
 			endforeach;
+			
+			if($seg === 'main') $this->modulo = true;
 			
 			if(!$this->modulo) header('location:' .base_url());
 			

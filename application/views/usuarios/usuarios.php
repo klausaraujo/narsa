@@ -133,7 +133,7 @@
 																<div id="modulos" class="tab-pane fade in">
 																	<input type="hidden" id="perfilUsuario" name="perfilUsuario" />
 																	<div class="row my-2">
-																		<h5 class="my-2 ml-3"><b>Activar M&oacute;dulos</b> (Perfil: <span id="perfilU" class="text-success font-weight-bold"></span>)</h5>
+																		<h5 class="my-2 ml-3"><b>Activar M&oacute;dulos</b> (Perfil: <span id="perfilU" class="text-info font-weight-bold"></span>)</h5>
 																	  <?php
 																			$i = 1;
 																			foreach($modulos as $row):

@@ -43,7 +43,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="h2o">&nbsp;&nbsp;H2O verde (ISO):</label>
 											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
 												<div class="row">
-													<input type="text" class="form-control h2o" name="h2o" id="h2o" required="" />
+													<input type="text" class="form-control h2o moneda" name="h2o" id="h2o" required="" />
 													<div class="invalid-feedback">Campo Requerido</div>
 												</div>
 											</div>
@@ -52,7 +52,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="altitud">&nbsp;&nbsp;Altitud:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control altitud" name="altitud" id="altitud" required="" />
+													<input type="text" class="form-control altitud moneda" name="altitud" id="altitud" required="" />
 													<div class="invalid-feedback">Debe indicar la Altitud</div>
 												</div>
 											</div>
@@ -72,7 +72,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="densidad">&nbsp;&nbsp;Densidad:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control densidad" name="densidad" id="densidad" required="" />
+													<input type="text" class="form-control densidad moneda" name="densidad" id="densidad" required="" />
 													<div class="invalid-feedback">Debe indicar la Densidad</div>
 												</div>
 											</div>
