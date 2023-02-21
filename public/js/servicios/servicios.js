@@ -37,7 +37,7 @@ jQuery(document).ready(function($){
 						return btnAccion;
 					}
 				},
-				{ data: 'idtipooperacion' },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'tipo_operacion' },
+				{ data: 'idtipooperacion' },{ data: 'idmovimiento', render: function(data){ return ceros(data,6); } },{ data: 'sucursal' },{ data: 'tipo_operacion' },
 				{ data: 'monto', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{ data: 'fecha_registro' },
 			],

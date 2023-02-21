@@ -99,7 +99,7 @@
 														elseif(floatVal($edocta) < 0) $clase = 'text-danger';
 													?>
 														<input type="text" class="form-control form-control-sm text-md-right font-weight-bold <?=$clase?>" id="rescta" 
-															value="<?=$edocta;?>" readonly >
+															value="<?=number_format($edocta,2,'.',',');?>" readonly >
 													</div>
 												</div>
 											</div>
@@ -274,7 +274,11 @@
 													</div>
 												</div>
 												<div class="row my-4">
-													<div class="col-md-3"></div>
+													<div class="col-md-3">
+														<label for="saldo" class="col-12 d-none saldo">Saldo en Caja:</label>
+														<input type="text" class="form-control form-control-sm col-md-9 text-right d-none saldo" 
+															value="<?=number_format($saldo,2,'.',',')?>" id="saldo" readonly />
+													</div>
 													<div class="col-md-2 centraVert"><label for="subTotalPago" class="col-12">Sub-Total:</label></div>
 													<div class="col-md-2">
 														<input type="text" class="form-control col-12" name="subTotalPago" id="subTotalPago"

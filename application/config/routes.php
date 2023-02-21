@@ -73,6 +73,7 @@ $route['main/perfil'] = 'main/perfil';
 
 /* Proveedores */
 $route['proveedores/edocta'] = 'proveedores/main/edocta';
+$route['proveedores/saldoSucursal'] = 'proveedores/main/saldoSucursal';
 $route['proveedores/lista'] = 'proveedores/main/listaProveedores';
 $route['nuevoproveedor'] = 'proveedores/main/nuevo';
 $route['proveedores/nuevo'] = 'proveedores/main/nuevo';

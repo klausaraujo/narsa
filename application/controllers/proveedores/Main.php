@@ -122,6 +122,7 @@ class Main extends CI_Controller
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
 		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id, 'idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
+		$saldo = $this->saldoCaja($this->usuario->sucursales[0]->idsucursal);
 		
 		$data = array(
 			'tipo_op' => $tipo,
@@ -130,6 +131,7 @@ class Main extends CI_Controller
 			'headersIng' => $hIngresos,
 			'headersVal' => $hValorizaciones,
 			'edocta' => $edocta,
+			'saldo' => $saldo,
 		);
 		$this->load->view('main',$data);
 	}
@@ -221,13 +223,16 @@ class Main extends CI_Controller
 		
 		echo floatVal($edocta);
 	}
-	public function saldoCaja()
+	public function saldoCaja($suc)
 	{
 		$this->load->model('Servicios_model');
-		$suc = $this->input->post('sucursal');
 		$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $suc]);
 		
 		return floatval($saldo);
+	}
+	public function saldoSucursal()
+	{
+		echo $this->saldoCaja($this->input->post('idsucursal'));
 	}
 	public function registraOp()
 	{
@@ -235,10 +240,11 @@ class Main extends CI_Controller
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $vence = $this->input->post('fechavenc'); $tipo = $this->input->post('tipoop');
 		$tipoDet = $this->input->post('tipodetalle'); $suc = $this->input->post('sucursal'); $monto = $this->input->post('monto'); $saldo = true;
-		$int = $this->input->post('interes')? floatval($this->input->post('interes')) : 1;
+		$int = ($this->input->post('interes') && floatval($this->input->post('interes')) > 0)? floatval($this->input->post('interes')) : 1;
 		
 		if($tipo === '1' || $tipo === '2' || $tipo === '4'){
-			if(($s = $this->saldoCaja()) < ($monto + ($monto * ($int/100)))){ $saldo = false; $status = 100; $message = 'El saldo en Caja para la sucursal elegida no es suficiente'; }
+			$s = $this->saldoCaja($this->input->post('sucursal'));
+			if($s < ($monto + ($monto * ($int/100)))){ $saldo = false; $status = 100; $message = 'El saldo en Caja para la sucursal elegida no es suficiente'; }
 		}
 		//echo $monto + ($monto * ($int/100));
 		
@@ -345,7 +351,8 @@ class Main extends CI_Controller
 		
 		if($data[0]->chk_pago === 1){
 			$mto = $data[0]->tipo_op === '8'? floatval($data[0]->desembolso) : floatval($data[0]->subtotal);
-			if(($s = $this->saldoCaja()) < $mto){ $saldo = false; $status = 100; $message = 'El saldo en Caja para la sucursal elegida no es suficiente'; }
+			$s = $this->saldoCaja($data[0]->idsucursal);
+			if($s < $mto){ $saldo = false; $status = 100; $message = 'El saldo en Caja para la sucursal elegida no es suficiente'; }
 		}
 		
 		if($saldo){

@@ -77,8 +77,8 @@ class Main extends CI_Controller
 			$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 2,'po.activo' => 1]);
 			$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
 			$headers = array(
-				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n','targets' => 2],
-				'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
+				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n','targets' => 2],
+				'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
 				'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
 				'8'=>['targets' => 1, 'visible' => false],
 			);
