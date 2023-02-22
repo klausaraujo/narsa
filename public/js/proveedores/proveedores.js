@@ -7,7 +7,7 @@ let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal;
 }*/
 function muestraEdoCta(val){
 	let valor = formatMoneda(val);
-	$('#rescta').removeClass('text-danger'); $('#rescta').removeClass('text-success'); $('#rescta').removeClass('text-primary');
+	$('#rescta').removeClass('text-danger'); $('#rescta').removeClass('text-success'); $('#rescta').removeClass('text-primary');$('#rescta').val('');
 	if(parseFloat(valor) < 0) $('#rescta').addClass('text-danger');
 	else if(parseFloat(valor) > 0) $('#rescta').addClass('text-primary');
 	else $('#rescta').addClass('text-success');
