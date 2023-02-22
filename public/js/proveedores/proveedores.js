@@ -625,9 +625,9 @@ $('#generarIng').bind('click',function(){
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () { 
-				//$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				//$('#generarIng').addClass('disabled');
-				//$('#cancelIng').addClass('disabled');
+				$('#generarIng').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#generarIng').addClass('disabled');
+				$('#cancelIng').addClass('disabled');
 			},
 			success: function (data) {
 				//console.log(data);
@@ -690,7 +690,6 @@ $('#guardaVal').bind('click',function(){
 			jsonDetalle[i] = { 'idproveedor':id, 'idsucursal': data.idsucursal, 'idguia': data.idguia, 'idarticulo': data.idarticulo, 'cantidad': inputCant.val(),
 				'costo': inputCosto.val() };
 			
-			//console.log(json[i]);
 			i++;
 			salta = false;
 		}else{
