@@ -10,7 +10,7 @@
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
 	<?php
 		$usuario = json_decode($this->session->userdata('user'));
 		$listaModulos = $usuario->modulos;

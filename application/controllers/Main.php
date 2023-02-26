@@ -119,7 +119,7 @@ class Main extends CI_Controller
 			CURLOPT_RETURNTRANSFER => true,
 		));		
 		$data = curl_exec($curl);
-        $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        //$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 
         echo $data;
@@ -209,5 +209,29 @@ class Main extends CI_Controller
 		$ubigeo = $this->input->post('cod_dep').$this->input->post('cod_pro').$this->input->post('cod_dis');
 		$latLng = $listaDis = $this->Proveedores_model->latLng(['ubigeo'=>$ubigeo]);
 		echo json_encode($latLng);
+	}
+	public function ruccurl()
+	{
+		// Datos
+		$url = 'https://api.apis.net.pe/v1/ruc?numero='.$this->input->post('ruc');
+
+		$curl = curl_init();
+		
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => trim($url),
+			CURLOPT_MAXREDIRS => 5,
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_FOLLOWLOCATION => 1,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_HEADER => 0,
+			CURLOPT_SSL_VERIFYPEER => 0,
+			//CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+		));
+		
+		$result = curl_exec($curl);
+		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		echo json_encode(array('data' => json_decode($result),'status' => $code));
 	}
 }

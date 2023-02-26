@@ -73,7 +73,7 @@ $('.sucursal').bind('change', function(){
 	});
 });
 $('.tipoCaja').bind('change', function(e){
-	let suc = $('.sucursal').prop('selectedIndex');
+	let suc = $('.sucursal').prop('selectedIndex'), val = true;
 	if((parseInt($('#saldoActual').val()) === 0 || parseInt($('#saldoActual').val()) < 0) && this.value !== 7){
 		alert('No hay saldo suficiente para la Sucursal elegida');
 		$('#form_caja')[0].reset();
@@ -81,7 +81,15 @@ $('.tipoCaja').bind('change', function(e){
 		muestraSaldo($('#saldoActual').val());
 		$('.sucursal').prop('selectedIndex',suc);
 		//$('.obs').html('');
-		
+		val = false;
+	}
+	if(this.value === '9' && val){
+		let inputs = $('#gastos input'), sel = $('#gastos select');
+		$.each(inputs,function(i,e){ $(e).val(''); });
+		$.each(sel,function(i,e){ $(e).prop('selectedIndex',0); });
+		if($('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 0) $('#gastos').removeClass('d-none');
+	}else if(this.value !== '9'){
+		if(!$('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 1) $('#gastos').addClass('d-none');
 	}
 });
 $('#btnEnviar').bind('click', function(e){

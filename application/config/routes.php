@@ -63,6 +63,7 @@ $route['servicios'] = 'main/servicios';
 $route['certificaciones'] = 'main/servicios';
 $route['usuarios'] = 'main/usuarios';
 $route['main/curl'] = 'main/curl';
+$route['main/ruccurl'] = 'main/ruccurl';
 $route['main/upload'] = 'main/upload';
 $route['main/cambiapass'] = 'main/password';
 $route['main/provincias'] = 'main/provincias';

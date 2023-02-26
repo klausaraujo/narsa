@@ -353,3 +353,71 @@ $('.blur').on('blur',function(){
 		else $('#pfinal').val($('#ptotal').val());
 	}
 });
+
+/*$('.ruc').bind('click',function(){
+	let ruc = $('#rucvalor').val();
+	$.ajax({
+		data: { ruc: ruc },
+		url: base_url + 'main/ruccurl',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () {
+			$(this).html('<i class="fa fa-search aria-hidden="true"></i>');
+		},
+		success: function (data) {
+			$(this).html('Buscar');
+			console.log(data);
+		}
+	});
+});
+
+$('#ruc_form').validate({
+	errorClass: 'form_error',
+	rules: {
+		rucvalor: { required: function () { if ($('#rucvalor').css('display') != 'none') return true; else return false; }, minlength: 11 },
+	},
+	messages: {
+		rucvalor: { required : '&nbsp;&nbsp;Ruc Requerido', minlength: '&nbsp;&nbsp;Debe ingresar 11 caracteres' },
+	},
+	errorPlacement: function(error, element) {
+		let boton = $('#ruc_form button');
+		error.insertAfter(boton);
+	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		let boton = $('#ruc_form button'), ruc = $('#rucvalor').val();
+		$.ajax({
+			data: { ruc: ruc },
+			url: base_url + 'main/ruccurl',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function(){ boton.addClass('pt-0'), boton.html('<span class="spinner-border spinner-border-sm"></span>'); },
+			success: function (data) {
+				boton.addClass('pt-0'), boton.html('<i class="fa fa-search aria-hidden="true"></i>');
+				if(data.status === 200) console.log(data);
+				else alert(data.data.error);
+			}
+		});
+		//return false;
+	}
+});*/
+$('#buscaRuc').on('click',function(){
+	let ruc = $('#rucvalor').val(), val = true, bot = $(this); $('#razon').val('');
+	if(ruc.length == ''){ alert('Debe indicar un número de RUC'); val = false; $('#rucvalor').focus(); return false; }
+	if(ruc.length < 11){ alert('El RUC debe tener 11 dígitos'); val = false; $('#rucvalor').focus(); return false; }
+	
+	if(val){
+		$.ajax({
+			data: { ruc: ruc },
+			url: base_url + 'main/ruccurl',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function(){ bot.addClass('pt-0'), bot.html('<span class="spinner-border spinner-border-sm"></span>'); },
+			success: function (data) {
+				bot.removeClass('pt-0'), bot.html('<i class="fa fa-search aria-hidden="true"></i>');
+				if(data.status === 200){ $('#razon').val(data.data.nombre); }
+				else alert(data.data.error);
+			}
+		});
+	}
+});

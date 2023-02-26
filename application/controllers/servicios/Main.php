@@ -48,7 +48,8 @@ class Main extends CI_Controller
 		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Servicios_model'); $this->load->model('Proveedores_model');
 		$tipo = $this->input->post('tipoCaja'); $mto = $this->input->post('monto'); $fecha = $this->input->post('fecha'); $suc = $this->input->post('sucursalCaja');
-		$obs = $this->input->post('obs');
+		$obs = $this->input->post('obs');$ruc = $this->input->post('rucvalor'); $razon = $this->input->post('razon'); $tc = $this->input->post('tipoComp');
+		$sc = $this->input->post('serie'); $nc = $this->input->post('num'); $igv = $this->input->post('igv'); $ir = $this->input->post('renta');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$tipo,'activo'=>1]);
 		if($this->input->post('tiporegistro') === 'registrar'){
@@ -70,6 +71,14 @@ class Main extends CI_Controller
 				'idusuario_registro' => $this->usuario->idusuario,
 				'fecha_registro' => $fecha,
 				'observaciones' => $obs,
+				'ruc_proveedor' => $ruc,
+				'razon_social_proveedor' => $razon,
+				'tipo_comprobante' => $tc,
+				'serie_comprobante' => $sc,
+				'numero_comprobante' => $nc,
+				//'base_imponible' => $bi,
+				'impuesto_igv' => $igv,
+				'impuesto_renta' => $ir,				
 				'activo' => 1,
 			);
 			if($this->Servicios_model->movCaja($dataTran,$dataOp) > 0){

@@ -81,6 +81,79 @@
 												</div>
 											</div>
 										</div>
+										<div id="gastos" class="d-none">
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="rucvalor">&nbsp;&nbsp;Ruc Proveedor:</label>
+												<div class="col-md-6 col-lg-4">
+													<div class="row">
+														<input type="text" id="rucvalor" name="rucvalor" minlength="11" maxlength="11" class="form-control col-md-7 col-lg-9 num" />
+														<button id="buscaRuc" type="button" class="btn btn-small btn-narsa col-md-3 col-lg-2 ml-md-2 mt-3 mt-md-0 align-self-center">
+															<i class="fa fa-search aria-hidden="true"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="razon">&nbsp;&nbsp;Raz&oacute;n Social:</label>
+												<div class="col-md-6 col-lg-4">
+													<div class="row">
+														<input type="text" class="form-control" name="razon" id="razon" placeholder="Raz&oacute;n Social" readonly />
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipoComp">&nbsp;&nbsp;Tipo de Comprobante:</label>
+												<div class="col-md-6 col-lg-4">
+													<div class="row">
+														<select class="form-control" name="tipoComp" id="tipoComp">
+															<option value="00">OTROS</option>
+															<option value="01">FACTURA</option>
+															<option value="02">RECIBO POR HONORARIOS</option>
+															<option value="03">BOLETA DE VENTA</option>
+															<option value="04">LIQUIDACIÓN DE COMPRA</option>
+															<option value="05">BOLETA TRANSPORTE AEREO</option>
+															<option value="06">CARTA DE PORTE AEREO</option>
+															<option value="07">NOTA DE CRÉDITO</option>
+															<option value="08">NOTA DE DÉBITO</option>
+															<option value="09">GUÍA DE REMISIÓN - REMITENTE</option>
+															<option value="10">RECIBO POR ARRENDAMIENTO</option>
+															<option value="11">PÓLIZA EMITIDA POR LAS BOLSAS DE VALORES</option>
+															<option value="12">TICKET O CINTA EMITIDO POR MÁQUINA REGISTRADORA</option>
+															<option value="13">DOCUMENTO BANCARIO</option>
+															<option value="14">RECIBO POR SERVICIOS PÚBLICOS</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="serie">&nbsp;&nbsp;Serie del Comprobante:</label>
+												<div class="col-md-6 col-lg-1">
+													<div class="row">
+														<input type="text" class="form-control" name="serie" id="serie" maxlength="5" />
+													</div>
+												</div>
+												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;N&uacute;mero:</label>
+												<div class="col-md-6 col-lg-1">
+													<div class="row">
+														<input type="text" class="form-control mt-3 mt-lg-0" name="num" id="num" maxlength="8" />
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+												<div class="col-md-6 col-lg-1">
+													<div class="row">
+														<input type="text" class="form-control num" name="igv" id="igv" />
+													</div>
+												</div>
+												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;Renta:</label>
+												<div class="col-md-6 col-lg-1">
+													<div class="row">
+														<input type="text" class="form-control mt-3 mt-lg-0 num" name="renta" id="renta" />
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>
