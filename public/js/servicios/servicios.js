@@ -53,7 +53,8 @@ $('.mes').bind('change', function(){
 });
 $('.sucursal').bind('change', function(){
 	let suc = $('.sucursal').prop('selectedIndex');
-	if(!$('#form_caja').length)tablaServ.ajax.reload();
+	if(!$('#form_caja').length) tablaServ.ajax.reload();
+	$('#gastos').addClass('d-none');
 	
 	//if($('#form_caja').length)$('#form_caja')[0].reset();
 	$.ajax({
@@ -87,6 +88,7 @@ $('.tipoCaja').bind('change', function(e){
 		let inputs = $('#gastos input'), sel = $('#gastos select');
 		$.each(inputs,function(i,e){ $(e).val(''); });
 		$.each(sel,function(i,e){ $(e).prop('selectedIndex',0); });
+		$('#renta').attr('disabled',true);
 		if($('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 0) $('#gastos').removeClass('d-none');
 	}else if(this.value !== '9'){
 		if(!$('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 1) $('#gastos').addClass('d-none');
@@ -134,4 +136,8 @@ $('#tablaServicios').bind('click','a',function(e){
 		}
 		return false;
 	}
+});
+$('#tipoComp').bind('change', function(){
+	if(this.value === '02'){ if($('#renta').attr('disabled')) $('#renta').removeAttr('disabled'); }
+	else{ if(!$('#renta').attr('disabled')) $('#renta').attr('disabled',true); }
 });

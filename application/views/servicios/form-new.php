@@ -140,16 +140,24 @@
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="base">&nbsp;&nbsp;Base Imponible:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control moneda" name="igv" id="igv" />
+														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="base" id="base" placeholder="0.00" />
 													</div>
 												</div>
-												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;Renta:</label>
+												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="renta" id="renta" />
+														<input type="text" class="form-control moneda" name="igv" id="igv" placeholder="0.00" />
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="renta">&nbsp;&nbsp;Renta:</label>
+												<div class="col-md-6 col-lg-1">
+													<div class="row">
+														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="renta" id="renta" placeholder="0.00" disabled />
 													</div>
 												</div>
 											</div>
