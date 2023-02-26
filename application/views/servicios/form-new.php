@@ -129,13 +129,13 @@
 												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="serie">&nbsp;&nbsp;Serie del Comprobante:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control" name="serie" id="serie" maxlength="5" />
+														<input type="text" class="form-control mayusc" name="serie" id="serie" maxlength="5" />
 													</div>
 												</div>
 												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;N&uacute;mero:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control mt-3 mt-lg-0" name="num" id="num" maxlength="8" />
+														<input type="text" class="form-control mt-3 mt-lg-0 mayusc" name="num" id="num" maxlength="8" />
 													</div>
 												</div>
 											</div>
@@ -143,13 +143,13 @@
 												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control num" name="igv" id="igv" />
+														<input type="text" class="form-control moneda" name="igv" id="igv" />
 													</div>
 												</div>
 												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;Renta:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control mt-3 mt-lg-0 num" name="renta" id="renta" />
+														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="renta" id="renta" />
 													</div>
 												</div>
 											</div>
