@@ -141,3 +141,39 @@ $('#tipoComp').bind('change', function(){
 	if(this.value === '02'){ if($('#renta').attr('disabled')) $('#renta').removeAttr('disabled'); }
 	else{ if(!$('#renta').attr('disabled')) $('#renta').attr('disabled',true); }
 });
+
+$('#form_caja').validate({
+	errorClass: 'form_error',
+	rules: {
+		monto: { required: function () { if ($('#monto').css('display') != 'none') return true; else return false; } },
+		rucvalor: { required: function () { if ($('#rucvalor').css('display') != 'none') return true; else return false; } },
+		razon: { required: function () { if ($('#razon').css('display') != 'none') return true; else return false; } },
+		tipoComp: { required: function () { if ($('#tipoComp').css('display') != 'none') return true; else return false; } },
+		serie: { required: function () { if ($('#serie').css('display') != 'none') return true; else return false; } },
+		num: { required: function () { if ($('#num').css('display') != 'none') return true; else return false; } },
+		renta: { required: function () { if(!$('#renta').attr('disabled') && $('#renta').css('display') != 'none') return true; else return false; } },
+		base: { required: function () { if ($('#base').css('display') != 'none') return true; else return false; } },
+	},
+	messages: {
+		monto: { required: '&nbsp;&nbsp;Monto Requerido' },
+		rucvalor: { required: '&nbsp;&nbsp;Campo Requerido' },
+		razon: { required: '&nbsp;&nbsp;Campo Requerido' },
+		tipoComp: { required: '&nbsp;&nbsp;Campo Requerido' },
+		serie: { required: '&nbsp;&nbsp;Campo Requerido' },
+		num: { required: '&nbsp;&nbsp;Campo Requerido' },
+		renta: { required: '&nbsp;&nbsp;Campo Requerido' },
+		base: { required: '&nbsp;&nbsp;Campo Requerido' },
+	},
+	errorPlacement: function(error, element) {
+		let boton = $('#buscaRuc');
+		
+		if (element.attr('name') == 'rucvalor') error.insertAfter(boton);
+		else error.insertAfter(element);
+	},
+	submitHandler: function (form, event) {
+		$('#btnEnviar').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$('#btnEnviar').addClass('disabled');
+		$('.btn-cancelar').addClass('disabled');
+		form.submit();
+	}
+});

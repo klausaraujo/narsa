@@ -7,7 +7,7 @@
 						</div>
 						<div class="iq-card-body">
 							<input type="hidden" id="saldoActual" value="<?=$saldo?>" />
-							<form method="post" id="form_caja" action="<?=base_url()?>servicios/registrar" class="needs-validation form-horizontal" novalidate="">
+							<form method="post" id="form_caja" action="<?=base_url()?>servicios/registrar" ><!-- class="needs-validation form-horizontal"-->
 								<input type="hidden" name="tiporegistro" value="registrar" />								
 								<div class="form-row">
 									<div class="col-12 my-1">
@@ -27,7 +27,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="sucursalCaja">&nbsp;&nbsp;Sucursal:</label>
 											<div class="col-md-6 col-lg-4">
 												<div class="row">
-													<select class="form-control sucursal" name="sucursalCaja" id="sucursalCaja" required="">
+													<select class="form-control sucursal" name="sucursalCaja" id="sucursalCaja">
 													<? foreach($usuario->sucursales as $row): ?>
 														<option value="<?=$row->idsucursal;?>" ><?=$row->sucursal;?></option>
 													<? endforeach;	?>
@@ -40,7 +40,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipoCaja">&nbsp;&nbsp;Tipo Operaci&oacute;n:</label>
 											<div class="col-md-6 col-lg-4">
 												<div class="row">
-													<select class="form-control tipoCaja" name="tipoCaja" id="tipoCaja" required="">
+													<select class="form-control tipoCaja" name="tipoCaja" id="tipoCaja">
 													<? foreach($tipo as $row): ?>
 														<option value="<?=$row->idtipooperacion;?>" ><?=$row->tipo_operacion;?></option>
 													<? endforeach;	?>
@@ -53,7 +53,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="monto">&nbsp;&nbsp;Monto:</label>
 											<div class="col-md-6 col-lg-5">
 												<div class="row">
-													<input type="text" class="form-control col-md-7 monto moneda" name="monto" id="monto" autocomplete="off" required="" value=""/>
+													<input type="text" class="form-control col-md-7 monto moneda" name="monto" id="monto" autocomplete="off" />
 													<div class="invalid-feedback">Debe indicar un Monto</div>
 													<?php 
 														$msgError = $this->session->flashdata('mtoError');
@@ -68,7 +68,7 @@
 											<div class="col-md-6 col-lg-5">
 												<div class="row">
 													<?  ?>
-													<input type="date" class="form-control col-md-7 fecha" value="<?=date('Y-m-d')?>" name="fecha" id="fecha" required="" />
+													<input type="date" class="form-control col-md-7 fecha" value="<?=date('Y-m-d')?>" name="fecha" id="fecha" />
 													<div class="invalid-feedback">Debe elegir la fecha</div>
 												</div>
 											</div>
@@ -140,24 +140,32 @@
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="base">&nbsp;&nbsp;Base Imponible:</label>
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="base">&nbsp;&nbsp;Base Imponible:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="base" id="base" placeholder="0.00" />
+														<input type="text" class="form-control moneda" name="base" id="base" placeholder="0.00" />
 													</div>
 												</div>
-												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control moneda" name="igv" id="igv" placeholder="0.00" />
+														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="igv" id="igv" placeholder="0.00" />
 													</div>
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="renta">&nbsp;&nbsp;Renta:</label>
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="renta">&nbsp;&nbsp;Renta:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="renta" id="renta" placeholder="0.00" disabled />
+														<input type="text" class="form-control moneda" name="renta" id="renta" placeholder="0.00" disabled />
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="detalle">&nbsp;&nbsp;Detalle Comprobante:</label>
+												<div class="col-md-6 col-lg-4">
+													<div class="row">
+														<textarea class="form-control mayusc" name="detalle" id="detalle" placeholder="Detalle Comprobante" maxlength="500"></textarea>
 													</div>
 												</div>
 											</div>

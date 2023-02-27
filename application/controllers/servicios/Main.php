@@ -50,7 +50,7 @@ class Main extends CI_Controller
 		$tipo = $this->input->post('tipoCaja'); $mto = $this->input->post('monto'); $fecha = $this->input->post('fecha'); $suc = $this->input->post('sucursalCaja');
 		$obs = $this->input->post('obs');$ruc = $this->input->post('rucvalor'); $razon = $this->input->post('razon'); $tc = $this->input->post('tipoComp');
 		$sc = $this->input->post('serie'); $nc = $this->input->post('num'); $igv = $this->input->post('igv'); $bi = $this->input->post('base');
-		$ir = $this->input->post('renta')? $this->input->post('renta') : 0;
+		$ir = $this->input->post('renta')? $this->input->post('renta') : 0; $det = $this->input->post('detalle');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$tipo,'activo'=>1]);
 		if($this->input->post('tiporegistro') === 'registrar'){
@@ -79,6 +79,7 @@ class Main extends CI_Controller
 				'numero_comprobante' => $nc,
 				'base_imponible' => $bi,
 				'impuesto_igv' => $igv,
+				'detalle_comprobante' => $det,
 				'impuesto_renta' => $ir,				
 				'activo' => 1,
 			);
