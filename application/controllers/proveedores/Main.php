@@ -342,7 +342,7 @@ class Main extends CI_Controller
 	}
 	public function nuevoIngreso(){
 		$this->load->model('Proveedores_model');
-		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a'; $i = 0; $j = 0; $k = 0; $dataVal = []; $guiaArray = []; $dataTransaccion = []; $dataOp = [];
+		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a'; $i = 0; $j = 0; $k = 0; $dataVal = []; $guiaArray = []; $dataTransaccion = []; $dataOp = []; $guia = 0;
 		$idtranVal = 0; $valorizar = false; $pagar = false;  $tipoop = ''; $montopag = 0; $tipoOpPago = 0; $pago = 0; $mtoValor = 0; $rs = 0; $idtranPago = 0; $saldo = true;
 		// Takes raw data from the request
 		$json = file_get_contents('php://input');
@@ -425,6 +425,7 @@ class Main extends CI_Controller
 			'status' => $status,
 			'message' => $message,
 			'edocta' => $edocta,
+			'guia' => $guia,
 		);
 		
 		echo json_encode($data);

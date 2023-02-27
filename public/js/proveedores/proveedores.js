@@ -346,6 +346,15 @@ $('#modalIngresos').on('hidden.bs.modal',function(e){
 	if(!$('#chkPagoValoriz').prop('checked')) $('#chkPagoValoriz').prop('checked', false);
 	if(!$('#chkPagoValoriz').attr('disabled')) $('#chkPagoValoriz').attr('disabled', true);
 	
+	/*let a = document.createElement("a");
+    a.setAttribute('href', 'http://www.google.es');
+	a.setAttribute('target', '_blank');
+	a.setAttribute('id', 'imprimir');
+	//a.setAttribute('class', 'd-none');
+	a.textContent = "soy un div creado con javascript";
+	document.body.appendChild(a);
+	console.log($('#imprimir'));*/
+	
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 	//setTimeout(function () { if(!$('.mesg').css('display') == 'none' || $('.mesg').css('opacity') == 1) $('.mesg').hide('slow'); }, 3000);
 });
@@ -635,13 +644,15 @@ $('#generarIng').bind('click',function(){
 				$('#generarIng').removeClass('disabled');
 				$('#cancelIng').removeClass('disabled');
 				if(parseInt(data.status) === 200){
-					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					//if(tablaOp.rows().count() > 0)tablaOp.ajax.reload();
 					tablaReg.ajax.reload(); tablaOp.ajax.reload(); tablaVal.ajax.reload();
 					/*if(tablaReg.rows().count() === 0) tablaReg.clear().draw(); 
 					if(tablaOp.rows().count() === 0) tablaOp.clear().draw();
 					if(tablaVal.rows().count() === 0) tablaVal.clear().draw();*/
 					$('#modalIngresos').modal('hide');
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					/* Muestra la guia para imprimir */
+					window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=guiaing', '_blank');
 					//$('#formPagoIngreso')[0].reset();
 					//$('#formPagoIngreso select').prop('selectedIndex',0);
 				}
@@ -650,7 +661,6 @@ $('#generarIng').bind('click',function(){
 					$('.resp').html(data.message);
 					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 				}
-				
 				muestraEdoCta(data.edocta);
 			}
 		});
