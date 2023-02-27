@@ -2077,6 +2077,9 @@ CREATE TABLE permiso  (
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(16,'Asignar Parámetros','1',16,3);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(17,'Anular Certificado','1',17,3);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(18,'Emitir PDF','1',18,3);
+	
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(19,'Editar Movimiento','1',19,2);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(20,'Anular Movimiento','1',20,2);
 
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2716,4 +2719,49 @@ PRIMARY KEY (idcertificadocatador),
 FOREIGN KEY (idcertificado) REFERENCES certificado (idcertificado) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idcatador) REFERENCES catador (idcatador) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+/*
+Nuevas Entradas en la Base de Datos (25/02/2023)
+*/
+alter table movimientos_caja add ruc_proveedor varchar(11) after observaciones;
+alter table movimientos_caja add razon_social_proveedor varchar(200) after ruc_proveedor;
+alter table movimientos_caja add tipo_comprobante varchar(2) after razon_social_proveedor;
+alter table movimientos_caja add serie_comprobante varchar(5) after tipo_comprobante;
+alter table movimientos_caja add numero_comprobante varchar(8) after serie_comprobante;
+alter table movimientos_caja add base_imponible decimal(20,0) after numero_comprobante;
+alter table movimientos_caja add impuesto_igv decimal(20,0) after base_imponible;
+alter table movimientos_caja add impuesto_renta decimal(20,0) after impuesto_igv;
+
+alter table movimientos_caja alter column base_imponible set default 0;
+alter table movimientos_caja alter column impuesto_igv set default 0;
+alter table movimientos_caja alter column impuesto_renta set default 0;
+
+update movimientos_caja set base_imponible=0,impuesto_igv=0,impuesto_renta=0;
+
+/*
+00 - OTROS (ESPECIFICAR)
+01 - FACTURA
+02 - RECIBO POR HONORARIOS
+03 - BOLETA DE VENTA
+04 - LIQUIDACIÓN DE COMPRA
+05 - BOLETO TRANSPORTE AEREO
+06 - CARTA DE PORTE AEREO
+07 - NOTA DE CRÉDITO
+08 - NOTA DE DÉBITO
+09 - GUÍA DE REMISIÓN-REMITENTE
+10 - RECIBO POR ARRENDAMIENTO
+11 - PÓLIZA EMITIDA POR LAS BOLSAS DE VALORES
+12 - TICKET O CINTA EMITIDO POR MÁQUINA REGISTRADORA
+13 - DOCUMENTO BANCARIO
+14 - RECIBO POR SERVICIOS PÚBLICOS
+*/
+
+alter table movimientos_caja modify column base_imponible decimal(20,2);
+alter table movimientos_caja modify column impuesto_igv decimal(20,2);
+alter table movimientos_caja modify column impuesto_renta decimal(20,2);
+
+alter table movimientos_caja add detalle_comprobante varchar(500) after impuesto_renta;
+
+INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(19,'Editar Movimiento','1',19,2);
+INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(20,'Anular Movimiento','1',20,2);
+INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(21,'Reportar Movimiento','1',21,2);
 
