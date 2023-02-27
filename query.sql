@@ -2772,3 +2772,6 @@ alter table movimientos_caja alter column check_igv set default '0';
 alter table movimientos_caja alter column check_renta set default '0';
 
 update movimientos_caja set check_igv='0',check_renta='0';
+
+insert into tipo_documento(idtipodocumento,codigo_curl,codigo_sunat,tipo_documento,longitud,activo) values (3,'00','00','NO ESPECIFICO',0,'1');
+
