@@ -313,8 +313,7 @@ $('.blur').on('blur',function(){
 		
 		if(totPeso > 0) $('#pesototal').val(formatMoneda(totPeso)), $('#porctotal').val(formatMoneda(porcPeso));
 		else $('#pesototal').val('0.00'), $('#porctotal').val('0.00');
-	}
-	if(id === 'malla16' || id === 'malla15' || id === 'malla14' || id === 'mallabase'){
+	}else if(id === 'malla16' || id === 'malla15' || id === 'malla14' || id === 'mallabase'){
 		let totmalla = parseFloat($('#malla_gen').val()), totMall = 0, sib = $(this).closest('div').siblings().find('input'), h = null, totPorc = 0;
 		let input = $(this).closest('ul').find('input.blur');
 		
@@ -334,8 +333,7 @@ $('.blur').on('blur',function(){
 			if(totMall > 0) $('#grtotmalla').val(formatMoneda(totMall)), $('#portotmalla').val(formatMoneda(totPorc));
 			else $('#grtotmalla').val('0.00'), $('#portotmalla').val('0.00');
 		}
-	}
-	if(id === 'fragptos' || id === 'sabptos' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos' || id === 'uniptos' || id === 'balptos' || id === 'tazptos'
+	}else if(id === 'fragptos' || id === 'sabptos' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos' || id === 'uniptos' || id === 'balptos' || id === 'tazptos'
 			|| id === 'dulptos' || id === 'apreptos'){
 		let input = $(this).closest('ul').find('input.blur'), totSen = 0;
 		
@@ -347,11 +345,18 @@ $('.blur').on('blur',function(){
 		$('#ptotal').val(totSen);
 		if($('#defsustraer').val() !== '' && $('#ptotal').val() !== '') $('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
 		else $('#pfinal').val($('#ptotal').val());
-	}
-	if(id === 'defsustraer'){
+	}else if(id === 'defsustraer'){
 		if($('#defsustraer').val() !== '' && $('#ptotal').val() !== '') $('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
 		else $('#pfinal').val($('#ptotal').val());
+	}else if(id === 'monto'){
+		if(this.value !== '' && parseFloat(this.value) > 0){
+			let base = this.value;
+			if($('#checkrenta').prop('checked')){ let mto = base * 0.08; base = parseFloat(this.value) - mto; $('#renta').val(formatMoneda(mto));}
+			else if($('#checkigv').prop('checked')){ base = parseFloat(this.value) / 1.18; let mto = parseFloat(this.value) - base; $('#igv').val(formatMoneda(mto)); }
+			$('#baseImp').val(formatMoneda(base));
+		}else $('#baseImp').val('');
 	}
+	
 });
 
 /*$('.ruc').bind('click',function(){

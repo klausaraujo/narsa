@@ -29,11 +29,13 @@ jQuery(document).ready(function($){
 					render: function(data){
 						let nulable = 0; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
 							data.idtipooperacion === '13') nulable = 1;
-						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						let hrefEdit = btnEdit ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let hrefAnular = btnAnular && nulable ? 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						let hrefPdf = btnPdf ? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let btnAccion =
-						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="far fa-trash" aria-hidden="true"></i></a>';
+						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="far fa-trash" aria-hidden="true"></i></a>'+
+						'<a title="Ver Comprobante" '+hrefPdf+' class="bg-info btnTable pdfServ '+(!btnPdf?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -90,6 +92,7 @@ $('.tipoCaja').bind('change', function(e){
 		$.each(sel,function(i,e){ $(e).prop('selectedIndex',0); });
 		$('#renta').attr('disabled',true);
 		if($('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 0) $('#gastos').removeClass('d-none');
+		if(!$('#checkrenta').attr('disabled')){ $('#checkrenta').attr('disabled',true); $('#checkrenta').attr('checked', false); $('#checkigv').removeAttr('disabled'); }
 	}else if(this.value !== '9'){
 		if(!$('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 1) $('#gastos').addClass('d-none');
 	}
@@ -138,8 +141,39 @@ $('#tablaServicios').bind('click','a',function(e){
 	}
 });
 $('#tipoComp').bind('change', function(){
-	if(this.value === '02'){ if($('#renta').attr('disabled')) $('#renta').removeAttr('disabled'); }
-	else{ if(!$('#renta').attr('disabled')) $('#renta').attr('disabled',true); }
+	if(this.value === '02'){ 
+		if($('#checkrenta').attr('disabled')){ $('#checkrenta').removeAttr('disabled'); $('#checkigv').attr('disabled', true); $('#checkigv').attr('checked', false); }
+		$('#igv').val('');
+	}else{
+		if(!$('#checkrenta').attr('disabled')){ $('#checkrenta').attr('disabled',true); $('#checkrenta').attr('checked', false); $('#checkigv').removeAttr('disabled'); }
+		$('#renta').val('');
+	}
+	if($('#monto').val() !== '' && $('#monto').val() > 0) $('#baseImp').val($('#monto').val());
+	else $('#baseImp').val('')
+});
+$('#checkigv').bind('click',function(e){
+	let mto = $('#monto').val();
+	if($(this).prop('checked')){
+		if(mto !== '' && parseFloat(mto) > 0){
+			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
+		}else $('#baseImp').val('');
+	}else{
+		$('#igv').val('');
+		if(mto !== '' && parseFloat(mto) > 0) $('#baseImp').val(mto);
+		else $('#baseImp').val('');
+	}
+});
+$('#checkrenta').bind('click',function(e){
+	let mto = $('#monto').val();
+	if($(this).prop('checked')){
+		if(mto !== '' && parseFloat(mto) > 0){
+			let imp = parseFloat(mto) * 0.08, base = parseFloat(mto) - imp; $('#renta').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
+		}else $('#baseImp').val('');
+	}else{
+		$('#renta').val('');
+		if(mto !== '' && parseFloat(mto) > 0) $('#baseImp').val(mto);
+		else $('#baseImp').val('');
+	}
 });
 
 $('#form_caja').validate({

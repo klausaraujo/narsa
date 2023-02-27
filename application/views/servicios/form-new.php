@@ -53,7 +53,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="monto">&nbsp;&nbsp;Monto:</label>
 											<div class="col-md-6 col-lg-5">
 												<div class="row">
-													<input type="text" class="form-control col-md-7 monto moneda" name="monto" id="monto" autocomplete="off" />
+													<input type="text" class="form-control col-md-7 moneda blur" name="monto" id="monto" autocomplete="off" />
 												</div>
 											</div>
 										</div>
@@ -61,7 +61,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="fecha">&nbsp;&nbsp;Fecha:</label>
 											<div class="col-md-6 col-lg-5">
 												<div class="row">
-													<input type="date" class="form-control col-md-7 fecha" value="<?=date('Y-m-d')?>" name="fecha" id="fecha" />
+													<input type="date" class="form-control col-md-7" value="<?=date('Y-m-d')?>" name="fecha" id="fecha" />
 												</div>
 											</div>
 										</div>
@@ -69,7 +69,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
 											<div class="col-md-6 col-lg-4">
 												<div class="row">
-													<textarea type="text" class="form-control obs mayusc" name="obs" id="obs" placeholder="Observaciones" maxlength="1000" ></textarea>
+													<textarea type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" maxlength="1000" ></textarea>
 												</div>
 											</div>
 										</div>
@@ -135,26 +135,38 @@
 												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="baseImp">&nbsp;&nbsp;Base Imponible:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control moneda" name="baseImp" id="baseImp" placeholder="0.00" />
+														<input type="text" class="form-control moneda" name="baseImp" id="baseImp" placeholder="0.00" readonly />
 													</div>
 												</div>
-												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+												<div class="col-md-6 col-lg-2 align-self-center">
+													<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+													<div class="custom-control custom-switch pr-0 d-inline ml-2">
+														<input type="checkbox" class="custom-control-input" name="checkigv" id="checkigv" />
+														<label class="custom-control-label mt-3 mt-lg-0" for="checkigv"></label>
+													</div>
+												</div>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control mt-3 mt-lg-0 moneda" name="igv" id="igv" placeholder="0.00" />
+														<input type="text" class="form-control mt-0 mt-md-3 mt-lg-0 moneda" name="igv" id="igv" placeholder="0.00" readonly />
 													</div>
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="renta">&nbsp;&nbsp;Renta:</label>
+												<div class="col-md-6 col-lg-3">
+													<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="renta">&nbsp;&nbsp;Renta:</label>
+													<div class="custom-control custom-switch pr-0 d-inline ml-2">
+														<input type="checkbox" class="custom-control-input" name="checkrenta" id="checkrenta" disabled />
+														<label class="custom-control-label mt-3 mt-lg-0" for="checkrenta"></label>
+													</div>
+												</div>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control moneda" name="renta" id="renta" placeholder="0.00" disabled />
+														<input type="text" class="form-control moneda" name="renta" id="renta" placeholder="0.00" readonly />
 													</div>
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="detalle">&nbsp;&nbsp;Detalle Comprobante:</label>
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="detalle">&nbsp;&nbsp;Detalle Comprobante:</label>
 												<div class="col-md-6 col-lg-4">
 													<div class="row">
 														<textarea class="form-control mayusc" name="detalle" id="detalle" placeholder="Detalle Comprobante" maxlength="500"></textarea>

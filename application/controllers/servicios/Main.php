@@ -79,8 +79,10 @@ class Main extends CI_Controller
 				'numero_comprobante' => $nc,
 				'base_imponible' => $bi,
 				'impuesto_igv' => $igv,
+				'check_igv' => $this->input->post('checkigv'),
 				'detalle_comprobante' => $det,
-				'impuesto_renta' => $ir,				
+				'impuesto_renta' => $ir,
+				'check_renta' => $this->input->post('checkrenta'),
 				'activo' => 1,
 			);
 			if($this->Servicios_model->movCaja($dataTran,$dataOp) > 0){

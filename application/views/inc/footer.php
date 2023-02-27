@@ -91,12 +91,13 @@
 		<script>
 			let botonesServ = JSON.parse('<?=$this->session->userdata('perServ')?>');
 			<?if($this->uri->segment(2) == ''){?>
-			let btnEdit = false, btnAnular = false;
+			let btnEdit = false, btnAnular = false, btnPdf = false;;
 			
-			/*$.each(botonesServ,function(i,e){
-				if(e.idpermiso === '15') btnEdit = true;
-				else if(e.idpermiso === '16') btnAnular = true;
-			});*/
+			$.each(botonesServ,function(i,e){
+				if(e.idpermiso === '19') btnEdit = true;
+				else if(e.idpermiso === '20') btnAnular = true;
+				else if(e.idpermiso === '21') btnPdf = true;
+			});
 			<?}?>
 		</script>
 		<?}else if($this->uri->segment(1) === 'certificaciones'){ ?>
