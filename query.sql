@@ -2765,3 +2765,10 @@ INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(19,'Editar
 INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(20,'Anular Movimiento','1',20,2);
 INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(21,'Reportar Movimiento','1',21,2);
 
+alter table movimientos_caja add check_igv char(1) after impuesto_igv;
+alter table movimientos_caja add check_renta char(1) after impuesto_renta;
+
+alter table movimientos_caja alter column check_igv set default '0';
+alter table movimientos_caja alter column check_renta set default '0';
+
+update movimientos_caja set check_igv='0',check_renta='0';
