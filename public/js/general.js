@@ -351,9 +351,14 @@ $('.blur').on('blur',function(){
 	}else if(id === 'monto'){
 		if(this.value !== '' && parseFloat(this.value) > 0){
 			let base = this.value;
-			if($('#checkrenta').prop('checked')){ let mto = base * 0.08; base = parseFloat(this.value) - mto; $('#renta').val(formatMoneda(mto));}
-			else if($('#checkigv').prop('checked')){ base = parseFloat(this.value) / 1.18; let mto = parseFloat(this.value) - base; $('#igv').val(formatMoneda(mto)); }
+			if($('#checkrenta').prop('checked')){
+				let mto = base * 0.08; base = parseFloat(this.value) - mto; $('#renta').val(formatMoneda(mto)); $('#imp_renta').val(mto);
+			}
+			else if($('#checkigv').prop('checked')){
+				base = parseFloat(this.value) / 1.18; let mto = parseFloat(this.value) - base; $('#igv').val(formatMoneda(mto)); $('#imp_igv').val(mto);
+			}
 			$('#baseImp').val(formatMoneda(base));
+			$('#base_imponible').val(base);
 		}else $('#baseImp').val('');
 	}
 	

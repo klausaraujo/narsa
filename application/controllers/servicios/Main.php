@@ -49,8 +49,11 @@ class Main extends CI_Controller
 		$this->load->model('Servicios_model'); $this->load->model('Proveedores_model');
 		$tipo = $this->input->post('tipoCaja'); $mto = $this->input->post('monto'); $fecha = $this->input->post('fecha'); $suc = $this->input->post('sucursalCaja');
 		$obs = $this->input->post('obs');$ruc = $this->input->post('rucvalor'); $razon = $this->input->post('razonSoc'); $tc = $this->input->post('tipoComp');
-		$sc = $this->input->post('serie'); $nc = $this->input->post('num'); $igv = $this->input->post('igv'); $bi = $this->input->post('baseImp');
-		$ir = $this->input->post('renta')? $this->input->post('renta') : 0; $det = $this->input->post('detalle');
+		$sc = $this->input->post('serie'); $nc = $this->input->post('num'); $bi = $this->input->post('base_imponible'); $igv = $this->input->post('imp_igv');
+		$ir = $this->input->post('imp_renta'); $det = $this->input->post('detalle');
+		
+		/* Los checks recibidos */
+		$checkrenta = $this->input->post('checkrenta')!== null? 1 : 0; $checkigv = $this->input->post('checkigv') !== null? 1 : 0;
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$tipo,'activo'=>1]);
 		if($this->input->post('tiporegistro') === 'registrar'){
@@ -79,10 +82,10 @@ class Main extends CI_Controller
 				'numero_comprobante' => $nc,
 				'base_imponible' => $bi,
 				'impuesto_igv' => $igv,
-				'check_igv' => $this->input->post('checkigv'),
+				'check_igv' => $checkigv,
 				'detalle_comprobante' => $det,
 				'impuesto_renta' => $ir,
-				'check_renta' => $this->input->post('checkrenta'),
+				'check_renta' => $checkrenta,
 				'activo' => 1,
 			);
 			if($this->Servicios_model->movCaja($dataTran,$dataOp) > 0){

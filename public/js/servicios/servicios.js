@@ -143,24 +143,26 @@ $('#tablaServicios').bind('click','a',function(e){
 $('#tipoComp').bind('change', function(){
 	if(this.value === '02'){ 
 		if($('#checkrenta').attr('disabled')){ $('#checkrenta').removeAttr('disabled'); $('#checkigv').attr('disabled', true); $('#checkigv').attr('checked', false); }
-		$('#igv').val('');
+		$('#igv').val(''); $('#imp_igv').val('');
 	}else{
 		if(!$('#checkrenta').attr('disabled')){ $('#checkrenta').attr('disabled',true); $('#checkrenta').attr('checked', false); $('#checkigv').removeAttr('disabled'); }
-		$('#renta').val('');
+		$('#renta').val(''); $('#imp_renta').val('');
 	}
-	if($('#monto').val() !== '' && $('#monto').val() > 0) $('#baseImp').val($('#monto').val());
-	else $('#baseImp').val('')
+	if($('#monto').val() !== '' && $('#monto').val() > 0){ $('#baseImp').val($('#monto').val()); $('#base_imponible').val($('#monto').val()); }
+	else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 });
 $('#checkigv').bind('click',function(e){
 	let mto = $('#monto').val();
 	if($(this).prop('checked')){
 		if(mto !== '' && parseFloat(mto) > 0){
 			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
-		}else $('#baseImp').val('');
+			$('#base_imponible').val(base), $('#imp_igv').val(imp);
+		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}else{
 		$('#igv').val('');
-		if(mto !== '' && parseFloat(mto) > 0) $('#baseImp').val(mto);
-		else $('#baseImp').val('');
+		$('#imp_igv').val('');
+		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
+		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}
 });
 $('#checkrenta').bind('click',function(e){
@@ -168,11 +170,13 @@ $('#checkrenta').bind('click',function(e){
 	if($(this).prop('checked')){
 		if(mto !== '' && parseFloat(mto) > 0){
 			let imp = parseFloat(mto) * 0.08, base = parseFloat(mto) - imp; $('#renta').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
-		}else $('#baseImp').val('');
+			$('#base_imponible').val(base), $('#imp_renta').val(imp);
+		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}else{
 		$('#renta').val('');
-		if(mto !== '' && parseFloat(mto) > 0) $('#baseImp').val(mto);
-		else $('#baseImp').val('');
+		$('#imp_renta').val('');
+		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
+		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}
 });
 
