@@ -2761,8 +2761,8 @@ alter table movimientos_caja modify column impuesto_renta decimal(20,2);
 
 alter table movimientos_caja add detalle_comprobante varchar(500) after impuesto_renta;
 
-INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(19,'Editar Movimiento','1',19,2);
-INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(20,'Anular Movimiento','1',20,2);
+/*INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(19,'Editar Movimiento','1',19,2);
+INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(20,'Anular Movimiento','1',20,2);*/
 INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(21,'Reportar Movimiento','1',21,2);
 
 alter table movimientos_caja add check_igv char(1) after impuesto_igv;
@@ -2775,6 +2775,6 @@ update movimientos_caja set check_igv='0',check_renta='0';
 
 insert into tipo_documento(idtipodocumento,codigo_curl,codigo_sunat,tipo_documento,longitud,activo) values (3,'00','00','NO ESPECIFICO',0,'1');
 
-INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(67,19,1,1);
-INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(68,20,1,1);
-INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(69,21,1,1);
+INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(21,19,1,1);
+INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(22,20,1,1);
+INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(23,21,1,1);
