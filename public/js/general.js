@@ -415,7 +415,7 @@ $('#buscaRuc').on('click',function(){
 			beforeSend: function(){ bot.addClass('pt-0'), bot.html('<span class="spinner-border spinner-border-sm"></span>'); },
 			success: function (data) {
 				bot.removeClass('pt-0'), bot.html('<i class="fa fa-search aria-hidden="true"></i>');
-				if(data.status === 200){ $('#razon').val(data.data.nombre); }
+				if(data.status === 200){ $('#razonSoc').val(data.data.nombre); }
 				else alert(data.data.error);
 			}
 		});

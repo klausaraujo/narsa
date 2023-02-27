@@ -48,8 +48,8 @@ class Main extends CI_Controller
 		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Servicios_model'); $this->load->model('Proveedores_model');
 		$tipo = $this->input->post('tipoCaja'); $mto = $this->input->post('monto'); $fecha = $this->input->post('fecha'); $suc = $this->input->post('sucursalCaja');
-		$obs = $this->input->post('obs');$ruc = $this->input->post('rucvalor'); $razon = $this->input->post('razon'); $tc = $this->input->post('tipoComp');
-		$sc = $this->input->post('serie'); $nc = $this->input->post('num'); $igv = $this->input->post('igv'); $bi = $this->input->post('base');
+		$obs = $this->input->post('obs');$ruc = $this->input->post('rucvalor'); $razon = $this->input->post('razonSoc'); $tc = $this->input->post('tipoComp');
+		$sc = $this->input->post('serie'); $nc = $this->input->post('num'); $igv = $this->input->post('igv'); $bi = $this->input->post('baseImp');
 		$ir = $this->input->post('renta')? $this->input->post('renta') : 0; $det = $this->input->post('detalle');
 		
 		$factor = $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$tipo,'activo'=>1]);

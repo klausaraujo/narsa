@@ -144,25 +144,26 @@ $('#tipoComp').bind('change', function(){
 
 $('#form_caja').validate({
 	errorClass: 'form_error',
+	validClass: 'success',
 	rules: {
 		monto: { required: function () { if ($('#monto').css('display') != 'none') return true; else return false; } },
 		rucvalor: { required: function () { if ($('#rucvalor').css('display') != 'none') return true; else return false; } },
-		razon: { required: function () { if ($('#razon').css('display') != 'none') return true; else return false; } },
+		razonSoc: { required: function () { if ($('#razonSoc').css('display') != 'none') return true; else return false; } },
 		tipoComp: { required: function () { if ($('#tipoComp').css('display') != 'none') return true; else return false; } },
 		serie: { required: function () { if ($('#serie').css('display') != 'none') return true; else return false; } },
 		num: { required: function () { if ($('#num').css('display') != 'none') return true; else return false; } },
 		renta: { required: function () { if(!$('#renta').attr('disabled') && $('#renta').css('display') != 'none') return true; else return false; } },
-		base: { required: function () { if ($('#base').css('display') != 'none') return true; else return false; } },
+		baseImp: { required: function () { if ($('#baseImp').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		monto: { required: '&nbsp;&nbsp;Monto Requerido' },
 		rucvalor: { required: '&nbsp;&nbsp;Campo Requerido' },
-		razon: { required: '&nbsp;&nbsp;Campo Requerido' },
+		razonSoc: { required: '&nbsp;&nbsp;Campo Requerido' },
 		tipoComp: { required: '&nbsp;&nbsp;Campo Requerido' },
 		serie: { required: '&nbsp;&nbsp;Campo Requerido' },
 		num: { required: '&nbsp;&nbsp;Campo Requerido' },
 		renta: { required: '&nbsp;&nbsp;Campo Requerido' },
-		base: { required: '&nbsp;&nbsp;Campo Requerido' },
+		baseImp: { required: '&nbsp;&nbsp;Campo Requerido' },
 	},
 	errorPlacement: function(error, element) {
 		let boton = $('#buscaRuc');

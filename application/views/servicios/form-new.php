@@ -54,12 +54,6 @@
 											<div class="col-md-6 col-lg-5">
 												<div class="row">
 													<input type="text" class="form-control col-md-7 monto moneda" name="monto" id="monto" autocomplete="off" />
-													<div class="invalid-feedback">Debe indicar un Monto</div>
-													<?php 
-														$msgError = $this->session->flashdata('mtoError');
-														if($msgError){ ?>
-													<div id="errormto"><p style="color:#dc8b89;margin:auto;text-align:center;"><?=$msgError;?></p></div>
-													<?php } ?>
 												</div>
 											</div>
 										</div>
@@ -67,9 +61,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="fecha">&nbsp;&nbsp;Fecha:</label>
 											<div class="col-md-6 col-lg-5">
 												<div class="row">
-													<?  ?>
 													<input type="date" class="form-control col-md-7 fecha" value="<?=date('Y-m-d')?>" name="fecha" id="fecha" />
-													<div class="invalid-feedback">Debe elegir la fecha</div>
 												</div>
 											</div>
 										</div>
@@ -94,10 +86,10 @@
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="razon">&nbsp;&nbsp;Raz&oacute;n Social:</label>
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="razonSoc">&nbsp;&nbsp;Raz&oacute;n Social:</label>
 												<div class="col-md-6 col-lg-4">
 													<div class="row">
-														<input type="text" class="form-control" name="razon" id="razon" placeholder="Raz&oacute;n Social" readonly />
+														<input type="text" class="form-control" name="razonSoc" id="razonSoc" placeholder="Raz&oacute;n Social" readonly />
 													</div>
 												</div>
 											</div>
@@ -140,10 +132,10 @@
 												</div>
 											</div>
 											<div class="row mt-3">
-												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="base">&nbsp;&nbsp;Base Imponible:</label>
+												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="baseImp">&nbsp;&nbsp;Base Imponible:</label>
 												<div class="col-md-6 col-lg-1">
 													<div class="row">
-														<input type="text" class="form-control moneda" name="base" id="base" placeholder="0.00" />
+														<input type="text" class="form-control moneda" name="baseImp" id="baseImp" placeholder="0.00" />
 													</div>
 												</div>
 												<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
@@ -180,6 +172,3 @@
 							</form>
 						</div>
 					</div>
-					<?php
-						$suc = ''; $tipoop = ''; $mto = ''; $fecha = date('Y-m-d'); $obs = '';
-					?>
