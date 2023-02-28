@@ -165,9 +165,9 @@
 													</div>
 												</div>
 											</div>
-											<input type="text" name="base_imponible" id="base_imponible" />
-											<input type="text" name="imp_igv" id="imp_igv" />
-											<input type="text" name="imp_renta" id="imp_renta" />
+											<input type="hidden" name="base_imponible" id="base_imponible" />
+											<input type="hidden" name="imp_igv" id="imp_igv" />
+											<input type="hidden" name="imp_renta" id="imp_renta" />
 											<div class="row mt-3">
 												<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="detalle">&nbsp;&nbsp;Detalle Comprobante:</label>
 												<div class="col-md-6 col-lg-4">
