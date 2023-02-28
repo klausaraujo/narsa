@@ -29,13 +29,13 @@ jQuery(document).ready(function($){
 					render: function(data){
 						let nulable = 0; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
 							data.idtipooperacion === '13') nulable = 1;
-						let hrefEdit = btnEdit ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let hrefAnular = btnAnular && nulable ? 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
-						let hrefPdf = btnPdf ? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						let hrefPdf = btnPdf && nulable? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let btnAccion =
-						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="far fa-trash" aria-hidden="true"></i></a>'+
-						'<a title="Ver Comprobante" '+hrefPdf+' class="bg-info btnTable pdfServ '+(!btnPdf?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+						'<a title="Ver Comprobante" '+hrefPdf+' class="bg-info btnTable '+(!btnPdf || !nulable?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},

@@ -88,13 +88,24 @@ function ceros( number, width ){
 }
 
 $('.tipodoc').bind('change',function(e){
-	if($(this).val() === '1') $('.numcurl').prop('maxlength',8);
-	else if($(this).val() === '2') $('.numcurl').prop('maxlength',9);
+	if(this.value === '1') $('.numcurl').prop('maxlength',8);
+	else if(this.value === '2') $('.numcurl').prop('maxlength',9);
+	
+	if(this.value === '1' || this.value === '2'){
+		$('.ruc').removeAttr('disabled'), $('.numcurl').removeAttr('disabled'), $('.nombres').attr('readonly', true), $('.apellidos').attr('readonly', true);
+		$('.btn_curl').removeClass('disabled'), $('.btn_ruc').removeClass('disabled'), $('.usuario').attr('readonly', true);
+	}
 	
 	$('.borra').val('');
 	$('.perfil').val('2');
 	//if($('.nombres').prop('readonly') === true){ $('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false); }
 	$('.numcurl').focus();
+	
+	if(this.value === '3'){
+		$('.numcurl').prop('maxlength',8), $('.numcurl').val('00000000'), $('.ruc').val('00000000000'), $('.usuario').removeAttr('readonly'), $('.apellidos').removeAttr('readonly');
+		$('.nombres').removeAttr('readonly'), $('.nombres').focus(), $('.btn_curl').addClass('disabled'), $('.btn_ruc').addClass('disabled'), $('.ruc').attr('disabled', true);
+		$('.numcurl').attr('disabled', true);
+	}
 });
 
 $('.moneda').bind('input',function(e){
@@ -165,6 +176,7 @@ btnCurl.bind('click',function(){
 						if(segmento === 'proveedores'){
 							$('.direccion').val(data.data.attributes.domicilio_direccion);
 							$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
+							$('#ruc').val('00000000000');
 							//$('.direccion').prop('readonly', true);
 						}else if(segmento === 'usuarios'){
 							$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);
@@ -412,7 +424,7 @@ $('#ruc_form').validate({
 	}
 });*/
 $('#buscaRuc').on('click',function(){
-	let ruc = $('#rucvalor').val(), val = true, bot = $(this); $('#razon').val('');
+	let ruc = $('#rucvalor').val(), val = true, bot = $(this); $('#razonSoc').val('');
 	if(ruc.length == ''){ alert('Debe indicar un número de RUC'); val = false; $('#rucvalor').focus(); return false; }
 	if(ruc.length < 11){ alert('El RUC debe tener 11 dígitos'); val = false; $('#rucvalor').focus(); return false; }
 	
@@ -426,6 +438,26 @@ $('#buscaRuc').on('click',function(){
 			success: function (data) {
 				bot.removeClass('pt-0'), bot.html('<i class="fa fa-search aria-hidden="true"></i>');
 				if(data.status === 200){ $('#razonSoc').val(data.data.nombre); }
+				else alert(data.data.error);
+			}
+		});
+	}
+});
+$('#busca_ruc').on('click',function(){
+	let ruc = $('#ruc').val(), val = true, bot = $(this); $('#nombres').val('');
+	if(ruc.length == ''){ alert('Debe indicar un número de RUC'); val = false; $('#ruc').focus(); return false; }
+	if(ruc.length < 11){ alert('El RUC debe tener 11 dígitos'); val = false; $('#ruc').focus(); return false; }
+	
+	if(val){
+		$.ajax({
+			data: { ruc: ruc },
+			url: base_url + 'main/ruccurl',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function(){ bot.addClass('pt-0'), bot.html('<span class="spinner-border spinner-border-sm"></span>'); },
+			success: function (data) {
+				bot.removeClass('pt-0'), bot.html('<i class="fa fa-search aria-hidden="true"></i>');
+				if(data.status === 200){ $('#nombres').val(data.data.nombre), $('#doc').val('00000000'); $('#tipodoc').prop('selectedIndex',0); }
 				else alert(data.data.error);
 			}
 		});

@@ -31,13 +31,22 @@
 											</div>
 										</div>
 										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
-											<button type="button" class="btn btn-info btn-small btn_curl col-12"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
 										</div>
 										<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="ruc">RUC:</label>
-										<input type="text" class="form-control col-md-6 col-lg-4 ruc borra num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" />
+										<div class="col-md-4 col-lg-2">
+											<div class="row">
+												<input type="text" class="form-control ruc borra num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" 
+													maxlength="11" required=""/>
+												<div class="invalid-feedback" id="error-doc">Documento requerido</div>
+											</div>
+										</div>
+										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+											<button type="button" class="btn btn-info btn-small col-12 align-self-center btn_ruc" id="busca_ruc"><i class="fa fa-search" aria-hidden="true"></i></button>
+										</div>
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
