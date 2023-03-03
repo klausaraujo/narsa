@@ -91,7 +91,7 @@
 											</div>
 											<div class="col-md-6 mb-3">
 												<div class="form-group row">
-													<label class="control-label col-md-3 align-self-center mb-md-0 ml-md-auto px-0" for="rescta">Resumen</label>
+													<label class="control-label col-md-3 align-self-center mb-md-0 ml-md-auto px-0" for="rescta">Estado de Cuenta Actual:</label>
 													<div class="col-xs-10 mx-xs-auto col-md-4 mr-md-3">
 													<?
 														$clase = 'text-success';
@@ -208,11 +208,23 @@
 													<div class="col-md-4">
 														<input type="text" class="form-control col-md-9 moneda" name="humedadIng" id="humedadIng" autocomplete="off" placeholder="0.00" />
 													</div>
-													<div class="col-md-3 centraVert"><label for="articulo" class="col-12">Calidad (%):</label></div>
+													<div class="col-md-3 centraVert"><label for="articulo" class="col-12">Calidad RDTO(%):</label></div>
 													<div class="col-md-3">
 														<input type="text" class="form-control moneda" name="calidadIng" id="calidadIng" autocomplete="off" placeholder="0.00" />
 													</div>
 												</div>
+												
+												<div class="row my-4">
+													<div class="col-md-2 centraVert pr-0"><label for="articulo" class="col-12">Tasa (Pts.):</label></div>
+													<div class="col-md-4">
+														<input type="text" class="form-control col-md-9 moneda" name="tasaIng" id="tasaIng" autocomplete="off" placeholder="0.00" />
+													</div>
+													<!--<div class="col-md-3 centraVert"><label for="articulo" class="col-12">Calidad RDTO(%):</label></div>
+													<div class="col-md-3">
+														<input type="text" class="form-control moneda" name="calidadIng" id="calidadIng" autocomplete="off" placeholder="0.00" />
+													</div>-->
+												</div>
+												
 												<div class="row my-4">
 													<div class="col-md-2 centraVert">
 														<div class="custom-control custom-switch col-12 pr-0">

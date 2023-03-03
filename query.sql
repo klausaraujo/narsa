@@ -2778,3 +2778,31 @@ insert into tipo_documento(idtipodocumento,codigo_curl,codigo_sunat,tipo_documen
 INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(21,19,1,1);
 INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(22,20,1,1);
 INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario,activo) VALUES(23,21,1,1);
+
+/*
+Nuevas Entradas en la Base de Datos (02/03/2023)
+*/
+alter table guia_entrada_detalle add tasa decimal(20,2) after calidad;
+alter table guia_entrada_detalle alter column tasa set default 0;
+update guia_entrada_detalle set tasa='0';
+
+alter table movimientos_proveedor add liquidado char(1) after interes;
+alter table movimientos_proveedor alter column liquidado set default '0';
+update movimientos_proveedor set liquidado='0';
+alter table movimientos_proveedor add interes_total decimal(20,2) after liquidado;
+alter table movimientos_proveedor alter column interes_total set default 0;
+update movimientos_proveedor set interes_total='0';
+
+drop view lista_movimientos_proveedor;
+
+create view lista_movimientos_proveedor
+as
+select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,mp.idtransaccion,mp.monto,mp.interes as 'tasa',IF(mp.liquidado='1',0,((DATEDIFF(NOW(),mp.fecha_movimiento) * mp.monto)  * ((mp.interes)/30)/100)) as 'intereses',mp.interes_total as 'interes_pagado',f.idfactor,f.factor * mp.monto as monto_factor,f.factor * ((mp.monto)) as monto_factor_final,mp.fecha_vencimiento,mp.fecha_movimiento,DATEDIFF(NOW(),mp.fecha_movimiento) as 'dias'
+from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on top.idtipooperacion=mp.idtipooperacion inner join sucursal as s on s.idsucursal = mp.idsucursal inner join proveedor as p on p.idproveedor = mp.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join factor as f on f.idfactor=mp.idfactor
+where mp.activo='1'
+
+
+
+
+
+
