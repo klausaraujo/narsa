@@ -15,7 +15,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="productor">&nbsp;&nbsp;Productor:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control fecha col-8" id="productor" name="productor" value="<?=$certificado->nombre?>" required="">
+													<input type="text" class="form-control fecha col-8" id="productor" name="productor" value="<?=$certificado->nombre?>" required="" readonly >
 													<a type="button" class="btn btn-small btn-narsa align-self-center text-small ml-1 text-white" data-toggle="modal" 
 															data-target="#modalProveedores" id="buscar">Buscar</a>
 													<div class="invalid-feedback">Debe indicar un productor</div>

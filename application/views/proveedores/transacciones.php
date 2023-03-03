@@ -30,9 +30,11 @@
 																<option value="">--Seleccione--</option>
 														<?
 														foreach($tipo_op as $row):
+															if($row->idtipooperacion !== '4' && $row->idtipooperacion !== '5'):
 														?>
 																<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
 														<?
+															endif;
 														endforeach;	?>
 															</select>
 														</div>
@@ -50,6 +52,7 @@
 															</select>
 														</div>
 													</div>
+													<!--
 													<div class="col-md-6 mt-2">
 														<div class="row">
 															<span class="col-12" style="display:flex;align-items:center"><label for="fechavenc">Fecha de Vencimiento:</label></span>
@@ -78,8 +81,87 @@
 															<input type="text" class="form-control col-md-4 interes moneda" maxlength="3" name="interes" id="interes" autocomplete="off" />
 														</div>
 													</div>
+													-->
 												</div>
 											</div>
+										</div>
+										<hr class="row col-11 mx-auto">
+										<div class="container-fluid d-none" id="opciones_p">
+											<div class="row col-md-11 mt-2 mx-auto d-none" id="pp_pe">
+												<div class="col-md-4">
+													<div class="row">
+														<label for="fechavenc" class="align-self-center">Fecha de Vencimiento:</label>
+													</div>
+													<div class="row">
+														<input type="date" class="form-control col-md-10 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="row">
+														<label for="monto" class="align-self-center">Monto Pr&eacute;stamo:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 monto moneda" name="monto" id="monto" autocomplete="off" />
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="row">
+														<label for="interes" class="align-self-center">Tasa de Inter&eacute;s:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 interes moneda" maxlength="3" name="interes" id="interes" autocomplete="off" />
+													</div>
+												</div>
+											</div>
+											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_p">
+												<div class="col-md-4">
+													<div class="row">
+														<label for="montopago" class="align-self-center">Monto Pago:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 monto moneda" name="montopago" id="montopago" autocomplete="off" />
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="row">
+														<label for="interestotal" class="align-self-center">Total Intereses:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 interes moneda" maxlength="3" name="interestotal" id="interestotal" autocomplete="off" />
+													</div>
+												</div>
+											</div>
+											<div class="row col-md-11 mt-2 mx-auto d-none" id="cobros_p">
+												<div class="col-md-4">
+													<div class="row">
+														<label for="montocobro" class="align-self-center">Monto Cobro:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 monto moneda" name="montocobro" id="montocobro" autocomplete="off" />
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="row">
+														<label for="interescobro" class="align-self-center">Total Intereses:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 interes moneda" maxlength="3" name="interescobro" id="interescobro" autocomplete="off" />
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="row"><label for="interescobro" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<div class="custom-control custom-switch pr-0 d-inline ml-2">
+														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" disabled />
+														<label class="custom-control-label" for="checkliquida">Liquidar</label>
+													</div>
+												</div>
+											</div>
+											<div class="row col-11 mx-auto mt-3">
+												<div class="col-md-4 pl-0">
+													<button type="submit" class="btn btn-narsa col-md-8">Ejecutar</button>
+												</div>
+											</div>
+											<hr class="row col-11 mx-auto">
 										</div>
 									</form>
 									<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>

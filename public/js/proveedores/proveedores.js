@@ -753,6 +753,7 @@ $('#sucursal').bind('change', function(){
 	if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
 	$('#form_transacciones')[0].reset();
 	$('#sucursal').prop('selectedIndex',suc);
+	$('#opciones_p').addClass('d-none');
 	tablaOp.ajax.reload();
 	$.ajax({
 		data: {'sucursal': $('#sucursal').val(), id: id },
@@ -774,11 +775,21 @@ $('.tipoop').bind('change', function(){
 	let tipo = $(this).prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
 	$('#form_transacciones')[0].reset();
 	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
+	
+	$('#opciones_p').removeClass('d-none');
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
-		if($('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 0) $('.interesAjax').show();
+		if($('#pp_pe').css('display') == 'none' || $('#pp_pe').css('opacity') == 0) $('#pp_pe').removeClass('d-none');
+		$('#pagos_p').addClass('d-none');
+		$('#cobros_p').addClass('d-none');
+	}else if($('.tipoop').val() === '2'){
+		if($('#pagos_p').css('display') == 'none' || $('#pagos_p').css('opacity') == 0) $('#pagos_p').removeClass('d-none');
+		$('#pp_pe').addClass('d-none');
+		$('#cobros_p').addClass('d-none');
 	}else{
-		if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
+		if($('#cobros_p').css('display') == 'none' || $('#cobros_p').css('opacity') == 0) $('#cobros_p').removeClass('d-none');
+		$('#pp_pe').addClass('d-none');
+		$('#pagos_p').addClass('d-none');
 	}
 });
 $('#valorizaIng').bind('click',function(e){
