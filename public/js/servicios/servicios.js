@@ -77,7 +77,7 @@ $('.sucursal').bind('change', function(){
 });
 $('.tipoCaja').bind('change', function(e){
 	let suc = $('.sucursal').prop('selectedIndex'), val = true;
-	if((parseInt($('#saldoActual').val()) === 0 || parseInt($('#saldoActual').val()) < 0) && this.value !== 7){
+	/*if((parseInt($('#saldoActual').val()) === 0 || parseInt($('#saldoActual').val()) < 0) && this.value !== 7){
 		alert('No hay saldo suficiente para la Sucursal elegida');
 		$('#form_caja')[0].reset();
 		//$(this).prop('selectedIndex',0);
@@ -85,7 +85,7 @@ $('.tipoCaja').bind('change', function(e){
 		$('.sucursal').prop('selectedIndex',suc);
 		//$('.obs').html('');
 		val = false;
-	}
+	}*/
 	if(this.value === '9' && val){
 		let inputs = $('#gastos input'), sel = $('#gastos select');
 		$.each(inputs,function(i,e){ $(e).val(''); });
@@ -98,10 +98,10 @@ $('.tipoCaja').bind('change', function(e){
 	}
 });
 $('#btnEnviar').bind('click', function(e){
-	if(parseFloat($('#monto').val()) > parseFloat($('#saldoActual').val()) && parseInt($('.tipoCaja').val()) > 7){
+	/*if(parseFloat($('#monto').val()) > parseFloat($('#saldoActual').val()) && parseInt($('.tipoCaja').val()) > 7){
 		alert('El monto a pagar es mayor que el saldo');
 		e.preventDefault();
-	}
+	}*/
 	if(parseInt($('#monto').val()) === 0){
 		alert('El monto no puede ser igual a cero');
 		e.preventDefault();

@@ -113,21 +113,21 @@
 													</div>
 												</div>
 											</div>
-											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_p">
-												<div class="col-md-4">
+											<div class="row col-md-8 mt-2 mx-auto d-none" id="pagos_p">
+												<div class="col-md-6">
 													<div class="row">
 														<label for="montopago" class="align-self-center">Monto Pago:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-10 monto moneda" name="montopago" id="montopago" autocomplete="off" />
+														<input type="text" class="form-control col-md-11 monto moneda" name="montopago" id="montopago" autocomplete="off" />
 													</div>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-6">
 													<div class="row">
 														<label for="interestotal" class="align-self-center">Total Intereses:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-10 interes moneda" maxlength="3" name="interestotal" id="interestotal" autocomplete="off" />
+														<input type="text" class="form-control col-md-11 interes moneda" maxlength="3" name="interestotal" id="interestotal" autocomplete="off" />
 													</div>
 												</div>
 											</div>
@@ -151,7 +151,7 @@
 												<div class="col-md-4">
 													<div class="row"><label for="interescobro" class="align-self-center">&nbsp;&nbsp;</label></div>
 													<div class="custom-control custom-switch pr-0 d-inline ml-2">
-														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" disabled />
+														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" />
 														<label class="custom-control-label" for="checkliquida">Liquidar</label>
 													</div>
 												</div>
@@ -173,7 +173,7 @@
 											</div>
 											<div class="col-md-6 mb-3">
 												<div class="form-group row">
-													<label class="control-label col-md-3 align-self-center mb-md-0 ml-md-auto px-0" for="rescta">Estado de Cuenta Actual:</label>
+													<label class="control-label col-md-5 align-self-center mb-md-0 ml-md-auto px-0" for="rescta">Estado de Cuenta Actual:</label>
 													<div class="col-xs-10 mx-xs-auto col-md-4 mr-md-3">
 													<?
 														$clase = 'text-success';
@@ -295,9 +295,8 @@
 														<input type="text" class="form-control moneda" name="calidadIng" id="calidadIng" autocomplete="off" placeholder="0.00" />
 													</div>
 												</div>
-												
 												<div class="row my-4">
-													<div class="col-md-2 centraVert pr-0"><label for="articulo" class="col-12">Tasa (Pts.):</label></div>
+													<div class="col-md-2 centraVert pr-0"><label for="tasaIng" class="col-12">Tasa (Pts.):</label></div>
 													<div class="col-md-4">
 														<input type="text" class="form-control col-md-9 moneda" name="tasaIng" id="tasaIng" autocomplete="off" placeholder="0.00" />
 													</div>

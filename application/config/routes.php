@@ -106,6 +106,7 @@ $route['servicios/registrar'] = 'servicios/main/registrar';
 $route['cajas'] = 'servicios/main/cajas';
 $route['servicios/saldo'] = 'servicios/main/saldoCaja';
 $route['servicios/anular'] = 'servicios/main/anular';
+$route['servicios/comprobante'] = 'servicios/main/pdf';
 
 /* Certificado */
 $route['certificaciones/lista'] = 'certificaciones/main/listaCertificaciones';

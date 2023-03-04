@@ -136,4 +136,14 @@ class Servicios_model extends CI_Model
 			return is_null($rs->saldo)? 0 : sprintf("%1.2f",$rs->saldo);
 		}else return 0;
 	}
+	public function pdf($where)
+	{
+		$this->db->select('*');
+        $this->db->from('movimientos_caja');
+		$this->db->where($where);
+		$this->db->limit(1);
+		//$this->db->order_by('idtipooperacion', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
 }

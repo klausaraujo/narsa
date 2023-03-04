@@ -59,7 +59,8 @@ $(document).ready(function (){
 				type: 'POST',
 				data: function (d) {
 					d.id = id,
-					d.sucursal = $('.sucursal').val();
+					d.sucursal = $('.sucursal').val(),
+					d.tipoop = $('.tipoop').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
@@ -71,25 +72,29 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 							(data.idtipooperacion !== '6')?
-							'<a title="Anular Operaci&oacute;n" '+((data.activo === '1' || btnAnulaOp)?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
-								'&op=operaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
+							'<a title="Anular Operaci&oacute;n" '+(btnAnulaOp?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
+								'&op=operaciones"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular" data-anula="operaciones">'+
 								'<i class="far fa-trash" aria-hidden="true"></i></a>':
-							'<a title="Anular Operaci&oacute;n" '+((data.activo === '1' || btnAnulaOp)?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+
-								'&op=valorizop"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulaOp)?'disabled':'')+' anular" data-anula="operaciones">'+
+							'<a title="Anular Operaci&oacute;n" '+(btnAnulaOp?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+
+								'&op=valorizop"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular" data-anula="operaciones">'+
 								'<i class="far fa-trash" aria-hidden="true"></i></a>';
+						btnAccion +=
+							'<a title="Ver Comprobante" href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'+
+							' class="bg-success btnTable" target="_blank" ><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
 				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
 					data: 'monto',
-					className: 'text-left',
+					className: 'text-right',
 					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); }
 				},
-				{ data: 'intereses', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
+				{ data: 'intereses', className: 'text-right', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
+				{ data: 'tasa', className: 'text-right', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{
 					data: 'monto_factor_final',
-					className: 'text-left',
+					className: 'text-right',
 					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number); }
 				},
 				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
@@ -320,6 +325,13 @@ $(document).ready(function (){
 	}
 });
 
+$('#tablaOp').on('click','tr',function(){
+	alert('click');
+	if($('.tipoop').val() === '3'){
+		alert('Cobros');
+	}
+});
+
 window.onresize = function(){
 	//console.log(window.innerWidth);
 	//console.log(tablaValDetalle.columns(2).visible()[0]);
@@ -401,28 +413,32 @@ $('#form_transacciones').validate({
 	rules: {
 		tipoop: { required: function () { if ($('.tipoop').css('display') != 'none') return true; else return false; } },
 		sucursal: { required: function () { if ($('.sucursal').css('display') != 'none') return true; else return false; } },
-		monto: { required: function () { if ($('.monto').css('display') != 'none') return true; else return false; } },
-		interes: { required: function () { if ($('.interes').css('display') != 'none') return true; else return false; } },
+		fechavenc: { required: function () { if ($('#fechavenc').css('display') != 'none') return true; else return false; } },
+		monto: { required: function () { if ($('#monto').css('display') != 'none') return true; else return false; } },
+		interes: { required: function () { if ($('#interes').css('display') != 'none') return true; else return false; } },
+		montopago: { required: function () { if ($('#montopago').css('display') != 'none') return true; else return false; } },
+		interestotal: { required: function () { if ($('#interes').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipoop: { required: '&nbsp;&nbsp;Debe elegir una Transacci&oacute;n' },
 		sucursal: { required: '&nbsp;&nbsp;Debe elegir la Sucursal' },
+		fechavenc: { required: '&nbsp;&nbsp;Debe elegir una fecha' },
 		monto: { required: '&nbsp;&nbsp;Monto Requerido' },
-		interes: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' }
+		interes: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
+		montopago: { required: '&nbsp;&nbsp;Monto Requerido' },
+		interestotal: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 	},
 	errorPlacement: function(error, element) {
-		if (element.attr('name') == 'monto') {
-			$('#monto-error').html(error.html());
-		}else error.insertAfter(element);
+		error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		let mayor = false; tipoop = $('#tipoop').val();
+		tipoop = $('#tipoop').val();/*let mayor = false; 
 		if(tipoop === '2'){
 			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,''), monto = $('#monto').val();
 			if(parseFloat(monto) > parseFloat(mto)){ alert('No se puede pagar un monto mayor a la deuda'), mayor = true; return false; }
 		}
-		if(!mayor){
+		if(!mayor){*/
 			let formData = new FormData(document.getElementById('form_transacciones'));
 			formData.set('tipodetalle',$('#tipoop').find(':selected').text());
 			//console.log(parseFloat($('#monto').val()));
@@ -441,24 +457,27 @@ $('#form_transacciones').validate({
 					$('#form_transacciones button[type=submit]').html('Ejecutar');
 					$('#form_transacciones button[type=submit]').removeClass('disabled');
 					//console.log(data);
-					if(parseInt(data.status) === 200){
-						//$('html, body').animate({ scrollTop: 0 }, 'fast');
-						//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
-						tablaOp.ajax.reload();
-					}
 					if(parseInt(data.status) === 100) alert(data.message);
 					else{
-						if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
+						//if(!$('.interesAjax').css('display') == 'none' || $('.interesAjax').css('opacity') == 1) $('.interesAjax').hide();
 						let suc = $('#sucursal').prop('selectedIndex');
+						$('#opciones_p').addClass('d-none');
 						$('#form_transacciones')[0].reset();
 						$('#sucursal').prop('selectedIndex',suc);
 						$('.resp').html(data.message);
 						setTimeout(function () { $('.resp').html('&nbsp;'); }, 1500);
 					}
+					
+					if(parseInt(data.status) === 200){
+						//$('html, body').animate({ scrollTop: 0 }, 'fast');
+						//let op = $('#tipoop :selected').val(), suc = $('#sucursal :selected').val(); mto = $('#monto').val();
+						tablaOp.ajax.reload();
+					}
+					
 					muestraEdoCta(data.edocta);
 				}
 			});
-		}
+		//}
 	}
 });
 
@@ -488,6 +507,7 @@ $('#form_ingresos').validate({
 		let kg = $('#cantidadIng').val(), kgValor = isNaN($('#cantidadValoriz').val() || $('#cantidadValoriz').val() == '')? 0 : parseFloat($('#cantidadValoriz').val());
 		let costoValor = isNaN($('#costoValoriz').val() || $('#costoValoriz').val() == '')? 0 : parseFloat($('#costoValoriz').val()), ids = $('#sucursalIng').val();
 		let importe = (isNaN(kgValor) || isNaN(costoValor) || costoValor == '' || kgValor == '')? 0 : kgValor * costoValor, obs = $('#obsIng').val(), valor = false;
+		
 		
 		//console.log(parseFloat(costoValor) + "   " + parseFloat(kgValor));
 		if(parseFloat(kgValor) == 0 && $('#valorizaIng').prop('checked') === true){ alert('Debe indicar la cantidad a Valorizar'); return false; }
@@ -520,7 +540,7 @@ $('#form_ingresos').validate({
 			
 			var json = [{ 'idarticulo':$('#articuloIng').val(),'articulo':$('#articuloIng :selected').text(),'cantidad':kg,'idsucursal':$('#sucursalIng').val(),
 					'sucursal':$('#sucursalIng :selected').text(),'humedad':$('#humedadIng').val(),'calidad':$('#calidadIng').val(),'cantidad_valorizada':kgValor,
-					'costo':$('#costoValoriz').val(),'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),'importe':importe,
+					'costo':$('#costoValoriz').val(),'chk_valorizar':($('#valorizaIng').prop('checked')? 1 : 0),'importe':importe, 'tasa': $('#tasaIng').val(),
 			}];
 			
 			tablaIngDetalle.rows.add(json).draw();
@@ -622,7 +642,7 @@ $('#generarIng').bind('click',function(){
 			json[i] = { 'idarticulo':row.idarticulo, 'idsucursal': row.idsucursal, 'cantidad': row.cantidad, 'idproveedor': $('#idproveedor').val(),
 						'cantidad_valorizada': row.cantidad_valorizada, 'costo': row.costo, 'chk_valorizar': row.chk_valorizar, 'tipo_op': $('#pagoValoriz').val(),
 						'chk_pago': ($('#chkPagoValoriz').prop('checked')? 1 : 0), 'subtotal': $('#subTotalPago').val(), 'desembolso': $('#desembolso').val(),
-						'humedad': row.humedad, 'calidad': row.calidad,'observacion':$('#obsIng').val(),
+						'humedad': row.humedad, 'calidad': row.calidad,'observacion':$('#obsIng').val(),'tasa': row.tasa,
 					};
 			i++;
 		});
@@ -776,7 +796,8 @@ $('.tipoop').bind('change', function(){
 	$('#form_transacciones')[0].reset();
 	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
 	
-	$('#opciones_p').removeClass('d-none');
+	if(parseInt($('.tipoop').val()) > 0) $('#opciones_p').removeClass('d-none');
+	else $('#opciones_p').addClass('d-none');
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
 		if($('#pp_pe').css('display') == 'none' || $('#pp_pe').css('opacity') == 0) $('#pp_pe').removeClass('d-none');
@@ -786,7 +807,7 @@ $('.tipoop').bind('change', function(){
 		if($('#pagos_p').css('display') == 'none' || $('#pagos_p').css('opacity') == 0) $('#pagos_p').removeClass('d-none');
 		$('#pp_pe').addClass('d-none');
 		$('#cobros_p').addClass('d-none');
-	}else{
+	}else if($('.tipoop').val() === '3'){
 		if($('#cobros_p').css('display') == 'none' || $('#cobros_p').css('opacity') == 0) $('#cobros_p').removeClass('d-none');
 		$('#pp_pe').addClass('d-none');
 		$('#pagos_p').addClass('d-none');

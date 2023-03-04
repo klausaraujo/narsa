@@ -100,8 +100,10 @@ class Proveedores_model extends CI_Model
 		$dataOp['idtransaccion'] = $idtran;
 		$this->db->insert('movimientos_proveedor', $dataOp);
 		
-		/* Array para insertar en movimientos caja */
+		/* Array para insertar en movimientos caja, eliminamos las columnas no existentes */
 		unset($dataOp['idproveedor']);
+		unset($dataOp['liquidado']);
+		unset($dataOp['interes_total']);
 		$op = $this->tipoOperacion_caja(['tipo_operacion'=> $tipoDet,'activo' => 1]);
 		$factor = !empty($op)? $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : array();
 		
@@ -190,7 +192,7 @@ class Proveedores_model extends CI_Model
 				$idguia = $this->db->insert_id();
 			}
 			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->chk_valorizar,
-					'cantidad_valorizada'=>$row->cantidad_valorizada,'humedad'=>$row->humedad,'calidad'=>$row->calidad,'costo'=>$row->costo,'activo'=>1];
+					'cantidad_valorizada'=>$row->cantidad_valorizada,'humedad'=>$row->humedad,'calidad'=>$row->calidad,'tasa'=>$row->tasa,'costo'=>$row->costo,'activo'=>1];
 			$i++;
 		endforeach;
 		/* Insertar array de valores en la base */
