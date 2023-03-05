@@ -2797,7 +2797,7 @@ drop view lista_movimientos_proveedor;
 
 create view lista_movimientos_proveedor
 as
-select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,mp.idtransaccion,mp.monto,mp.interes as 'tasa',IF(mp.liquidado='1',0,((DATEDIFF(NOW(),mp.fecha_movimiento) * mp.monto)  * ((mp.interes)/30)/100)) as 'intereses',mp.interes_total as 'interes_pagado',f.idfactor,f.factor * mp.monto as monto_factor,f.factor * ((mp.monto)) as monto_factor_final,mp.fecha_vencimiento,mp.fecha_movimiento,DATEDIFF(NOW(),mp.fecha_movimiento) as 'dias'
+select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,mp.idtransaccion,mp.monto,mp.interes as 'tasa',IF(mp.liquidado='1',0,((DATEDIFF(NOW(),mp.fecha_movimiento) * mp.monto)  * ((mp.interes)/30)/100)) as 'intereses',mp.interes_total as 'interes_pagado',f.idfactor,f.factor * mp.monto as monto_factor,f.factor * ((mp.monto)) as monto_factor_final,mp.fecha_vencimiento,mp.fecha_movimiento,DATEDIFF(NOW(),mp.fecha_movimiento) as 'dias',mp.liquidado
 from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on top.idtipooperacion=mp.idtipooperacion inner join sucursal as s on s.idsucursal = mp.idsucursal inner join proveedor as p on p.idproveedor = mp.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join factor as f on f.idfactor=mp.idfactor
 where mp.activo='1'
 
