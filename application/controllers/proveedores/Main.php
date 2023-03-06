@@ -266,7 +266,7 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $tipo = $this->input->post('tipoop'); $tipoDet = $this->input->post('tipodetalle'); //$saldo = true;
-		$suc = $this->input->post('sucursal'); $monto = ''; $vence = date('Y-m-d'); $int = 0; $check = 0; $inttotal = 0; $cobro = true; $presta = 0;
+		$suc = $this->input->post('sucursal'); $monto = ''; $vence = date('Y-m-d'); $int = 0; $check = 0; $inttotal = 0; $cobro = true; $presta = 0; $parcial = false;
 		
 		if($tipo === '1' || $tipo === '7'){
 			$monto = $this->input->post('monto'); $vence = $this->input->post('fechavenc');
@@ -282,8 +282,8 @@ class Main extends CI_Controller
 				$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['liquidado' => 1]);
 			}else{
 				if(floatval($monto) > 0){
-					$presta -= $monto;
-					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['monto' => $presta,'fecha_movimiento' => date('Y-m-d H:i:s')]);
+					$presta -= $monto; $parcial = true;
+					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['monto' => $monto,'liquidado' => 1,'fecha_movimiento' => date('Y-m-d H:i:s')]);
 				}else{
 					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['fecha_movimiento' => date('Y-m-d H:i:s')]);
 				}
@@ -315,8 +315,39 @@ class Main extends CI_Controller
 				'activo' => '1',
 			);
 			if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet) > 0){
-				$message = 'Transacci&oacute;n registrada exitosamente';
-				$status = 200;
+				if($parcial){
+					$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>1,'activo'=>1]);
+					
+					$dataTransaccion = array(
+						'fecha' => date('Y-m-d'),
+						'vencimiento' => date('Y-m-d'),
+						'monto' => $presta,
+						'activo' => '1',
+					);
+					$dataOp = array(
+						'idtipooperacion' => 1,
+						'idsucursal' => $suc,
+						'idproveedor' => $id,
+						'monto' => $presta,
+						'interes' => $int,
+						'liquidado' => 0,
+						'interes_total' => 0,
+						'idfactor' => (!empty($factor)? $factor->idfactor : 1),
+						'fecha_vencimiento' => date('Y-m-d'),
+						'fecha_movimiento' => date('Y-m-d'),
+						'idusuario_registro' => $this->usuario->idusuario,
+						'fecha_registro' => date('Y-m-d'),
+						'activo' => '1',
+					);
+					
+					if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,'PRESTAMOS A PROVEEDORES') >0){
+						$message = 'Transacci&oacute;n registrada exitosamente';
+						$status = 200;
+					}
+				}else{
+					$message = 'Transacci&oacute;n registrada exitosamente';
+					$status = 200;
+				}
 			}
 		}
 		/*if($tipo === '1' || $tipo === '2' || $tipo === '4'){
