@@ -2,9 +2,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="shortcut icon" href="<?=base_url()?>/public/images/favicon.jpg"/>
 <link rel="icon" href="<?=base_url()?>/public/images/favicon.jpg" type="image/x-icon">
-<link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.min.css">
-<link rel="stylesheet" href="<?=base_url()?>/public/datatable/datatables.min.css">
-<link rel="stylesheet" href="<?=base_url()?>/public/datatable/responsive.dataTables.min.css">
+<!--<link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.min.css">-->
+<link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.css">
+<!--<link rel="stylesheet" href="<?=base_url()?>/public/datatable/datatables.min.css">
+<link rel="stylesheet" href="<?=base_url()?>/public/datatable/responsive.dataTables.min.css">-->
+<link rel="stylesheet" href="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/typography.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/style.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">
@@ -28,6 +30,7 @@
 .modal-lg, .modal-xl { max-width: 900px; }
 .modal-ing { max-width: 1100px; }
 table.dataTable tr, th, td{font-size: 0.8rem;}
+#tablaCobros tr, #tablaCobros th, #tablaCobros td{font-size: 0.7rem;}
 </style>
 
 <?if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>

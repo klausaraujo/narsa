@@ -103,6 +103,7 @@ class Proveedores_model extends CI_Model
 		/* Array para insertar en movimientos caja, eliminamos las columnas no existentes */
 		unset($dataOp['idproveedor']);
 		unset($dataOp['liquidado']);
+		$dataOp['interes'] = $dataOp['interes_total'];
 		unset($dataOp['interes_total']);
 		$op = $this->tipoOperacion_caja(['tipo_operacion'=> $tipoDet,'activo' => 1]);
 		$factor = !empty($op)? $this->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : array();
@@ -496,5 +497,14 @@ class Proveedores_model extends CI_Model
 		$this->db->where($where);
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
-	}//Anular
+	}
+	public function actMovProv($where, $data){
+		$this->db->db_debug = FALSE;
+		$this->db->set($data, TRUE);
+        $this->db->where($where);
+		if($this->db->update('movimientos_proveedor'))return true;
+		else return false;
+        //else { $error = $this->db->error(); return $error["code"];}
+		
+	}
 }

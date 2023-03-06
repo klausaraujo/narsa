@@ -127,17 +127,19 @@
 														<label for="interestotal" class="align-self-center">Total Intereses:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-11 interes moneda" maxlength="3" name="interestotal" id="interestotal" autocomplete="off" />
+														<input type="text" class="form-control col-md-11 interes moneda" name="interestotal" id="interestotal" autocomplete="off" />
 													</div>
 												</div>
 											</div>
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="cobros_p">
+												<input type="hidden" id="mtoprestamo" name="mtoprestamo" /><input type="hidden" id="intprestamo" name="intprestamo" />
+												<input type="hidden" id="idprestamo" name="idprestamo" /><input type="hidden" id="tasaprestamo" name="tasaprestamo" />
 												<div class="col-md-4">
 													<div class="row">
 														<label for="montocobro" class="align-self-center">Monto Cobro:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-10 monto moneda" name="montocobro" id="montocobro" autocomplete="off" />
+														<input type="text" class="form-control col-md-10 monto moneda blur" name="montocobro" id="montocobro" autocomplete="off" readonly />
 													</div>
 												</div>
 												<div class="col-md-4">
@@ -145,15 +147,19 @@
 														<label for="interescobro" class="align-self-center">Total Intereses:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-10 interes moneda" maxlength="3" name="interescobro" id="interescobro" autocomplete="off" />
+														<input type="text" class="form-control col-md-10 interes moneda blur" name="interescobro" id="interescobro" autocomplete="off" readonly />
 													</div>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-2">
 													<div class="row"><label for="interescobro" class="align-self-center">&nbsp;&nbsp;</label></div>
 													<div class="custom-control custom-switch pr-0 d-inline ml-2">
-														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" />
+														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" disabled />
 														<label class="custom-control-label" for="checkliquida">Liquidar</label>
 													</div>
+												</div>
+												<div class="col-8 mx-auto mt-3"><!--class="table-responsive" -->
+												<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
 												</div>
 											</div>
 											<div class="row col-11 mx-auto mt-3">
@@ -185,9 +191,11 @@
 													</div>
 												</div>
 											</div>
-											<div style="overflow-x:hidden" class="col-12"><!--class="table-responsive" -->
+											<!--<div style="overflow-x:hidden" class="col-12"><!--class="table-responsive" -->
+											<div style="overflow-x:scroll" class="col-12">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-												<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+												<!--<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
+												<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 											</div>
 										</div>
 									</div>

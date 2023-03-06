@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, tablaCobros;
 
 /*function formateaNumero(value) {
   v = parseFloat(value)
@@ -22,7 +22,7 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
-				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				/*{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },*/
 				{
 					data: null,
 					orderable: false,
@@ -65,7 +65,7 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
-				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				/*{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },*/
 				{
 					data: null,
 					orderable: false,
@@ -86,14 +86,14 @@ $(document).ready(function (){
 				},
 				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
-					data: 'monto',
+					data: 'monto_factor_final',
 					className: 'text-right',
 					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); }
 				},
 				{ data: 'intereses', className: 'text-right', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{ data: 'tasa', className: 'text-right', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{
-					data: 'monto_factor_final',
+					data: 'interes_pagado',
 					className: 'text-right',
 					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number); }
 				},
@@ -320,15 +320,67 @@ $(document).ready(function (){
 			columnDefs: headersVal,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
+		
+		tablaCobros = $('#tablaCobros').DataTable(
+		{
+			ajax:{
+				url: base_url + 'proveedores/cobros/lista',
+				type: 'POST',
+				data: function (d) {
+					d.id = id,
+					d.sucursal = $('.sucursal').val(),
+					d.tipoop = $('.tipoop').val();
+				}
+			},
+			columns:[
+				{ data: 'tipo_operacion' },
+				{ data: 'monto', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
+				{ data: 'intereses', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
+			],
+			columnDefs: [
+				/*{ orderable: false,className:'select-checkbox',targets:0 },*/
+				{ title: 'Tipo Op.', targets: 0 },{ title: 'Monto ', targets: 1 },{ title: 'Intereses', targets: 2 },
+			],
+			pageLength: 5, dom: 'tp', order: [],
+		});
+		
+		
 		if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
 		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
 	}
 });
 
-$('#tablaOp').on('click','tr',function(){
-	alert('click');
+$('#tablaCobros').on('click','tr',function(){
+	//alert('click');
 	if($('.tipoop').val() === '3'){
-		alert('Cobros');
+		//alert('Cobros');
+		if(tablaCobros.rows().count() > 0){
+			let fila = tablaCobros.row(this).data(), valid = $('#form_transacciones').validate();
+			console.log(fila);
+			valid.resetForm();
+			$('#form_transacciones .error').removeClass('error');
+						
+			if($(this).hasClass('selected')) {
+				$(this).removeClass('selected');
+			}else{
+				$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+			if($('tr.selected').length > 0){				
+				$('#interescobro').val(parseFloat(fila.intereses).toFixed(2)), $('#montocobro').val(parseFloat(fila.monto).toFixed(2));
+				$('#mtoprestamo').val(parseFloat(fila.monto)), $('#intprestamo').val(parseFloat(fila.intereses));
+				$('#montocobro').removeAttr('readonly'), $('#interescobro').removeAttr('readonly'), $('#checkliquida').removeAttr('disabled');
+				$('#checkliquida').prop('checked', true), $('#idprestamo').val(fila.idmovimiento), $('#tasaprestamo').val(fila.tasa);
+			}else{
+				let tipo = $('.tipoop').prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
+				$('#form_transacciones')[0].reset();
+				$('#montocobro').attr('readonly', true);
+				$('#interescobro').attr('readonly', true);
+				$('#checkliquida').attr('disabled', true);
+				$('.tipoop').prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
+			}
+			
+		}
 	}
 });
 
@@ -418,6 +470,8 @@ $('#form_transacciones').validate({
 		interes: { required: function () { if ($('#interes').css('display') != 'none') return true; else return false; } },
 		montopago: { required: function () { if ($('#montopago').css('display') != 'none') return true; else return false; } },
 		interestotal: { required: function () { if ($('#interes').css('display') != 'none') return true; else return false; } },
+		montocobro: { required: function () { if ($('#montocobro').css('display') != 'none') return true; else return false; } },
+		interescobro: { required: function () { if ($('#interescobro').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipoop: { required: '&nbsp;&nbsp;Debe elegir una Transacci&oacute;n' },
@@ -427,14 +481,20 @@ $('#form_transacciones').validate({
 		interes: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 		montopago: { required: '&nbsp;&nbsp;Monto Requerido' },
 		interestotal: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
+		montocobro: { required: '&nbsp;&nbsp;Monto Requerido' },
+		interescobro: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 	},
 	errorPlacement: function(error, element) {
 		error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		tipoop = $('#tipoop').val();/*let mayor = false; 
-		if(tipoop === '2'){
+		tipoop = $('#tipoop').val();/*let mayor = false;*/
+		if(tipoop === '3'){
+			if(parseFloat($('#montocobro').val()) === parseFloat($('#mtoprestamo').val()) && !$('#checkliquida').prop('checked')) $('#checkliquida').prop('checked', true);
+			else if(parseFloat($('#montocobro').val()) < parseFloat($('#mtoprestamo').val()) && $('#checkliquida').prop('checked')) $('#checkliquida').prop('checked', false);
+		}
+		/*if(tipoop === '2'){
 			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,''), monto = $('#monto').val();
 			if(parseFloat(monto) > parseFloat(mto)){ alert('No se puede pagar un monto mayor a la deuda'), mayor = true; return false; }
 		}
@@ -798,6 +858,12 @@ $('.tipoop').bind('change', function(){
 	
 	if(parseInt($('.tipoop').val()) > 0) $('#opciones_p').removeClass('d-none');
 	else $('#opciones_p').addClass('d-none');
+	
+	$('#montocobro').attr('readonly', true);
+	$('#interescobro').attr('readonly', true);
+	$('#checkliquida').attr('disabled', true);
+	tablaCobros.clear().draw();
+	
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
 		if($('#pp_pe').css('display') == 'none' || $('#pp_pe').css('opacity') == 0) $('#pp_pe').removeClass('d-none');
@@ -809,6 +875,7 @@ $('.tipoop').bind('change', function(){
 		$('#cobros_p').addClass('d-none');
 	}else if($('.tipoop').val() === '3'){
 		if($('#cobros_p').css('display') == 'none' || $('#cobros_p').css('opacity') == 0) $('#cobros_p').removeClass('d-none');
+		tablaCobros.ajax.reload();
 		$('#pp_pe').addClass('d-none');
 		$('#pagos_p').addClass('d-none');
 	}

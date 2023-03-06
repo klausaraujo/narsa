@@ -372,6 +372,25 @@ $('.blur').on('blur',function(){
 			$('#baseImp').val(formatMoneda(base));
 			$('#base_imponible').val(base);
 		}else $('#baseImp').val('');
+	}else if(id === 'montocobro'){
+		let mtop = parseFloat($('#mtoprestamo').val());
+		console.log(this.value);
+		console.log(parseFloat($('#mtoprestamo').val()));
+		if(parseFloat(this.value) == mtop) $('#checkliquida').prop('checked', true);
+		else if(parseFloat(this.value) > mtop){
+			$('#checkliquida').removeAttr('checked');
+			this.value = "";
+			alert('El Monto del cobro no puede ser mayor al préstamo');
+			$(this).focus();
+		}else if(parseFloat(this.value) < mtop) $('#checkliquida').removeAttr('checked');
+		
+	}else if(id === 'interescobro'){
+		let intp = parseFloat($('#intprestamo').val());
+		if(parseFloat(this.value) > intp){
+			this.value = "";
+			alert('El pago de intereses no puede ser mayor a los intereses generados');
+			$(this).focus();
+		}
 	}
 	
 });

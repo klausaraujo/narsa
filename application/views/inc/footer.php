@@ -1,6 +1,7 @@
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="<?=base_url()?>/public/js/jquery.min.js"></script>
+		<!--<script src="<?=base_url()?>/public/js/jquery-3.5.1.js"></script>-->
 		<script src="<?=base_url()?>/public/js/popper.min.js"></script>
 		<script src="<?=base_url()?>/public/js/bootstrap.min.js"></script>
 		  <!-- Appear JavaScript -->
@@ -40,8 +41,10 @@
 		<script src="<?=base_url()?>/public/js/chart-custom.js"></script>
 		<!-- Custom JavaScript -->
 		<script src="<?=base_url()?>/public/js/custom.js"></script>
-		<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
-		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>
+		<!--<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
+		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>-->
+		<script src="<?=base_url()?>/public/datatable/jquery.dataTables.min.js"></script>
+		<script src="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.js"></script>
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
