@@ -2761,8 +2761,6 @@ alter table movimientos_caja modify column impuesto_renta decimal(20,2);
 
 alter table movimientos_caja add detalle_comprobante varchar(500) after impuesto_renta;
 
-/*INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(19,'Editar Movimiento','1',19,2);
-INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(20,'Anular Movimiento','1',20,2);*/
 INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(21,'Reportar Movimiento','1',21,2);
 
 alter table movimientos_caja add check_igv char(1) after impuesto_igv;
