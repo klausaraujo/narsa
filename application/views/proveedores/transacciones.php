@@ -192,11 +192,20 @@
 												</div>
 											</div>
 											<!--<div style="overflow-x:hidden" class="col-12"><!--class="table-responsive" -->
-											<div style="overflow-x:scroll" class="col-12">
-											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-												<!--<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
-												<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+											<div class="container-fluid">
+												<div class="row">
+													<div class="col-12 mx-auto" style="overflow-x:auto">
+													<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+														<!--<table id="tablaUsuarios" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
+														<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+													</div>
+												</div>
 											</div>
+											<!--<div style="overflow-x:scroll" class="col-12">
+											<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+												<!--<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+												<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+											</div>-->
 										</div>
 									</div>
 								</div>
@@ -214,7 +223,7 @@
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div style="overflow-x:scroll" class="col-12">
+											<div class="col-12 mx-auto" style="overflow-x:auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<!--<table id="tablaIngresos" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
 												<table id="tablaIngresos" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
@@ -234,7 +243,7 @@
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
 									<div class="container-fluid my-2">
 										<div class="row">
-											<div style="overflow-x:scroll" class="col-12">
+											<div class="col-12 mx-auto" style="overflow-x:auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<!--<table id="tablaValorizaciones" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
 												<table id="tablaValorizaciones" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
@@ -346,11 +355,13 @@
 									</form>
 								</div>
 								<div class="container-fluid">
-									<div style="overflow-x:scroll" class="row col-md-12">
+									<div class="row mx-2">
+										<div class="col-12" style="overflow-x:auto">
 										<!--<div class="table-responsive">
 											<table id="tablaIngDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-11"></table>
 										</div>-->
-										<table id="tablaIngDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+											<table id="tablaIngDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+										</div>
 									</div>
 								</div>
 								<!--<div class="clearfix"></div>-->
@@ -440,12 +451,13 @@
 										</div>
 									</form>
 								</div>
-								<div class="container-fluid my-2">
-									<div style="overflow-x:scroll" class="row col-12">
-										<!--<div class="table-responsive">
-											<table id="tablaValDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-11" style="100%"></table>
+								<div class="container-fluid">
+									<div class="row mx-2">
+										<div class="col-12" style="overflow-x:auto">
+											<!--<table id="tablaValDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-11" style="100%"></table>
 										</div>-->
-										<table id="tablaValDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+											<table id="tablaValDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+										</div>
 									</div>
 								</div>
 								<!--<div class="clearfix"></div>-->
@@ -518,9 +530,10 @@
 									</form>
 								</div>
 								<div class="container-fluid my-2">
-									<div class="row">
-										<div class="table-responsive">
-											<table id="tablaIngEditarDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-9"></table>
+									<div class="row mx-2">
+										<div class="col-12" style="overflow-x:auto">
+											<!--<table id="tablaIngEditarDetalle" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto px-0 col-md-9"></table>-->
+											<table id="tablaIngEditarDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 										</div>
 									</div>
 								</div>

@@ -140,22 +140,24 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		
 		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
+		$data = [];
 		
-		if($tipo === ''){
-			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc]);
-			$filtro = []; $i = 0;
+		if($tipo === '') $data = [ 'idproveedor' => $id, 'idsucursal' => $suc ];
+		else $data = [ 'idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => $tipo ];
+		
+		$lista = $this->Proveedores_model->listaOperaciones($data);
+		$filtro = []; $i = 0;
 			
-			foreach($this->usuario->sucursales as $sucursal):
-				foreach($lista as $row):
-					if($row->idsucursal === $sucursal->idsucursal){
-						$filtro[$i] = $row;
-						$i++;
-					}
-				endforeach;			
-			endforeach;
-			
-			echo json_encode(['data' => $filtro]);
-		}
+		foreach($this->usuario->sucursales as $sucursal):
+			foreach($lista as $row):
+				if($row->idsucursal === $sucursal->idsucursal){
+					$filtro[$i] = $row;
+					$i++;
+				}
+			endforeach;			
+		endforeach;
+		
+		echo json_encode(['data' => $filtro]);
 	}
 	public function listaIngresos()
 	{

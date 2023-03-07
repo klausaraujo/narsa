@@ -8,7 +8,7 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
-				{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },
+				/*{ data: null, orderable: false, className: 'pl-3', render: function(data){ return ''; } },*/
 				{
 					data: null,
 					orderable: false,

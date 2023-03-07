@@ -54,10 +54,10 @@ class Main extends CI_Controller
 		$modulos = $this->Usuarios_model->buscaModulos();
 		
 		$headers = array(
-			'0'=>['title' => '', 'targets' => 0],'1'=>['title' => 'Acciones', 'targets' => 1],'2'=>['title' => 'ID', 'targets' => 2],'3'=>['title' => 'Documento', 'targets' => 3],
-			'4'=>['title' => 'N&uacute;mero', 'targets' => 4],'5'=>['title' => 'Avatar', 'targets' => 5],'6'=>['title' => 'Apellidos', 'targets' => 6],'7'=>['title' => 'Nombres', 'targets' => 7],
-			'8'=>['title' => 'Usuario', 'targets' => 8],'9'=>['title' => 'Perfil', 'targets' => 9],'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],
-			'12'=>['targets' => 2, 'visible' => false],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
+			'4'=>['title' => 'Avatar', 'targets' => 4],'5'=>['title' => 'Apellidos', 'targets' => 5],'6'=>['title' => 'nombres', 'targets' => 6],'7'=>['title' => 'Usuario', 'targets' => 7],
+			'8'=>['title' => 'Perfil', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],/*'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],*/
+			'10'=>['targets' => 2, 'visible' => false],
 		);
 		$data = array(
 			'permisos' => $permisos,

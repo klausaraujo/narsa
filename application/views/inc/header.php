@@ -31,6 +31,7 @@
 .modal-ing { max-width: 1100px; }
 table.dataTable tr, th, td{font-size: 0.8rem;}
 #tablaCobros tr, #tablaCobros th, #tablaCobros td{font-size: 0.7rem;}
+.form-control-sm{ line-height: 1.5 }
 </style>
 
 <?if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>

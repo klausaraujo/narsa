@@ -40,7 +40,7 @@ jQuery(document).ready(function($){
 					}
 				},
 				{ data: 'idtipooperacion' },{ data: 'idmovimiento', render: function(data){ return ceros(data,6); } },{ data: 'sucursal' },{ data: 'tipo_operacion' },
-				{ data: 'monto', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
+				{ data: 'monto_factor_final', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{ data: 'fecha_registro' },
 			],
 			columnDefs:headers,order: [],

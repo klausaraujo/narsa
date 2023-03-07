@@ -8,11 +8,12 @@
 									</div><?}?>
 								</div>
 								<div class="container-fluid">
-									<div class="row">
-										<div style="overflow-x:scroll" class="col-12"> <!--class="table-responsive" -->
+									<div class="row"> <!--class="table-responsive" -->
+										<div class="col-12 mx-auto" style="overflow-x:auto">
 										<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 											<!--<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
-											<table id="tablaProveedores" class="table table-striped table-hover table-bordered mx-auto"></table>
+											<!--<table id="tablaProveedores" class="table table-striped table-hover table-bordered mx-auto"></table>-->
+										<table id="tablaProveedores" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 										</div>
 									</div>
 								</div>
