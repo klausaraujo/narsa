@@ -128,7 +128,7 @@
 			foreach($lista as $row):
 				if($row->idsucursal === $s){
 					$fecha = date_format(date_create($row->fecha_movimiento),'d-m-Y'); $mto += floatval($row->monto_factor_final); $essucursal = true;
-					$mtofinal = floatval($row->monto_factor_final) < 0? floatval($row->monto_factor_final) * -1 : $row->monto_factor_final;
+					$mtofinal = $row->monto_factor_final;
 					//number_format($numero, 2, ",", ".");
 					if($i === 0){
 	?>
