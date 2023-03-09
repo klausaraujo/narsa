@@ -475,6 +475,8 @@ class Main extends CI_Controller
 						'idproveedor' => $data[0]->idproveedor,
 						'monto' => $montopag,
 						'interes' => 0,
+						'liquidado' => 0,
+						'interes_total' => 0,
 						'idfactor' => $factor,
 						'fecha_vencimiento' => date('Y-m-d H:i:s'),
 						'fecha_movimiento' => date('Y-m-d H:i:s'),
