@@ -678,10 +678,10 @@
 									<h4 class="modal-title" id="myModalLabel">Seleccionar Catador</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
-								<div class="modal-body" style="overflow: hidden;">
+								<div class="modal-body">
 									<div class="container-fluid mt-2">
 										<div class="row">
-											<div style="overflow-x:hidden" class="col-12"> <!--class="table-responsive" -->
+											<div class="col-12 mx-auto" style="overflow-x:auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<table id="tablaCatadores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto" style="width:100%">
 													<thead><tr><th>ID</th><th>Documento</th><th>Nombres del Catador</th><th>nombres</th></tr></thead>

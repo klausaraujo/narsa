@@ -31,7 +31,10 @@
 .modal-ing { max-width: 1100px; }
 table.dataTable tr, th, td{font-size: 0.8rem;}
 #tablaCobros tr, #tablaCobros th, #tablaCobros td{font-size: 0.7rem;}
-.form-control-sm{ line-height: 1.5 }
+div.dataTables_wrapper div.dataTables_length .form-control-sm{
+	line-height: 1.5;
+	background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
+}
 </style>
 
 <?if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>

@@ -40,11 +40,12 @@
 									</div>
 								</div><?}?>
 								<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
-								<div class="container-fluid mt-2">
-									<div class="row">
-										<div style="overflow-x:hidden" class="col-12"> <!--class="table-responsive" -->
+								<div class="container-fluid">
+									<div class="row"> <!--class="table-responsive" -->
+										<div class="col-12 mx-auto" style="overflow-x:auto">
 										<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-											<table id="tablaCertificaciones" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
+											<!--<table id="tablaCertificaciones" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
+											<table id="tablaCertificaciones" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 										</div>
 									</div>
 								</div>

@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
 					d.sucursal = $('.sucursal').val();
 				}
 			},
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
 			columns:[
 				{
 					data: null,
@@ -64,7 +64,7 @@ jQuery(document).ready(function($){
 				}
 			},
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
-			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language:{ lngDataTable },
+			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
 		});
 	}else if(segmento2 === 'parametros'){
 		tablaCatSelec = $('#tablaCatadores').DataTable({
@@ -88,11 +88,11 @@ jQuery(document).ready(function($){
 				{ data: 3, visible: false }
 			],
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
-			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language:{ lngDataTable },
+			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
 		});
 		tablaCat = $('#tablaSeleccionCatadores').DataTable({
 			data: [],
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
 			columns:[
 				{
 					data: null,
@@ -215,21 +215,38 @@ $('#tablaSeleccionCatadores').on('click','a', function(){
 });
 
 $('#modalProveedores').on('show.bs.modal',function(e){});
-/*
-$('form').validate({
+
+$('#form_certificado').validate({
+	errorClass: 'form_error',
+	validClass: 'success',
 	rules: {
-		sucursalCert: { required: function () { if ($('.sucursalCert').css('display') != 'none') return true; else return false; } },
+		productor: { required: function () { if ($('#productor').css('display') != 'none') return true; else return false; } },
+		sucursalCert: { required: function () { if ($('#sucursalCert').css('display') != 'none') return true; else return false; } },
+		fecha: { required: function () { if ($('#fecha').css('display') != 'none') return true; else return false; } },
+		h2o: { required: function () { if ($('#h2o').css('display') != 'none') return true; else return false; } },
+		altitud: { required: function () { if ($('#altitud').css('display') != 'none') return true; else return false; } },
+		proceso: { required: function () { if ($('#proceso').css('display') != 'none') return true; else return false; } },
+		densidad: { required: function () { if ($('#densidad').css('display') != 'none') return true; else return false; } },
+		variedad: { required: function () { if ($('#variedad').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
-		sucursalCert: { required: '' },
+		productor: { required: 'Debe Elegir un Productor' },
+		sucursalCert: { required: '' }, fecha: { required: '' }, h2o: { required: '' }, altitud: { required: '' },
+		proceso: { required: '' }, densidad: { required: '' }, variedad: { required: '' },
+	},
+	errorPlacement: function(error, element) {
+		let boton = $('#buscar');
+		if (element.attr('name') == 'productor') error.insertAfter(boton);
+		//else error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
-		let boton = $(this).find('button');
+		let boton = $('#btnEnviar');
 		$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-		$(boton).addClass('disabled');
+		$(boton).addClass('disabled'); $('.btn-cancelar').addClass('disabled');
 		return true;
 	}
-});*/
+});
+
 $('.form').on('submit',function(e){
 	e.preventDefault();
 	let boton = $(this).find('button'), f = e.target;

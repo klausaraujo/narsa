@@ -146,7 +146,7 @@ class Main extends CI_Controller
 		else $data = [ 'idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => $tipo ];
 		
 		$lista = $this->Proveedores_model->listaOperaciones($data);
-		$filtro = []; $i = 0;
+		/*$filtro = []; $i = 0;
 			
 		foreach($this->usuario->sucursales as $sucursal):
 			foreach($lista as $row):
@@ -155,9 +155,9 @@ class Main extends CI_Controller
 					$i++;
 				}
 			endforeach;			
-		endforeach;
+		endforeach;*/
 		
-		echo json_encode(['data' => $filtro]);
+		echo json_encode(['data' => $lista]);
 	}
 	public function listaIngresos()
 	{
@@ -204,18 +204,17 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Proveedores_model');
 		
-		$id = $this->input->post('id');
-		$suc = $this->input->post('suc');
-		$lista = $this->Proveedores_model->listaValorizacionDetalle(['idproveedor' => $id,'cantidad >'=>0]);
+		$id = $this->input->post('id'); $suc = $this->input->post('suc');
+		$lista = $this->Proveedores_model->listaValorizacionDetalle(['idproveedor' => $id, 'idsucursal' => $suc,'cantidad >' => 0]);
 		$filtro = []; $i = 0;
 		
 		foreach($lista as $row):
-			if($row->idsucursal === $suc){
-				$costo = $this->Proveedores_model->costoValoriz(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
-				$filtro[$i] = $row;
-				$filtro[$i]->costo = !empty($costo)? $costo[0]->costo : 0;
-				$i++;
-			}		
+			//if($row->idsucursal === $suc){
+			$costo = $this->Proveedores_model->costoValoriz(['idguia'=>$row->idguia,'idarticulo'=>$row->idarticulo]);
+			$filtro[$i] = $row;
+			$filtro[$i]->costo = !empty($costo)? $costo[0]->costo : 0;
+			$i++;
+			//}		
 		endforeach;
 		
 		echo json_encode(['data' => $filtro]);
@@ -228,7 +227,7 @@ class Main extends CI_Controller
 		
 		if($tipo !== ''){
 			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 1, 'liquidado' => 0]);
-			$filtro = []; $i = 0;
+			/*$filtro = []; $i = 0;
 			
 			foreach($this->usuario->sucursales as $sucursal):
 				foreach($lista as $row):
@@ -237,9 +236,9 @@ class Main extends CI_Controller
 						$i++;
 					}
 				endforeach;			
-			endforeach;
+			endforeach;*/
 			
-			echo json_encode(['data' => $filtro]);
+			echo json_encode(['data' => $lista]);
 		}else{
 			echo json_encode(['data'=>array()]);
 		}
@@ -577,6 +576,10 @@ class Main extends CI_Controller
 			/* var_dump($edocta); var_dump($valor); echo nl2br("\n"); var_dump($guia); */
 			
 			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'datos' => $datosProv,'edocta' => $edocta], true);
+		}elseif($this->input->get('op') === 'impresion'){
+			$operacion = $this->Proveedores_model->listaOperacion(['idtransaccion' => $id]);
+			$data = ['movimiento' => $operacion];
+			$html = $this->load->view('proveedores/transaccion-pdf', $data, true);
 		}
 		
 		if(floatval(phpversion()) < $versionphp){

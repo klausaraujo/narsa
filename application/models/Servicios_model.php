@@ -138,8 +138,11 @@ class Servicios_model extends CI_Model
 	}
 	public function pdf($where)
 	{
-		$this->db->select('*');
-        $this->db->from('movimientos_caja');
+		$this->db->select('c.*,s.sucursal,t.tipo_operacion,f.factor');
+        $this->db->from('movimientos_caja c');
+		$this->db->join('sucursal s','s.idsucursal=c.idsucursal');
+		$this->db->join('tipo_operacion_caja t','t.idtipooperacion=c.idtipooperacion');
+		$this->db->join('factor f','f.idfactor=c.idfactor');
 		$this->db->where($where);
 		$this->db->limit(1);
 		//$this->db->order_by('idtipooperacion', 'ASC');

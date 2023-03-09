@@ -145,10 +145,18 @@ class Main extends CI_Controller
 	public function pdf()
 	{
 		$this->load->model('Servicios_model');
-		$id = $this->input->get('id');
+		$versionphp = 7; $id = $this->input->get('id'); $a5 = 'A4'; $direccion = 'portrait';
 		
 		$mov = $this->Servicios_model->pdf(['idmovimiento' => $id]);
+		$data = ['movimiento' => $mov];
+		$html = $this->load->view('servicios/mov_caja-pdf', $data, true);
 				
-		var_dump($mov);
+		if(floatval(phpversion()) < $versionphp){
+			$this->load->library('dom');
+			$this->dom->generate($direccion, $a5, $html, 'Comprobante');
+		}else{
+			$this->load->library('dom1');
+			$this->dom1->generate($direccion, $a5, $html, 'Comprobante');
+		}
 	}
 }

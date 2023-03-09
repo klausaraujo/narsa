@@ -153,11 +153,11 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
-	public function listaValorizacionDetalle($data)
+	public function listaValorizacionDetalle($where)
 	{
 		$this->db->select('idguia,anio_guia,numero,idarticulo,articulo,cantidad,idsucursal');
         $this->db->from('lista_ingresos_valorizaciones_saldo');
-		$this->db->where($data);
+		$this->db->where($where);
 		$this->db->order_by('idguia ASC, idarticulo ASC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
@@ -505,6 +505,15 @@ class Proveedores_model extends CI_Model
 		if($this->db->update('movimientos_proveedor'))return true;
 		else return false;
         //else { $error = $this->db->error(); return $error["code"];}
-		
 	}
+	public function listaOperacion($where)
+    {
+        $this->db->select('*');
+        $this->db->from('lista_movimientos_proveedor');
+		$this->db->where($where);
+		$this->db->limit(1);
+		//$this->db->order_by('idmovimiento', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+    }
 }

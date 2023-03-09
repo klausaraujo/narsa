@@ -14,10 +14,9 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="productor">&nbsp;&nbsp;Productor:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control fecha col-8" id="productor" name="productor" required="" readonly >
+													<input type="text" class="form-control productor col-8" id="productor" name="productor" readonly required="">
 													<a type="button" class="btn btn-small btn-narsa align-self-center text-small ml-1 text-white" data-toggle="modal" 
 															data-target="#modalProveedores" id="buscar">Buscar</a>
-													<div class="invalid-feedback">Debe indicar un productor</div>
 												</div>
 											</div>
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="sucursalCert">&nbsp;&nbsp;Sucursal:</label>
@@ -56,7 +55,7 @@
 													<div class="invalid-feedback">Debe indicar la Altitud</div>
 												</div>
 											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="sucursalCert">&nbsp;&nbsp;Proceso:</label>
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="proceso">&nbsp;&nbsp;Proceso:</label>
 											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
 												<div class="row">
 													<select class="form-control proceso" name="proceso" id="proceso" required="">
@@ -114,14 +113,16 @@
 									<h4 class="modal-title" id="myModalLabel">Elegir Productor</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
-								<div class="modal-body" style="overflow: hidden;">
-									<div class="container-fluid mt-2">
+								<div class="modal-body">
+									<div class="container-fluid">
 										<div class="row">
-											<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
-												<thead><tr><th>ID</th><th>Nombre del Productor</th></tr></thead>
-											</table>
+											<div class="col-12 mx-auto" style="overflow-x:auto">
+												<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
+													<thead><tr><th>ID</th><th>Nombre del Productor</th></tr></thead>
+												</table>
+											</div>
 										</div>
-									</div>								
+									</div>
 								</div>
 							</div>
 						</div>
