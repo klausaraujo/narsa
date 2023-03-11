@@ -31,7 +31,7 @@ jQuery(document).ready(function($){
 							'<i class="far fa-house" aria-hidden="true"></i></a>'+
 						'<a title="Anular Certificado" '+hrefAnular+' class="bg-danger btnTable anular '+(!btnAnular || !data.activo?'disabled':'')+'">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
-						'<a title="Ver Certificado" '+hrefPdf+' class="bg-info btnTable '+(!btnAnular || !data.activo?'disabled':'')+'" target="_blank">'+
+						'<a title="Ver Certificado" '+hrefPdf+' class="bg-primary btnTable '+(!btnAnular || !data.activo?'disabled':'')+'" target="_blank">'+
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}

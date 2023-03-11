@@ -482,3 +482,24 @@ $('#busca_ruc').on('click',function(){
 		});
 	}
 });
+
+$('table').on('click','tr',function(event){
+	let tabla = $(this).closest('table');
+	if(tabla.hasClass('t-sel')){
+		let bot = $(this).find('.btnTable');
+		if($(this).hasClass('selected')) {
+			//$(this).removeClass('selected');
+		}else{
+			$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+		}
+		//bot.find('i').css('color','#fff');
+		//console.log(bot.hasClass('disabled'));
+		$.each(bot,function(i,e){
+			//console.log(e);
+			if(!$(e).hasClass('disabled')){ $(e).css('color','#fff'); }
+			if($(e).hasClass('btnActivar')){ $(e).css('color','red'); }
+			if($(e).hasClass('btnDesactivar')){ $(e).css('color','green'); }
+		});
+	}
+});

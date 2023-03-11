@@ -32,14 +32,15 @@ jQuery(document).ready(function($){
 						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let hrefAnular = btnAnular && nulable ? 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let hrefPdf = btnPdf && nulable? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						if(! nulable){ hrefPdf = 'href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'; }
 						let btnAccion =
 						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="far fa-trash" aria-hidden="true"></i></a>'+
-						'<a title="Ver Comprobante" '+hrefPdf+' class="bg-info btnTable '+(!btnPdf || !nulable?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+						'<a title="Ver Movimiento" '+hrefPdf+' class="bg-primary btnTable '+(!btnPdf?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
-				{ data: 'idtipooperacion' },{ data: 'idmovimiento', render: function(data){ return ceros(data,6); } },{ data: 'sucursal' },{ data: 'tipo_operacion' },
+				{ data: 'idtipooperacion' },{ data: 'idtransaccion', render: function(data){ return ceros(data,6); } },{ data: 'sucursal' },{ data: 'tipo_operacion' },
 				{ data: 'monto_factor_final', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{ data: 'fecha_registro' },
 			],

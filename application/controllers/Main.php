@@ -57,7 +57,7 @@ class Main extends CI_Controller
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
 			'4'=>['title' => 'Avatar', 'targets' => 4],'5'=>['title' => 'Apellidos', 'targets' => 5],'6'=>['title' => 'nombres', 'targets' => 6],'7'=>['title' => 'Usuario', 'targets' => 7],
 			'8'=>['title' => 'Perfil', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],/*'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],*/
-			'10'=>['targets' => 2, 'visible' => false],
+			'10'=>['targets' => 1, 'visible' => false],
 		);
 		$data = array(
 			'permisos' => $permisos,

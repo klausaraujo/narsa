@@ -79,8 +79,8 @@ $(document).ready(function (){
 								'&op=valorizop"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular">'+
 								'<i class="far fa-trash" aria-hidden="true"></i></a>';
 						btnAccion +=
-							'<a title="Ver Comprobante" href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'+
-							' class="bg-success btnTable" target="_blank" ><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+							'<a title="Ver Transacción" href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'+
+							' class="bg-primary btnTable" target="_blank" ><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}
 				},
@@ -138,7 +138,7 @@ $(document).ready(function (){
 							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia || data.anula === '0')?'disabled':'')+' anular">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/guia_ingreso?id='+data.idguia+
-							'&op=guiaing"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
+							'&op=guiaing"':'')+' class="bg-primary btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
 						'<a title="Ver Comprobante" '+((data.activo === '1' || btnCompGuia)?'href="'+base_url+'proveedores/ingresos/comprobante?id='+data.idguia+
 							'&op=comp"':'')+' class="bg-success btnTable '+((data.activo === '0' || !btnCompGuia)?'disabled':'')+' ver_comp_pdf" target="_blank" >'+
@@ -288,7 +288,7 @@ $(document).ready(function (){
 							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulValor)?'disabled':'')+' anular">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Detalle Valorizaci&oacute;n" '+((data.activo === '1' || btnVerValor)?'href="'+base_url+'proveedores/valorizaciones/valoriz_pdf?id='+data.idvalorizacion+
-							'&op=valorizdet"':'')+' class="bg-info btnTable '+((data.activo === '0' || !btnVerValor)?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
+							'&op=valorizdet"':'')+' class="bg-primary btnTable '+((data.activo === '0' || !btnVerValor)?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
 						return btnAccion;
 					}

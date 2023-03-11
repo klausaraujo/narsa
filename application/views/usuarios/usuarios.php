@@ -13,7 +13,7 @@
 										<div class="col-12 mx-auto" style="overflow-x:auto">
 										<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 											<!--<table id="tablaUsuarios" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
-											<table id="tablaUsuarios" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+											<table id="tablaUsuarios" class="table table-striped table-hover table-bordered mb-0 mx-auto t-sel" style="width:100%"></table>
 										</div>
 									</div>
 								</div>

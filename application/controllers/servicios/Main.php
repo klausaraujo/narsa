@@ -142,7 +142,7 @@ class Main extends CI_Controller
 		
 		echo floatval($saldo);
 	}
-	public function pdf()
+	public function pdf_movCaja()
 	{
 		$this->load->model('Servicios_model');
 		$versionphp = 7; $id = $this->input->get('id'); $a5 = 'A4'; $direccion = 'portrait';
