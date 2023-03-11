@@ -733,7 +733,7 @@ $('#generarIng').bind('click',function(){
 					$('#modalIngresos').modal('hide');
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					/* Muestra la guia para imprimir */
-					window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=guiaing', '_blank');
+					window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=comp', '_blank');
 					//$('#formPagoIngreso')[0].reset();
 					//$('#formPagoIngreso select').prop('selectedIndex',0);
 				}
