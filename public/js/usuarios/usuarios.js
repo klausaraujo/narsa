@@ -15,7 +15,7 @@ $(document).ready(function (){
 					render: function(data){
 						let btnAccion =
 						/* Boton de edicion */
-						'<a title="Editar Usuario" '+((data.activo === '1' || btnEditUser)?'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"':'')+
+						'<div class="btn-group"><a title="Editar Usuario" '+((data.activo === '1' || btnEditUser)?'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"':'')+
 							' class="bg-warning btnTable '+((data.activo === '0' || !btnEditUser)?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						/* Boton de Asignar Sucursales */
 						'<a title="Asignar Sucursales" '+((data.activo === '1' || btnSucur)?'href="'+base_url+'usuarios/sucursales?id='+data.idusuario+'"':'')+
@@ -31,7 +31,7 @@ $(document).ready(function (){
 						/* Boton de activacion */
 						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' || btnActiva)?'href="'+base_url+'usuarios/habilitar?id='+data.idusuario+
 							'&stat='+data.activo+'"':'')+' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
-							'<i class="far '+(data.activo === '1'? 'fa-unlock-keyhole':'fa-lock')+'" aria-hidden="true"></i></a>';
+							'<i class="far '+(data.activo === '1'? 'fa-unlock-keyhole':'fa-lock')+'" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},

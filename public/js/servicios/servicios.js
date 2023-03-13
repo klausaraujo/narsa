@@ -34,9 +34,9 @@ jQuery(document).ready(function($){
 						let hrefPdf = btnPdf && nulable? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						if(! nulable){ hrefPdf = 'href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'; }
 						let btnAccion =
-						'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+						'<div class="btn-group"><a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'"><i class="far fa-trash" aria-hidden="true"></i></a>'+
-						'<a title="Ver Movimiento" '+hrefPdf+' class="bg-primary btnTable '+(!btnPdf?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+						'<a title="Ver Movimiento" '+hrefPdf+' class="bg-primary btnTable '+(!btnPdf?'disabled':'')+'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},

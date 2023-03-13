@@ -1061,7 +1061,7 @@ Add User Page
 .content-page{ padding: 96px 15px 0; } .no-sort::after{ display: none!important; } .no-sort{ pointer-events: none!important; cursor: default!important; }
 .form_error{ color: #dc3545; display: block; margin-top: 0.25rem; font-size: 80%; width: 100%; }
 .tab-perfil{ border-radius: 20px; }
-.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:3px 5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); color: #fff; font-size:1rem }
+.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:0px 5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); color: #fff; }
 .btnTable:hover{ color: #000 }
 .nav-pills .nav-item.nav-link{ color: rgba(185,100,40,1); border-radius: 10px 10px 0 0; border: 2px solid rgb(187 72 18 / 25%); }
 .dataTables_wrapper .mt-5{ margin-top:0 !important; }

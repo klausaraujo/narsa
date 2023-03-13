@@ -28,10 +28,10 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Editar Proveedor" '+((data.activo === '1' || btnEdit)?'href="'+base_url+'proveedores/editar?id='+data.idproveedor+'"':'')+' class="bg-warning '+
+						'<div class="btn-group"><a title="Editar Proveedor" '+((data.activo === '1' || btnEdit)?'href="'+base_url+'proveedores/editar?id='+data.idproveedor+'"':'')+' class="bg-warning '+
 							'btnTable '+((data.activo === '0' || !btnEdit)?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Movimientos Proveedor" '+((data.activo === '1' || btnMov)?'href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'"':'')+
-							'class="bg-success btnTable '+((data.activo === '0' || !btnMov)?'disabled':'')+' acciones"><i class="far fa-house" aria-hidden="true"></i></a>';
+							'class="bg-success btnTable '+((data.activo === '0' || !btnMov)?'disabled':'')+' acciones"><i class="far fa-house" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},
