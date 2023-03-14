@@ -508,8 +508,9 @@ class Proveedores_model extends CI_Model
 	}
 	public function listaOperacion($where)
     {
-        $this->db->select('*');
-        $this->db->from('lista_movimientos_proveedor');
+        $this->db->select('lm.*,mp.observaciones');
+        $this->db->from('lista_movimientos_proveedor lm');
+		$this->db->join('movimientos_proveedor mp','mp.idmovimiento=lm.idmovimiento');
 		$this->db->where($where);
 		$this->db->limit(1);
 		//$this->db->order_by('idmovimiento', 'DESC');

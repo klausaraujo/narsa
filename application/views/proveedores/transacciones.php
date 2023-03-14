@@ -162,7 +162,13 @@
 													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
 												</div>
 											</div>
-											<div class="row col-11 mx-auto mt-3">
+											<div class="row mt-3">
+												<div class="col-11 mx-auto pl-5">
+													<label for="obstransacciones" class="align-self-center">Observaciones:</label>
+													<input class="form-control col-md-11 mayusc" maxlength="1000" id="obstransacciones" name="obstransacciones" />
+												</div>
+											</div>
+											<div class="row col-11 mx-auto mt-3">												
 												<div class="col-md-4 pl-0">
 													<button type="submit" class="btn btn-narsa col-md-8">Ejecutar</button>
 												</div>
@@ -197,7 +203,7 @@
 													<div class="col-12 mx-auto" style="overflow-x:auto">
 													<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 														<!--<table id="tablaUsuarios" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
-														<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto t-sel" style="width:100%"></table>
+														<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 													</div>
 												</div>
 											</div>
@@ -209,15 +215,11 @@
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane container fade" id="pill-ingresos">
+								<div class="tab-pane fade mx-auto" id="pill-ingresos">
 									<div class="row container mx-auto">
-										<div class="container mx-auto">
-											<div class="row">
-												<div class="col-md-11 mt-4">
-													<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
-													<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalIng" data-target="#modalIngresos">Nuevo Ingreso</button>
-												</div>
-											</div>
+										<div class="col-md-11 mt-4">
+											<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
+											<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalIng" data-target="#modalIngresos">Nuevo Ingreso</button>
 										</div>
 									</div>
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
@@ -226,18 +228,16 @@
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 												<!--<table id="tablaIngresos" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
-												<table id="tablaIngresos" class="table table-striped table-hover table-bordered mb-0 mx-auto t-sel" style="width:100%"></table>
+												<table id="tablaIngresos" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane container fade" id="pill-valorizaciones">
-									<div class="container mx-auto">
-										<div class="row">
-											<div class="col-md-11 mt-4">
-												<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
-												<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalVal" data-target="#modalValorizaciones">Nueva Valorizaci&oacute;n</button>
-											</div>
+								<div class="tab-pane fade" id="pill-valorizaciones">
+									<div class="row container mx-auto">
+										<div class="col-md-11 mt-4">
+											<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
+											<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalVal" data-target="#modalValorizaciones">Nueva Valorizaci&oacute;n</button>
 										</div>
 									</div>
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>

@@ -27,11 +27,15 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
+						let hrefEditar = (data.activo === '1' || btnEdit)?'href="'+base_url+'proveedores/editar?id='+data.idproveedor+'"':'';
+						let hrefMov = (data.activo === '1' || btnMov)?'href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'"':'';
 						let btnAccion =
-						'<div class="btn-group"><a title="Editar Proveedor" '+((data.activo === '1' || btnEdit)?'href="'+base_url+'proveedores/editar?id='+data.idproveedor+'"':'')+' class="bg-warning '+
-							'btnTable '+((data.activo === '0' || !btnEdit)?'disabled':'')+' editar"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-						'<a title="Movimientos Proveedor" '+((data.activo === '1' || btnMov)?'href="'+base_url+'proveedores/transacciones?id='+data.idproveedor+'&name='+data.nombre+'"':'')+
-							'class="bg-success btnTable '+((data.activo === '0' || !btnMov)?'disabled':'')+' acciones"><i class="far fa-house" aria-hidden="true"></i></a></div>';
+						'<div class="btn-group">'+
+							'<a title="Editar Proveedor" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+' ">'+
+								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+							'<a title="Movimientos Proveedor" '+hrefMov+'class="bg-success btnTable '+((data.activo === '0' || !btnMov)?'disabled':'')+' acciones">'+
+								'<i class="far fa-house" aria-hidden="true"></i></a>'+
+						'</div>';
 						return btnAccion;
 					}
 				},
@@ -70,7 +74,7 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let btnAccion =
+						let btnAccion = 
 							(data.idtipooperacion !== '6')?
 							'<a title="Anular Operaci&oacute;n" '+(btnAnulaOp?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
 								'&op=operaciones"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular">'+
@@ -78,9 +82,9 @@ $(document).ready(function (){
 							'<a title="Anular Operaci&oacute;n" '+(btnAnulaOp?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+
 								'&op=valorizop"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular">'+
 								'<i class="far fa-trash" aria-hidden="true"></i></a>';
-						btnAccion +=
+						btnAccion = '<div class="btn-group">'+btnAccion+
 							'<a title="Ver Transacción" href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'+
-							' class="bg-primary btnTable" target="_blank" ><i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+							' class="bg-primary btnTable" target="_blank" ><i class="fas fa-file-pdf" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},
@@ -131,6 +135,7 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
+						'<div class="btn-group">'+
 						'<a title="Editar Gu&iacute;a Ingreso" '+((data.activo === '1' || btnEdtGuia || data.anula === '1')?'href="'+base_url+'proveedores/ingresos/editar?id='+data.idguia+'"':'')+
 							' class="bg-warning btnTable editarAjax '+((data.activo === '0' || !btnEdtGuia || data.anula === '0')?'disabled':'')+'" data-target="#modalEditIngresos" '+
 							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
@@ -142,7 +147,8 @@ $(document).ready(function (){
 							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
 						'<a title="Ver Comprobante" '+((data.activo === '1' || btnCompGuia)?'href="'+base_url+'proveedores/ingresos/comprobante?id='+data.idguia+
 							'&op=comp"':'')+' class="bg-success btnTable '+((data.activo === '0' || !btnCompGuia)?'disabled':'')+' ver_comp_pdf" target="_blank" >'+
-							'<i class="fas fa-receipt" aria-hidden="true"></i></a>';
+							'<i class="fas fa-receipt" aria-hidden="true"></i></a>'+
+						'</div>';
 						return btnAccion;
 					}
 				},
@@ -173,7 +179,8 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						return '<a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarIngdetalle"><i class="far fa-trash mx-auto" aria-hidden="true"></i></a>';
+						return '<div class="btn-group"><a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarIngdetalle">'+
+								'<i class="far fa-trash mx-auto" aria-hidden="true"></i></a></div>';
 					}
 				},
 				{ data: 'articulo' },
@@ -284,12 +291,14 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
+						'<div class="btn-group">'+
 						'<a title="Anular Valorizaciones" '+((data.activo === '1' || btnAnulValor)?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idvalorizacion+
 							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulValor)?'disabled':'')+' anular">'+
 							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Detalle Valorizaci&oacute;n" '+((data.activo === '1' || btnVerValor)?'href="'+base_url+'proveedores/valorizaciones/valoriz_pdf?id='+data.idvalorizacion+
 							'&op=valorizdet"':'')+' class="bg-primary btnTable '+((data.activo === '0' || !btnVerValor)?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
-							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>';
+							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
+						'</div>';
 						return btnAccion;
 					}
 				},
@@ -346,8 +355,8 @@ $(document).ready(function (){
 		});
 		
 		
-		if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
-		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
+		/*if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
+		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }*/
 	}
 });
 
@@ -385,14 +394,14 @@ $('#tablaCobros').on('click','tr',function(){
 	}
 });
 
-window.onresize = function(){
+/*window.onresize = function(){
 	//console.log(window.innerWidth);
 	//console.log(tablaValDetalle.columns(2).visible()[0]);
 	if(segmento2 === 'transacciones'){
 		if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
 		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }
 	}
-}
+}*/
 
 $('#modalIngresos').on('hidden.bs.modal',function(e){
 	$('#form_ingresos')[0].reset();

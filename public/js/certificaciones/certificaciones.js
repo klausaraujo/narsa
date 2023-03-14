@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
 						let hrefAnular = btnAnular && data.activo ? 'href="'+base_url+'certificaciones/anular?id='+data.idcertificado+'"' : '';
 						let hrefPdf = btnPdf && data.activo ?  'href="'+base_url+'certificaciones/comp_pdf?id='+data.idcertificado+'"' : '';
 						let btnAccion =
-						'zdiv class="btn-group"><a title="Editar Certificado" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !data.activo?'disabled':'')+'">'+
+						'<div class="btn-group"><a title="Editar Certificado" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !data.activo?'disabled':'')+'">'+
 							'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Asignar Parámetros" '+hrefParam+' class="bg-success btnTable param '+(!btnParam || !data.activo?'disabled':'')+'">'+
 							'<i class="far fa-house" aria-hidden="true"></i></a>'+
@@ -99,7 +99,7 @@ jQuery(document).ready(function($){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<a title="Remover Catador" href="#" class="bg-danger btnTable remover"><i class="far fa-trash" aria-hidden="true"></i></a>';
+						'<div class="btn-group"><a title="Remover Catador" href="#" class="bg-danger btnTable remover"><i class="far fa-trash" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},

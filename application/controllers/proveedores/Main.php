@@ -268,6 +268,7 @@ class Main extends CI_Controller
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $tipo = $this->input->post('tipoop'); $tipoDet = $this->input->post('tipodetalle'); //$saldo = true;
 		$suc = $this->input->post('sucursal'); $monto = ''; $vence = date('Y-m-d'); $int = 0; $check = 0; $inttotal = 0; $cobro = true; $presta = 0; $parcial = false;
+		$obs = $this->input->post('obstransacciones');
 		
 		if($tipo === '1' || $tipo === '7'){
 			$monto = $this->input->post('monto'); $vence = $this->input->post('fechavenc');
@@ -308,6 +309,7 @@ class Main extends CI_Controller
 				'interes' => $int,
 				'liquidado' => 0,
 				'interes_total' => $inttotal,
+				'observaciones' => $obs,
 				'idfactor' => (!empty($factor)? $factor->idfactor : 1),
 				'fecha_vencimiento' => $vence,
 				'fecha_movimiento' => $fecha,
@@ -333,6 +335,7 @@ class Main extends CI_Controller
 						'interes' => $int,
 						'liquidado' => 0,
 						'interes_total' => 0,
+						'observaciones' => $obs,
 						'idfactor' => (!empty($factor)? $factor->idfactor : 1),
 						'fecha_vencimiento' => date('Y-m-d'),
 						'fecha_movimiento' => date('Y-m-d'),
@@ -577,7 +580,7 @@ class Main extends CI_Controller
 			
 			$html = $this->load->view('proveedores/comprobante-pdf', ['guia' => $guia,'valoriz' => $valor,'datos' => $datosProv,'edocta' => $edocta], true);
 		}elseif($this->input->get('op') === 'impresion'){
-			$operacion = $this->Proveedores_model->listaOperacion(['idtransaccion' => $id]);
+			$operacion = $this->Proveedores_model->listaOperacion(['lm.idtransaccion' => $id]);
 			$data = ['movimiento' => $operacion];
 			$html = $this->load->view('proveedores/transaccion-pdf', $data, true);
 		}
