@@ -127,6 +127,8 @@ class Proveedores_model extends CI_Model
         $this->db->from('lista_movimientos_proveedor');
 		$this->db->where($data);
 		$this->db->order_by('idmovimiento', 'DESC');
+		$this->db->order_by('idtransaccion', 'DESC');
+		
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
