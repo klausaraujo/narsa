@@ -98,6 +98,7 @@ $route['proveedores/valorizaciones/anular'] = 'proveedores/main/anulaOp';
 $route['proveedores/valorizaciones/valoriz_pdf'] = 'proveedores/main/informes';
 $route['proveedores/ingresos/comprobante'] = 'proveedores/main/informes';
 $route['proveedores/cobros/lista'] = 'proveedores/main/listaCobros';
+$route['proveedores/pagos/lista'] = 'proveedores/main/listaPagos';
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';

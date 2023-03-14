@@ -113,22 +113,34 @@
 													</div>
 												</div>
 											</div>
-											<div class="row col-md-8 mt-2 mx-auto d-none" id="pagos_p">
-												<div class="col-md-6">
+											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_p">
+												<input type="hidden" id="mtopago" name="mtopago" /><input type="hidden" id="intpago" name="intpago" />
+												<input type="hidden" id="idpago" name="idpago" /><input type="hidden" id="tasapago" name="tasapago" />
+												<div class="col-md-4">
 													<div class="row">
 														<label for="montopago" class="align-self-center">Monto Pago:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-11 monto moneda" name="montopago" id="montopago" autocomplete="off" />
+														<input type="text" class="form-control col-md-10 monto moneda blur" name="montopago" id="montopago" autocomplete="off" readonly />
 													</div>
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-4">
 													<div class="row">
-														<label for="interestotal" class="align-self-center">Total Intereses:</label>
+														<label for="interespago" class="align-self-center">Total Intereses:</label>
 													</div>
 													<div class="row">
-														<input type="text" class="form-control col-md-11 interes moneda" name="interestotal" id="interestotal" autocomplete="off" />
+														<input type="text" class="form-control col-md-10 interes moneda blur" name="interespago" id="interespago" autocomplete="off" readonly />
 													</div>
+												</div>
+												<div class="col-md-2">
+													<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<div class="custom-control custom-switch pr-0 d-inline ml-2">
+														<input type="checkbox" class="custom-control-input" name="checkliquidapago" id="checkliquidapago" disabled />
+														<label class="custom-control-label" for="checkliquidapago">Liquidar</label>
+													</div>
+												</div>
+												<div class="col-8 mx-auto mt-3">
+													<table id="tablaPagos" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
 												</div>
 											</div>
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="cobros_p">
@@ -151,7 +163,7 @@
 													</div>
 												</div>
 												<div class="col-md-2">
-													<div class="row"><label for="interescobro" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>
 													<div class="custom-control custom-switch pr-0 d-inline ml-2">
 														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" disabled />
 														<label class="custom-control-label" for="checkliquida">Liquidar</label>

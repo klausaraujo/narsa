@@ -374,8 +374,8 @@ $('.blur').on('blur',function(){
 		}else $('#baseImp').val('');
 	}else if(id === 'montocobro'){
 		let mtop = parseFloat($('#mtoprestamo').val());
-		console.log(this.value);
-		console.log(parseFloat($('#mtoprestamo').val()));
+		//console.log(this.value);
+		//console.log(parseFloat($('#mtoprestamo').val()));
 		if(parseFloat(this.value) == mtop) $('#checkliquida').prop('checked', true);
 		else if(parseFloat(this.value) > mtop){
 			$('#checkliquida').removeAttr('checked');
@@ -386,6 +386,25 @@ $('.blur').on('blur',function(){
 		
 	}else if(id === 'interescobro'){
 		let intp = parseFloat($('#intprestamo').val());
+		if(parseFloat(this.value) > intp){
+			this.value = "";
+			alert('El pago de intereses no puede ser mayor a los intereses generados');
+			$(this).focus();
+		}
+	}else if(id === 'montopago'){
+		let mtop = parseFloat($('#mtopago').val());
+		//console.log(this.value);
+		//console.log(parseFloat($('#mtopago').val()));
+		if(parseFloat(this.value) == mtop) $('#checkliquidapago').prop('checked', true);
+		else if(parseFloat(this.value) > mtop){
+			$('#checkliquidapago').removeAttr('checked');
+			this.value = "";
+			alert('El Monto del cobro no puede ser mayor al préstamo');
+			$(this).focus();
+		}else if(parseFloat(this.value) < mtop) $('#checkliquidapago').removeAttr('checked');
+		
+	}else if(id === 'interespago'){
+		let intp = parseFloat($('#intpago').val());
 		if(parseFloat(this.value) > intp){
 			this.value = "";
 			alert('El pago de intereses no puede ser mayor a los intereses generados');

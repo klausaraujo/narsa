@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, tablaCobros;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, tablaCobros, tablapagos;
 
 /*function formateaNumero(value) {
   v = parseFloat(value)
@@ -331,10 +331,31 @@ $(document).ready(function (){
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
 		
-		tablaCobros = $('#tablaCobros').DataTable(
-		{
+		tablaCobros = $('#tablaCobros').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/cobros/lista',
+				type: 'POST',
+				data: function (d) {
+					d.id = id,
+					d.sucursal = $('.sucursal').val(),
+					d.tipoop = $('.tipoop').val();
+				}
+			},
+			columns:[
+				{ data: 'tipo_operacion' },
+				{ data: 'monto', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
+				{ data: 'intereses', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
+			],
+			columnDefs: [
+				/*{ orderable: false,className:'select-checkbox',targets:0 },*/
+				{ title: 'Tipo Op.', targets: 0 },{ title: 'Monto ', targets: 1 },{ title: 'Intereses', targets: 2 },
+			],
+			pageLength: 5, dom: 'tp', order: [], language: lngDataTable,
+		});
+		
+		tablaPagos = $('#tablaPagos').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/pagos/lista',
 				type: 'POST',
 				data: function (d) {
 					d.id = id,
@@ -365,13 +386,11 @@ $('#tablaCobros').on('click','tr',function(){
 	if($('.tipoop').val() === '3'){
 		//alert('Cobros');
 		if(tablaCobros.rows().count() > 0){
-			let fila = tablaCobros.row(this).data(), valid = $('#form_transacciones').validate();
-			console.log(fila);
-			valid.resetForm();
+			let fila = tablaCobros.row(this).data(), valid = $('#form_transacciones').validate(); valid.resetForm();
 			$('#form_transacciones .error').removeClass('error');
 						
 			if($(this).hasClass('selected')) {
-				$(this).removeClass('selected');
+				//$(this).removeClass('selected');
 			}else{
 				$('tr.selected').removeClass('selected');
 				$(this).addClass('selected');
@@ -387,6 +406,37 @@ $('#tablaCobros').on('click','tr',function(){
 				$('#montocobro').attr('readonly', true);
 				$('#interescobro').attr('readonly', true);
 				$('#checkliquida').attr('disabled', true);
+				$('.tipoop').prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
+			}
+			
+		}
+	}
+});
+$('#tablaPagos').on('click','tr',function(){
+	//alert('click');
+	if($('.tipoop').val() === '2'){
+		//alert('Cobros');
+		if(tablaPagos.rows().count() > 0){
+			let fila = tablaPagos.row(this).data(), valid = $('#form_transacciones').validate(); valid.resetForm();
+			$('#form_transacciones .error').removeClass('error');
+						
+			if($(this).hasClass('selected')) {
+				//$(this).removeClass('selected');
+			}else{
+				$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+			if($('tr.selected').length > 0){				
+				$('#interespago').val(parseFloat(fila.intereses).toFixed(2)), $('#montopago').val(parseFloat(fila.monto).toFixed(2));
+				$('#mtopago').val(parseFloat(fila.monto)), $('#intpago').val(parseFloat(fila.intereses));
+				$('#montopago').removeAttr('readonly'), $('#interespago').removeAttr('readonly'), $('#checkliquidapago').removeAttr('disabled');
+				$('#checkliquidapago').prop('checked', true), $('#idpago').val(fila.idmovimiento), $('#tasapago').val(fila.tasa);
+			}else{
+				let tipo = $('.tipoop').prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
+				$('#form_transacciones')[0].reset();
+				$('#montopago').attr('readonly', true);
+				$('#interespago').attr('readonly', true);
+				$('#checkliquidapago').attr('disabled', true);
 				$('.tipoop').prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
 			}
 			
@@ -479,7 +529,7 @@ $('#form_transacciones').validate({
 		monto: { required: function () { if ($('#monto').css('display') != 'none') return true; else return false; } },
 		interes: { required: function () { if ($('#interes').css('display') != 'none') return true; else return false; } },
 		montopago: { required: function () { if ($('#montopago').css('display') != 'none') return true; else return false; } },
-		interestotal: { required: function () { if ($('#interes').css('display') != 'none') return true; else return false; } },
+		interespago: { required: function () { if ($('#interespago').css('display') != 'none') return true; else return false; } },
 		montocobro: { required: function () { if ($('#montocobro').css('display') != 'none') return true; else return false; } },
 		interescobro: { required: function () { if ($('#interescobro').css('display') != 'none') return true; else return false; } },
 	},
@@ -490,7 +540,7 @@ $('#form_transacciones').validate({
 		monto: { required: '&nbsp;&nbsp;Monto Requerido' },
 		interes: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 		montopago: { required: '&nbsp;&nbsp;Monto Requerido' },
-		interestotal: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
+		interespago: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 		montocobro: { required: '&nbsp;&nbsp;Monto Requerido' },
 		interescobro: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 	},
@@ -503,6 +553,9 @@ $('#form_transacciones').validate({
 		if(tipoop === '3'){
 			if(parseFloat($('#montocobro').val()) === parseFloat($('#mtoprestamo').val()) && !$('#checkliquida').prop('checked')) $('#checkliquida').prop('checked', true);
 			else if(parseFloat($('#montocobro').val()) < parseFloat($('#mtoprestamo').val()) && $('#checkliquida').prop('checked')) $('#checkliquida').prop('checked', false);
+		}else if(tipoop === '2'){
+			if(parseFloat($('#montopago').val()) === parseFloat($('#mtopago').val()) && !$('#checkliquidapago').prop('checked')) $('#checkliquidapago').prop('checked', true);
+			else if(parseFloat($('#montopago').val()) < parseFloat($('#mtopago').val()) && $('#checkliquidapago').prop('checked')) $('#checkliquidapago').prop('checked', false);
 		}
 		/*if(tipoop === '2'){
 			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,''), monto = $('#monto').val();
@@ -862,8 +915,9 @@ $('#modalVal').bind('click', function(){
 	tablaValDetalle.ajax.reload();
 });
 $('.tipoop').bind('change', function(){
-	let tipo = $(this).prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
-	$('#form_transacciones')[0].reset();
+	let tipo = $(this).prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex'), valid = $('#form_transacciones').validate();
+	valid.resetForm(); $('#form_transacciones .error').removeClass('error');
+	//$('#form_transacciones')[0].reset();
 	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
 	
 	if(parseInt($('.tipoop').val()) > 0) $('#opciones_p').removeClass('d-none');
@@ -876,6 +930,11 @@ $('.tipoop').bind('change', function(){
 	$('#checkliquida').attr('disabled', true);
 	tablaCobros.clear().draw();
 	
+	$('#montopago').attr('readonly', true);
+	$('#interespago').attr('readonly', true);
+	$('#checkliquidapago').attr('disabled', true);
+	tablaPagos.clear().draw();
+	
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
 		if($('#pp_pe').css('display') == 'none' || $('#pp_pe').css('opacity') == 0) $('#pp_pe').removeClass('d-none');
@@ -885,11 +944,12 @@ $('.tipoop').bind('change', function(){
 		if($('#pagos_p').css('display') == 'none' || $('#pagos_p').css('opacity') == 0) $('#pagos_p').removeClass('d-none');
 		$('#pp_pe').addClass('d-none');
 		$('#cobros_p').addClass('d-none');
+		tablaPagos.ajax.reload();
 	}else if($('.tipoop').val() === '3'){
 		if($('#cobros_p').css('display') == 'none' || $('#cobros_p').css('opacity') == 0) $('#cobros_p').removeClass('d-none');
-		tablaCobros.ajax.reload();
 		$('#pp_pe').addClass('d-none');
 		$('#pagos_p').addClass('d-none');
+		tablaCobros.ajax.reload();
 	}
 });
 $('#valorizaIng').bind('click',function(e){

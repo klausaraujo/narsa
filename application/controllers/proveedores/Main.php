@@ -226,18 +226,20 @@ class Main extends CI_Controller
 		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
 		
 		if($tipo !== ''){
-			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 1, 'liquidado' => 0]);
-			/*$filtro = []; $i = 0;
-			
-			foreach($this->usuario->sucursales as $sucursal):
-				foreach($lista as $row):
-					if($row->idsucursal === $sucursal->idsucursal){
-						$filtro[$i] = $row;
-						$i++;
-					}
-				endforeach;			
-			endforeach;*/
-			
+			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 1, 'liquidado' => 0]);			
+			echo json_encode(['data' => $lista]);
+		}else{
+			echo json_encode(['data'=>array()]);
+		}
+	}
+	public function listaPagos()
+	{
+		$this->load->model('Proveedores_model');
+		
+		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
+		
+		if($tipo !== ''){
+			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 7, 'liquidado' => 0]);			
 			echo json_encode(['data' => $lista]);
 		}else{
 			echo json_encode(['data'=>array()]);
@@ -274,8 +276,19 @@ class Main extends CI_Controller
 			$monto = $this->input->post('monto'); $vence = $this->input->post('fechavenc');
 			$int = ($this->input->post('interes') !== null && floatval($this->input->post('interes')) > 0)? floatval($this->input->post('interes')) : 0;
 		}elseif($tipo === '2'){
-			$monto = $this->input->post('montopago');
-			$int = ($this->input->post('interestotal')!== null && floatval($this->input->post('interestotal')) > 0)? floatval($this->input->post('interestotal')) : 0;
+			$presta = floatval($this->input->post('mtopago'));
+			$monto = $this->input->post('montopago'); $check = $this->input->post('checkliquidapago')!== null? 1 : 0; $int = $this->input->post('tasapago');
+			$inttotal = $this->input->post('interespago')!== null && floatval($this->input->post('interespago')) > 0? floatval($this->input->post('interespago')) : 0;
+			if($check > 0){
+				$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idpago')],['liquidado' => 1]);
+			}else{
+				if(floatval($monto) > 0){
+					$presta -= $monto; $parcial = true;
+					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idpago')],['monto' => $monto,'liquidado' => 1,'fecha_movimiento' => date('Y-m-d H:i:s')]);
+				}else{
+					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idpago')],['fecha_movimiento' => date('Y-m-d H:i:s')]);
+				}
+			}
 		}elseif($tipo === '3'){
 			$presta = floatval($this->input->post('mtoprestamo'));
 			$monto = $this->input->post('montocobro'); $check = $this->input->post('checkliquida')!== null? 1 : 0; $int = $this->input->post('tasaprestamo');
@@ -299,7 +312,7 @@ class Main extends CI_Controller
 				'fecha' => $fecha,
 				'vencimiento' => $vence,
 				'monto' => $monto,
-				'activo' => '1',
+				'activo' => 1,
 			);
 			$dataOp = array(
 				'idtipooperacion' => $tipo,
@@ -315,20 +328,21 @@ class Main extends CI_Controller
 				'fecha_movimiento' => $fecha,
 				'idusuario_registro' => $this->usuario->idusuario,
 				'fecha_registro' => $fecha,
-				'activo' => '1',
+				'activo' => 1,
 			);
 			if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet) > 0){
 				if($parcial){
-					$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>1,'activo'=>1]);
+					$tipoop = $tipo === '2'? 7 : 1; $detTipo = $tipo === '2'? 'PRESTAMOS A LA EMPRESA' : 'PRESTAMOS A PROVEEDORES';
+					$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipoop,'activo'=>1]);
 					
 					$dataTransaccion = array(
 						'fecha' => date('Y-m-d'),
 						'vencimiento' => date('Y-m-d'),
 						'monto' => $presta,
-						'activo' => '1',
+						'activo' => 1,
 					);
 					$dataOp = array(
-						'idtipooperacion' => 1,
+						'idtipooperacion' => $tipoop,
 						'idsucursal' => $suc,
 						'idproveedor' => $id,
 						'monto' => $presta,
@@ -341,10 +355,10 @@ class Main extends CI_Controller
 						'fecha_movimiento' => date('Y-m-d'),
 						'idusuario_registro' => $this->usuario->idusuario,
 						'fecha_registro' => date('Y-m-d'),
-						'activo' => '1',
+						'activo' => 1,
 					);
 					
-					if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,'PRESTAMOS A PROVEEDORES') >0){
+					if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$detTipo) >0){
 						$message = 'Transacci&oacute;n registrada exitosamente';
 						$status = 200;
 					}
