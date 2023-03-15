@@ -255,6 +255,17 @@
 			endforeach;
 	?>
 			</table>
+			<!-- Parte de las firmas -->
+			<!--<table align="center" width="11cm" style="margin-top:3cm;text-transform:uppercase;">
+				<tr>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td style="width:2cm"></td>
+					<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
+				</tr>
+			</table>-->
         </main>
 		<main style="overflow-y: hidden;margin-top:13.2cm">
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
@@ -280,6 +291,17 @@
 			endforeach;
 	?>
 			</table>
+			<!-- Parte de las firmas -->
+			<!--<table align="center" width="11cm" style="margin-top:3cm;text-transform:uppercase;">
+				<tr>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td style="width:2cm"></td>
+					<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
+				</tr>
+			</table>-->
         </main>
     </body>
 </html>

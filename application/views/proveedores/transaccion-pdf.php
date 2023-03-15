@@ -230,7 +230,7 @@
 				</tr>
 			</table>
 			<!-- Parte de las firmas -->
-			<table align="center" width="12cm" style="margin-top:3cm;text-transform:uppercase;">
+			<table align="center" width="11cm" style="margin-top:3cm;text-transform:uppercase;">
 				<tr>
 					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA S.A.</td><td style="width:2cm"></td>
 					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$movimiento->nombre?></td>
@@ -255,7 +255,7 @@
 				</tr>
 			</table>
 			<!-- Parte de las firmas -->
-			<table align="center" width="12cm" style="margin-top:3cm;text-transform:uppercase;">
+			<table align="center" width="11cm" style="margin-top:3cm;text-transform:uppercase;">
 				<tr>
 					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA S.A.</td><td style="width:2cm"></td>
 					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$movimiento->nombre?></td>

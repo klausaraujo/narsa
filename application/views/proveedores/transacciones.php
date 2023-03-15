@@ -174,8 +174,12 @@
 													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
 												</div>
 											</div>
+											<div class="row col-md-6 mt-2 mx-auto d-none" id="antcta_p">
+												<label for="montoanterior" class="control-label col-md-4 align-self-center">Monto:</label>
+												<div class="col-md-7"><input type="text" class="form-control moneda" name="montoanterior" id="montoanterior" autocomplete="off" /></div>
+											</div>
 											<div class="row mt-3">
-												<div class="col-11 mx-auto pl-5">
+												<div class="col-md-11 mx-auto pl-md-5">
 													<label for="obstransacciones" class="align-self-center">Observaciones:</label>
 													<input class="form-control col-md-11 mayusc" maxlength="1000" id="obstransacciones" name="obstransacciones" />
 												</div>

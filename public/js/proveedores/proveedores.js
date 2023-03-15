@@ -532,6 +532,7 @@ $('#form_transacciones').validate({
 		interespago: { required: function () { if ($('#interespago').css('display') != 'none') return true; else return false; } },
 		montocobro: { required: function () { if ($('#montocobro').css('display') != 'none') return true; else return false; } },
 		interescobro: { required: function () { if ($('#interescobro').css('display') != 'none') return true; else return false; } },
+		montoanterior: { required: function () { if ($('#montoanterior').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipoop: { required: '&nbsp;&nbsp;Debe elegir una Transacci&oacute;n' },
@@ -543,6 +544,7 @@ $('#form_transacciones').validate({
 		interespago: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 		montocobro: { required: '&nbsp;&nbsp;Monto Requerido' },
 		interescobro: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
+		montoanterior: { required: '&nbsp;&nbsp;Monto Requerido' },
 	},
 	errorPlacement: function(error, element) {
 		error.insertAfter(element);
@@ -938,18 +940,18 @@ $('.tipoop').bind('change', function(){
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
 		if($('#pp_pe').css('display') == 'none' || $('#pp_pe').css('opacity') == 0) $('#pp_pe').removeClass('d-none');
-		$('#pagos_p').addClass('d-none');
-		$('#cobros_p').addClass('d-none');
+		$('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#antcta_p').addClass('d-none');
 	}else if($('.tipoop').val() === '2'){
 		if($('#pagos_p').css('display') == 'none' || $('#pagos_p').css('opacity') == 0) $('#pagos_p').removeClass('d-none');
-		$('#pp_pe').addClass('d-none');
-		$('#cobros_p').addClass('d-none');
+		$('#pp_pe').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#antcta_p').addClass('d-none');
 		tablaPagos.ajax.reload();
 	}else if($('.tipoop').val() === '3'){
 		if($('#cobros_p').css('display') == 'none' || $('#cobros_p').css('opacity') == 0) $('#cobros_p').removeClass('d-none');
-		$('#pp_pe').addClass('d-none');
-		$('#pagos_p').addClass('d-none');
+		$('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#antcta_p').addClass('d-none');
 		tablaCobros.ajax.reload();
+	}else if($('.tipoop').val() === '9'){
+		if($('#antcta_p').css('display') == 'none' || $('#antcta_p').css('opacity') == 0) $('#antcta_p').removeClass('d-none');
+		$('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none');
 	}
 });
 $('#valorizaIng').bind('click',function(e){

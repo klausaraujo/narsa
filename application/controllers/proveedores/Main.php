@@ -142,7 +142,7 @@ class Main extends CI_Controller
 		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
 		$data = [];
 		
-		if($tipo === '') $data = [ 'idproveedor' => $id, 'idsucursal' => $suc ];
+		if($tipo === '' || $tipo === '9') $data = [ 'idproveedor' => $id, 'idsucursal' => $suc ];
 		else $data = [ 'idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => $tipo ];
 		
 		$lista = $this->Proveedores_model->listaOperaciones($data);
@@ -303,6 +303,8 @@ class Main extends CI_Controller
 					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['fecha_movimiento' => date('Y-m-d H:i:s')]);
 				}
 			}
+		}elseif($tipo === '9'){
+			$monto = $this->input->post('montoanterior'); $tipoDet = 'ESTADO DE CUENTA ANTERIOR PROVEEDOR';
 		}
 		
 		if($cobro){
