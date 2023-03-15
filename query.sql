@@ -2287,6 +2287,7 @@ insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movim
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (7,'PRESTAMOS A LA EMPRESA','1');
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (8,'ADELANTOS A PROVEEDORES','0');
 
+
 create table tipo_operacion_caja(
 idtipooperacion smallint(4) NOT NULL AUTO_INCREMENT,
 tipo_operacion VARCHAR(50),
@@ -2306,7 +2307,7 @@ insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimiento
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (10,'ADELANTOS A PROVEEDORES','0');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (11,'PAGO DE PLANILLAS','1');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (12,'PAGO DE SERVICIOS BASICOS','1');
-insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (13,'PAGO DE VIATICOS','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (13,'GASTOS VARIOS','1');
 
 create table transacciones(
 idtransaccion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2333,6 +2334,7 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (6,1,6,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (7,1,7,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (17,1,8,-1);
 
+
 insert into factor (idfactor,destino,idtipooperacion,factor) values (8,2,1,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (9,2,2,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (10,2,3,1);
@@ -2346,9 +2348,6 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (18,2,10,-1)
 insert into factor (idfactor,destino,idtipooperacion,factor) values (19,2,11,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (20,2,12,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (21,2,13,-1);
-
-
-
 
 create table movimientos_proveedor(
 	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2797,10 +2796,17 @@ create view lista_movimientos_proveedor
 as
 select mp.idmovimiento,mp.idtipooperacion,top.tipo_operacion,mp.idsucursal,s.sucursal,mp.idproveedor,td.tipo_documento,p.numero_documento,p.nombre,p.domicilio,p.zona,p.celular,p.correo,mp.idtransaccion,mp.monto,mp.interes as 'tasa',IF(mp.liquidado='1',0,((DATEDIFF(NOW(),mp.fecha_movimiento) * mp.monto)  * ((mp.interes)/30)/100)) as 'intereses',mp.interes_total as 'interes_pagado',f.idfactor,f.factor * mp.monto as monto_factor,f.factor * ((mp.monto)) as monto_factor_final,mp.fecha_vencimiento,mp.fecha_movimiento,DATEDIFF(NOW(),mp.fecha_movimiento) as 'dias',mp.liquidado
 from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on top.idtipooperacion=mp.idtipooperacion inner join sucursal as s on s.idsucursal = mp.idsucursal inner join proveedor as p on p.idproveedor = mp.idproveedor inner join tipo_documento as td on td.idtipodocumento = p.idtipodocumento inner join factor as f on f.idfactor=mp.idfactor
-where mp.activo='1'
+where mp.activo='1';
 
+/*
+Nuevas Entradas en la Base de Datos (13/03/2023)
+*/
 
-
-
-
-
+alter table movimientos_proveedor add observaciones varchar(1000) after interes_total;
+alter table certificado add ruta_grafico varchar(1000) after observaciones;
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (14,'VENTA DE PRODUCTOS','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (15,'ESTADO DE CUENTA ANTERIOR PROVEEDOR','0');
+insert into factor (idfactor,destino,idtipooperacion,factor) values (22,2,14,1);
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (9,'ESTADO DE CUENTA ANTERIOR','1');
+insert into factor (idfactor,destino,idtipooperacion,factor) values (23,1,9,0);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (24,2,15,0);
