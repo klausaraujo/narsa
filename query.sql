@@ -2808,5 +2808,52 @@ insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimiento
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (15,'ESTADO DE CUENTA ANTERIOR PROVEEDOR','0');
 insert into factor (idfactor,destino,idtipooperacion,factor) values (22,2,14,1);
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (9,'ESTADO DE CUENTA ANTERIOR','1');
-insert into factor (idfactor,destino,idtipooperacion,factor) values (23,1,9,0);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (23,1,9,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (24,2,15,0);
+
+
+/*
+Nuevas Entradas en la Base de Datos (16/03/2023)
+*/
+DROP TABLE IF EXISTS guia_salida_detalle
+DROP TABLE IF EXISTS guia_salida
+
+create table guia_salida(
+idguia smallint(4) NOT NULL AUTO_INCREMENT,
+anio_guia smallint(4) NOT NULL,
+numero smallint(4) NOT NULL,
+fecha datetime NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+pago char(1) DEFAULT '0',
+tipo_pago char(1) DEFAULT '0',
+idtransaccion_valorizacion smallint(4) DEFAULT 0,
+idtransaccion_pago smallint(4) DEFAULT 0,
+monto_valor decimal(20,2) Default 0,
+monto_pagado decimal(20,2) Default 0,
+observaciones varchar(1000), 
+idusuario_registro smallint(4),
+fecha_registro datetime,
+idusuario_modificacion smallint(4),
+fecha_modificacion datetime,
+idusuario_anulacion smallint(4),
+fecha_anulacion datetime,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idguia),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table guia_salida_detalle(
+iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
+idguia smallint(4) NOT NULL,
+idarticulo smallint(4) NOT NULL,
+cantidad decimal(20,2),
+valorizado char(1)DEFAULT '0',
+cantidad_valorizada decimal(20,2) Default 0,
+humedad decimal(20,2) Default 0,
+calidad decimal(20,2) Default 0,
+costo decimal(20,2) DEFAULT 0,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (iddetalle),
+FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
