@@ -7,7 +7,7 @@
             /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:1.5cm }
+			body { width:21cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:1.5cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;

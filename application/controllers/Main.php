@@ -104,25 +104,38 @@ class Main extends CI_Controller
 		$token_ruc = 'Bearer apis-token-1.aTSI1U7KEuT-6bbbCguH-4Y8TI6KS73N';//10460278975
 		$api = 'http://mpi.minsa.gob.pe/api/v1/ciudadano/ver/';
         $token_reniec = 'Bearer d90f5ad5d9c64268a00efaa4bd62a2a0';
-        $doc = $this->input->post('doc'); $tipo = $this->input->post('tipo');
+        $doc = $this->input->post('doc'); $tipo = $this->input->post('tipo'); $tabla = $this->input->post('tabla');
 		$token = ($tipo === '05')? $token_ruc : $token_reniec;
-				
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => $api.$tipo.'/'.$doc.'/',
-			CURLOPT_HEADER => false,
-			CURLOPT_MAXREDIRS => 2,
-			//CURLOPT_FOLLOWLOCATION => true,
-			//CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			//CURLOPT_TIMEOUT => 0,
-			CURLOPT_HTTPHEADER => array('Authorization: '.$token, 'Content-Type: application/json'),
-			CURLOPT_RETURNTRANSFER => true,
-		));		
-		$data = curl_exec($curl);
-        //$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
+		$data = [];
+		
+		$repetido = $this->buscaDoc($doc,$tabla);
+		
+		if($repetido){
+			$data = ['data' => array(), 'valida' => $repetido];
+		}else{
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => $api.$tipo.'/'.$doc.'/',
+				CURLOPT_HEADER => false,
+				CURLOPT_MAXREDIRS => 2,
+				//CURLOPT_FOLLOWLOCATION => true,
+				//CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				//CURLOPT_TIMEOUT => 0,
+				CURLOPT_HTTPHEADER => array('Authorization: '.$token, 'Content-Type: application/json'),
+				CURLOPT_RETURNTRANSFER => true,
+			));		
+			$data = curl_exec($curl);
+			$data = ['data' => $data, 'valida' => $repetido];
+			//$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			curl_close($curl);
+		}
 
-        echo $data;
+        echo json_encode($data);
+	}
+	public function buscaDoc($doc,$tabla)
+	{
+		$this->load->model('Usuario_model');
+		return $this->Usuario_model->validaDoc($tabla,['numero_documento' => $doc]);
 	}
 	public function perfil(){ $this->load->view('main'); }
 	

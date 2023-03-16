@@ -67,4 +67,11 @@ class Usuario_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function validaDoc($tabla,$where)
+	{
+		/*$this->db->select('COUNT(numero_documento) as cantidad');
+		$this->db->from($tabla);
+		$this->db->where($where);*/
+		return $this->db->where($where)->from($tabla)->count_all_results();
+	}
 }

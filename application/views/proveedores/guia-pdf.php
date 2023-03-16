@@ -7,7 +7,7 @@
             /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:6.5cm;margin-bottom:1.5cm }
+			body { width:21cm; font-family: Helvetica; font-size: 0.8rem;margin-top:6.7cm;margin-bottom:1.5cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;
@@ -51,10 +51,13 @@
 			.espaciocm{ height:1cm; }
 			.espaciomm{ height:5mm; }
 			.tablaround{ border-collapse:separate;border-spacing:1; border:solid black 1px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
-			.acciones td{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
-			.acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
+			.acciones{ width:18cm; text-align:center }
+			.acciones td, .acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
 			.acciones b{ font-size: 10px; }
 			table.datos td{ font-size:10px; overflow:hidden;}
+			#main2{ position: absolute; top:21.5cm; left: 1.5cm; }
+			.firmas{ position:absolute; top:11.5cm; text-transform:uppercase; width:11cm; }
+			.firmas2{ position:absolute; top:26.3cm; text-transform:uppercase; width:11cm; }
         </style>
     </head>
     <body>
@@ -92,41 +95,41 @@
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->tipo_documento) > 0?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->numero_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->numero_documento) > 0?$datos->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->celular : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->celular) > 0?$datos->celular : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->correo : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->correo) > 0?$datos->correo : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->nombre : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->nombre) > 0?$datos->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->domicilio : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->domicilio) > 0?$datos->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->zona : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->zona) > 0?$datos->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>
@@ -177,41 +180,41 @@
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->tipo_documento) > 0?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->numero_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->numero_documento) > 0?$datos->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->celular : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->celular) > 0?$datos->celular : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->correo : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->correo) > 0?$datos->correo : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->nombre : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->nombre) > 0?$datos->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->domicilio : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->domicilio) > 0?$datos->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->zona : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->zona) > 0?$datos->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>
@@ -232,7 +235,7 @@
 
         <!-- Etiqueta principal del pdf -->
         <main style="overflow-y: hidden">
-			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
+			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
 					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td style="width:3cm" colspan="3">Producto</td><td>Humedad (%)</td><td>Calidad (%)</td>
@@ -255,20 +258,9 @@
 			endforeach;
 	?>
 			</table>
-			<!-- Parte de las firmas -->
-			<!--<table align="center" width="11cm" style="margin-top:3cm;text-transform:uppercase;">
-				<tr>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td><td style="width:2cm"></td>
-					<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
-				</tr>
-			</table>-->
         </main>
-		<main style="overflow-y: hidden;margin-top:13.2cm">
-			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
+		<main id="main2">
+			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
 					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td style="width:3cm" colspan="3">Producto</td><td>Humedad (%)</td><td>Calidad (%)</td>
@@ -291,17 +283,27 @@
 			endforeach;
 	?>
 			</table>
-			<!-- Parte de las firmas -->
-			<!--<table align="center" width="11cm" style="margin-top:3cm;text-transform:uppercase;">
-				<tr>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td><td style="width:2cm"></td>
-					<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
-				</tr>
-			</table>-->
         </main>
+		<!-- Firmas -->
+		<table align="center" class="firmas">
+			<tr>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td><td style="width:2cm"></td>
+				<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
+			</tr>
+		</table>
+		<table align="center" class="firmas2">
+			<tr>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td><td style="width:2cm"></td>
+				<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
+			</tr>
+		</table>
     </body>
 </html>

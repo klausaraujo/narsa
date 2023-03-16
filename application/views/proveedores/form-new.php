@@ -4,7 +4,7 @@
 						</div>
 						<div class="iq-card-body">
 						<form method="post" id="form_proveedor" action="<?=base_url()?>proveedores/registrar" class="needs-validation form-horizontal" novalidate="">
-							<input type="hidden" name="tiporegistro" value="registrar" />
+							<input type="hidden" name="tiporegistro" value="registrar" /><input type="hidden" id="tabla" value="proveedor" />
 							<div class="form-row">
 								<div class="col-12 my-1">
 									<div class="row">
