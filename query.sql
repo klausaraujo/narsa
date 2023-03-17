@@ -2815,8 +2815,56 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (24,2,15,0);
 /*
 Nuevas Entradas en la Base de Datos (16/03/2023)
 */
-DROP TABLE IF EXISTS guia_salida_detalle
-DROP TABLE IF EXISTS guia_salida
+DROP TABLE IF EXISTS guia_salida_detalle;
+DROP TABLE IF EXISTS guia_salida;
+DROP TABLE IF EXISTS tipo_pago;
+DROP TABLE IF EXISTS cliente;
+
+
+
+create table cliente(
+idcliente smallint(4) NOT NULL AUTO_INCREMENT,
+idtipodocumento smallint(4) NOT NULL,
+numero_documento varchar(10) NOT NULL,
+RUC varchar(11) NOT NULL,
+nombre varchar(100) NOT NULL,
+domicilio varchar(100)NULL,
+celular varchar(9) NULL,
+correo varchar(100) NULL,
+ubigeo varchar(6),
+latitud varchar(25),
+longitud varchar(25),
+zona varchar(30)NULL,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idcliente)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+
+
+idcliente,idtipodocumento,numero_documento,RUC,nombre,domicilio,celular,correo,ubigeo varchar(6),
+latitud varchar(25),
+longitud varchar(25),
+zona
+
+
+
+
+create table tipo_pago(
+idtipopago smallint(4) NOT NULL AUTO_INCREMENT,
+tipo_pago varchar(30),
+numero_cuenta varchar(20),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtipopago)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('EFECTIVO','00000000000000000000');
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('TRANSFERENCIA','00000000000000000000');
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('DEPOSITO','00000000000000000000');
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('PLIN','00000000000000000000');
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('YAPE','00000000000000000000');
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('TUNKI','00000000000000000000');
+insert into tipo_pago(tipo_pago,numero_cuenta) values ('TARJETA','00000000000000000000');
+
+
+
 
 create table guia_salida(
 idguia smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2824,11 +2872,8 @@ anio_guia smallint(4) NOT NULL,
 numero smallint(4) NOT NULL,
 fecha datetime NOT NULL,
 idsucursal smallint(4) NOT NULL,
-idproveedor smallint(4) NOT NULL,
-pago char(1) DEFAULT '0',
-tipo_pago char(1) DEFAULT '0',
-idtransaccion_valorizacion smallint(4) DEFAULT 0,
-idtransaccion_pago smallint(4) DEFAULT 0,
+idcliente smallint(4) NOT NULL,
+idtransaccion smallint(4) DEFAULT 0,
 monto_valor decimal(20,2) Default 0,
 monto_pagado decimal(20,2) Default 0,
 observaciones varchar(1000), 
@@ -2841,19 +2886,17 @@ fecha_anulacion datetime,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idguia),
 FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+FOREIGN KEY (idcliente) REFERENCES proveedor (idcliente) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 create table guia_salida_detalle(
 iddetalle smallint(4) NOT NULL AUTO_INCREMENT,
 idguia smallint(4) NOT NULL,
 idarticulo smallint(4) NOT NULL,
 cantidad decimal(20,2),
-valorizado char(1)DEFAULT '0',
-cantidad_valorizada decimal(20,2) Default 0,
 humedad decimal(20,2) Default 0,
 calidad decimal(20,2) Default 0,
 costo decimal(20,2) DEFAULT 0,
 activo char(1) DEFAULT '1',
 PRIMARY KEY (iddetalle),
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idguia) REFERENCES guia_entrada (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+FOREIGN KEY (idguia) REFERENCES guia_salida (idguia) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
