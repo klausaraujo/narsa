@@ -54,7 +54,7 @@
 			.acciones td, .acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
 			.acciones b{ font-size: 10px; }
 			table.datos td{ font-size:10px; overflow:hidden;}
-			#main2{ position:fixed;top:21.4cm; left:1.5cm }
+			#main2{ position:fixed;top:21.4cm; }
 			.firmas{ position:fixed; top:12cm; text-transform:uppercase; width:11cm; }
 			.firmas2{ position:fixed; top:26.8cm; text-transform:uppercase; width:11cm; }
         </style>
