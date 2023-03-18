@@ -7,7 +7,7 @@
             /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21.7cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:2.6cm }
+			body { width:21cm; font-family: Helvetica; font-size: 0.8rem;margin-top:2cm;margin-bottom:2.6cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;
@@ -78,14 +78,14 @@
 				<tr><td><b>MOVIMIENTO DE CAJA NRO. <?=sprintf("%'05s",$movimiento->idmovimiento)?></b></td></tr>
 			</table>
 			<div class="espaciomm"></div>
-			<table cellspacing="0" cellpadding="1" style="margin-left:2cm">
+			<table cellspacing="0" cellpadding="1" align="center">
 				<tr>
 					<td style="font-weight:bold;width:2cm">Sucursal</td>
 					<td><table class="tablaround" style="width:100%;padding:0 1cm"><tr><td><?=$movimiento->sucursal?></td></tr></table></td>
 				</tr>
 			</table>
 			<div class="espaciocm"></div>
-			<table cellspacing="0" cellpadding="1" align="left" style="margin-left:2cm;line-height:2" class="acciones">
+			<table cellspacing="0" cellpadding="1" align="center" style="line-height:2" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="2">DETALLE DE MOVIMIENTO DE CAJA</th></tr>		
 				<tr><td>Tipo Operaci&oacute;n</td><td><?=$movimiento->tipo_operacion?></td></tr>
 				<tr><td>Nro. Operaci&oacute;n</td><td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td></tr>

@@ -29,15 +29,25 @@ jQuery(document).ready(function($){
 					render: function(data){
 						let nulable = 0; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
 							data.idtipooperacion === '13') nulable = 1;
+						let hrefAnular = '';
+						if(btnAnular){
+							if(nulable) hrefAnular = 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"';
+							else{
+								if(data.idtipooperacion !== '6'){
+									hrefAnular = 'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+'&op=operaciones"';
+								}else{
+									hrefAnular = 'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+'&op=valorizop"';
+								}
+							}
+						}
 						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
-						let hrefAnular = btnAnular && nulable ? 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let hrefPdf = btnPdf && nulable? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						if(! nulable){ hrefPdf = 'href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'; }
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'">'+
 								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-							'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+((!btnAnular || !nulable)?'disabled':'')+'">'+
+							'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+(!btnAnular?'disabled':'')+'">'+
 								'<i class="far fa-trash" aria-hidden="true"></i></a>'+
 							'<a title="Ver Movimiento" '+hrefPdf+' class="bg-primary btnTable '+(!btnPdf?'disabled':'')+'" target="_blank">'+
 								'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+

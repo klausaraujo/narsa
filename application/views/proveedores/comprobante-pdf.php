@@ -54,9 +54,9 @@
 			.acciones td, .acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
 			.acciones b{ font-size: 10px; }
 			table.datos td{ font-size:10px; overflow:hidden;}
-			#main2{ position: absolute; top:21.4cm; left: 1.5cm; }
-			.firmas{ position:absolute; top:11.5cm; text-transform:uppercase; width:11cm; }
-			.firmas2{ position:absolute; top:26.3cm; text-transform:uppercase; width:11cm; }
+			#main2{ position: absolute; top:14.8cm; }
+			.firmas{ position:absolute; top:5.2cm; text-transform:uppercase; width:11cm; }
+			.firmas2{ position:absolute; top:5.2cm; text-transform:uppercase; width:11cm; }
         </style>
     </head>
     <body>
@@ -269,6 +269,17 @@
 					<td>&nbsp;<b>OBSERVACIONES:</b>&nbsp;&nbsp;<?if($guia[0]->observaciones) echo $guia[0]->observaciones; else echo '&nbsp;';?></td>
 				</tr>
 			</table>
+			<!-- Firmas -->
+			<table align="center" class="firmas">
+				<tr>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td style="width:2cm"></td>
+					<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
+				</tr>
+			</table>
         </main>
 		<main id="main2">
 			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
@@ -306,27 +317,17 @@
 					<td>&nbsp;<b>OBSERVACIONES:</b>&nbsp;&nbsp;<?if($guia[0]->observaciones) echo $guia[0]->observaciones; else echo '&nbsp;';?></td>
 				</tr>
 			</table>
+			<!-- Firmas -->
+			<table align="center" class="firmas2">
+				<tr>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td style="width:2cm"></td>
+					<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
+				</tr>
+			</table>
         </main>
-		<!-- Firmas -->
-		<table align="center" class="firmas">
-			<tr>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td><td style="width:2cm"></td>
-				<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
-			</tr>
-		</table>
-		<table align="center" class="firmas2">
-			<tr>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$datos->nombre?></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td><td style="width:2cm"></td>
-				<td style="font-size:9px;text-align:center;width:4cm"><?=$datos->tipo_documento.': '.$datos->numero_documento?></td>
-			</tr>
-		</table>
     </body>
 </html>

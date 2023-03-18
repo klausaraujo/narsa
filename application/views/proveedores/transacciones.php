@@ -185,7 +185,7 @@
 												</div>
 											</div>
 											<div class="row col-11 mx-auto mt-3">												
-												<div class="col-md-4 pl-0">
+												<div class="col-md-2 pl-0">
 													<button type="submit" class="btn btn-narsa col-md-8">Ejecutar</button>
 												</div>
 											</div>

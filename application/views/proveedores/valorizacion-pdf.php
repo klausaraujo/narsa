@@ -7,7 +7,7 @@
            /** Margenes de la pagina en 0 **/
             @page { margin: 0cm 0cm; }
 			/** Márgenes reales de cada página en el PDF **/
-			body { width:21cm; font-family: Helvetica; font-size: 0.8rem;margin-top:7.2cm;margin-bottom:1.5cm }
+			body { width:21cm; font-family: Helvetica; font-size: 0.8rem;margin-top:7.1cm;margin-bottom:1.5cm }
 			/** Reglas del encabezado **/
             header {
                 position: fixed;
@@ -54,9 +54,9 @@
 			.acciones td, .acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
 			.acciones b{ font-size: 10px; }
 			table.datos td{ font-size:10px; overflow:hidden;}
-			#main2{ position: absolute; top:22cm; left: 1.5cm; overflow-y:hidden; }
-			.firmas{ position:absolute; top:11.5cm; text-transform:uppercase; width:11cm; }
-			.firmas2{ position:absolute; top:26.3cm; text-transform:uppercase; width:11cm; }
+			#main2{ position: absolute; top:14.8cm; }
+			.firmas{ position:absolute; top:4.7cm; text-transform:uppercase; width:11cm; }
+			.firmas2{ position:absolute; top:4.7cm; text-transform:uppercase; width:11cm; }
         </style>
     </head>
     <body>
@@ -283,6 +283,17 @@
 					<td colspan="2" style="font-weight:bold;text-align:right"><?=number_format($importe,2,'.',',');?></td>
 				</tr>
 			</table>
+			<!-- Firmas -->
+			<table align="center" class="firmas">
+				<tr>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td style="width:2cm"></td>
+					<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
+				</tr>
+			</table>
         </main>
 		<main id="main2">
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
@@ -310,27 +321,17 @@
 					<td colspan="2" style="font-weight:bold;text-align:right"><?=number_format($importe,2,'.',',');?></td>
 				</tr>
 			</table>
+			<!-- Firmas -->
+			<table align="center" class="firmas2">
+				<tr>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
+					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td style="width:2cm"></td>
+					<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
+				</tr>
+			</table>
         </main>
-		<!-- Firmas -->
-		<table align="center" class="firmas">
-			<tr>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td><td style="width:2cm"></td>
-				<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
-			</tr>
-		</table>
-		<table align="center" class="firmas2">
-			<tr>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm"></td>
-				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td><td style="width:2cm"></td>
-				<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
-			</tr>
-		</table>
     </body>
 </html>
