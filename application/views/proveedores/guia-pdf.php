@@ -260,7 +260,7 @@
 			</table>
         </main>
 		<main id="main2">
-			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
+			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
 					<td>&Iacute;tem</td><td colspan="2">Cod. Art&iacute;culo</td><td style="width:3cm" colspan="3">Producto</td><td>Humedad (%)</td><td>Calidad (%)</td>

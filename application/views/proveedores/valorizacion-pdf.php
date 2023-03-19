@@ -50,7 +50,7 @@
 			/* *{ text-transform: uppercase; }*/
 			*{ font-size: 13px; }
 			.tablaround{ border-collapse:separate;border-spacing:1; border:solid black 1px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
-			.acciones{ width:18cm }
+			.acciones{ width:18cm; text-align:center }
 			.acciones td, .acciones th{border:1px solid #4B4B4B; border-collapse: collapse; font-size: 10px;}
 			.acciones b{ font-size: 10px; }
 			table.datos td{ font-size:10px; overflow:hidden;}
@@ -296,7 +296,7 @@
 			</table>
         </main>
 		<main id="main2">
-			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;" width="18cm" class="acciones">
+			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS VALORIZADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
 					<td>&Iacute;tem</td><td colspan="2">N&uacute;mero Gu&iacute;a</td><td colspan="3">Producto Valorizado</td><td colspan="2">Saldo (KG)</td>
