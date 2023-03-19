@@ -69,6 +69,8 @@ class Main extends CI_Controller
 					'latitud' => $lat,
 					'longitud' => $lng,
 					'zona' => $this->input->post('zona'),
+					'finca' => $this->input->post('finca'),
+					'altitud' => $this->input->post('altitud'),
 					'activo' => 1,
 				);
 				$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
@@ -88,6 +90,8 @@ class Main extends CI_Controller
 				'celular' => $this->input->post('celular'),
 				'correo' => $this->input->post('email'),
 				'zona' => $this->input->post('zona'),
+				'finca' => $this->input->post('finca'),
+				'altitud' => $this->input->post('altitud'),
 			);
 			
 			if($this->Proveedores_model->editar( $data, ['idproveedor'=>$id] )){

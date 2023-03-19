@@ -95,6 +95,14 @@
 												</div>
 											</div>
 										</div>
+										<div class="row mt-3">
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="finca">&nbsp;&nbsp;Finca:</label>
+											<div class="col-sm-6 col-lg-8">
+												<div class="row">
+													<input type="text" class="form-control mayusc" name="finca" id="finca" placeholder="Finca" />
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>

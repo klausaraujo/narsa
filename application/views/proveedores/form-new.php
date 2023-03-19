@@ -140,6 +140,24 @@
 											</div>
 										</div>
 									</div>
+									<div class="row mt-3">
+										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="finca">Finca:</label>
+										<div class="col-md-6 col-lg-4">
+											<div class="row">
+												<input type="text" class="form-control borra finca mayusc" name="finca" id="finca" placeholder="Finca" value="" required="" />
+												<label class="invalid-feedback">Campo requerido</label>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="altitud">Altitud:</label>
+										<div class="col-md-6 col-lg-4">
+											<div class="row">
+												<input type="text" class="form-control borra altitud mayusc" name="altitud" id="altitud" placeholder="Altitud (msnm)" value="" required="" />
+												<label class="invalid-feedback">Campo requerido</label>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="container-fluid row"><hr class="col-sm-12"></div>
