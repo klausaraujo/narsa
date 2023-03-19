@@ -283,17 +283,6 @@
 					<td colspan="2" style="font-weight:bold;text-align:right"><?=number_format($importe,2,'.',',');?></td>
 				</tr>
 			</table>
-			<!-- Firmas -->
-			<table align="center" class="firmas">
-				<tr>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td><td style="width:2cm"></td>
-					<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
-				</tr>
-			</table>
         </main>
 		<main id="main2">
 			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
@@ -320,18 +309,28 @@
 					<td colspan="10" align="right" style="font-weight:bold">TOTAL (S/):&nbsp;</td>
 					<td colspan="2" style="font-weight:bold;text-align:right"><?=number_format($importe,2,'.',',');?></td>
 				</tr>
-			</table>
-			<!-- Firmas -->
-			<table align="center" class="firmas2">
-				<tr>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
-					<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td><td style="width:2cm"></td>
-					<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
-				</tr>
-			</table>
+			</table>			
         </main>
+		<!-- Firmas -->
+		<table align="center" class="firmas">
+			<tr>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td><td style="width:2cm"></td>
+				<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
+			</tr>
+		</table>
+		<table align="center" class="firmas2">
+			<tr>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm">vºbº NARSA</td><td style="width:2cm">&nbsp;</td>
+				<td style="border-top:1px solid #4B4B4B;font-size:9px;text-align:center;width:4cm"><?=$lista[0]->nombre?></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td><td style="width:2cm"></td>
+				<td style="font-size:9px;text-align:center;width:4cm"><?=$lista[0]->tipo_documento.': '.$lista[0]->numero_documento?></td>
+			</tr>
+		</table>
     </body>
 </html>
