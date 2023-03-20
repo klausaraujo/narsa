@@ -146,7 +146,7 @@
 		</script>
 		<?}?>
 		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
-				$this->uri->segment(1) === 'certificaciones') || $this->uri->segment(1) === 'ventas' && $this->uri->segment(2) == ''){ ?>
+				$this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
@@ -177,7 +177,7 @@
 			let map = null;
 			window.onload = function(){
 				var opt = {lat: parseFloat(<?=$lat?>), lng: parseFloat(<?=$lng?>),zoom: 16};
-				<?if($this->uri->segment(2) === 'nuevo' || $this->uri->segment(3) === 'nuevo'){?> $('.ajaxMap').hide();<?}?>
+				<?/*if($this->uri->segment(2) === 'editar' || $this->uri->segment(3) === 'editar'){?> $('.ajaxMap').removeClass('d-none');<?}*/?>
 				map = mapa(opt);
 			}
 		</script>

@@ -300,7 +300,8 @@ $('.dis').change(function(){
 				//console.log(map.getZoom());
 				//console.log(opt);
 				map.setCenter(opt);
-				if($('.ajaxMap').css('display') == 'none' || $('.ajaxMap').css('opacity') == 0) $('.ajaxMap').show();
+				//if($('.ajaxMap').css('display') == 'none' || $('.ajaxMap').css('opacity') == 0) $('.ajaxMap').show();
+				$('.ajaxMap').removeClass('d-none');
 				/*$.ajax({
 					data: {lat: parseFloat(ubigeo[0].latitud), lng: parseFloat(ubigeo[0].longitud), zoom: 16},
 					url: 'urlCurl',

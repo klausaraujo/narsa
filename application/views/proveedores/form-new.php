@@ -116,7 +116,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row ajaxMap mt-3">
+									<div class="row ajaxMap mt-3 d-none">
 										<div class="col-12 px-0">
 											<!--<div class="pac-card" id="pac-card">
 											  <div id="pac-container" class="place-map">
