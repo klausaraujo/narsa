@@ -47,7 +47,8 @@ div.dataTables_wrapper .far, div.dataTables_wrapper .fa, div.dataTables_wrapper 
 }
 </style>
 
-<?if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>
+<?if(($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')) || 
+		($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar'))){ ?>
 <script>
 	function initMap(){}
 </script>

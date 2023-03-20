@@ -61,6 +61,7 @@ $route['logout'] = 'login/logout';
 $route['proveedores'] = 'main/proveedores';
 $route['servicios'] = 'main/servicios';
 $route['certificaciones'] = 'main/servicios';
+$route['ventas'] = 'main/ventas';
 $route['usuarios'] = 'main/usuarios';
 $route['main/curl'] = 'main/curl';
 $route['main/ruccurl'] = 'main/ruccurl';
@@ -71,6 +72,14 @@ $route['main/distritos'] = 'main/distritos';
 $route['main/cargarLatLng'] = 'main/cargarLatLng';
 /* Cambiar perfil del usuario */
 $route['main/perfil'] = 'main/perfil';
+
+/* Ventas */
+$route['clientes'] = 'ventas/main/base';
+$route['ventas/listaClientes'] = 'ventas/main/listaClientes';
+$route['nuevocliente'] = 'ventas/main/nuevo';
+$route['ventas/cliente/nuevo'] = 'ventas/main/nuevo';
+$route['ventas/cliente/editar'] = 'ventas/main/nuevo';
+$route['ventas/cliente/registrar'] = 'ventas/main/registrar';
 
 /* Proveedores */
 $route['proveedores/edocta'] = 'proveedores/main/edocta';

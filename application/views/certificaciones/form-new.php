@@ -51,8 +51,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="altitud">&nbsp;&nbsp;Altitud:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control altitud moneda" name="altitud" id="altitud" required="" />
-													<div class="invalid-feedback">Debe indicar la Altitud</div>
+													<input type="text" class="form-control altitud num" name="altitud" id="altitud" readonly />
 												</div>
 											</div>
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="proceso">&nbsp;&nbsp;Proceso:</label>
@@ -88,18 +87,18 @@
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
-											<div class="col-sm-6 col-lg-8">
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="finca">&nbsp;&nbsp;Finca:</label>
+											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" />
+													<input type="text" class="form-control mayusc" name="finca" id="finca" readonly />
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="finca">&nbsp;&nbsp;Finca:</label>
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
 											<div class="col-sm-6 col-lg-8">
 												<div class="row">
-													<input type="text" class="form-control mayusc" name="finca" id="finca" placeholder="Finca" />
+													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" />
 												</div>
 											</div>
 										</div>
@@ -126,7 +125,7 @@
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 												<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
-													<thead><tr><th>ID</th><th>Nombre del Productor</th></tr></thead>
+													<thead><tr><th>ID</th><th>Nombre del Productor</th><th>finca</th><th>altitud</th></tr></thead>
 												</table>
 											</div>
 										</div>

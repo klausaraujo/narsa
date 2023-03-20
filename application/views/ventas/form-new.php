@@ -1,24 +1,23 @@
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
-							<div class="iq-header-title"><h4>Editar Proveedor</h4></div>
+							<div class="iq-header-title"><h4>Registro de Cliente</h4></div>
 						</div>
 						<div class="iq-card-body">
-						<form method="post" id="form_proveedor" action="<?=base_url()?>proveedores/registrar" class="needs-validation form-horizontal" novalidate="">
-							<input type="hidden" name="tiporegistro" value="editar" />
-							<input type="hidden" name="idproveedor" value="<?=$proveedor->idproveedor;?>" />
+						<form method="post" id="form_cliente" action="<?=base_url()?>ventas/cliente/registrar" class="needs-validation form-horizontal" novalidate="">
+							<input type="hidden" name="tiporegistro" value="registrar" /><input type="hidden" id="tabla" value="cliente" />
 							<div class="form-row">
-								<div class="col-sm-12 my-1">
+								<div class="col-12 my-1">
 									<div class="row">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
-												<select class="form-control tipodoc" name="tipodoc" id="tipodoc" disabled >
+												<select class="form-control tipodoc" name="tipodoc" id="tipodoc" required="">
 												<?
 														foreach($tipodoc as $row):	?>
-															<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $proveedor->idtipodocumento)?'selected':'';?>>
-																<?=$row->tipo_documento;?></option>
+															<option value="<?=$row->idtipodocumento;?>"><?=$row->tipo_documento;?></option>
 												<?		endforeach;	?>
 												</select>
+												<div class="invalid-feedback">Debe elegir un tipo de documento</div>
 											</div>
 										</div>
 									</div>
@@ -26,22 +25,35 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
 										<div class="col-md-4 col-lg-2">
 											<div class="row">
-												<input type="text" class="form-control doc" name="doc" id="doc"
-													autocomplete="off" value="<?=$proveedor->numero_documento;?>" disabled />
+												<input type="text" class="form-control doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
+													placeholder="Nro. Documento" required="" />
+												<div class="invalid-feedback" id="error-doc">Documento requerido</div>
 											</div>
-										<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 										</div>
+										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+											<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
+										</div>
+										<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="ruc">RUC:</label>
-										<input type="text" class="form-control col-md-6 col-lg-4 ruc num" name="ruc" id="ruc" placeholder="RUC" value="<?=$proveedor->RUC;?>" minlength="11" /> 
+										<div class="col-md-4 col-lg-2">
+											<div class="row">
+												<input type="text" class="form-control ruc borra num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" 
+													maxlength="11" required=""/>
+												<div class="invalid-feedback" id="error-doc">Documento requerido</div>
+											</div>
+										</div>
+										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+											<button type="button" class="btn btn-info btn-small col-12 align-self-center btn_ruc" id="busca_ruc"><i class="fa fa-search" aria-hidden="true"></i></button>
+										</div>
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social"
-													value="<?=$proveedor->nombre;?>" disabled />
+												<input type="text" class="form-control borra nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" required="" readonly />
+												<div class="invalid-feedback" id="error-razon">Debe indicar una Raz&oacute;n social</div>
 											</div>
 										</div>
 									</div>
@@ -49,22 +61,20 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="direccion">Domicilio:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control direccion mayusc" name="direccion" id="direccion" placeholder="Domicilio" 
-													value="<?=$proveedor->domicilio;?>" />
+												<input type="text" class="form-control borra direccion mayusc" name="direccion" id="direccion" placeholder="Domicilio" value="" required="" />
+												<div class="invalid-feedback">Campo requerido</div>
 											</div>
 										</div>
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="celular">Celular:</label>
-										<input type="text" class="form-control col-md-6 col-lg-4 celular num" name="celular" id="celular" placeholder="N&uacute;mero Celular" 
-											value="<?=$proveedor->celular;?>" />
+										<input type="text" class="form-control col-md-6 col-lg-4 borra celular num" name="celular" id="celular" placeholder="N&uacute;mero Celular" value="" />
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="email">Email:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="email" class="form-control correo" name="email" id="email" placeholder="Correo Electr&oacute;nico"
-													value="<?=$proveedor->correo;?>"/>
+												<input type="email" class="form-control borra correo" name="email" id="email" placeholder="Correo Electr&oacute;nico" value="" />
 												<div class="invalid-feedback">La direcci&oacute;n de email debe contener 1 @ y servidor de correo</div>
 											</div>
 										</div>
@@ -74,11 +84,10 @@
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
 												<select class="form-control dep" name="dep" id="dep" required="">
+													<option>-- Seleccione --</option>
 												<?
 														foreach($dep as $row):	?>
-															<option value="<?=$row->cod_dep;?>" <?=($row->cod_dep === substr($proveedor->ubigeo,0,2)? 'selected' : '')?> >
-																<?=$row->departamento;?>
-															</option>
+															<option value="<?=$row->cod_dep;?>"><?=$row->departamento;?></option>
 												<?		endforeach;	?>
 												</select>
 												<div class="invalid-feedback">Debe elegir un Departamento</div>
@@ -90,12 +99,7 @@
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
 												<select class="form-control pro" name="pro" id="pro" required="">
-													<?
-														foreach($pro as $row):	?>
-															<option value="<?=$row->cod_pro;?>" <?=($row->cod_pro === substr($proveedor->ubigeo,3,2)? 'selected' : '')?> >
-																<?=$row->provincia;?>
-															</option>
-													<?		endforeach;	?>
+													<option>-- Seleccione --</option>
 												</select>
 												<div class="invalid-feedback">Debe elegir una Provincia</div>
 											</div>
@@ -106,12 +110,7 @@
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
 												<select class="form-control dis" name="dis" id="dis" required="">
-													<?
-														foreach($dis as $row):	?>
-															<option value="<?=$row->cod_dis;?>" <?=($row->cod_dis === substr($proveedor->ubigeo,4,2)? 'selected' : '')?> >
-																<?=$row->distrito;?>
-															</option>
-													<?		endforeach;	?>
+													<option>-- Seleccione --</option>
 												</select>
 												<div class="invalid-feedback">Debe elegir un Distrito</div>
 											</div>
@@ -136,25 +135,8 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="zona">Zona:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control zona mayusc" name="zona" id="zona" placeholder="Zona" value="<?=$proveedor->zona;?>" required="" />
-											</div>
-										</div>
-									</div>
-									<div class="row mt-3">
-										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="finca">Finca:</label>
-										<div class="col-md-6 col-lg-4">
-											<div class="row">
-												<input type="text" class="form-control borra finca mayusc" name="finca" id="finca" placeholder="Finca" value="<?=$proveedor->finca;?>"
-													required="" readonly />
-											</div>
-										</div>
-									</div>
-									<div class="row mt-3">
-										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="altitud">Altitud:</label>
-										<div class="col-md-6 col-lg-4">
-											<div class="row">
-												<input type="text" class="form-control borra altitud mayusc" name="altitud" id="altitud" placeholder="Altitud (msnm)"
-													value="<?=$proveedor->altitud;?>" required="" readonly />
+												<input type="text" class="form-control borra zona mayusc" name="zona" id="zona" placeholder="Zona" value="" required="" />
+												<label class="invalid-feedback">Campo requerido</label>
 											</div>
 										</div>
 									</div>
@@ -162,10 +144,9 @@
 							</div>
 							<div class="container-fluid row"><hr class="col-sm-12"></div>
 							<div class="col-12 mx-auto pb-2">
-								<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Editar Registro</button>
+								<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Guardar Registro</button>
 								<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
 							</div>
 						</form>
 						</div>
 					</div>
-			

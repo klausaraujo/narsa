@@ -60,9 +60,12 @@ jQuery(document).ready(function($){
 				url: base_url + 'certificaciones/proveedores',
 				type: 'GET',
 				error: function(){
-					$("#post_list_processing").css("display","none");
+					$("#post_list_processing").css('display','none');
 				}
 			},
+			columns:[
+				{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },
+			],
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
 			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
 		});
@@ -78,7 +81,7 @@ jQuery(document).ready(function($){
 				}
 			},
 			columns:[
-				{ data: 0, visible: false },{ data: 1 },				
+				{ data: 0, visible: false },{ data: 1 },
 				{
 					data: 2,
 					render: function(data,type,row,meta){
@@ -185,6 +188,8 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	let data = tablaProv.row( this ).data();
 	$('#idproveedor').val(data[0]);
 	$('#productor').val(data[1]);
+	$('#altitud').val(data[3]);
+	$('#finca').val(data[2]);
 	$('#modalProveedores').modal('hide');
 });
 $('#tablaCatadores').on('dblclick','tr',function(){

@@ -56,29 +56,29 @@ class Main extends CI_Controller
 		$lat = $this->input->post('lat'); $lng = $this->input->post('lng');
 		
 		if($this->input->post('tiporegistro') === 'registrar'){
-			if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''){
-				$data = array(
-					'idtipodocumento' => $this->input->post('tipodoc'),
-					'numero_documento' => $this->input->post('doc'),
-					'RUC' => $this->input->post('ruc'),
-					'nombre' => $this->input->post('nombres'),
-					'domicilio' => $this->input->post('direccion'),
-					'celular' => $this->input->post('celular'),
-					'correo' => $this->input->post('email'),
-					'ubigeo' => $ubigeo,
-					'latitud' => $lat,
-					'longitud' => $lng,
-					'zona' => $this->input->post('zona'),
-					'finca' => $this->input->post('finca'),
-					'altitud' => $this->input->post('altitud'),
-					'activo' => 1,
-				);
-				$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
-				if($this->Proveedores_model->registrar($data)){
-					$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Registrado Exitosamente');
-					$this->session->set_flashdata('claseMsg', 'alert-primary');
-				}
-			}else{ $this->session->set_flashdata('flashMessage', 'Campos Vac&iacute;os'); }
+			//if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('nombres') != '' && $this->input->post('direccion') != ''){
+			$this->session->set_flashdata('flashMessage', 'No se pudo registrar el <b>Proveedor</b>');
+			$data = array(
+				'idtipodocumento' => $this->input->post('tipodoc'),
+				'numero_documento' => $this->input->post('doc'),
+				'RUC' => $this->input->post('ruc'),
+				'nombre' => $this->input->post('nombres'),
+				'domicilio' => $this->input->post('direccion'),
+				'celular' => $this->input->post('celular'),
+				'correo' => $this->input->post('email'),
+				'ubigeo' => $ubigeo,
+				'latitud' => $lat,
+				'longitud' => $lng,
+				'zona' => $this->input->post('zona'),
+				'finca' => $this->input->post('finca'),
+				'altitud' => $this->input->post('altitud'),
+				'activo' => 1,
+			);
+			if($this->Proveedores_model->registrar($data)){
+				$this->session->set_flashdata('flashMessage', '<b>Proveedor</b> Registrado Exitosamente');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
+			}
+			//}else{ $this->session->set_flashdata('flashMessage', 'Campos Vac&iacute;os'); }
 				
 		}elseif($this->input->post('tiporegistro') === 'editar'){
 			$id = $this->input->post('idproveedor');
@@ -89,6 +89,9 @@ class Main extends CI_Controller
 				'domicilio' => $this->input->post('direccion'),
 				'celular' => $this->input->post('celular'),
 				'correo' => $this->input->post('email'),
+				'ubigeo' => $ubigeo,
+				'latitud' => $lat,
+				'longitud' => $lng,
 				'zona' => $this->input->post('zona'),
 				'finca' => $this->input->post('finca'),
 				'altitud' => $this->input->post('altitud'),
@@ -230,7 +233,7 @@ class Main extends CI_Controller
 		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
 		
 		if($tipo !== ''){
-			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 1, 'liquidado' => 0]);			
+			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 1, 'liquidado' => 0]);
 			echo json_encode(['data' => $lista]);
 		}else{
 			echo json_encode(['data'=>array()]);
@@ -243,7 +246,8 @@ class Main extends CI_Controller
 		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
 		
 		if($tipo !== ''){
-			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 7, 'liquidado' => 0]);			
+			$data = 'idproveedor ='.$id.' AND idsucursal='.$suc.' AND liquidado=0 AND (idtipooperacion=7 OR idtipooperacion=9)';
+			$lista = $this->Proveedores_model->listaOperacionesPagos($data);
 			echo json_encode(['data' => $lista]);
 		}else{
 			echo json_encode(['data'=>array()]);
@@ -338,7 +342,7 @@ class Main extends CI_Controller
 			);
 			if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet) > 0){
 				if($parcial){
-					$tipoop = $tipo === '2'? 7 : 1; $detTipo = $tipo === '2'? 'PRESTAMOS A LA EMPRESA' : 'PRESTAMOS A PROVEEDORES';
+					$tipoop = $this->input->post('idtipoop_p'); $detTipo = $this->input->post('tipoop_p');
 					$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipoop,'activo'=>1]);
 					
 					$dataTransaccion = array(

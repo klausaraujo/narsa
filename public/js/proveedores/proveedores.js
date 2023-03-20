@@ -395,7 +395,8 @@ $('#tablaCobros').on('click','tr',function(){
 				$('tr.selected').removeClass('selected');
 				$(this).addClass('selected');
 			}
-			if($('tr.selected').length > 0){				
+			if($('tr.selected').length > 0){
+				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion);
 				$('#interescobro').val(parseFloat(fila.intereses).toFixed(2)), $('#montocobro').val(parseFloat(fila.monto).toFixed(2));
 				$('#mtoprestamo').val(parseFloat(fila.monto)), $('#intprestamo').val(parseFloat(fila.intereses));
 				$('#montocobro').removeAttr('readonly'), $('#interescobro').removeAttr('readonly'), $('#checkliquida').removeAttr('disabled');
@@ -426,11 +427,13 @@ $('#tablaPagos').on('click','tr',function(){
 				$('tr.selected').removeClass('selected');
 				$(this).addClass('selected');
 			}
-			if($('tr.selected').length > 0){				
+			if($('tr.selected').length > 0){
+				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion);
 				$('#interespago').val(parseFloat(fila.intereses).toFixed(2)), $('#montopago').val(parseFloat(fila.monto).toFixed(2));
 				$('#mtopago').val(parseFloat(fila.monto)), $('#intpago').val(parseFloat(fila.intereses));
 				$('#montopago').removeAttr('readonly'), $('#interespago').removeAttr('readonly'), $('#checkliquidapago').removeAttr('disabled');
 				$('#checkliquidapago').prop('checked', true), $('#idpago').val(fila.idmovimiento), $('#tasapago').val(fila.tasa);
+				if(fila.idtipooperacion === '9'){ $('#interespago').attr('readonly', true); }
 			}else{
 				let tipo = $('.tipoop').prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
 				$('#form_transacciones')[0].reset();
@@ -920,7 +923,7 @@ $('.tipoop').bind('change', function(){
 	let tipo = $(this).prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex'), valid = $('#form_transacciones').validate();
 	valid.resetForm(); $('#form_transacciones .error').removeClass('error');
 	//$('#form_transacciones')[0].reset();
-	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
+	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc), $('#tipoop_p').val('');;
 	
 	if(parseInt($('.tipoop').val()) > 0) $('#opciones_p').removeClass('d-none');
 	else $('#opciones_p').addClass('d-none');

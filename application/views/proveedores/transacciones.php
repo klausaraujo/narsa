@@ -87,6 +87,7 @@
 										</div>
 										<hr class="row col-11 mx-auto">
 										<div class="container-fluid d-none" id="opciones_p">
+											<input type="hidden" id="tipoop_p" name="tipoop_p" /><input type="hidden" id="idtipoop_p" name="idtipoop_p" />
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="pp_pe">
 												<div class="col-md-4">
 													<div class="row">
@@ -185,7 +186,7 @@
 												</div>
 											</div>
 											<div class="row col-11 mx-auto mt-3">												
-												<div class="col-md-2 pl-0">
+												<div class="col-md-3 pl-0">
 													<button type="submit" class="btn btn-narsa col-md-8">Ejecutar</button>
 												</div>
 											</div>

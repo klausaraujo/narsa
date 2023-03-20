@@ -161,7 +161,7 @@ class Certificaciones_model extends CI_Model
 	}
 	public function certificado($where)
 	{
-		$this->db->select('c.*,p.nombre');
+		$this->db->select('c.*,p.nombre,p.finca,p.altitud');
         $this->db->from('certificado c');
 		$this->db->join('proveedor p','p.idproveedor=c.idproveedor');
 		$this->db->where($where);

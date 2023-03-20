@@ -153,7 +153,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="altitud">Altitud:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control borra altitud mayusc" name="altitud" id="altitud" placeholder="Altitud (msnm)" value="" required="" />
+												<input type="text" class="form-control borra altitud num" name="altitud" id="altitud" placeholder="Altitud (msnm)" value="" required="" />
 												<label class="invalid-feedback">Campo requerido</label>
 											</div>
 										</div>

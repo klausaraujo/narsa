@@ -44,6 +44,20 @@ class Main extends CI_Controller
 		);
 		$this->load->view('main',['headers' => $headers]);
 	}
+	public function ventas()
+	{
+		$this->load->model('Usuarios_model');
+		//$mod = $this->input->get('mod');
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 5,'po.activo' => 1]);
+		$this->session->set_userdata('perVent', json_encode($bot));
+		
+		$headers = array(
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
+			'4'=>['title' => 'RUC', 'targets' => 4],'5'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 5],'6'=>['title' => 'Direcci&oacute;n', 'targets' => 6],
+			'7'=>['title' => 'Zona', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 1, 'visible' => false],
+		);
+		$this->load->view('main',['headers' => $headers]);
+	}
 	public function usuarios()
 	{
 		$this->load->model('Usuarios_model');

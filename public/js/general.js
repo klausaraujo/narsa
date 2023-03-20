@@ -179,7 +179,7 @@ btnCurl.bind('click',function(){
 						let data = JSON.parse(resp.data);
 						//console.log(data);
 						if(tipodoc === '01' || tipodoc === '03'){
-							if(segmento === 'proveedores'){
+							if(segmento === 'proveedores' || segmento === 'ventas'){
 								$('.direccion').val(data.data.attributes.domicilio_direccion);
 								$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
 								$('#ruc').val('00000000000');

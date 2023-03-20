@@ -131,9 +131,22 @@
 			});
 			<?}?>
 		</script>
+		<?}else if($this->uri->segment(1) === 'ventas'){ ?>
+		<script src="<?=base_url()?>public/js/ventas/ventas.js"></script>
+		<script>
+			let botonesVtas = JSON.parse('<?=$this->session->userdata('perVent')?>');
+			<?if($this->uri->segment(2) == ''){?>
+			let btnEdit = false, btnVta = false;
+			
+			$.each(botonesVtas,function(i,e){
+				if(e.idpermiso === '22') btnEdit = true;
+				else if(e.idpermiso === '23') btnVta = true;
+			});
+			<?}?>
+		</script>
 		<?}?>
 		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
-				$this->uri->segment(1) === 'certificaciones') && $this->uri->segment(2) == ''){ ?>
+				$this->uri->segment(1) === 'certificaciones') || $this->uri->segment(1) === 'ventas' && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
@@ -157,13 +170,14 @@
 				else if(e.idpermiso === '9') btnVerValor = true;
 			});
 		</script>
-		<?}else if($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')){ ?>
+		<?}else if(($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')) || 
+			($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar'))){ ?>
 		<script src="<?=base_url()?>public/js/mapa/map.js"></script>
 		<script>
 			let map = null;
 			window.onload = function(){
 				var opt = {lat: parseFloat(<?=$lat?>), lng: parseFloat(<?=$lng?>),zoom: 16};
-				<?if($this->uri->segment(2) === 'nuevo'){?> $('.ajaxMap').hide();<?}?>
+				<?if($this->uri->segment(2) === 'nuevo' || $this->uri->segment(3) === 'nuevo'){?> $('.ajaxMap').hide();<?}?>
 				map = mapa(opt);
 			}
 		</script>

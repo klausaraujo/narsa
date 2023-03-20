@@ -54,7 +54,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="altitud">&nbsp;&nbsp;Altitud:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control altitud moneda" name="altitud" id="altitud" value="<?=$certificado->altitud;?>" required="" />
+													<input type="text" class="form-control altitud num" name="altitud" id="altitud" value="<?=$certificado->altitud;?>" readonly />
 													<div class="invalid-feedback">Debe indicar la Altitud</div>
 												</div>
 											</div>
@@ -91,18 +91,18 @@
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
-											<div class="col-sm-6 col-lg-8">
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="finca">&nbsp;&nbsp;Finca:</label>
+											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" value="<?=$certificado->observaciones;?>" />
+													<input type="text" class="form-control mayusc" name="finca" id="finca" value="<?=$certificado->finca;?>" readonly />
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="finca">&nbsp;&nbsp;Finca:</label>
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
 											<div class="col-sm-6 col-lg-8">
 												<div class="row">
-												<input type="text" class="form-control mayusc" name="finca" id="finca" placeholder="finca" value="<?=$certificado->finca;?>" />
+													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" value="<?=$certificado->observaciones;?>" />
 												</div>
 											</div>
 										</div>
