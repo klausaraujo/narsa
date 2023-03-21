@@ -80,6 +80,8 @@ $route['nuevocliente'] = 'ventas/main/nuevo';
 $route['ventas/cliente/nuevo'] = 'ventas/main/nuevo';
 $route['ventas/cliente/editar'] = 'ventas/main/nuevo';
 $route['ventas/cliente/registrar'] = 'ventas/main/registrar';
+$route['ventas/ventascliente'] = 'ventas/main/ventas';
+$route['ventas/salidas/lista'] = 'ventas/main/listaVentas';
 
 /* Proveedores */
 $route['proveedores/edocta'] = 'proveedores/main/edocta';

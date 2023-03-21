@@ -102,4 +102,41 @@ class Main extends CI_Controller
 		}
 		header('location:'.base_url().'ventas');
 	}
+	public function ventas()
+	{
+		$this->load->model('Proveedores_model');
+		$id = $this->input->get('id');
+		$hSalidas = array(
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
+			'3'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
+			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
+			'9'=>['targets' => 1, 'visible' => false],
+		);
+		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
+		
+		$data = array(
+			'articulos' => $articulos,
+			'headersSal' => $hSalidas,
+		);
+		$this->load->view('main',$data);
+	}
+	public function listaVentas()
+	{
+		$this->load->model('Ventas_model');
+		
+		$id = $this->input->post('id');
+		$lista = $this->Ventas_model->listaVentas(['gs.idcliente' => $id,'gs.activo' => 1]);
+		$filtro = []; $i = 0;
+		
+		foreach($this->usuario->sucursales as $sucursal):
+			foreach($lista as $row):
+				if($row->idsucursal === $sucursal->idsucursal){
+					$filtro[$i] = $row;
+					$i++;
+				}
+			endforeach;			
+		endforeach;
+		
+		echo json_encode(['data' => $filtro]);
+	}
 }

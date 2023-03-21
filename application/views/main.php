@@ -41,6 +41,7 @@
 						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) == '') $this->load->view('ventas/clientes');
 						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && $this->uri->segment(3) === 'nuevo') $this->load->view('ventas/form-new');
 						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && $this->uri->segment(3) === 'editar') $this->load->view('ventas/form-editar');
+						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'ventascliente') $this->load->view('ventas/ventas');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == '') $this->load->view('usuarios/usuarios');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'nuevo') $this->load->view('usuarios/form-new');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'editar') $this->load->view('usuarios/form-editar');

@@ -185,4 +185,9 @@
 		<script>
 			let catadores = JSON.parse('<?=json_encode($catadores)?>');
 		</script>
+		<?}elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'ventascliente'){ ?>
+		<script>
+			const id = <?=$this->input->get('id')?>;
+			const headersSal = JSON.parse('<?=json_encode($headersSal)?>');
+		</script>
 		<?}?>

@@ -46,4 +46,15 @@ class Ventas_model extends CI_Model
 		if ($this->db->update('cliente',$data)) return true;
         else return false;
 	}
+	public function listaVentas($data)
+    {
+        $this->db->select('gs.*,su.sucursal,cl.nombre');
+        $this->db->from('guia_salida gs');
+		$this->db->join('sucursal su','su.idsucursal = gs.idsucursal');
+		$this->db->join('cliente cl','cl.idcliente = gs.idcliente');
+		$this->db->where($data);
+		$this->db->order_by('gs.idguia', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
 }
