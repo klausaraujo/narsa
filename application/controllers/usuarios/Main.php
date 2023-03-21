@@ -140,6 +140,7 @@ class Main extends CI_Controller
 		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
 		$perServ = (isset($_POST['cajasPer'])?$_POST['cajasPer'] : array());
 		$perCert = (isset($_POST['certPer'])?$_POST['certPer'] : array());
+		$perVtas = (isset($_POST['vtaPer'])?$_POST['vtaPer'] : array());
 		$perMod = (isset($_POST['modPer'])?$_POST['modPer'] : array());
 		
 		/*if(isset($_POST['proveedoresPer'])$data['proveedores'] = $_POST['proveedoresPer'];
@@ -171,7 +172,13 @@ class Main extends CI_Controller
 				$i++;
 			endforeach;
 		}
-				
+		if(!empty($perVtas)){
+			foreach($perVtas as $row):
+				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+		
 		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'permisos_opcion');
 		$regMod = $this->Usuarios_model->actualizaModulosUser(['activo' => 1],$perMod,['idperfil' => $idperfil]);
 		

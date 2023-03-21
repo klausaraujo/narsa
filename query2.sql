@@ -34,6 +34,13 @@ delete from tipo_operacion_caja where idtipooperacion in(16,17);
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (16,'VENTA DE PRODUCTOS (EFECTIVO)','0');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (17,'VENTA DE PRODUCTOS (OTROS MEDIOS)','0');
 
+INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(22,1);
+INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(23,1);
+INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(24,1);
+INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(25,1);
+INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(26,1);
+INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(27,1);
+
 delete from factor where idfactor in(25,26);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (25,3,1,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (26,3,2,0);

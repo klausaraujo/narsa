@@ -92,7 +92,7 @@
 												<select class="form-control pro" name="pro" id="pro" required="">
 													<?
 														foreach($pro as $row):	?>
-															<option value="<?=$row->cod_pro;?>" <?=($row->cod_pro === substr($cliente->ubigeo,3,2)? 'selected' : '')?> >
+															<option value="<?=$row->cod_pro;?>" <?=($row->cod_pro === substr($cliente->ubigeo,2,2)? 'selected' : '')?> >
 																<?=$row->provincia;?>
 															</option>
 													<?		endforeach;	?>

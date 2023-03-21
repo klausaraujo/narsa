@@ -168,7 +168,7 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				$('#perfilU').html(data.perfil);
 				/*if(parseInt(data.status) === 200) alert('Se reseteó la clave del usuario exitosamente');
 				else alert('No se pudo resetear la clave del usuario');*/
-				//console.log(data);
+				console.log(data);
 				$.each(data.data,function(i,e){
 					//console.log(e);
 					$('#form_permisos input:checkbox').each(function(){
@@ -179,6 +179,8 @@ $('#tablaUsuarios').bind('click','a',function(e){
 						}else if($(this).attr('name') === 'cajasPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
 						}else if($(this).attr('name') === 'certPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'vtaPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
 						}
 					});

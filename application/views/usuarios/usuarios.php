@@ -39,6 +39,7 @@
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#usuarios">Usuarios</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#cajas">Cajas</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#certificados">Certificaciones</a></li>
+																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#ventas">Ventas</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#modulos">M&oacute;dulos</a></li>
 															</ul>
 															<div class="tab-content mt-3">
@@ -99,10 +100,6 @@
 																			<input type="checkbox" class="custom-control-input" name="cajasPer[]" value="<?=$row->idpermiso?>" id="checkAccionesCaja<?=$i?>">
 																			<label class="custom-control-label" for="checkAccionesCaja<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
-																		<!--<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="usuariosPer[]" value="" />
-																			<label for="usuariosPer">&nbsp;&nbsp;</label>
-																		</div>-->
 																		<?php
 																					$i++;
 																				}
@@ -121,10 +118,24 @@
 																			<input type="checkbox" class="custom-control-input" name="certPer[]" value="<?=$row->idpermiso?>" id="checkCert<?=$i?>">
 																			<label class="custom-control-label" for="checkCert<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
-																		<!--<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="usuariosPer[]" value="" />
-																			<label for="usuariosPer">&nbsp;&nbsp;</label>
-																		</div>-->
+																		<?php
+																					$i++;
+																				}
+																			endforeach;?>
+																	</div>
+																</div>
+																<div id="ventas" class="tab-pane fade in">
+																	<div class="row my-2">
+																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Ventas</h5>
+																	  <?php
+																			$i = 1;
+																			foreach($permisos as $row):
+																				if($row->idmodulo === '5'){
+																		?>
+																		<div class="custom-control custom-switch col-12 ml-3">
+																			<input type="checkbox" class="custom-control-input" name="vtaPer[]" value="<?=$row->idpermiso?>" id="checkVta<?=$i?>">
+																			<label class="custom-control-label" for="checkVta<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																		</div>
 																		<?php
 																					$i++;
 																				}
@@ -143,10 +154,6 @@
 																			<input type="checkbox" class="custom-control-input" name="modPer[]" value="<?=$row->idmodulo?>" id="checkMod<?=$i?>">
 																			<label class="custom-control-label" for="checkMod<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
-																		<!--<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="usuariosPer[]" value="" />
-																			<label for="usuariosPer">&nbsp;&nbsp;</label>
-																		</div>-->
 																		<?php
 																				$i++;
 																			endforeach;?>

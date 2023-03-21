@@ -92,7 +92,7 @@
 												<select class="form-control pro" name="pro" id="pro" required="">
 													<?
 														foreach($pro as $row):	?>
-															<option value="<?=$row->cod_pro;?>" <?=($row->cod_pro === substr($proveedor->ubigeo,3,2)? 'selected' : '')?> >
+															<option value="<?=$row->cod_pro;?>" <?=($row->cod_pro === substr($proveedor->ubigeo,2,2)? 'selected' : '')?> >
 																<?=$row->provincia;?>
 															</option>
 													<?		endforeach;	?>
@@ -145,7 +145,7 @@
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
 												<input type="text" class="form-control borra finca mayusc" name="finca" id="finca" placeholder="Finca" value="<?=$proveedor->finca;?>"
-													required="" readonly />
+													required="" />
 											</div>
 										</div>
 									</div>
@@ -154,7 +154,7 @@
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
 												<input type="text" class="form-control borra altitud mayusc" name="altitud" id="altitud" placeholder="Altitud (msnm)"
-													value="<?=$proveedor->altitud;?>" required="" readonly />
+													value="<?=$proveedor->altitud;?>" required="" />
 											</div>
 										</div>
 									</div>
