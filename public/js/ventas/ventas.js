@@ -298,6 +298,7 @@ $('#checkrenta').bind('click',function(e){
 /* Boton para generar las nuevas ventas */
 $('#generarSal').bind('click',function(){
 	console.log(tablaSalDetalle.rows().data());
+	let json = [];
 	if(tablaIngDetalle.rows().count() > 0){
 		$.ajax({
 			data: JSON.stringify(json),
@@ -330,3 +331,4 @@ $('#generarSal').bind('click',function(){
 			}
 		});
 	}else{ alert('No hay registros en el detalle'); }
+});
