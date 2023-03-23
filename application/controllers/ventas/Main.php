@@ -143,4 +143,12 @@ class Main extends CI_Controller
 		
 		echo json_encode(['data' => $filtro]);
 	}
+	public function nuevaSalida()
+	{
+		$this->load->model('Ventas_model');
+		$json = file_get_contents('php://input');
+		$data = json_decode($json);
+		
+		echo $data;
+	}
 }

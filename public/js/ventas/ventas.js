@@ -295,3 +295,38 @@ $('#checkrenta').bind('click',function(e){
 		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}
 });
+/* Boton para generar las nuevas ventas */
+$('#generarSal').bind('click',function(){
+	console.log(tablaSalDetalle.rows().data());
+	if(tablaIngDetalle.rows().count() > 0){
+		$.ajax({
+			data: JSON.stringify(json),
+			url: base_url + 'ventas/ventascliente/nuevo',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function () { 
+				$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				$('#generarSal').addClass('disabled');
+				$('#cancelSal').addClass('disabled');
+			},
+			success: function (data) {
+				console.log(data);
+				/*$('#generarSal').html('Generar Venta');
+				$('#generarSal').removeClass('disabled');
+				$('#cancelSal').removeClass('disabled');
+				if(parseInt(data.status) === 200){
+					$('#modalVentas').modal('hide');
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					/* Muestra la guia para imprimir */
+					//window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=comp', '_blank');
+					//$('#formPagoIngreso')[0].reset();
+					//$('#formPagoIngreso select').prop('selectedIndex',0);
+				/*}
+				if(parseInt(data.status) === 100) alert(data.message);
+				else{
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+				}*/
+			}
+		});
+	}else{ alert('No hay registros en el detalle'); }

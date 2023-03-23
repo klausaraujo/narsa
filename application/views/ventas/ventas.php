@@ -223,7 +223,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelSal">Cancelar Operaci&oacute;n</button>
-											<button class="btn btn-narsa" id="generarSal">Generar Salida</button>
+											<button class="btn btn-narsa" id="generarSal">Generar Venta</button>
 										</div>
 									</div>
 								</div>
