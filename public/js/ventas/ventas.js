@@ -1,4 +1,4 @@
-let tablaClientes, tablaVentas;
+let tablaClientes, tablaVentas, tablaSalDetalle;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -42,6 +42,11 @@ $(document).ready(function (){
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
 	}else if(segmento2 === 'ventascliente'){
+		/* Deshabilitar los campos del pago de las ventas */
+		$('#form_pago_venta select').attr('disabled',true);
+		$('#form_pago_venta input').attr('disabled',true);
+		
+		/* Tabla principal del modulo de operaciones con ventas */
 		tablaVentas = $('#tablaVentas').DataTable({
 			ajax:{
 				url: base_url + 'ventas/salidas/lista',
@@ -93,5 +98,200 @@ $(document).ready(function (){
 			columnDefs: headersSal,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
+		/* Tabla del detalle de Salidas */
+		tablaSalDetalle = $('#tablaSalDetalle').DataTable({
+			data: [],
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language: lngDataTable, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
+			columns:[
+				{
+					data: null, orderable: false,
+					render: function(data){
+						return '<div class="btn-group"><a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarSaldetalle">'+
+								'<i class="far fa-trash mx-auto" aria-hidden="true"></i></a></div>';
+					}
+				},
+				{ data: 'articulo' },
+				{
+					data: 'calidad', className: 'text-left',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{
+					data: 'humedad', className: 'text-left',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{
+					data: 'tasa', className: 'text-left',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{ 
+					data: 'cantidad', className: 'text-left',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{
+					data: 'costo', className: 'text-left',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+			],
+			columnDefs:[
+				{ title: 'Acciones', targets: 0 },{ title: 'Producto', targets: 1 },{ title: 'Calidad (%)', targets: 2 },{ title: 'Humedad (%)', targets: 3 },
+				{ title: 'Tasa', targets: 4 },{ title: 'Cantidad', targets: 5 },{ title: 'Precio', targets: 6 }
+				
+			],
+			dom: '<"row"rt>', order: [],
+		});
+	}
+});
+
+$('#form_salidas').validate({
+	errorClass: 'form_error',
+	validClass: 'success',
+	rules: {
+		clienteSalida: { required: true },
+		sucursalSal: { required: true },
+		articuloSal: { required: true },
+		//calidadSal: { required: true },
+		//humedadSal: { required: function(){ if($('#valorizaIng').prop('checked')) return true; else return false; } },
+		//humedadSal: { required: true },
+		//tasaSal: { required: true },
+		cantidadSal: { required: true },
+		costoSal: { required: true },
+	},
+	messages: {
+		clienteSalida: { required: '&nbsp;&nbsp;Campo Cliente no puede estar Vac&iacute;o' },
+		sucursalSal: { required: '&nbsp;&nbsp;Debe elegir la Sucursal' },
+		articuloSal: { required: '&nbsp;&nbsp;Debe elegir un Art&iacute;culo' },
+		cantidadSal: { required: '&nbsp;&nbsp;Cantidad Requerida' },
+		costoSal: { required: '&nbsp;&nbsp;Costo requerido' },
+	},
+	errorPlacement: function(error, element) {
+		error.insertAfter(element);
+	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, formVta = $('#form_salidas').validate();
+		
+		if(tablaSalDetalle.rows().count() === 0){
+			$('#sucursalSal').attr('disabled','disabled');
+			$('#form_pago_venta select').removeAttr('disabled');
+			$('#form_pago_venta input').removeAttr('disabled');
+		}else{
+			tablaSalDetalle.rows().data().each(function (value){
+				if(value['idarticulo'] == $('#articuloSal').val())
+					art = true;
+			});
+		}
+		if(!art){
+			var json = [{ 
+					'articulo':$('#articuloSal :selected').text(),'calidad':$('#calidadSal').val(),'humedad':$('#humedadSal').val(),'tasa':$('#tasaSal').val(),
+					'cantidad':$('#cantidadSal').val(),'costo':$('#costoSal').val(),'idarticulo':$('#articuloSal').val(),'idsucursal':$('#sucursalSal').val(),
+			}];
+			tablaSalDetalle.rows.add(json).draw();
+		}
+		
+		formVta.resetForm(), $('#form_salidas .error').removeClass('error'), $('#form_salidas .error').removeClass('success');
+		$('#form_salidas')[0].reset();
+		$('#sucursalSal').prop('selectedIndex',suc);
+		$('#obsSal').val(obs);
+	}
+});
+
+$('#modalVentas').on('hidden.bs.modal',function(e){
+	let formVta = $('#form_salidas').validate(), formPago = $('#form_pago_venta').validate();
+	formVta.resetForm(), formPago.resetForm();
+	$('#form_salidas')[0].reset(), $('#form_pago_venta')[0].reset();
+	
+	$('#form_salidas select').prop('selectedIndex',0);
+	$('#form_pago_venta select').prop('selectedIndex',0);
+	$('#form_pago_venta select').attr('disabled',true);
+	$('#form_pago_venta input').attr('disabled',true);
+	
+	tablaSalDetalle.clear().draw();
+	$('#sucursalSal').removeAttr('disabled');
+	
+	$('body,html').animate({ scrollTop: 0 }, 'fast');
+});
+
+$('#sucursalSal').on('change',function(){
+	$('.detalleSal select').prop('selectedIndex',0);
+	$('.detalleSal input').val('');
+});
+$('#articuloSal').on('change',function(){
+	$('.prod').val('');
+});
+
+$('body').bind('click','a',function(e){
+	let el = e.target, a = $(el).closest('a');
+	if(a.hasClass('eliminarSaldetalle')){
+		let fila = tablaSalDetalle.row($(a).parents('tr')).data();
+		tablaSalDetalle.row($(a).parents('tr')).remove().draw();
+		if(tablaSalDetalle.rows().count() === 0){
+			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex');
+			$('#form_salidas')[0].reset();
+			$('#form_pago_venta')[0].reset();
+			$('#sucursalSal').prop('selectedIndex',suc);
+			$('#obsSal').val(obs);
+			$('#sucursalSal').removeAttr('disabled');
+			$('#form_pago_venta select').prop('selectedIndex',0);
+			$('#form_pago_venta select').attr('disabled',true);
+			$('#form_pago_venta input').attr('disabled',true);
+		}
+	}
+});
+
+$('#tipoComp').bind('change', function(){
+	if(this.value === '02'){ 
+		if($('#checkrenta').attr('disabled')){ $('#checkrenta').removeAttr('disabled'); $('#checkigv').attr('disabled', true); $('#checkigv').attr('checked', false); }
+		$('#igv').val(''); $('#imp_igv').val('');
+	}else{
+		if(!$('#checkrenta').attr('disabled')){ $('#checkrenta').attr('disabled',true); $('#checkrenta').attr('checked', false); $('#checkigv').removeAttr('disabled'); }
+		$('#renta').val(''); $('#imp_renta').val('');
+	}
+	if($('#monto').val() !== '' && $('#monto').val() > 0){ $('#baseImp').val($('#monto').val()); $('#base_imponible').val($('#monto').val()); }
+	else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+});
+$('#checkigv').bind('click',function(e){
+	let mto = 0;
+	tablaSalDetalle.rows().data().each(function (value){
+		mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
+	});
+	
+	if($(this).prop('checked')){
+		if(mto !== '' && parseFloat(mto) > 0){
+			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
+			$('#base_imponible').val(base), $('#imp_igv').val(imp);
+		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+	}else{
+		$('#igv').val('');
+		$('#imp_igv').val('');
+		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
+		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+	}
+});
+$('#checkrenta').bind('click',function(e){
+	let mto = 0;
+	tablaSalDetalle.rows().data().each(function (value){
+		mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
+	});
+	
+	if($(this).prop('checked')){
+		if(mto !== '' && parseFloat(mto) > 0){
+			let imp = parseFloat(mto) * 0.08, base = parseFloat(mto) - imp; $('#renta').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
+			$('#base_imponible').val(base), $('#imp_renta').val(imp);
+		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+	}else{
+		$('#renta').val('');
+		$('#imp_renta').val('');
+		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
+		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}
 });

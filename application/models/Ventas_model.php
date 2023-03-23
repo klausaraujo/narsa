@@ -57,4 +57,22 @@ class Ventas_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function medioPago($where)
+	{
+		$this->db->select('idmediopago,medio_pago');
+        $this->db->from('medio_pago');
+		$this->db->where($where);
+		$this->db->order_by('idmediopago', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function tipoPago($where)
+	{
+		$this->db->select('idtipooperacion,tipo_operacion');
+        $this->db->from('tipo_operacion_cliente');
+		$this->db->where($where);
+		$this->db->order_by('idtipooperacion', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }

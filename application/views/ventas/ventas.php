@@ -38,19 +38,19 @@
 									<h4 class="modal-title" id="myModalLabel">Salida de Productos</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
-								<div class="modal-body" style="overflow: hidden;">
+								<div class="modal-body" style="overflow:auto;">
 									<form method="post" id="form_salidas">
 										<div class="row">
 											<div class="col-md-11 mx-auto">
 												<div class="row mt-2">
-													<div class="col-md-2 centraVert"><label for="clienteSalida" class="col-12">Cliente:</label></div>
+													<label for="clienteSalida" class="col-md-2 align-self-center mb-0">Cliente:</label>
 													<div class="col-md-4">
-														<input type="text" class="form-control col-12" value="<?=ucwords(strtolower($this->input->get('name')))?>"
+														<input type="text" class="form-control" value="<?=ucwords(strtolower($this->input->get('name')))?>"
 															name="clienteSalida" id="clienteSalida" readonly />
 													</div>
-													<div class="col-md-2 centraVert"><label for="sucursalSal" class="col-12">Sucursal:</label></div>
+													<label for="sucursalSal" class="col-md-2 align-self-center mb-0">Sucursal:</label>
 													<div class="col-md-4">
-														<select class="form-control col-12" name="sucursalSal" id="sucursalSal">
+														<select class="form-control" name="sucursalSal" id="sucursalSal">
 													<?
 														foreach($usuario->sucursales as $row):	?>
 															<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
@@ -58,108 +58,163 @@
 														</select>
 													</div>
 												</div>
-												<div class="row my-4">
-													<div class="col-md-2 centraVert"><label for="obsSal" class="col-12">Observaciones:</label></div>
-													<div class="col-md-10">
-														<input type="text" class="form-control mayusc" name="obsSal" id="obsSal" autocomplete="off" placeholder="Observaciones" />
-													</div>
-												</div>
-												<div class="row my-4">
-													<div class="col-md-2 centraVert"><label for="articulo" class="col-12">Producto:</label></div>
-													<div class="col-md-4">
-														<select class="form-control col-12" name="articuloSal" id="articuloSal">
-															<option value="">--Seleccione--</option>
-														<?
-														foreach($articulos as $row):	?>
-															<option value="<?=$row->idarticulo;?>"><?=$row->articulo;?></option>
-														<?	endforeach;	?>
-														</select>
-													</div>
-													<div class="col-md-3 centraVert"><label for="cantidadSal" class="col-md-9 pull-right">Cantidad KG:</label></div>
-													<div class="col-md-3">
-														<input type="text" class="form-control moneda" name="cantidadSal" id="cantidadSal" autocomplete="off" placeholder="0.00" />
-													</div>
-												</div>
-												<div class="row my-4">
-													<div class="col-md-2 centraVert pr-0"><label for="humedadSal" class="col-12">Humedad (%):</label></div>
-													<div class="col-md-4">
-														<input type="text" class="form-control col-md-9 moneda" name="humedadSal" id="humedadSal" autocomplete="off" placeholder="0.00" />
-													</div>
-													<div class="col-md-3 centraVert"><label for="calidadSal" class="col-12">Calidad RDTO(%):</label></div>
-													<div class="col-md-3">
-														<input type="text" class="form-control moneda" name="calidadSal" id="calidadSal" autocomplete="off" placeholder="0.00" />
-													</div>
-												</div>
-												<div class="row my-4">
-													<div class="col-md-2 centraVert pr-0"><label for="tasaSal" class="col-12">Tasa (Pts.):</label></div>
-													<div class="col-md-4">
-														<input type="text" class="form-control col-md-9 moneda" name="tasaSal" id="tasaSal" autocomplete="off" placeholder="0.00" />
-													</div>
-												</div>
-												
-												<div class="row my-4">
-													<div class="col-md-2 centraVert">
-														<div class="custom-control custom-switch col-12 pr-0">
-															<input type="checkbox" class="custom-control-input" name="valorizaIng" id="valorizaIng">
-															<label class="custom-control-label" for="valorizaIng">Valorizar</label>
+												<div class="detalleSal">
+													<div class="row my-4">
+														<label for="obsSal" class="col-md-2 align-self-center mb-0">Observaciones:</label>
+														<div class="col-md-10">
+															<input type="text" class="form-control mayusc" name="obsSal" id="obsSal" autocomplete="off" placeholder="Observaciones" />
 														</div>
 													</div>
-													<div class="col-md-2 centraVert"><label for="cantidadValoriz" class="col-12">Cantidad:</label></div>
-													<div class="col-md-3">
-														<input type="text" class="form-control col-12 moneda" name="cantidadValoriz" id="cantidadValoriz" autocomplete="off" placeholder="0.00" disabled />
+													<div class="row my-4">
+														<label for="articuloSal" class="col-md-2 align-self-center mb-0">Producto:</label>
+														<div class="col-md-4">
+															<select class="form-control" name="articuloSal" id="articuloSal">
+																<option value="">--Seleccione--</option>
+															<?
+															foreach($articulos as $row):	?>
+																<option value="<?=$row->idarticulo;?>"><?=$row->articulo;?></option>
+															<?	endforeach;	?>
+															</select>
+														</div>
+														<label for="calidadSal" class="col-md-2 align-self-center mb-0">Calidad RDTO(%):</label>
+														<div class="col-md-4">
+															<input type="text" class="form-control prod moneda" name="calidadSal" id="calidadSal" autocomplete="off" placeholder="0.00" />
+														</div>
 													</div>
-													<div class="col-md-2 centraVert"><label for="costoValoriz" class="col-12">Costo:</label></div>
-													<div class="col-md-3">
-														<input type="text" class="form-control col-12 moneda" name="costoValoriz" id="costoValoriz" placeholder="0.00" autocomplete="off" />
+													<div class="row my-4">
+														<label for="humedadSal" class="col-md-2 align-self-center mb-0">Humedad (%):</label>
+														<div class="col-md-4">
+															<input type="text" class="form-control prod moneda" name="humedadSal" id="humedadSal" autocomplete="off" placeholder="0.00" />
+														</div>
+														<label for="tasaSal" class="col-md-2 align-self-center mb-0">Tasa (Pts.):</label>
+														<div class="col-md-4">
+															<input type="text" class="form-control prod moneda" name="tasaSal" id="tasaSal" autocomplete="off" placeholder="0.00" />
+														</div>
+													</div>
+													<div class="row my-4">
+														<label for="cantidadSal" class="col-md-2 align-self-center mb-0">Cantidad KG:</label>
+														<div class="col-md-4">
+															<input type="text" class="form-control prod moneda" name="cantidadSal" id="cantidadSal" autocomplete="off" placeholder="0.00" />
+														</div>
+														<label for="costoSal" class="col-md-2 align-self-center mb-0">Costo:</label>
+														<div class="col-md-4">
+															<input type="text" class="form-control prod moneda" name="costoSal" id="costoSal" placeholder="0.00" autocomplete="off" />
+														</div>
 													</div>
 												</div>
-												<div class="row mt-2">
+												<div class="row my-2">
 													<div class="col-md-2">
-														<input type="submit" class="btn btn-narsa d-flex ml-auto col-12 justify-content-center" id="btnAgregarIngDetalle" value="Agregar"/>
+														<input type="submit" class="btn btn-narsa d-flex ml-auto col-12 justify-content-center" id="btnAgregarSalDetalle" value="Agregar"/>
 													</div>
 												</div>
 											</div>
 										</div>
 									</form>
-								</div>
-								<div class="container-fluid">
-									<div class="row mx-2">
-										<div class="col-12" style="overflow-x:auto">
-											<table id="tablaSalDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+									<div class="container-fluid">
+										<div class="row mx-2">
+											<div class="col-12" style="overflow-x:auto">
+												<table id="tablaSalDetalle" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="modal-body">
-									<form id="formPagoSalida">
+									<form method="post" id="form_pago_venta">
 										<div class="row">
 											<div class="col-md-11 mx-auto">
 												<div class="row my-4">
-													<div class="col-md-3 centraVert">
-														<div class="custom-control custom-switch col-12 pr-0">
-															<input type="checkbox" class="custom-control-input" name="chkPagoValoriz" id="chkPagoValoriz" disabled >
-															<label class="custom-control-label" for="chkPagoValoriz">Generar Pago</label>
-														</div>
-													</div>
-													<div class="col-md-2 centraVert"><label for="pagoValoriz" class="col-12">Cantidad:</label></div>
+													<label for="tipoPagoVta" class="col-md-2 align-self-center mb-0">Tipo Pago:</label>
 													<div class="col-md-4">
-														<select class="form-control col-md-12 pagoValoriz" name="pagoValoriz" id="pagoValoriz" disabled >
-															<option value="2">Pago Total</option>
-															<option value="8">Pago Parcial</option>
+														<select class="form-control" name="tipoPagoVta" id="tipoPagoVta">
+														<?
+															foreach($tipopago as $row):	?>
+															<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>
+														<?	endforeach;	?>
+														</select>
+													</div>
+													<label for="medioPagoVta" class="col-md-2 align-self-center mb-0">Medio Pago:</label>
+													<div class="col-md-4">
+														<select class="form-control" name="medioPagoVta" id="medioPagoVta">
+														<?
+															foreach($mediopago as $row):	?>
+															<option value="<?=$row->idmediopago;?>"><?=$row->medio_pago;?></option>
+														<?	endforeach;	?>
 														</select>
 													</div>
 												</div>
-												<div class="row my-4">
-													<div class="col-md-2 centraVert"><label for="subTotalPago" class="col-12">Sub-Total:</label></div>
-													<div class="col-md-2">
-														<input type="text" class="form-control col-12" name="subTotalPago" id="subTotalPago"
-															placeholder="0.00" autocomplete="off" readonly />
-													</div>
-													<div class="col-md-2 centraVert"><label for="desembolso" class="col-12">Desembolso:</label></div>
-													<div class="col-md-3">
-														<input type="text" class="form-control col-12 moneda" name="desembolso" id="desembolso" 
-															placeholder="0.00" autocomplete="off" disabled />
+												<div class="row mt-3">
+													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipoComp">Tipo de Comprobante:</label>
+													<div class="col-md-6 col-lg-6">
+														<div class="row">
+															<select class="form-control" name="tipoComp" id="tipoComp">
+																<option value="00">OTROS</option>
+																<option value="01">FACTURA</option>
+																<option value="02">RECIBO POR HONORARIOS</option>
+																<option value="03">BOLETA DE VENTA</option>
+																<option value="04">LIQUIDACIÓN DE COMPRA</option>
+																<option value="05">BOLETA TRANSPORTE AEREO</option>
+																<option value="06">CARTA DE PORTE AEREO</option>
+																<option value="07">NOTA DE CRÉDITO</option>
+																<option value="08">NOTA DE DÉBITO</option>
+																<option value="09">GUÍA DE REMISIÓN - REMITENTE</option>
+																<option value="10">RECIBO POR ARRENDAMIENTO</option>
+																<option value="11">PÓLIZA EMITIDA POR LAS BOLSAS DE VALORES</option>
+																<option value="12">TICKET O CINTA EMITIDO POR MÁQUINA REGISTRADORA</option>
+																<option value="13">DOCUMENTO BANCARIO</option>
+																<option value="14">RECIBO POR SERVICIOS PÚBLICOS</option>
+															</select>
+														</div>
 													</div>
 												</div>
+												<div class="row mt-3">
+													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="serie">Serie del Comprobante:</label>
+													<div class="col-md-6 col-lg-2">
+														<div class="row">
+															<input type="text" class="form-control mayusc" name="serie" id="serie" maxlength="5" />
+														</div>
+													</div>
+													<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;N&uacute;mero:</label>
+													<div class="col-md-6 col-lg-2">
+														<div class="row">
+															<input type="text" class="form-control mt-3 mt-lg-0 mayusc" name="num" id="num" maxlength="8" />
+														</div>
+													</div>
+												</div>
+												<div class="row mt-3">
+													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="baseImp">Base Imponible:</label>
+													<div class="col-md-6 col-lg-2">
+														<div class="row">
+															<input type="text" class="form-control moneda" name="baseImp" id="baseImp" placeholder="0.00" readonly />
+														</div>
+													</div>
+													<div class="col-md-6 col-lg-2 align-self-center">
+														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+														<div class="custom-control custom-switch pr-0 d-inline ml-2">
+															<input type="checkbox" class="custom-control-input" name="checkigv" id="checkigv" />
+															<label class="custom-control-label mt-3 mt-lg-0" for="checkigv"></label>
+														</div>
+													</div>
+													<div class="col-md-6 col-lg-2">
+														<div class="row">
+															<input type="text" class="form-control mt-0 mt-md-3 mt-lg-0 moneda" name="igv" id="igv" placeholder="0.00" readonly />
+														</div>
+													</div>
+												</div>
+												<div class="row mt-3">
+													<div class="col-md-6 col-lg-3">
+														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="renta">Renta:</label>
+														<div class="custom-control custom-switch pr-0 d-inline ml-2">
+															<input type="checkbox" class="custom-control-input" name="checkrenta" id="checkrenta" disabled />
+															<label class="custom-control-label mt-3 mt-lg-0" for="checkrenta"></label>
+														</div>
+													</div>
+													<div class="col-md-6 col-lg-2">
+														<div class="row">
+															<input type="text" class="form-control moneda" name="renta" id="renta" placeholder="0.00" readonly />
+														</div>
+													</div>
+												</div>
+												<input type="hidden" name="base_imponible" id="base_imponible" />
+												<input type="hidden" name="imp_igv" id="imp_igv" />
+												<input type="hidden" name="imp_renta" id="imp_renta" />
 											</div>
 										</div>
 									</form>
@@ -167,8 +222,8 @@
 								<div class="modal-footer">
 									<div class="row">
 										<div class="col-md-12">
-											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelIng">Cancelar Operaci&oacute;n</button>
-											<button class="btn btn-narsa" id="generarIng">Generar Ingreso</button>
+											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelSal">Cancelar Operaci&oacute;n</button>
+											<button class="btn btn-narsa" id="generarSal">Generar Salida</button>
 										</div>
 									</div>
 								</div>

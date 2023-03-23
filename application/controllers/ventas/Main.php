@@ -104,7 +104,7 @@ class Main extends CI_Controller
 	}
 	public function ventas()
 	{
-		$this->load->model('Proveedores_model');
+		$this->load->model('Proveedores_model'); $this->load->model('Ventas_model');
 		$id = $this->input->get('id');
 		$hSalidas = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
@@ -113,10 +113,14 @@ class Main extends CI_Controller
 			'9'=>['targets' => 1, 'visible' => false],
 		);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
+		$tipoPago = $this->Ventas_model->tipoPago(['activo' => 1]);
+		$medioPago = $this->Ventas_model->medioPago(['activo' => 1]);
 		
 		$data = array(
 			'articulos' => $articulos,
 			'headersSal' => $hSalidas,
+			'tipopago' => $tipoPago,
+			'mediopago' => $medioPago,
 		);
 		$this->load->view('main',$data);
 	}

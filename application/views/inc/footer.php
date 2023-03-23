@@ -50,6 +50,7 @@
 		<script>
 			let botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';
 			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>', segmento2 = '<?=$this->uri->segment(2)?>';
+			const opt = { style:'decimal', minimumFractionDigits: 2 };
 			const lngDataTable = {
 				"decimal": "",
 				"emptyTable": "No se encontraron registros",
