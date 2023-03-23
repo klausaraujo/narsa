@@ -299,7 +299,7 @@ $('#checkrenta').bind('click',function(e){
 $('#generarSal').bind('click',function(){
 	console.log(tablaSalDetalle.rows().data());
 	let json = [];
-	if(tablaIngDetalle.rows().count() > 0){
+	if(tablaSalDetalle.rows().count() > 0){
 		$.ajax({
 			data: JSON.stringify(json),
 			url: base_url + 'ventas/ventascliente/nuevo',
