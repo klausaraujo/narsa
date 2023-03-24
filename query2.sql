@@ -153,5 +153,16 @@ create table movimientos_cliente(
 	FOREIGN KEY (idfactor) REFERENCES factor (idfactor) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idmediopago) REFERENCES medio_pago (idmediopago) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 	
+/*
+Nuevas Entradas en la Base de Datos (21/03/2023)
+*/
+alter table movimientos_cliente add tipo_comprobante varchar(2) after monto;
+alter table movimientos_cliente add serie_comprobante varchar(5) after tipo_comprobante;
+alter table movimientos_cliente add numero_comprobante varchar(8) after serie_comprobante;
+alter table movimientos_cliente add base_imponible decimal(20,0) after numero_comprobante;
+alter table movimientos_cliente add impuesto_igv decimal(20,0) after base_imponible;
+
+alter table movimientos_cliente alter column base_imponible set default 0;
+alter table movimientos_cliente alter column impuesto_igv set default 0;
 
 

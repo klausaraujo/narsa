@@ -178,7 +178,7 @@ $('#form_salidas').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, formVta = $('#form_salidas').validate();
+		let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, formVta = $('#form_salidas').validate(), mto = 0;
 		
 		if(tablaSalDetalle.rows().count() === 0){
 			$('#sucursalSal').attr('disabled','disabled');
@@ -202,6 +202,17 @@ $('#form_salidas').validate({
 		$('#form_salidas')[0].reset();
 		$('#sucursalSal').prop('selectedIndex',suc);
 		$('#obsSal').val(obs);
+
+		tablaSalDetalle.rows().data().each(function (value){
+			mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
+		});
+		
+		/* Mostrar la base imponible, el IGV y el monto total de la vente */
+		//console.log(mto);
+		if(mto !== '' && parseFloat(mto) > 0){
+			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
+			$('#base_imponible').val(base), $('#imp_igv').val(imp), $('#totalvta').val(formatMoneda(mto));
+		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 	}
 });
 
@@ -248,51 +259,12 @@ $('body').bind('click','a',function(e){
 	}
 });
 
-$('#tipoComp').bind('change', function(){
-	if(this.value === '02'){ 
-		if($('#checkrenta').attr('disabled')){ $('#checkrenta').removeAttr('disabled'); $('#checkigv').attr('disabled', true); $('#checkigv').attr('checked', false); }
-		$('#igv').val(''); $('#imp_igv').val('');
+$('#tipoPagoVta').bind('change', function(){
+	if($(this).prop('selectedIndex') === '1'){
+		$('#medioPagoVta').prop('selectedIndex',0);
+		$('#medioPagoVta').attr('disabled', true);
 	}else{
-		if(!$('#checkrenta').attr('disabled')){ $('#checkrenta').attr('disabled',true); $('#checkrenta').attr('checked', false); $('#checkigv').removeAttr('disabled'); }
-		$('#renta').val(''); $('#imp_renta').val('');
-	}
-	if($('#monto').val() !== '' && $('#monto').val() > 0){ $('#baseImp').val($('#monto').val()); $('#base_imponible').val($('#monto').val()); }
-	else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
-});
-$('#checkigv').bind('click',function(e){
-	let mto = 0;
-	tablaSalDetalle.rows().data().each(function (value){
-		mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
-	});
-	
-	if($(this).prop('checked')){
-		if(mto !== '' && parseFloat(mto) > 0){
-			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
-			$('#base_imponible').val(base), $('#imp_igv').val(imp);
-		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
-	}else{
-		$('#igv').val('');
-		$('#imp_igv').val('');
-		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
-		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
-	}
-});
-$('#checkrenta').bind('click',function(e){
-	let mto = 0;
-	tablaSalDetalle.rows().data().each(function (value){
-		mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
-	});
-	
-	if($(this).prop('checked')){
-		if(mto !== '' && parseFloat(mto) > 0){
-			let imp = parseFloat(mto) * 0.08, base = parseFloat(mto) - imp; $('#renta').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
-			$('#base_imponible').val(base), $('#imp_renta').val(imp);
-		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
-	}else{
-		$('#renta').val('');
-		$('#imp_renta').val('');
-		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
-		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+		$('#medioPagoVta').removeAttr('disabled');
 	}
 });
 /* Boton para generar las nuevas ventas */

@@ -145,21 +145,8 @@
 													<div class="col-md-6 col-lg-6">
 														<div class="row">
 															<select class="form-control" name="tipoComp" id="tipoComp">
-																<option value="00">OTROS</option>
 																<option value="01">FACTURA</option>
-																<option value="02">RECIBO POR HONORARIOS</option>
 																<option value="03">BOLETA DE VENTA</option>
-																<option value="04">LIQUIDACIÓN DE COMPRA</option>
-																<option value="05">BOLETA TRANSPORTE AEREO</option>
-																<option value="06">CARTA DE PORTE AEREO</option>
-																<option value="07">NOTA DE CRÉDITO</option>
-																<option value="08">NOTA DE DÉBITO</option>
-																<option value="09">GUÍA DE REMISIÓN - REMITENTE</option>
-																<option value="10">RECIBO POR ARRENDAMIENTO</option>
-																<option value="11">PÓLIZA EMITIDA POR LAS BOLSAS DE VALORES</option>
-																<option value="12">TICKET O CINTA EMITIDO POR MÁQUINA REGISTRADORA</option>
-																<option value="13">DOCUMENTO BANCARIO</option>
-																<option value="14">RECIBO POR SERVICIOS PÚBLICOS</option>
 															</select>
 														</div>
 													</div>
@@ -182,39 +169,26 @@
 													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="baseImp">Base Imponible:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
-															<input type="text" class="form-control moneda" name="baseImp" id="baseImp" placeholder="0.00" readonly />
+															<input type="text" class="form-control" name="baseImp" id="baseImp" placeholder="0.00" readonly />
 														</div>
 													</div>
-													<div class="col-md-6 col-lg-2 align-self-center">
-														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
-														<div class="custom-control custom-switch pr-0 d-inline ml-2">
-															<input type="checkbox" class="custom-control-input" name="checkigv" id="checkigv" />
-															<label class="custom-control-label mt-3 mt-lg-0" for="checkigv"></label>
-														</div>
-													</div>
+													<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
-															<input type="text" class="form-control mt-0 mt-md-3 mt-lg-0 moneda" name="igv" id="igv" placeholder="0.00" readonly />
+															<input type="text" class="form-control mt-0 mt-md-3 mt-lg-0" name="igv" id="igv" placeholder="0.00" readonly />
 														</div>
 													</div>
 												</div>
 												<div class="row mt-3">
-													<div class="col-md-6 col-lg-3">
-														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="renta">Renta:</label>
-														<div class="custom-control custom-switch pr-0 d-inline ml-2">
-															<input type="checkbox" class="custom-control-input" name="checkrenta" id="checkrenta" disabled />
-															<label class="custom-control-label mt-3 mt-lg-0" for="checkrenta"></label>
-														</div>
-													</div>
+													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="total">Total:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
-															<input type="text" class="form-control moneda" name="renta" id="renta" placeholder="0.00" readonly />
+															<input type="text" class="form-control" name="totalvta" id="totalvta" placeholder="0.00" readonly />
 														</div>
 													</div>
 												</div>
 												<input type="hidden" name="base_imponible" id="base_imponible" />
 												<input type="hidden" name="imp_igv" id="imp_igv" />
-												<input type="hidden" name="imp_renta" id="imp_renta" />
 											</div>
 										</div>
 									</form>
