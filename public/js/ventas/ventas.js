@@ -228,6 +228,9 @@ $('#modalVentas').on('hidden.bs.modal',function(e){
 	
 	tablaSalDetalle.clear().draw();
 	$('#sucursalSal').removeAttr('disabled');
+	$('#generarSal').html('Generar Venta');
+	$('#generarSal').removeClass('disabled');
+	$('#cancelSal').removeClass('disabled');
 	
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
@@ -243,7 +246,7 @@ $('#articuloSal').on('change',function(){
 $('body').bind('click','a',function(e){
 	let el = e.target, a = $(el).closest('a');
 	if(a.hasClass('eliminarSaldetalle')){
-		let fila = tablaSalDetalle.row($(a).parents('tr')).data();
+		let fila = tablaSalDetalle.row($(a).parents('tr')).data(), mto = 0;
 		tablaSalDetalle.row($(a).parents('tr')).remove().draw();
 		if(tablaSalDetalle.rows().count() === 0){
 			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex');
@@ -255,12 +258,22 @@ $('body').bind('click','a',function(e){
 			$('#form_pago_venta select').prop('selectedIndex',0);
 			$('#form_pago_venta select').attr('disabled',true);
 			$('#form_pago_venta input').attr('disabled',true);
+			$('#baseImp').val(''), $('#base_imponible').val(''), $('#imp_igv').val(''), $('#igv').val('');
+		}else{
+			tablaSalDetalle.rows().data().each(function(value){
+				mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
+			});
+			if(mto !== '' && parseFloat(mto) > 0){
+				let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
+				$('#base_imponible').val(base), $('#imp_igv').val(imp), $('#totalvta').val(formatMoneda(mto));
+			}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
 		}
 	}
 });
 
 $('#tipoPagoVta').bind('change', function(){
-	if($(this).prop('selectedIndex') === '1'){
+	let index = $(this).prop('selectedIndex');
+	if($(this).prop('selectedIndex') === 1){
 		$('#medioPagoVta').prop('selectedIndex',0);
 		$('#medioPagoVta').attr('disabled', true);
 	}else{
@@ -269,25 +282,35 @@ $('#tipoPagoVta').bind('change', function(){
 });
 /* Boton para generar las nuevas ventas */
 $('#generarSal').bind('click',function(){
-	console.log(tablaSalDetalle.rows().data());
-	let json = [];
+	//console.log(tablaSalDetalle.rows().data());
+	let json = [], i = 0;
+	let formData = new FormData(document.getElementById('form_pago_venta'));
+	formData.set('idcliente',id);
+	/*let formu = new URLSearchParams(formData).toString();
+	console.log(JSON.stringify(Object.fromEntries(formData)));*/
+	
+	tablaSalDetalle.rows().data().each(function(row){
+		json[i] = row; i++;
+		//console.log(json);
+	});
+	
 	if(tablaSalDetalle.rows().count() > 0){
 		$.ajax({
-			data: JSON.stringify(json),
+			data:{ data: JSON.stringify(json), pago: JSON.stringify(Object.fromEntries(formData)) },
 			url: base_url + 'ventas/ventascliente/nuevo',
 			method: 'POST',
 			dataType: 'JSON',
 			beforeSend: function () { 
-				$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				$('#generarSal').addClass('disabled');
-				$('#cancelSal').addClass('disabled');
+				//$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+				//$('#generarSal').addClass('disabled');
+				//$('#cancelSal').addClass('disabled');
 			},
 			success: function (data) {
 				console.log(data);
-				/*$('#generarSal').html('Generar Venta');
+				$('#generarSal').html('Generar Venta');
 				$('#generarSal').removeClass('disabled');
 				$('#cancelSal').removeClass('disabled');
-				if(parseInt(data.status) === 200){
+				/*if(parseInt(data.status) === 200){
 					$('#modalVentas').modal('hide');
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					/* Muestra la guia para imprimir */

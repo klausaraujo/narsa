@@ -75,4 +75,42 @@ class Ventas_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function ingresaVenta($data)
+	{
+		$i = 0; $idguia = ''; $numero = 1;
+		
+		$this->db->trans_begin();
+		
+		foreach($data as $row):
+			if($i === 0){
+				$this->db->select('MAX(numero) numero');
+				$this->db->from('guia_salida');
+				$this->db->where(['idsucursal'=>$row->idsucursal,'anio_guia'=>date('Y')]);
+				$result = $this->db->get();
+				if($result->num_rows() > 0){
+					$result = $result->row();
+					$numero = floatval( $result->numero ) + 1;
+				}
+				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
+								'observaciones'=>$row->observacion,'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
+				//$guia_entrada[] = $tran;
+				$this->db->insert('guia_entrada',$guia_entrada);
+				$idguia = $this->db->insert_id();
+			}
+			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->chk_valorizar,
+					'cantidad_valorizada'=>$row->cantidad_valorizada,'humedad'=>$row->humedad,'calidad'=>$row->calidad,'tasa'=>$row->tasa,'costo'=>$row->costo,'activo'=>1];
+			$i++;
+		endforeach;
+		
+		/* Insertar array de valores en la base */
+		$this->db->insert_batch('guia_entrada_detalle',$rowdet);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return $idguia;
+		}
+	}
 }

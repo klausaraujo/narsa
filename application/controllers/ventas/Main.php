@@ -146,9 +146,11 @@ class Main extends CI_Controller
 	public function nuevaSalida()
 	{
 		$this->load->model('Ventas_model');
-		$json = file_get_contents('php://input');
-		$data = json_decode($json);
+		/*$json = file_get_contents('php://input');
+		$data = json_decode($json);*/
+		//$guia = $this->Ventas_model->ingresaVenta($data);
 		
-		echo $data;
+		echo json_encode($_POST['pago']);
+		echo json_encode($_POST['data']);
 	}
 }
