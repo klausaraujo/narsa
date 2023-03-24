@@ -187,8 +187,8 @@
 														</div>
 													</div>
 												</div>
-												<input type="text" name="base_imponible" id="base_imponible" />
-												<input type="text" name="imp_igv" id="imp_igv" />
+												<input type="hidden" name="base_imponible" id="base_imponible" />
+												<input type="hidden" name="imp_igv" id="imp_igv" />
 											</div>
 										</div>
 									</form>
