@@ -280,6 +280,28 @@ $('#tipoPagoVta').bind('change', function(){
 		$('#medioPagoVta').removeAttr('disabled');
 	}
 });
+$('#checkigv').bind('click',function(e){
+	let mto = 0;
+	
+	tablaSalDetalle.rows().data().each(function(value){
+		mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
+	});
+		
+	
+	if($(this).prop('checked')){
+		if(mto !== '' && parseFloat(mto) > 0){
+			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
+			$('#base_imponible').val(base), $('#imp_igv').val(imp);
+		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+	}else{
+		$('#igv').val('');
+		$('#imp_igv').val('');
+		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
+		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+	}
+});
+
+
 /* Boton para generar las nuevas ventas */
 $('#generarSal').bind('click',function(){
 	//console.log(tablaSalDetalle.rows().data());

@@ -165,14 +165,20 @@
 														</div>
 													</div>
 												</div>
-												<div class="row mt-3">
+												<div class="row mt-3">''
 													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="baseImp">Base Imponible:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
 															<input type="text" class="form-control" name="baseImp" id="baseImp" placeholder="0.00" readonly />
 														</div>
 													</div>
-													<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+													<div class="col-md-6 col-lg-2 align-self-center">
+														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+														<div class="custom-control custom-switch pr-0 d-inline ml-2">
+															<input type="checkbox" class="custom-control-input" name="checkigv" id="checkigv" />
+															<label class="custom-control-label mt-3 mt-lg-0" for="checkigv"></label>
+														</div>
+													</div>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
 															<input type="text" class="form-control mt-0 mt-md-3 mt-lg-0" name="igv" id="igv" placeholder="0.00" readonly />
