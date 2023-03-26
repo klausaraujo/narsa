@@ -185,7 +185,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="row mt-3">
+												<div class="row my-3">
 													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0 mt-3 mt-lg-0" for="total">Total:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
@@ -193,9 +193,9 @@
 														</div>
 													</div>
 												</div>
-												<input type="text" name="base_imponible" id="base_imponible" />
-												<input type="text" name="imp_igv" id="imp_igv" />
-												<input type="text" name="total_vta" id="total_vta" />
+												<input type="hidden" name="base_imponible" id="base_imponible" />
+												<input type="hidden" name="imp_igv" id="imp_igv" />
+												<input type="hidden" name="total_vta" id="total_vta" />
 											</div>
 										</div>
 										<div class="modal-footer">
