@@ -147,7 +147,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
 		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; 
-		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0;
+		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $fcj = 1;
 		$message = 'No se pudo registrar la venta'; $status = 500;
 		
 		if($pago->tipoComp === '01'){
@@ -157,7 +157,10 @@ class Main extends CI_Controller
 				return 0;
 			}
 		}
-				
+		
+		if($pago->medioPagoVta === '2') $fcj = 25;
+		else $fcj = 26;
+		
 		$f = $this->Proveedores_model->factor(['destino' => 3,'idtipooperacion' => $pago->tipoPagoVta,'activo' => 1]);
 		$fcli = (!empty($f)? $f->idfactor : 1);
 		$tpcaja = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $tipoDesc,'activo' => 1]);
@@ -191,7 +194,7 @@ class Main extends CI_Controller
 				'fecha_registro' => date('Y-m-d H:i:s'),
 				'activo' => 1
 			);
-			$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$pago);
+			$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$fcj,$pago);
 			if($mov){
 				$message = 'Venta registrada exitosamente';
 				$status = 200;

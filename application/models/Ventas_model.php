@@ -121,7 +121,7 @@ class Ventas_model extends CI_Model
 		if($this->db->insert('transacciones', $data))return $this->db->insert_id();
 		else return 0;
 	}
-	public function regMovCliente($data,$tp,$pago)
+	public function regMovCliente($data,$tp,$f,$pago)
 	{
 		$this->db->trans_begin();
 		/* Isertar en la tabla movimientos proveedor */
@@ -129,7 +129,9 @@ class Ventas_model extends CI_Model
 		unset($data['idmediopago']);
 		unset($data['idcliente']);
 		$data['idtipooperacion'] = $tp;
+		$data['idfactor'] = $f;
 		$data['check_igv'] = $pago->check;
+		$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
 		/* Isertar en la tabla movimientos caja */
 		$this->db->insert('movimientos_caja', $data);
 		
