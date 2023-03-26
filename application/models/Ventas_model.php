@@ -48,12 +48,14 @@ class Ventas_model extends CI_Model
 	}
 	public function listaVentas($data)
     {
-        $this->db->select('gs.*,su.sucursal,cl.nombre');
-        $this->db->from('guia_salida gs');
+        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre');
+        $this->db->from('movimientos_cliente gs');
+		$this->db->join('tipo_operacion_cliente tp','tp.idtipooperacion = gs.idtipooperacion');
+		$this->db->join('medio_pago mp','mp.idmediopago = gs.idmediopago');
 		$this->db->join('sucursal su','su.idsucursal = gs.idsucursal');
 		$this->db->join('cliente cl','cl.idcliente = gs.idcliente');
 		$this->db->where($data);
-		$this->db->order_by('gs.idguia', 'DESC');
+		$this->db->order_by('gs.idmovimiento', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -66,7 +68,7 @@ class Ventas_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function tipoPago($where)
+	public function tipoOp($where)
 	{
 		$this->db->select('idtipooperacion,tipo_operacion');
         $this->db->from('tipo_operacion_cliente');
@@ -119,19 +121,15 @@ class Ventas_model extends CI_Model
 		if($this->db->insert('transacciones', $data))return $this->db->insert_id();
 		else return 0;
 	}
-	public function regMovCliente($data,$f,$pago)
+	public function regMovCliente($data,$tp,$pago)
 	{
 		$this->db->trans_begin();
 		/* Isertar en la tabla movimientos proveedor */
 		$this->db->insert('movimientos_cliente', $data);
 		unset($data['idmediopago']);
 		unset($data['idcliente']);
-		$data['idfactor'] = $f;
-		$data['base_imponible'] = $pago->base_imponible;
-		$data['impuesto_igv'] = $pago->imp_igv;
+		$data['idtipooperacion'] = $tp;
 		$data['check_igv'] = $pago->check;
-		$data['serie_comprobante'] = $pago->serie;
-		$data['numero_comprobante'] = $pago->num;
 		/* Isertar en la tabla movimientos caja */
 		$this->db->insert('movimientos_caja', $data);
 		
@@ -142,5 +140,11 @@ class Ventas_model extends CI_Model
 			$this->db->trans_commit();
 			return 1;
 		}
+	}
+	public function validaRuc($data,$tabla)
+	{
+		$query = $this->db->query('SELECT RUC FROM '.$tabla.' WHERE idcliente = '.$data.' LIMIT 1');
+		if($query->num_rows() > 0) return $query->row();
+		else return array();
 	}
 }

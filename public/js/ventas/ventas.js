@@ -72,9 +72,15 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
-				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
-				{ data: 'nombre' },{ data: 'sucursal' },
+				{ data: 'idmovimiento' },
+				{ data: 'idtransaccion', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'medio_pago' },{ data: 'sucursal' },
+				{ data: 'nombre' },{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
+				{
+					data: 'monto', className: 'text-left',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
 				{
 					data: 'activo',
 					render: function(data){
@@ -171,7 +177,7 @@ $('#form_salidas').validate({
 	submitHandler: function (form, event) {
 		event.preventDefault();
 		if(parseInt($('#cantidadSal').val()) > 0 && parseInt($('#costoSal').val()) > 0){
-			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, formVta = $('#form_salidas').validate(), mto = 0;
+			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, mto = 0;
 			
 			if(tablaSalDetalle.rows().count() === 0){
 				$('#sucursalSal').attr('disabled','disabled');
@@ -191,7 +197,7 @@ $('#form_salidas').validate({
 				tablaSalDetalle.rows.add(json).draw();
 			}
 			
-			formVta.resetForm(), $('#form_salidas .error').removeClass('error'), $('#form_salidas .error').removeClass('success');
+			$('#form_salidas .error').removeClass('error'), $('#form_salidas .success').removeClass('success');
 			$('#form_salidas')[0].reset();
 			$('#sucursalSal').prop('selectedIndex',suc);
 			$('#obsSal').val(obs);
@@ -288,10 +294,10 @@ $('#form_pago_venta').validate({
 });
 
 $('#modalVentas').on('hidden.bs.modal',function(e){
-	let formVta = $('#form_salidas').validate(), formPago = $('#form_pago_venta').validate();
 	$('#medioPagoVta').html(medioPagoOpt), $('#medioPagoVta').prop('selectedIndex',0);
-	formVta.resetForm(), formPago.resetForm();
 	$('#form_salidas')[0].reset(), $('#form_pago_venta')[0].reset();
+	$('#form_salidas .error').removeClass('error'), $('#form_salidas .success').removeClass('success');
+	$('#form_pago_venta .error').removeClass('error'), $('#form_pago_venta .success').removeClass('success');
 	
 	$('#form_salidas select').prop('selectedIndex',0);
 	$('#form_pago_venta select').prop('selectedIndex',0);

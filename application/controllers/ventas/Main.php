@@ -107,13 +107,13 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model'); $this->load->model('Ventas_model');
 		$id = $this->input->get('id');
 		$hSalidas = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
-			'3'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-			'9'=>['targets' => 1, 'visible' => false],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n', 'targets' => 2],
+			'3'=>['title' => 'Tipo Op.', 'targets' => 3],'4'=>['title' => 'Medio de Pago', 'targets' => 4],'5'=>['title' => 'Sucursal', 'targets' => 5],
+			'6'=>['title' => 'Cliente', 'targets' => 6],'7'=>['title' => 'Fecha', 'targets' => 7],'8'=>['title' => 'Monto', 'targets' => 8],
+			'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 1, 'visible' => false],
 		);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
-		$tipoPago = $this->Ventas_model->tipoPago(['activo' => 1]);
+		$tipoPago = $this->Ventas_model->tipoOp(['combo_movimientos' => 1,'activo' => 1]);
 		$medioPago = $this->Ventas_model->medioPago(['idmediopago >' => 1,'activo' => 1]);
 		
 		$data = array(
@@ -146,16 +146,22 @@ class Main extends CI_Controller
 	public function nuevaSalida()
 	{
 		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
-		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; $reg = 0;
-		$tipoDesc = $pago->tipoPagoVta === '1'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0;
+		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; 
+		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0;
 		$message = 'No se pudo registrar la venta'; $status = 500;
 		
-		
+		if($pago->tipoComp === '01'){
+			$ruc = $this->Ventas_model->validaRuc($pago->idcliente,'cliente');
+			if($ruc->RUC === '00000000000'){
+				echo json_encode(['message'=>'No se puede registrar factura sin RUC','status'=>100]);
+				return 0;
+			}
+		}
+				
 		$f = $this->Proveedores_model->factor(['destino' => 3,'idtipooperacion' => $pago->tipoPagoVta,'activo' => 1]);
 		$fcli = (!empty($f)? $f->idfactor : 1);
-		$tipoopcaja = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $tipoDesc,'activo' => 1]);
-		$f2 = !empty($tipoopcaja)? $this->Proveedores_model->factor(['destino' => 2,'idtipooperacion' => $tipoopcaja->idtipooperacion,'activo' => 1]) : array();
-		$fcaj = !empty($f2)? $f2->idfactor : $fcli;
+		$tpcaja = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $tipoDesc,'activo' => 1]);
+		$tpcj = !empty($tpcaja)? $tpcaja->idtipooperacion : 17;
 		
 		$trandata = array(
 			'fecha' => date('Y-m-d H:i:s'),
@@ -174,22 +180,29 @@ class Main extends CI_Controller
 				'idsucursal' => $pago->idsucursal,
 				'idcliente' => $pago->idcliente,
 				'monto' => $pago->total_vta,
+				'tipo_comprobante' => $pago->tipoComp,
+				'serie_comprobante' => $pago->serie,
+				'numero_comprobante' => $pago->num,
+				'base_imponible' => $pago->base_imponible,
+				'impuesto_igv' => $pago->imp_igv,
 				'idfactor' => $fcli,
 				'fecha_movimiento' => date('Y-m-d H:i:s'),
 				'idusuario_registro' => $this->usuario->idusuario,
 				'fecha_registro' => date('Y-m-d H:i:s'),
 				'activo' => 1
 			);
-			$mov = $this->Ventas_model->regMovCliente($movCliente,$fcaj,$pago);
+			$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$pago);
 			if($mov){
 				$message = 'Venta registrada exitosamente';
 				$status = 200;
 			}
 		}
+		
 		$resp = array(
 			'status' => $status,
 			'message' => $message,
 		);
+		
 		echo json_encode($resp);
 	}
 }
