@@ -2936,6 +2936,7 @@ PRIMARY KEY (idtipooperacion))  ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = u
 
 insert into tipo_operacion_cliente (idtipooperacion,tipo_operacion,combo_movimientos) values (1,'VENTA AL CONTADO','1');
 insert into tipo_operacion_cliente (idtipooperacion,tipo_operacion,combo_movimientos) values (2,'VENTA AL CREDITO','1');
+insert into tipo_operacion_cliente (idtipooperacion,tipo_operacion,combo_movimientos) values (3,'PAGO DE CREDITOS','0');
 
 create table movimientos_cliente(
 	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
