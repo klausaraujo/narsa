@@ -1,14 +1,6 @@
 /*
 Nuevas Entradas en la Base de Datos (16/03/2023)
 */
-DROP TABLE IF EXISTS guia_salida_detalle;
-DROP TABLE IF EXISTS guia_salida;
-DROP TABLE IF EXISTS medio_pago;
-DROP TABLE IF EXISTS cliente;
-DROP TABLE IF EXISTS movimientos_cliente;
-DROP TABLE IF EXISTS tipo_operacion_cliente;
-
-delete from modulo where idmodulo=5;
 update modulo set orden =5 where idmodulo=4;
 INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (5,'Módulo de Registro Ventas','Módulo Ventas','ventas.png','ventas','1','fa fa-money',4);
 
@@ -30,7 +22,6 @@ INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(13,10,1);
 INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(14,11,1);
 INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(15,12,1);
 
-delete from tipo_operacion_caja where idtipooperacion in(16,17);
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (16,'VENTA DE PRODUCTOS (EFECTIVO)','0');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (17,'VENTA DE PRODUCTOS (OTROS MEDIOS)','0');
 
@@ -41,7 +32,6 @@ INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(25,1);
 INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(26,1);
 INSERT INTO permisos_opcion(idpermiso,idusuario) VALUES(27,1);
 
-delete from factor where idfactor in(25,26);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (25,3,1,1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (26,3,2,0);
 
