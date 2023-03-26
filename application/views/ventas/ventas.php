@@ -158,14 +158,14 @@
 															<input type="text" class="form-control mayusc" name="serie" id="serie" maxlength="5" />
 														</div>
 													</div>
-													<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">&nbsp;&nbsp;N&uacute;mero:</label>
+													<label class="control-label col-md-6 col-lg-2 align-self-center mb-0 mt-3 mt-lg-0" for="num">N&uacute;mero:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
 															<input type="text" class="form-control mt-3 mt-lg-0 mayusc" name="num" id="num" maxlength="8" />
 														</div>
 													</div>
 												</div>
-												<div class="row mt-3">''
+												<div class="row mt-3">
 													<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="baseImp">Base Imponible:</label>
 													<div class="col-md-6 col-lg-2">
 														<div class="row">
@@ -173,7 +173,7 @@
 														</div>
 													</div>
 													<div class="col-md-6 col-lg-2 align-self-center">
-														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="igv">&nbsp;&nbsp;I.G.V:</label>
+														<label class="control-label align-self-center mb-0 mt-3 mt-lg-0" for="igv">I.G.V:</label>
 														<div class="custom-control custom-switch pr-0 d-inline ml-2">
 															<input type="checkbox" class="custom-control-input" name="checkigv" id="checkigv" />
 															<label class="custom-control-label mt-3 mt-lg-0" for="checkigv"></label>
@@ -193,19 +193,20 @@
 														</div>
 													</div>
 												</div>
-												<input type="hidden" name="base_imponible" id="base_imponible" />
-												<input type="hidden" name="imp_igv" id="imp_igv" />
+												<input type="text" name="base_imponible" id="base_imponible" />
+												<input type="text" name="imp_igv" id="imp_igv" />
+												<input type="text" name="total_vta" id="total_vta" />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<div class="row">
+												<div class="col-md-12">
+													<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelSal">Cancelar Operaci&oacute;n</button>
+													<button type="submit" class="btn btn-narsa" id="generarSal">Generar Venta</button>
+												</div>
 											</div>
 										</div>
 									</form>
-								</div>
-								<div class="modal-footer">
-									<div class="row">
-										<div class="col-md-12">
-											<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelSal">Cancelar Operaci&oacute;n</button>
-											<button class="btn btn-narsa" id="generarSal">Generar Venta</button>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>

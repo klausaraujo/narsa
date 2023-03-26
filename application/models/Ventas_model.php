@@ -75,7 +75,7 @@ class Ventas_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function ingresaVenta($data)
+	public function ingresaVenta($data,$pago,$idtran)
 	{
 		$i = 0; $idguia = ''; $numero = 1;
 		
@@ -85,25 +85,26 @@ class Ventas_model extends CI_Model
 			if($i === 0){
 				$this->db->select('MAX(numero) numero');
 				$this->db->from('guia_salida');
-				$this->db->where(['idsucursal'=>$row->idsucursal,'anio_guia'=>date('Y')]);
+				$this->db->where(['idsucursal'=>$pago->idsucursal,'anio_guia'=>date('Y')]);
 				$result = $this->db->get();
 				if($result->num_rows() > 0){
 					$result = $result->row();
 					$numero = floatval( $result->numero ) + 1;
 				}
-				$guia_entrada = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d'),'idsucursal'=>$row->idsucursal,'idproveedor'=>$row->idproveedor,
-								'observaciones'=>$row->observacion,'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d'),'activo'=>1];
+				$guia_salida = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d H:i:s'),'idsucursal'=>$pago->idsucursal,'idcliente'=>$pago->idcliente,
+							'idtransaccion'=>$idtran,'monto_valor'=>$pago->total_vta,'monto_pagado'=>$pago->total_vta,'observaciones'=>$pago->obs,
+							'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d H:i:s'),'activo'=>1];
 				//$guia_entrada[] = $tran;
-				$this->db->insert('guia_entrada',$guia_entrada);
+				$this->db->insert('guia_salida',$guia_salida);
 				$idguia = $this->db->insert_id();
 			}
-			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'valorizado'=>$row->chk_valorizar,
-					'cantidad_valorizada'=>$row->cantidad_valorizada,'humedad'=>$row->humedad,'calidad'=>$row->calidad,'tasa'=>$row->tasa,'costo'=>$row->costo,'activo'=>1];
+			$rowdet[$i] = ['idguia'=>$idguia,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'humedad'=>$row->humedad,'calidad'=>$row->calidad,
+						'costo'=>$row->costo,'tasa'=>$row->tasa,'costo'=>$row->costo,'activo'=>1];
 			$i++;
 		endforeach;
 		
 		/* Insertar array de valores en la base */
-		$this->db->insert_batch('guia_entrada_detalle',$rowdet);
+		$this->db->insert_batch('guia_salida_detalle',$rowdet);
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
@@ -111,6 +112,35 @@ class Ventas_model extends CI_Model
 		}else{
 			$this->db->trans_commit();
 			return $idguia;
+		}
+	}
+	public function transaccionVta($data)
+	{
+		if($this->db->insert('transacciones', $data))return $this->db->insert_id();
+		else return 0;
+	}
+	public function regMovCliente($data,$f,$pago)
+	{
+		$this->db->trans_begin();
+		/* Isertar en la tabla movimientos proveedor */
+		$this->db->insert('movimientos_cliente', $data);
+		unset($data['idmediopago']);
+		unset($data['idcliente']);
+		$data['idfactor'] = $f;
+		$data['base_imponible'] = $pago->base_imponible;
+		$data['impuesto_igv'] = $pago->imp_igv;
+		$data['check_igv'] = $pago->check;
+		$data['serie_comprobante'] = $pago->serie;
+		$data['numero_comprobante'] = $pago->num;
+		/* Isertar en la tabla movimientos caja */
+		$this->db->insert('movimientos_caja', $data);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return 1;
 		}
 	}
 }

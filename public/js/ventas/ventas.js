@@ -1,4 +1,4 @@
-let tablaClientes, tablaVentas, tablaSalDetalle;
+let tablaClientes, tablaVentas, tablaSalDetalle, medioPagoOpt = $('#medioPagoVta option');
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -178,46 +178,126 @@ $('#form_salidas').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, formVta = $('#form_salidas').validate(), mto = 0;
-		
-		if(tablaSalDetalle.rows().count() === 0){
-			$('#sucursalSal').attr('disabled','disabled');
-			$('#form_pago_venta select').removeAttr('disabled');
-			$('#form_pago_venta input').removeAttr('disabled');
-		}else{
-			tablaSalDetalle.rows().data().each(function (value){
-				if(value['idarticulo'] == $('#articuloSal').val())
-					art = true;
-			});
-		}
-		if(!art){
-			var json = [{ 
-					'articulo':$('#articuloSal :selected').text(),'calidad':$('#calidadSal').val(),'humedad':$('#humedadSal').val(),'tasa':$('#tasaSal').val(),
-					'cantidad':$('#cantidadSal').val(),'costo':$('#costoSal').val(),'idarticulo':$('#articuloSal').val(),'idsucursal':$('#sucursalSal').val(),
-			}];
-			tablaSalDetalle.rows.add(json).draw();
-		}
-		
-		formVta.resetForm(), $('#form_salidas .error').removeClass('error'), $('#form_salidas .error').removeClass('success');
-		$('#form_salidas')[0].reset();
-		$('#sucursalSal').prop('selectedIndex',suc);
-		$('#obsSal').val(obs);
+		if(parseInt($('#cantidadSal').val()) > 0 && parseInt($('#costoSal').val()) > 0){
+			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, formVta = $('#form_salidas').validate(), mto = 0;
+			
+			if(tablaSalDetalle.rows().count() === 0){
+				$('#sucursalSal').attr('disabled','disabled');
+				$('#form_pago_venta select').removeAttr('disabled');
+				$('#form_pago_venta input').removeAttr('disabled');
+			}else{
+				tablaSalDetalle.rows().data().each(function (value){
+					if(value['idarticulo'] == $('#articuloSal').val())
+						art = true;
+				});
+			}
+			if(!art){
+				var json = [{ 
+						'articulo':$('#articuloSal :selected').text(),'calidad':$('#calidadSal').val(),'humedad':$('#humedadSal').val(),'tasa':$('#tasaSal').val(),
+						'cantidad':$('#cantidadSal').val(),'costo':$('#costoSal').val(),'idarticulo':$('#articuloSal').val(),'idsucursal':$('#sucursalSal').val()
+				}];
+				tablaSalDetalle.rows.add(json).draw();
+			}
+			
+			formVta.resetForm(), $('#form_salidas .error').removeClass('error'), $('#form_salidas .error').removeClass('success');
+			$('#form_salidas')[0].reset();
+			$('#sucursalSal').prop('selectedIndex',suc);
+			$('#obsSal').val(obs);
 
-		tablaSalDetalle.rows().data().each(function (value){
-			mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
-		});
+			tablaSalDetalle.rows().data().each(function (value){
+				mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
+			});
+			
+			/* Mostrar la base imponible, el IGV y el monto total de la venta */
+			if($('#checkigv').prop('checked')){
+				if(mto > 0){
+					let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
+					$('#totalvta').val(formatMoneda(mto)), $('#base_imponible').val(base), $('#imp_igv').val(imp), $('#total_vta').val(mto);
+				}else{
+					$('#base_imponible').val(0), $('#imp_igv').val(0), $('#totalvta').val(formatMoneda(0)), $('#baseImp').val(formatMoneda(0)), $('#igv').val(formatMoneda(0));
+					$('#total_vta').val(0);
+				}
+			}else{
+				$('#igv').val(''), $('#imp_igv').val(0), $('#total_vta').val(''), $('#base_imponible').val(mto), $('#baseImp').val(formatMoneda(mto));
+				$('#totalvta').val(formatMoneda(mto)), $('#total_vta').val(mto);
+			}
+		}else{
+			alert('La cantidad y el costo deben ser mayores a 0')
+		}
+	}
+});
+/* Formulario de pago */
+$('#form_pago_venta').validate({
+	errorClass: 'form_error',
+	validClass: 'success',
+	rules: {
+		tipoPagoVta: { required: true },
+		medioPagoVta: { required: true },
+		tipoComp: { required: true },
+		baseImp: { required: true },
+		totalvta: { required: true },
+	},
+	messages: {
+		tipoPagoVta: { required: '&nbsp;&nbsp;Debe seleccionar un tipo de pago' },
+		medioPagoVta: { required: '&nbsp;&nbsp;Debe seleccionar un medio de pago' },
+		tipoComp: { required: '&nbsp;&nbsp;Tipo de Comprobante Requerido' },
+		baseImp: { required: '&nbsp;&nbsp;El campo base imponible no puede estar vacío' },
+		totalvta: { required: '&nbsp;&nbsp;El campo total no puede estar vacío' },
+	},
+	errorPlacement: function(error, element) {
+		error.insertAfter(element);
+	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		//console.log(tablaSalDetalle.rows().data());
+		let json = [], i = 0, formData = new FormData(document.getElementById('form_pago_venta')), strForm = '', check = 0;
+		if($('#checkigv').prop('checked')) check = 1;
 		
-		/* Mostrar la base imponible, el IGV y el monto total de la vente */
-		//console.log(mto);
-		if(mto !== '' && parseFloat(mto) > 0){
-			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
-			$('#base_imponible').val(base), $('#imp_igv').val(imp), $('#totalvta').val(formatMoneda(mto));
-		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+		formData.set('idcliente',id), formData.set('idsucursal', $('#sucursalSal').val()), formData.set('obs', $('#obsSal').val()), formData.set('check', check);
+		strForm = JSON.stringify(Object.fromEntries(formData));
+		/*objForm = objForm.replace('{','[{').replace('}','}]');*/
+		
+		tablaSalDetalle.rows().data().each(function(row){ json[i] = row; i++; });
+		
+		if(tablaSalDetalle.rows().count() > 0){
+			$.ajax({
+				data:{ data: JSON.stringify(json), pago: strForm },
+				url: base_url + 'ventas/ventascliente/nuevo',
+				method: 'POST',
+				dataType: 'JSON',
+				beforeSend: function () { 
+					$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+					$('#generarSal').addClass('disabled');
+					$('#cancelSal').addClass('disabled');
+				},
+				success: function (data) {
+					//console.log(data);
+					$('#generarSal').html('Generar Venta');
+					$('#generarSal').removeClass('disabled');
+					$('#cancelSal').removeClass('disabled');
+					if(parseInt(data.status) === 200){
+						$('#modalVentas').modal('hide');
+						$('html, body').animate({ scrollTop: 0 }, 'fast');
+						tablaVentas.ajax.reload();
+						/* Muestra la guia para imprimir */
+						//window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=comp', '_blank');
+						//$('#formPagoIngreso')[0].reset();
+						//$('#formPagoIngreso select').prop('selectedIndex',0);
+					}
+					if(parseInt(data.status) === 100) alert(data.message);
+					else{
+						$('.resp').html(data.message);
+						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+					}
+				}
+			});
+		}else{ alert('No hay registros en el detalle'); }
 	}
 });
 
 $('#modalVentas').on('hidden.bs.modal',function(e){
 	let formVta = $('#form_salidas').validate(), formPago = $('#form_pago_venta').validate();
+	$('#medioPagoVta').html(medioPagoOpt), $('#medioPagoVta').prop('selectedIndex',0);
 	formVta.resetForm(), formPago.resetForm();
 	$('#form_salidas')[0].reset(), $('#form_pago_venta')[0].reset();
 	
@@ -250,6 +330,8 @@ $('body').bind('click','a',function(e){
 		tablaSalDetalle.row($(a).parents('tr')).remove().draw();
 		if(tablaSalDetalle.rows().count() === 0){
 			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex');
+			$('#medioPagoVta').html(medioPagoOpt);
+			$('#medioPagoVta').prop('selectedIndex',0);
 			$('#form_salidas')[0].reset();
 			$('#form_pago_venta')[0].reset();
 			$('#sucursalSal').prop('selectedIndex',suc);
@@ -260,92 +342,59 @@ $('body').bind('click','a',function(e){
 			$('#form_pago_venta input').attr('disabled',true);
 			$('#baseImp').val(''), $('#base_imponible').val(''), $('#imp_igv').val(''), $('#igv').val('');
 		}else{
+			$('#medioPagoVta').html(medioPagoOpt);
+			$('#medioPagoVta').prop('selectedIndex',0);
 			tablaSalDetalle.rows().data().each(function(value){
 				mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
 			});
-			if(mto !== '' && parseFloat(mto) > 0){
-				let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
-				$('#base_imponible').val(base), $('#imp_igv').val(imp), $('#totalvta').val(formatMoneda(mto));
-			}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+			
+			/* Mostrar la base imponible, el IGV y el monto total de la venta */
+			if($('#checkigv').prop('checked')){
+				if(mto > 0){
+					let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
+					$('#totalvta').val(formatMoneda(mto)), $('#base_imponible').val(base), $('#imp_igv').val(imp), $('#total_vta').val(mto);
+				}else{
+					$('#base_imponible').val(0), $('#imp_igv').val(0), $('#totalvta').val(formatMoneda(0)), $('#baseImp').val(formatMoneda(0)), $('#igv').val(formatMoneda(0));
+					$('#total_vta').val(0);
+				}
+			}else{
+				$('#igv').val(''), $('#imp_igv').val(0), $('#total_vta').val(''), $('#base_imponible').val(mto), $('#baseImp').val(formatMoneda(mto));
+				$('#totalvta').val(formatMoneda(mto)), $('#total_vta').val(mto);
+			}
 		}
 	}
 });
-
+/* Cambios en el tipo de venta */
 $('#tipoPagoVta').bind('change', function(){
 	let index = $(this).prop('selectedIndex');
 	if($(this).prop('selectedIndex') === 1){
-		$('#medioPagoVta').prop('selectedIndex',0);
-		$('#medioPagoVta').attr('disabled', true);
+		$('#medioPagoVta').html('<option value="1">[N/A]</option>');
+		//$('#medioPagoVta').attr('disabled', true);
 	}else{
-		$('#medioPagoVta').removeAttr('disabled');
+		$('#medioPagoVta').html(medioPagoOpt);
+		$('#medioPagoVta').prop('selectedIndex',0);
+		//$('#medioPagoVta').removeAttr('disabled');
 	}
 });
+/* Check del IGV */
 $('#checkigv').bind('click',function(e){
 	let mto = 0;
 	
 	tablaSalDetalle.rows().data().each(function(value){
 		mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
 	});
-		
 	
-	if($(this).prop('checked')){
-		if(mto !== '' && parseFloat(mto) > 0){
-			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)); $('#baseImp').val(formatMoneda(base));
-			$('#base_imponible').val(base), $('#imp_igv').val(imp);
-		}else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+	/* Mostrar la base imponible, el IGV y el monto total de la venta */
+	if($('#checkigv').prop('checked')){
+		if(mto > 0){
+			let base = parseFloat(mto) / 1.18, imp = parseFloat(mto) - base; $('#igv').val(formatMoneda(imp)), $('#baseImp').val(formatMoneda(base));
+			$('#totalvta').val(formatMoneda(mto)), $('#base_imponible').val(base), $('#imp_igv').val(imp), $('#total_vta').val(mto);
+		}else{
+			$('#base_imponible').val(0), $('#imp_igv').val(0), $('#totalvta').val(formatMoneda(0)), $('#baseImp').val(formatMoneda(0)), $('#igv').val(formatMoneda(0));
+			$('#total_vta').val(0);
+		}
 	}else{
-		$('#igv').val('');
-		$('#imp_igv').val('');
-		if(mto !== '' && parseFloat(mto) > 0){ $('#baseImp').val(mto); $('#base_imponible').val(mto); }
-		else{ $('#baseImp').val(''); $('#base_imponible').val(''); }
+		$('#igv').val(''), $('#imp_igv').val(0), $('#total_vta').val(''), $('#base_imponible').val(mto), $('#baseImp').val(formatMoneda(mto));
+		$('#totalvta').val(formatMoneda(mto)), $('#total_vta').val(mto);
 	}
-});
-
-
-/* Boton para generar las nuevas ventas */
-$('#generarSal').bind('click',function(){
-	//console.log(tablaSalDetalle.rows().data());
-	let json = [], i = 0;
-	let formData = new FormData(document.getElementById('form_pago_venta'));
-	formData.set('idcliente',id);
-	/*let formu = new URLSearchParams(formData).toString();
-	console.log(JSON.stringify(Object.fromEntries(formData)));*/
-	
-	tablaSalDetalle.rows().data().each(function(row){
-		json[i] = row; i++;
-		//console.log(json);
-	});
-	
-	if(tablaSalDetalle.rows().count() > 0){
-		$.ajax({
-			data:{ data: JSON.stringify(json), pago: JSON.stringify(Object.fromEntries(formData)) },
-			url: base_url + 'ventas/ventascliente/nuevo',
-			method: 'POST',
-			dataType: 'JSON',
-			beforeSend: function () { 
-				//$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-				//$('#generarSal').addClass('disabled');
-				//$('#cancelSal').addClass('disabled');
-			},
-			success: function (data) {
-				console.log(data);
-				$('#generarSal').html('Generar Venta');
-				$('#generarSal').removeClass('disabled');
-				$('#cancelSal').removeClass('disabled');
-				/*if(parseInt(data.status) === 200){
-					$('#modalVentas').modal('hide');
-					$('html, body').animate({ scrollTop: 0 }, 'fast');
-					/* Muestra la guia para imprimir */
-					//window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=comp', '_blank');
-					//$('#formPagoIngreso')[0].reset();
-					//$('#formPagoIngreso select').prop('selectedIndex',0);
-				/*}
-				if(parseInt(data.status) === 100) alert(data.message);
-				else{
-					$('.resp').html(data.message);
-					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
-				}*/
-			}
-		});
-	}else{ alert('No hay registros en el detalle'); }
 });

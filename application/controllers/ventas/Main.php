@@ -114,7 +114,7 @@ class Main extends CI_Controller
 		);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);
 		$tipoPago = $this->Ventas_model->tipoPago(['activo' => 1]);
-		$medioPago = $this->Ventas_model->medioPago(['activo' => 1]);
+		$medioPago = $this->Ventas_model->medioPago(['idmediopago >' => 1,'activo' => 1]);
 		
 		$data = array(
 			'articulos' => $articulos,
@@ -145,12 +145,51 @@ class Main extends CI_Controller
 	}
 	public function nuevaSalida()
 	{
-		$this->load->model('Ventas_model');
-		/*$json = file_get_contents('php://input');
-		$data = json_decode($json);*/
-		//$guia = $this->Ventas_model->ingresaVenta($data);
+		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
+		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; $reg = 0;
+		$tipoDesc = $pago->tipoPagoVta === '1'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0;
+		$message = 'No se pudo registrar la venta'; $status = 500;
 		
-		echo json_encode($_POST['pago']);
-		echo json_encode($_POST['data']);
+		
+		$f = $this->Proveedores_model->factor(['destino' => 3,'idtipooperacion' => $pago->tipoPagoVta,'activo' => 1]);
+		$fcli = (!empty($f)? $f->idfactor : 1);
+		$tipoopcaja = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $tipoDesc,'activo' => 1]);
+		$f2 = !empty($tipoopcaja)? $this->Proveedores_model->factor(['destino' => 2,'idtipooperacion' => $tipoopcaja->idtipooperacion,'activo' => 1]) : array();
+		$fcaj = !empty($f2)? $f2->idfactor : $fcli;
+		
+		$trandata = array(
+			'fecha' => date('Y-m-d H:i:s'),
+			'vencimiento' => date('Y-m-d H:i:s'),
+			'monto' => $pago->total_vta,
+			'activo' => 1
+		);
+		
+		$idtrans = $this->Ventas_model->transaccionVta($trandata);
+		if($idtrans > 0) $guia = $this->Ventas_model->ingresaVenta($data,$pago,$idtrans);
+		if($guia > 0){
+			$movCliente = array(
+				'idtipooperacion' => $pago->tipoPagoVta,
+				'idtransaccion' => $idtrans,
+				'idmediopago' => $pago->medioPagoVta,
+				'idsucursal' => $pago->idsucursal,
+				'idcliente' => $pago->idcliente,
+				'monto' => $pago->total_vta,
+				'idfactor' => $fcli,
+				'fecha_movimiento' => date('Y-m-d H:i:s'),
+				'idusuario_registro' => $this->usuario->idusuario,
+				'fecha_registro' => date('Y-m-d H:i:s'),
+				'activo' => 1
+			);
+			$mov = $this->Ventas_model->regMovCliente($movCliente,$fcaj,$pago);
+			if($mov){
+				$message = 'Venta registrada exitosamente';
+				$status = 200;
+			}
+		}
+		$resp = array(
+			'status' => $status,
+			'message' => $message,
+		);
+		echo json_encode($resp);
 	}
 }
