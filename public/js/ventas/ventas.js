@@ -43,8 +43,8 @@ $(document).ready(function (){
 		});
 	}else if(segmento2 === 'ventascliente'){
 		/* Deshabilitar los campos del pago de las ventas */
-		$('#form_pago_venta select').attr('disabled',true);
-		$('#form_pago_venta input').attr('disabled',true);
+		/*$('#form_pago_venta select').attr('disabled',true);
+		$('#form_pago_venta input').attr('disabled',true);*/
 		
 		/* Tabla principal del modulo de operaciones con ventas */
 		tablaVentas = $('#tablaVentas').DataTable({
@@ -190,8 +190,8 @@ $('#form_salidas').validate({
 			
 			if(tablaSalDetalle.rows().count() === 0){
 				$('#sucursalSal').attr('disabled','disabled');
-				$('#form_pago_venta select').removeAttr('disabled');
-				$('#form_pago_venta input').removeAttr('disabled');
+				//$('#form_pago_venta select').removeAttr('disabled');
+				//$('#form_pago_venta input').removeAttr('disabled');
 			}else{
 				tablaSalDetalle.rows().data().each(function (value){
 					if(value['idarticulo'] == $('#articuloSal').val())
@@ -314,8 +314,8 @@ $('#modalVentas').on('hidden.bs.modal',function(e){
 	
 	$('#form_salidas select').prop('selectedIndex',0);
 	$('#form_pago_venta select').prop('selectedIndex',0);
-	$('#form_pago_venta select').attr('disabled',true);
-	$('#form_pago_venta input').attr('disabled',true);
+	/*$('#form_pago_venta select').attr('disabled',true);
+	$('#form_pago_venta input').attr('disabled',true);*/
 	
 	tablaSalDetalle.clear().draw();
 	$('#sucursalSal').removeAttr('disabled');
@@ -341,20 +341,20 @@ $('body').bind('click','a',function(e){
 		tablaSalDetalle.row($(a).parents('tr')).remove().draw();
 		if(tablaSalDetalle.rows().count() === 0){
 			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex');
-			$('#medioPagoVta').html(medioPagoOpt);
-			$('#medioPagoVta').prop('selectedIndex',0);
-			$('#form_salidas')[0].reset();
-			$('#form_pago_venta')[0].reset();
-			$('#sucursalSal').prop('selectedIndex',suc);
+			//$('#medioPagoVta').html(medioPagoOpt);
+			//$('#medioPagoVta').prop('selectedIndex',0);
+			//$('#form_salidas')[0].reset();
+			//$('#form_pago_venta')[0].reset();
+			//$('#sucursalSal').prop('selectedIndex',suc);
 			$('#obsSal').val(obs);
 			$('#sucursalSal').removeAttr('disabled');
-			$('#form_pago_venta select').prop('selectedIndex',0);
+			/*$('#form_pago_venta select').prop('selectedIndex',0);
 			$('#form_pago_venta select').attr('disabled',true);
-			$('#form_pago_venta input').attr('disabled',true);
-			$('#baseImp').val(''), $('#base_imponible').val(''), $('#imp_igv').val(''), $('#igv').val('');
+			$('#form_pago_venta input').attr('disabled',true);*/
+			$('#baseImp').val(''), $('#base_imponible').val(''), $('#imp_igv').val(''), $('#igv').val(''),  $('#totalvta').val(''), $('#total_vta').val('');
 		}else{
-			$('#medioPagoVta').html(medioPagoOpt);
-			$('#medioPagoVta').prop('selectedIndex',0);
+			//$('#medioPagoVta').html(medioPagoOpt);
+			//$('#medioPagoVta').prop('selectedIndex',0);
 			tablaSalDetalle.rows().data().each(function(value){
 				mto += parseFloat(value['cantidad']) * parseFloat(value['costo']);
 			});
@@ -384,8 +384,8 @@ $('body').bind('click','a',function(e){
 			success: function (data) {
 				console.log(data);
 				console.log(data.data.idtipooperacion);
-				$('#form_pago_venta select').removeAttr('disabled');
-				$('#form_pago_venta input').removeAttr('disabled');
+				/*$('#form_pago_venta select').removeAttr('disabled');
+				$('#form_pago_venta input').removeAttr('disabled');*/
 				
 				$('#obsSal').val(data.data.observaciones);				
 				if(data.data.idtipooperacion === '2'){ $('#medioPagoVta').html('<option value="1">[N/A]</option>'); }
