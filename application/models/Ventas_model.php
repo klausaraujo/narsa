@@ -22,13 +22,13 @@ class Ventas_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
-	public function listaCliente($data)
+	public function listaCliente($where)
     {
         $this->db->select('cl.*,td.tipo_documento');
         $this->db->from('cliente cl');
 		$this->db->join('tipo_documento td','td.idtipodocumento = cl.idtipodocumento');
-		$this->db->where($data);
-		$this->db->order_by('idcliente', 'ASC');
+		$this->db->where($where);
+		//$this->db->order_by('idcliente', 'ASC');
 		$this->db->limit(1);
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
@@ -58,6 +58,22 @@ class Ventas_model extends CI_Model
 		$this->db->order_by('gs.idmovimiento', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+    }
+	public function listaVenta($where)
+    {
+        $this->db->select('mc.*,gs.observaciones,gs.idguia,gsd.*,ar.articulo');
+        $this->db->from('movimientos_cliente mc');
+		$this->db->join('guia_salida gs','gs.idtransaccion = mc.idtransaccion');
+		$this->db->join('guia_salida_detalle gsd','gsd.idguia = gs.idguia');
+		$this->db->join('articulo ar','ar.idarticulo = gsd.idarticulo');
+		/*$this->db->join('medio_pago mp','mp.idmediopago = gs.idmediopago');
+		$this->db->join('sucursal su','su.idsucursal = gs.idsucursal');
+		$this->db->join('cliente cl','cl.idcliente = gs.idcliente');*/
+		$this->db->where($where);
+		$this->db->limit(1);
+		//$this->db->order_by('gs.idmovimiento', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
     }
 	public function medioPago($where)
 	{
@@ -124,15 +140,19 @@ class Ventas_model extends CI_Model
 	public function regMovCliente($data,$tp,$f,$pago)
 	{
 		$this->db->trans_begin();
-		/* Isertar en la tabla movimientos proveedor */
+		
+		/* Insertar en la tabla movimientos proveedor */
 		$this->db->insert('movimientos_cliente', $data);
+		
 		unset($data['idmediopago']);
 		unset($data['idcliente']);
 		$data['idtipooperacion'] = $tp;
 		$data['idfactor'] = $f;
-		$data['check_igv'] = $pago->check;
 		$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
-		/* Isertar en la tabla movimientos caja */
+		$data['observaciones'] = $pago->obs;
+		$data['check_igv'] = $pago->check;
+		
+		/* Insertar en la tabla movimientos caja */
 		$this->db->insert('movimientos_caja', $data);
 		
 		if ($this->db->trans_status() === FALSE){
@@ -148,5 +168,111 @@ class Ventas_model extends CI_Model
 		$query = $this->db->query('SELECT RUC FROM '.$tabla.' WHERE idcliente = '.$data.' LIMIT 1');
 		if($query->num_rows() > 0) return $query->row();
 		else return array();
+	}
+	public function articulosVta($where)
+	{
+		$this->db->select('gs.idarticulo,gs.cantidad,gs.humedad,gs.calidad,gs.costo,gs.tasa,ar.articulo');
+        $this->db->from('guia_salida_detalle gs');
+		$this->db->join('articulo ar','ar.idarticulo = gs.idarticulo');
+		$this->db->where($where);
+		$this->db->order_by('ar.idarticulo', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function editaTransaccion($data,$where)
+	{
+		$this->db->db_debug = FALSE;
+		$this->db->where($where);
+		if ($this->db->update('transacciones',$data)) return true;
+        else return false;
+	}
+	public function editaVenta($data,$pago)
+	{
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		$i = 0;
+		
+		foreach($data as $row):
+			if($i === 0){
+				$guia_salida = ['idsucursal'=>$pago->idsucursal,'monto_valor'=>$pago->total_vta,'monto_pagado'=>$pago->total_vta,'observaciones'=>$pago->obs,
+					'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+				$this->db->where(['idtransaccion' => $pago->idtrans]);
+				$this->db->update('guia_salida',$guia_salida);
+				$this->db->where('idguia', $pago->guia_vta);
+				$this->db->delete('guia_salida_detalle');
+			}
+			$rowdet[$i] = ['idguia'=>$pago->guia_vta,'idarticulo'=>$row->idarticulo,'cantidad'=>$row->cantidad,'humedad'=>$row->humedad,'calidad'=>$row->calidad,
+						'costo'=>$row->costo,'tasa'=>$row->tasa,'costo'=>$row->costo,'activo'=>1];
+			$i++;
+		endforeach;
+		
+		/* Insertar array de valores en la base */
+		$this->db->insert_batch('guia_salida_detalle',$rowdet);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return $pago->guia_vta;
+		}
+	}
+	public function editaMovCliente($data,$tp,$f,$pago)
+	{
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		
+		/* Actualizar la tabla movimientos caja */
+		$this->db->where(['idtransaccion' => $pago->idtrans]);
+		$this->db->update('movimientos_cliente',$data);
+		
+		unset($data['idmediopago']);
+		unset($data['idcliente']);
+		$data['idtipooperacion'] = $tp;
+		$data['idfactor'] = $f;
+		$data['observaciones'] = $pago->obs;
+		$data['check_igv'] = $pago->check;
+		
+		/* Actualizar la tabla movimientos caja */
+		$this->db->where(['idtransaccion' => $pago->idtrans]);
+		$this->db->update('movimientos_caja',$data);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return 1;
+		}
+	}
+	public function anularVenta($tabla,$where,$data)
+	{
+		$this->db->db_debug = FALSE;
+		
+		/* Actualizar el campo activo de las tablas involucradas */
+		$this->db->where($where);
+		if($this->db->update($tabla,$data)) return true;
+		else return false;
+	}
+	public function guiaVenta($tabla,$id)
+	{
+		$query = $this->db->query('SELECT idguia FROM '.$tabla.' WHERE idtransaccion = '.$id.' LIMIT 1');
+		if($query->num_rows() > 0) return $query->row();
+		else return array();
+	}
+	public function pdfVenta($where)
+	{
+		$this->db->select('mc.*,gs.*,mp.medio_pago,su.sucursal,gsd.*,ar.articulo');
+        $this->db->from('movimientos_cliente mc');
+		$this->db->join('guia_salida gs','gs.idtransaccion = mc.idtransaccion');
+		$this->db->join('medio_pago mp','mp.idmediopago = mc.idmediopago');
+		$this->db->join('sucursal su','su.idsucursal = mc.idsucursal');
+		$this->db->join('guia_salida_detalle gsd','gsd.idguia = gs.idguia');
+		$this->db->join('articulo ar','ar.idarticulo = gsd.idarticulo');
+		$this->db->where($where);
+		//$this->db->limit(1);
+		$this->db->order_by('gsd.idarticulo', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 }

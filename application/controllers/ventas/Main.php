@@ -146,7 +146,7 @@ class Main extends CI_Controller
 	public function nuevaSalida()
 	{
 		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
-		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; 
+		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; $idtrans = 0;
 		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $fcj = 1;
 		$message = 'No se pudo registrar la venta'; $status = 500;
 		
@@ -158,54 +158,136 @@ class Main extends CI_Controller
 			}
 		}
 		
-		if($pago->medioPagoVta === '2') $fcj = 25;
-		else $fcj = 26;
+		if($pago->medioPagoVta === '2') $fcj = 25; else $fcj = 26;
 		
 		$f = $this->Proveedores_model->factor(['destino' => 3,'idtipooperacion' => $pago->tipoPagoVta,'activo' => 1]);
 		$fcli = (!empty($f)? $f->idfactor : 1);
 		$tpcaja = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $tipoDesc,'activo' => 1]);
 		$tpcj = !empty($tpcaja)? $tpcaja->idtipooperacion : 17;
 		
-		$trandata = array(
-			'fecha' => date('Y-m-d H:i:s'),
-			'vencimiento' => date('Y-m-d H:i:s'),
-			'monto' => $pago->total_vta,
-			'activo' => 1
-		);
-		
-		$idtrans = $this->Ventas_model->transaccionVta($trandata);
-		if($idtrans > 0) $guia = $this->Ventas_model->ingresaVenta($data,$pago,$idtrans);
-		if($guia > 0){
-			$movCliente = array(
-				'idtipooperacion' => $pago->tipoPagoVta,
-				'idtransaccion' => $idtrans,
-				'idmediopago' => $pago->medioPagoVta,
-				'idsucursal' => $pago->idsucursal,
-				'idcliente' => $pago->idcliente,
+		if($pago->tipo_registro === 'registrar'){
+			$trandata = array(
+				'fecha' => date('Y-m-d H:i:s'),
+				'vencimiento' => date('Y-m-d H:i:s'),
 				'monto' => $pago->total_vta,
-				'tipo_comprobante' => $pago->tipoComp,
-				'serie_comprobante' => $pago->serie,
-				'numero_comprobante' => $pago->num,
-				'base_imponible' => $pago->base_imponible,
-				'impuesto_igv' => $pago->imp_igv,
-				'idfactor' => $fcli,
-				'fecha_movimiento' => date('Y-m-d H:i:s'),
-				'idusuario_registro' => $this->usuario->idusuario,
-				'fecha_registro' => date('Y-m-d H:i:s'),
 				'activo' => 1
 			);
-			$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$fcj,$pago);
-			if($mov){
-				$message = 'Venta registrada exitosamente';
-				$status = 200;
+			
+			$idtrans = $this->Ventas_model->transaccionVta($trandata);
+			if($idtrans > 0) $guia = $this->Ventas_model->ingresaVenta($data,$pago,$idtrans);
+			if($guia > 0){
+				$movCliente = array(
+					'idtipooperacion' => $pago->tipoPagoVta,
+					'idtransaccion' => $idtrans,
+					'idmediopago' => $pago->medioPagoVta,
+					'idsucursal' => $pago->idsucursal,
+					'idcliente' => $pago->idcliente,
+					'monto' => $pago->total_vta,
+					'tipo_comprobante' => $pago->tipoComp,
+					'serie_comprobante' => $pago->serie,
+					'numero_comprobante' => $pago->num,
+					'base_imponible' => $pago->base_imponible,
+					'impuesto_igv' => $pago->imp_igv,
+					'idfactor' => $fcli,
+					'fecha_movimiento' => date('Y-m-d H:i:s'),
+					'idusuario_registro' => $this->usuario->idusuario,
+					'fecha_registro' => date('Y-m-d H:i:s'),
+					'activo' => 1
+				);
+				$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$fcj,$pago);
+				if($mov){
+					$message = 'Venta registrada exitosamente';
+					$status = 200;
+				}
+			}
+		}elseif($pago->tipo_registro === 'editar'){
+			$trans = $this->Ventas_model->editaTransaccion(['monto' => $pago->total_vta],['idtransaccion' => $pago->idtrans]);
+			if($trans > 0) $guia = $this->Ventas_model->editaVenta($data,$pago);
+			if($guia){
+				$dataCli = array(
+					'idtipooperacion' => $pago->tipoPagoVta,
+					'idmediopago' => $pago->medioPagoVta,
+					'idsucursal' => $pago->idsucursal,
+					'monto' => $pago->total_vta,
+					'tipo_comprobante' => $pago->tipoComp,
+					'serie_comprobante' => $pago->serie,
+					'numero_comprobante' => $pago->num,
+					'base_imponible' => $pago->base_imponible,
+					'impuesto_igv' => $pago->imp_igv,
+					'idfactor' => $fcli,
+					'fecha_movimiento' => date('Y-m-d H:i:s'),
+					'idusuario_modificacion' => $this->usuario->idusuario,
+					'fecha_modificacion' => date('Y-m-d H:i:s'),
+				);
+				$mov = $this->Ventas_model->editaMovCliente($dataCli,$tpcj,$fcj,$pago);
+				if($mov){
+					$message = 'Venta Actualizada';
+					$status = 200;
+					$idtrans = $pago->idtrans;
+				}
 			}
 		}
 		
 		$resp = array(
 			'status' => $status,
 			'message' => $message,
+			'idtrans' => $idtrans,
 		);
 		
 		echo json_encode($resp);
+	}
+	public function editarSalida()
+	{
+		$this->load->model('Ventas_model');
+		$idtran = $this->input->get('id');
+		$venta = $this->Ventas_model->listaVenta(['mc.idtransaccion' => $idtran]);
+		$detArt = $this->Ventas_model->articulosVta(['idguia' => $venta->idguia]);
+		
+		echo json_encode(['data' => $venta,'articulos' => $detArt]);
+	}
+	public function anularVenta()
+	{
+		$this->load->model('Ventas_model');
+		$status = 500; $message = 'No se pudo anular'; $id = $this->input->get('id'); $cli = false; $cj = false; $guia = false; $detalle = false;
+		$dataAnula = ['activo' => 0,'idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s')];
+		
+		$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
+		$idguia = $row->idguia;
+		
+		$tran = $this->Ventas_model->anularVenta('transacciones',['idtransaccion' => $id],['activo' => 0]);
+		if($tran) $cli = $this->Ventas_model->anularVenta('movimientos_cliente',['idtransaccion' => $id],$dataAnula);
+		if($cli) $cj = $this->Ventas_model->anularVenta('movimientos_caja',['idtransaccion' => $id],$dataAnula);
+		if($cj) $guia = $this->Ventas_model->anularVenta('guia_salida',['idtransaccion' => $id],$dataAnula);
+		if($guia) $detalle = $this->Ventas_model->anularVenta('guia_salida_detalle',['idguia' => $idguia],['activo' => 0]);
+		
+		if($detalle){ $message = 'Venta Anulada'; $status = 200; }
+		
+		$resp = array(
+			'status' => $status,
+			'message' => $message,
+		);
+				
+		echo json_encode($resp);
+	}
+	public function reporte()
+	{
+		$this->load->model('Ventas_model');
+		$versionphp = 7; $a5 = 'A4'; $direccion = 'portrait';
+		$id = $this->input->get('id'); $op = $this->input->get('op'); $guia = null; $datosCli = null;
+		
+		$guia = $this->Ventas_model->pdfVenta(['mc.idtransaccion' => $id]);
+		$idcli = $guia[0]->idcliente;
+		$datosCli = $this->Ventas_model->listaCliente(['idcliente' => $idcli]);
+		
+		if($op === 'pdf') $html = $this->load->view('ventas/guia-pdf', ['guia' => $guia,'datos'=>$datosCli], true);
+		elseif($op === 'comp') $html = $this->load->view('ventas/comprobante-pdf', ['guia' => $guia,'datos'=>$datosCli], true);
+		
+		if(floatval(phpversion()) < $versionphp){
+			$this->load->library('dom');
+			$this->dom->generate($direccion, $a5, $html, 'Informe');
+		}else{
+			$this->load->library('dom1');
+			$this->dom1->generate($direccion, $a5, $html, 'Guía Salida');
+		}
 	}
 }

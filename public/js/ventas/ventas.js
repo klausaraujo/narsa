@@ -17,7 +17,7 @@ $(document).ready(function (){
 						let hrefVta = (data.activo === '1' || btnVta)?'href="'+base_url+'ventas/ventascliente?id='+data.idcliente+'&name='+data.nombre+'"':'';
 						let btnAccion =
 						'<div class="btn-group">'+
-							'<a title="Editar Cliente" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+' ">'+
+							'<a title="Editar Cliente" '+hrefEditar+' class="bg-warning btnTable '+((data.activo === '0' || !btnEdit)?'disabled':'')+' ">'+
 								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 							'<a title="Ventas Cliente" '+hrefVta+'class="bg-success btnTable '+((data.activo === '0' || !btnVta)?'disabled':'')+' acciones">'+
 								'<i class="far fa-house" aria-hidden="true"></i></a>'+
@@ -62,12 +62,21 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
+						let hrefEditar = (data.activo === '1' || btnEdit)?
+							'href="'+base_url+'ventas/ventascliente/editar?id='+data.idtransaccion+'" data-target="#modalVentas" data-toggle="modal" ' : '';
+						let hrefAnular = (data.activo === '1' || btnAnular)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
+						let hrefPdf = (data.activo === '1' || btnGuia)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=pdf"':'';
+						let hrefComp = (data.activo === '1' || btnComp)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=comp"':'';
 						let btnAccion =
 						'<div class="btn-group">'+
-							'<a title="Editar Gu&iacute;a Salida" class="bg-warning btnTable"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
-							'<a title="Anular Gu&iacute;a Salida" class="bg-danger btnTable"><i class="far fa-trash" aria-hidden="true"></i></a>'+
-							'<a title="Ver Gu&iacute;a Salida" class="bg-primary btnTable"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
-							'<a title="Ver Comprobante" class="bg-success btnTable"><i class="fas fa-receipt" aria-hidden="true"></i></a>'+
+							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+'">'+
+								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular)?'disabled':'')+'">'+
+								'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+							'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
+								'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
+							'<a title="Ver Comprobante" '+hrefComp+' class="bg-success btnTable '+((data.activo === '0' || !btnComp)?'disabled':'')+
+								'" target="_blank"><i class="fas fa-receipt" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
@@ -197,7 +206,7 @@ $('#form_salidas').validate({
 				tablaSalDetalle.rows.add(json).draw();
 			}
 			
-			$('#form_salidas .error').removeClass('error'), $('#form_salidas .success').removeClass('success');
+			$('#form_salidas .form_error').removeClass('form_error'), $('#form_salidas .success').removeClass('success');
 			$('#form_salidas')[0].reset();
 			$('#sucursalSal').prop('selectedIndex',suc);
 			$('#obsSal').val(obs);
@@ -278,7 +287,7 @@ $('#form_pago_venta').validate({
 						$('html, body').animate({ scrollTop: 0 }, 'fast');
 						tablaVentas.ajax.reload();
 						/* Muestra la guia para imprimir */
-						//window.open(base_url + 'proveedores/ingresos/guia_ingreso?id='+data.guia+'&op=comp', '_blank');
+						if(data.idtrans !== '0') window.open(base_url + 'ventas/ventascliente/pdf?id='+data.idtrans+'&op=comp', '_blank');
 						//$('#formPagoIngreso')[0].reset();
 						//$('#formPagoIngreso select').prop('selectedIndex',0);
 					}
@@ -294,10 +303,14 @@ $('#form_pago_venta').validate({
 });
 
 $('#modalVentas').on('hidden.bs.modal',function(e){
+	let resForm1 = $('#form_salidas').validate(), resForm2 = $('#form_pago_venta').validate();
+	
+	/* Devuelve el select a sus opciones principales */
 	$('#medioPagoVta').html(medioPagoOpt), $('#medioPagoVta').prop('selectedIndex',0);
-	$('#form_salidas')[0].reset(), $('#form_pago_venta')[0].reset();
-	$('#form_salidas .error').removeClass('error'), $('#form_salidas .success').removeClass('success');
-	$('#form_pago_venta .error').removeClass('error'), $('#form_pago_venta .success').removeClass('success');
+	/* Resetear formularios y validaciones */
+	$('#form_salidas')[0].reset(), $('#form_pago_venta')[0].reset(), resForm1.resetForm(), resForm2.resetForm();
+	$('#form_salidas .form_error').removeClass('form_error'), $('#form_salidas .success').removeClass('success');
+	$('#form_pago_venta .form_error').removeClass('form_error'), $('#form_pago_venta .success').removeClass('success');
 	
 	$('#form_salidas select').prop('selectedIndex',0);
 	$('#form_pago_venta select').prop('selectedIndex',0);
@@ -360,6 +373,71 @@ $('body').bind('click','a',function(e){
 				$('#totalvta').val(formatMoneda(mto)), $('#total_vta').val(mto);
 			}
 		}
+	}else if(a.hasClass('editar')){
+		$('#tipo_registro').val('editar');
+		$.ajax({
+			data: {},
+			url: a.attr('href'),
+			method: 'GET',
+			dataType: 'JSON',
+			beforeSend: function (){},
+			success: function (data) {
+				console.log(data);
+				console.log(data.data.idtipooperacion);
+				$('#form_pago_venta select').removeAttr('disabled');
+				$('#form_pago_venta input').removeAttr('disabled');
+				
+				$('#obsSal').val(data.data.observaciones);				
+				if(data.data.idtipooperacion === '2'){ $('#medioPagoVta').html('<option value="1">[N/A]</option>'); }
+				
+				$('#serie').val(data.data.serie_comprobante);
+				$('#num').val(data.data.numero_comprobante);
+				$('#baseImp').val(formatMoneda(data.data.base_imponible));
+				
+				$('#igv').val(formatMoneda(data.data.impuesto_igv));
+				$('#totalvta').val(formatMoneda(data.data.monto));
+				$('#base_imponible').val(data.data.base_imponible);
+				$('#imp_igv').val(data.data.impuesto_igv);
+				$('#total_vta').val(data.data.monto);
+				
+				if(parseFloat(data.data.impuesto_igv) > 0) $('#checkigv').prop('checked',true);
+				
+				$('#sucursalSal option[value='+data.data.idsucursal+']').prop('selected', true);
+				$('#tipoPagoVta option[value='+data.data.idtipooperacion+']').prop('selected', true);
+				$('#medioPagoVta option[value='+data.data.idmediopago+']').prop('selected', true);
+				$('#tipoComp option[value='+data.data.tipo_comprobante+']').prop('selected', true);
+				
+				tablaSalDetalle.rows.add(data.articulos).draw();
+				$('#guia_vta').val(data.data.idguia);
+				$('#idtrans').val(data.data.idtransaccion);
+			}
+		});
+	}else if(a.hasClass('anular')){
+		e.preventDefault();
+		
+		let confirmacion = confirm('Está seguro que desea anular la Venta?');
+		if(confirmacion){
+			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+			$.ajax({
+				data: {},
+				url: a.attr('href'),
+				method: 'GET',
+				dataType: 'JSON',
+				beforeSend: function () { a.addClass('disabled'); },
+				success: function (data) {
+					console.log(data);
+					if (parseInt(data.status) === 200){
+						tablaVentas.ajax.reload();
+					}else{
+						a.removeClass('disabled');
+						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
+					}
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+				}
+			});
+		}
 	}
 });
 /* Cambios en el tipo de venta */
@@ -395,4 +473,7 @@ $('#checkigv').bind('click',function(e){
 		$('#igv').val(''), $('#imp_igv').val(0), $('#total_vta').val(''), $('#base_imponible').val(mto), $('#baseImp').val(formatMoneda(mto));
 		$('#totalvta').val(formatMoneda(mto)), $('#total_vta').val(mto);
 	}
+});
+$('#modalVtas').on('click',function(){
+	$('#tipo_registro').val('registrar');
 });
