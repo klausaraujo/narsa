@@ -118,9 +118,9 @@
 										</div>
 									</div>
 									<form method="post" id="form_pago_venta">
-										<input type="text" value="" id="tipo_registro" name="tipo_registro" />
-										<input type="text" value="" id="guia_vta" name="guia_vta" />
-										<input type="text" value="" id="idtrans" name="idtrans" />
+										<input type="hidden" value="" id="tipo_registro" name="tipo_registro" />
+										<input type="hidden" value="" id="guia_vta" name="guia_vta" />
+										<input type="hidden" value="" id="idtrans" name="idtrans" />
 										<div class="row">
 											<div class="col-md-11 mx-auto">
 												<div class="row my-4">
@@ -196,9 +196,9 @@
 														</div>
 													</div>
 												</div>
-												<input type="text" name="base_imponible" id="base_imponible" />
-												<input type="text" name="imp_igv" id="imp_igv" />
-												<input type="text" name="total_vta" id="total_vta" />
+												<input type="hidden" name="base_imponible" id="base_imponible" />
+												<input type="hidden" name="imp_igv" id="imp_igv" />
+												<input type="hidden" name="total_vta" id="total_vta" />
 											</div>
 										</div>
 										<div class="modal-footer">
