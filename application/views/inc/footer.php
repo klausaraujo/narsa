@@ -30,7 +30,7 @@
 		<!-- am core JavaScript -->
 		<script src="<?=base_url()?>/public/js/core.js"></script>
 		  <!-- am charts JavaScript -->
-		  <!--<script src="js/charts.js"></script>
+		  <!--<script src="<?=base_url()?>/public/js/charts.js"></script>
 		  <!-- am animated JavaScript -->
 		  <!--<script src="js/animated.js"></script>
 		  <!-- am kelly JavaScript -->
@@ -183,6 +183,7 @@
 			}
 		</script>
 		<?}else if($this->uri->segment(2) === 'parametros'){?>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
 		<script>
 			let catadores = JSON.parse('<?=json_encode($catadores)?>');
 		</script>

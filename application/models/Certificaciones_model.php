@@ -241,4 +241,11 @@ class Certificaciones_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
+	public function saveNombreGraph($id,$data)
+	{
+		$this->db->db_debug = FALSE;
+		$this->db->where($id);
+		if ($this->db->update('certificado',$data)) return true;
+        else return false;
+	}
 }

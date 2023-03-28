@@ -4,13 +4,16 @@ if (! defined("BASEPATH")) exit("No direct script access allowed");
 class Main extends CI_Controller
 {
 	private $usuario;
+	private $absolutePath;
 	
     public function __construct()
 	{
 		parent::__construct();
 		//$this->load->library('User');
-		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
-		else header('location:' .base_url());
+		if($this->session->userdata('user')){
+			$this->usuario = json_decode($this->session->userdata('user'));
+			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
+		}else header('location:' .base_url());
 		//$this->output->enable_profiler(TRUE);
 	}
 
@@ -315,7 +318,7 @@ class Main extends CI_Controller
 		$this->load->model('Certificaciones_model');
 		$id = $this->input->post('idcertificado'); $resp = 'No se pudo guardar';
 		$hay = $this->Certificaciones_model->hayCertificado(['idcertificado' => $id]);
-		
+			
 		if(!$hay){
 			$data = array(
 				'idcertificado' => $id,
@@ -383,8 +386,13 @@ class Main extends CI_Controller
 				$resp = 'Guardado exitosamente';
 			}
 		}
+		
+		//$graph = str_replace("data:image/png;base64,","", $graph);
+		$nombImg = $this->uploadGraph();
+		
 		$data = array(
 			'message' => $resp,
+			'grafico' => $nombImg,
 		);
 		echo json_encode($data);
 	}
@@ -443,5 +451,32 @@ class Main extends CI_Controller
 		);
 		
 		echo json_encode($data);
-	}//Anular
+	}
+	public function uploadGraph()
+	{
+		$this->load->model('Certificaciones_model');
+		$id = $this->input->post('idcertificado'); $graph = $this->input->post('grafico');
+		
+		$path = $this->absolutePath.'public/images/graficos/';
+		$nom = 'graph'.date('YmdHis').'.png';
+		
+		$op = fopen($path.$nom, 'wb');
+		$data = explode(',', $graph);
+		fwrite($op, base64_decode($data[1]));
+		fclose($op);
+		
+		/*$error_resize = 0;
+		$config['image_library'] = 'gd2';
+		$config['source_image'] = $path.$nom;
+		$config['create_thumb'] = FALSE;
+		$config['maintain_ratio'] = TRUE;
+		$config['width'] = 300;
+		$this->load->library('image_lib', $config);
+		if(! $this->image_lib->resize()) $error_resize = $this->image_lib->display_errors();
+		
+		$ruta = $this->Certificaciones_model->saveNombreGraph(['idcertificado' => $id],['ruta_grafico' => $nom]);
+		if($ruta) return $path.$nom;
+		else return 'No se pudo guardar';*/
+		return $data[1];
+	}
 }

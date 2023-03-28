@@ -459,6 +459,7 @@
 									<form method="post" id="form_sensorial" action="<?=base_url().$this->uri->segment(1)?>/parametros/sensorial" class="form">
 										<input type="hidden" class="idproveedor" name="idproveedor" value="<?=$proveedor->idproveedor?>"/>
 										<input type="hidden" name="idcertificado" value="<?=$idcertificado?>"/>
+										<input type="hidden" name="grafico" id="grafico" class="form-control row" />
 										<div class="row container mt-1">
 											<div class="col-12">
 												<div class="form-row">
@@ -611,6 +612,8 @@
 													</div>
 												</div>
 											</div>
+											<div style="width:500"><canvas id="myChart"></canvas></div>
+											<img id="imagengraph" src="imagen.png" />
 										</div>
 										<div class="modal-footer">
 											<div class="row">
