@@ -465,7 +465,7 @@ class Main extends CI_Controller
 		fwrite($op, base64_decode($data[1]));
 		fclose($op);
 		
-		/*$error_resize = 0;
+		$error_resize = 0;
 		$config['image_library'] = 'gd2';
 		$config['source_image'] = $path.$nom;
 		$config['create_thumb'] = FALSE;
@@ -476,7 +476,7 @@ class Main extends CI_Controller
 		
 		$ruta = $this->Certificaciones_model->saveNombreGraph(['idcertificado' => $id],['ruta_grafico' => $nom]);
 		if($ruta) return $path.$nom;
-		else return 'No se pudo guardar';*/
+		else return 'No se pudo guardar';
 		return $data[1];
 	}
 }

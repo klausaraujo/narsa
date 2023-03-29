@@ -365,6 +365,71 @@ $('.blur').on('blur',function(){
 		$('#ptotal').val(totSen);
 		if($('#defsustraer').val() !== '' && $('#ptotal').val() !== '') $('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
 		else $('#pfinal').val($('#ptotal').val());
+
+		/* Actualiza el grafico */
+		if(id === 'fragptos' || id === 'sabptos' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos'){
+			
+			if(window.radarChart){
+				//window.radarChart.clear(), window.radarChart.destroy();
+				window.radarChart.data.datasets[0].data[0] = $('#fragptos').val();
+				window.radarChart.data.datasets[0].data[1] = $('#sabptos').val();
+				window.radarChart.data.datasets[0].data[2] = $('#sabreptos').val();
+				window.radarChart.data.datasets[0].data[3] = $('#aciptos').val();
+				window.radarChart.data.datasets[0].data[4] = $('#cuerptos').val();
+				window.radarChart.update();
+				window.radarChart.options.animation.onComplete = function(){ $('#grafico').val(document.getElementById('myChart').toDataURL('image/png')); }
+			}else{
+				let ctx = document.getElementById('myChart').getContext('2d');
+				let $canvas = document.getElementById('myChart');
+
+				ctx.fillStyle = "white";
+				ctx.fillRect(0, 0, $canvas.width, $canvas.height);
+				
+				let options = {
+					elements: { line: { borderWidth: 3 } },
+					plugins: {
+						legend: { display: false, labels: { color: 'rgb(255, 99, 132)' } },
+						title: { display: true, text: 'PERFIL SENSORIAL' }
+					},
+					scales:{
+						r:{ grid:{ circular: true }, beginAtZero: true }
+					},
+					animation: {
+						onComplete: function(){
+							$('#grafico').val(document.getElementById('myChart').toDataURL('image/png'));
+							//$('#imagengraph').attr('src',$('#grafico').val());
+						}
+					}
+				};
+				const data = {
+					labels: [
+					'FRAGANCIA/AROMA',
+					'SABOR',
+					'SABOR RESIDUAL',
+					'ACIDEZ',
+					'CUERPO',
+					],
+					datasets: [{
+					label: 'PERFIL SENSORIAL',
+					data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
+					//fill: true,
+					backgroundColor: 'rgba(255, 99, 132, 0)',
+					borderColor: 'rgb(255, 99, 132)',
+					pointBackgroundColor: 'rgb(255, 99, 132)',
+					pointBorderColor: '#fff',
+					pointHoverBackgroundColor: '#fff',
+					pointHoverBorderColor: 'rgb(255, 99, 132)'
+					}]
+				};
+				
+				window.radarChart = new Chart(ctx, {
+					type: 'radar',
+					data: data,
+					options: options
+				});
+			}
+		}
+
 	}else if(id === 'defsustraer'){
 		if($('#defsustraer').val() !== '' && $('#ptotal').val() !== '') $('#pfinal').val(parseFloat($('#ptotal').val()) - parseFloat($('#defsustraer').val()));
 		else $('#pfinal').val($('#ptotal').val());

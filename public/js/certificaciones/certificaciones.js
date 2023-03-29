@@ -1,4 +1,4 @@
-let tablaCert = null, tablaProv = null, tablaCat = null, tablaCatSelec = null, radarChart;
+let tablaCert = null, tablaProv = null, tablaCat = null, tablaCatSelec = null;
 
 jQuery(document).ready(function($){
 	if(segmento2 == ''){
@@ -256,76 +256,8 @@ $('.form').on('submit',function(e){
 	e.preventDefault();
 	let boton = $(this).find('button'), f = e.target;
 	if($(this).attr('id') === 'form_sensorial'){
-		let ctx = document.getElementById('myChart').getContext('2d');
-		
-		if(window.radarChart){
-			window.radarChart.clear();
-			window.radarChart.destroy();
-		}
-		
-		let options = {
-			elements: {
-			  line: {
-				borderWidth: 3
-			  }
-			},
-			plugins: {
-				legend: {
-					display: false,
-					labels: {
-						color: 'rgb(255, 99, 132)'
-					}
-				},
-				title: {
-					display: true,
-					text: 'PERFIL SENSORIAL'
-				}
-			},
-			scales:{
-				r:{
-					grid:{ circular: true },
-					beginAtZero: true
-				}
-			}
-		};
-		const data = {
-		  labels: [
-			'FRAGANCIA/AROMA',
-			'SABOR',
-			'SABOR RESIDUAL',
-			'ACIDEZ',
-			'CUERPO',
-		  ],
-		  datasets: [{
-			label: 'PERFIL SENSORIAL',
-			data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
-			//fill: true,
-			backgroundColor: 'rgba(255, 99, 132, 0)',
-			borderColor: 'rgb(255, 99, 132)',
-			pointBackgroundColor: 'rgb(255, 99, 132)',
-			pointBorderColor: '#fff',
-			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgb(255, 99, 132)'
-		  },/* {
-			//label: 'My Second Dataset',
-			data: [60, 30, 30, 30, 30, 30, 29.99],
-			//fill: true,
-			backgroundColor: 'rgba(54, 162, 235, 0)',
-			borderColor: 'rgb(255, 219, 88)',
-			pointBackgroundColor: 'rgb(54, 162, 235)',
-			pointBorderColor: '#fff',
-			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgb(54, 162, 235)'
-		  }*/]
-		};
-
-		window.radarChart = new Chart(ctx, {
-			type: 'radar',
-			data: data,
-			options: options
-		});
-		$('#grafico').val(document.getElementById('myChart').toDataURL('image/png'));
-		$('#imagengraph').attr('src',document.getElementById('myChart').toDataURL('image/png'));
+		//$('#grafico').val(document.getElementById('myChart').toDataURL('image/png'));
+		//$('#imagengraph').attr('src',document.getElementById('myChart').toDataURL('image/png'));
 	}
 	$.ajax({
 		data: $(f).serialize(),
