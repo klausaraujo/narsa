@@ -612,7 +612,7 @@
 													</div>
 												</div>
 											</div>
-											<div><canvas width="500" id="myChart"></canvas></div>
+											<div style="width:500"><canvas width="300" id="myChart"></canvas></div>
 											<!--<img id="imagengraph" src="imagen.png" />-->
 										</div>
 										<div class="modal-footer">

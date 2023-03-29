@@ -30,7 +30,7 @@
 		<!-- am core JavaScript -->
 		<script src="<?=base_url()?>/public/js/core.js"></script>
 		  <!-- am charts JavaScript -->
-		  <!--<script src="<?=base_url()?>/public/js/charts.js"></script>
+		  <!--<script src="js/charts.js"></script>
 		  <!-- am animated JavaScript -->
 		  <!--<script src="js/animated.js"></script>
 		  <!-- am kelly JavaScript -->
