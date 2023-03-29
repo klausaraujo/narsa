@@ -388,7 +388,8 @@ class Main extends CI_Controller
 		}
 		
 		//$graph = str_replace("data:image/png;base64,","", $graph);
-		$nombImg = $this->uploadGraph();
+		$ruta = $this->Certificaciones_model->traeRutaGrafico(['idcertificado' => $id]);
+		$nombImg = $this->uploadGraph($ruta->nombre);
 		
 		$data = array(
 			'message' => $resp,
@@ -452,31 +453,30 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	public function uploadGraph()
+	public function uploadGraph($nom)
 	{
 		$this->load->model('Certificaciones_model');
 		$id = $this->input->post('idcertificado'); $graph = $this->input->post('grafico');
 		
 		$path = $this->absolutePath.'public/images/graficos/';
-		$nom = 'graph'.date('YmdHis').'.png';
+		$nom = 'graph'.$nom.'.png';
 		
 		$op = fopen($path.$nom, 'wb');
 		$data = explode(',', $graph);
 		fwrite($op, base64_decode($data[1]));
 		fclose($op);
 		
-		$error_resize = 0;
+		/*$error_resize = 0;
 		$config['image_library'] = 'gd2';
 		$config['source_image'] = $path.$nom;
 		$config['create_thumb'] = FALSE;
 		$config['maintain_ratio'] = TRUE;
-		$config['width'] = 300;
+		$config['width'] = 350;
 		$this->load->library('image_lib', $config);
-		if(! $this->image_lib->resize()) $error_resize = $this->image_lib->display_errors();
+		if(! $this->image_lib->resize()) $error_resize = $this->image_lib->display_errors();*/
 		
 		$ruta = $this->Certificaciones_model->saveNombreGraph(['idcertificado' => $id],['ruta_grafico' => $nom]);
 		if($ruta) return $path.$nom;
 		else return 'No se pudo guardar';
-		return $data[1];
 	}
 }

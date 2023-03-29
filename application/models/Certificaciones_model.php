@@ -241,6 +241,15 @@ class Certificaciones_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
+	public function traeRutaGrafico($where)
+	{
+		$this->db->select('CONCAT(idcertificado,anio_certificado) as nombre');
+		$this->db->from('certificado');
+		$this->db->where($where);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
 	public function saveNombreGraph($id,$data)
 	{
 		$this->db->db_debug = FALSE;
