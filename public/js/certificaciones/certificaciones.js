@@ -111,7 +111,7 @@ jQuery(document).ready(function($){
 			columnDefs:[{ title: 'Acciones', targets: 0 },{ title: 'ID', targets: 1 },{ title: 'Documento', targets: 2 },{ title: 'Nombres', targets: 3 }],
 			order: [],
 		});
-		tablaCat.rows.add(catadores).draw();
+		tablaCat.rows.add(catadores).draw();		
 	}
 });
 $('.anio').bind('change', function(){

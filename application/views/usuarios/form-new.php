@@ -1,6 +1,6 @@
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
-							<div class="iq-header-title"><h4>Registro de Usuarios</h4></div>
+							<div class="iq-header-title"><h4>Registro de Usuarios</h4></div><div class="ml-3 h4 text-danger fallecido"></div>
 						</div>
 						<div class="iq-card-body">
 							<form method="post" id="form_usuarios" action="<?=base_url()?>usuarios/registrar" class="needs-validation form-horizontal" novalidate="">

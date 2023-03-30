@@ -169,18 +169,20 @@ btnCurl.bind('click',function(){
 			error: function (xhr) { btnCurl.removeAttr('disabled'); btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>'); },
 			beforeSend: function () { btnCurl.html('<i class="fa fa-spinner fa-pulse"></i>'); btnCurl.attr('disabled', 'disabled'); },
 			success: function (resp) {
-				let msg = resp.errors? resp.errors[0].detail : '';
+				let data = JSON.parse(resp.data);
+				let msg = data.errors? data.errors[0].detail : '';
 				btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>');
 				btnCurl.removeAttr("disabled");
-				console.log(JSON.parse(resp.data));
 
 				if(resp.valida){
 					alert('El Documento ya se encuentra registrado'); $('#doc').val(''); $('#doc').focus();
 				}else{
 					if(msg === ''){
-						let data = JSON.parse(resp.data);
+						//let data = JSON.parse(resp.data);
 						
-						console.log(data.data.attributes.es_persona_viva);
+						if(data.data.attributes.es_persona_viva){ $('#btnEnviar').removeClass('disabled'); $('.fallecido').html(''); }
+						else{ $('#btnEnviar').addClass('disabled'); $('.fallecido').html('Fallecido'); }
+						
 						//console.log(data);
 						if(tipodoc === '01' || tipodoc === '03'){
 							if(segmento === 'proveedores' || segmento === 'ventas'){
@@ -197,6 +199,7 @@ btnCurl.bind('click',function(){
 						}//else console.log(data);
 					}else{
 						alert(msg);
+						$('.doc').val(''), $('.doc').focus();
 						//$('.nombres').prop('readonly', false); $('.direccion').prop('readonly', false); $('.apellidos').prop('readonly', false);
 					}
 				}
@@ -381,15 +384,15 @@ $('.blur').on('blur',function(){
 				window.radarChart.data.datasets[0].data[3] = $('#aciptos').val();
 				window.radarChart.data.datasets[0].data[4] = $('#cuerptos').val();
 				window.radarChart.update();
-				window.radarChart.options.animation.onComplete = function(){ $('#grafico').val(document.getElementById('myChart').toDataURL('image/png')); }
+				window.radarChart.options.animation.onComplete = function(){ $('#grafico').val(document.getElementById('grafica').toDataURL('image/png')); }
 			}else{
-				let ctx = document.getElementById('myChart').getContext('2d');
-				let $canvas = document.getElementById('myChart');
+				//let ctx = document.getElementById('myChart').getContext('2d');
+				/*let $canvas = document.getElementById('myChart');
 
 				ctx.fillStyle = "white";
-				ctx.fillRect(0, 0, $canvas.width, $canvas.height);
+				ctx.fillRect(0, 0, $canvas.width, $canvas.height);*/
 				
-				let options = {
+				/*let options = {
 					elements: { line: { borderWidth: 3 } },
 					plugins: {
 						legend: { display: false, labels: { color: 'rgb(255, 99, 132)' } },
@@ -406,23 +409,17 @@ $('.blur').on('blur',function(){
 					}
 				};
 				const data = {
-					labels: [
-					'FRAGANCIA/AROMA',
-					'SABOR',
-					'SABOR RESIDUAL',
-					'ACIDEZ',
-					'CUERPO',
-					],
+					labels: ['FRAGANCIA/AROMA', 'SABOR', 'SABOR RESIDUAL', 'ACIDEZ', 'CUERPO'],
 					datasets: [{
-					label: 'PERFIL SENSORIAL',
-					data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
-					//fill: true,
-					backgroundColor: 'rgba(255, 99, 132, 0)',
-					borderColor: 'rgb(255, 99, 132)',
-					pointBackgroundColor: 'rgb(255, 99, 132)',
-					pointBorderColor: '#fff',
-					pointHoverBackgroundColor: '#fff',
-					pointHoverBorderColor: 'rgb(255, 99, 132)'
+						label: 'PERFIL SENSORIAL',
+						data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
+						//fill: true,
+						backgroundColor: 'rgba(255, 99, 132, 0)',
+						borderColor: 'rgb(255, 99, 132)',
+						pointBackgroundColor: 'rgb(255, 99, 132)',
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: 'rgb(255, 99, 132)'
 					}]
 				};
 				
@@ -430,7 +427,7 @@ $('.blur').on('blur',function(){
 					type: 'radar',
 					data: data,
 					options: options
-				});
+				});*/
 			}
 		}
 

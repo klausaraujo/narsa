@@ -1,6 +1,6 @@
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
-							<div class="iq-header-title"><h4>Registro de Proveedor</h4></div>
+							<div class="iq-header-title"><h4>Registro de Proveedor</h4></div><div class="ml-5 h4 text-danger mr-auto fallecido"></div>
 						</div>
 						<div class="iq-card-body">
 						<form method="post" id="form_proveedor" action="<?=base_url()?>proveedores/registrar" class="needs-validation form-horizontal" novalidate="">
@@ -83,8 +83,8 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="dep">Departamento:</label>
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
-												<select class="form-control dep" name="dep" id="dep" required="">
-													<option>-- Seleccione --</option>
+												<select class="form-control dep" name="dep" id="dep" required="" >
+													<option value="">-- Seleccione --</option>
 												<?
 														foreach($dep as $row):	?>
 															<option value="<?=$row->cod_dep;?>"><?=$row->departamento;?></option>
@@ -98,8 +98,8 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="pro">Provincia:</label>
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
-												<select class="form-control pro" name="pro" id="pro" required="">
-													<option>-- Seleccione --</option>
+												<select class="form-control pro" name="pro" id="pro" required="" >
+													<option value="">-- Seleccione --</option>
 												</select>
 												<div class="invalid-feedback">Debe elegir una Provincia</div>
 											</div>
@@ -110,7 +110,7 @@
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
 												<select class="form-control dis" name="dis" id="dis" required="">
-													<option>-- Seleccione --</option>
+													<option value="">-- Seleccione --</option>
 												</select>
 												<div class="invalid-feedback">Debe elegir un Distrito</div>
 											</div>

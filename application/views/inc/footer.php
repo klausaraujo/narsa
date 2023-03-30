@@ -183,9 +183,51 @@
 			}
 		</script>
 		<?}else if($this->uri->segment(2) === 'parametros'){?>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
 		<script>
 			let catadores = JSON.parse('<?=json_encode($catadores)?>');
+			
+			 // Obtener una referencia al elemento canvas del DOM
+			const $grafica = document.querySelector("#grafica");
+			// Podemos tener varios conjuntos de datos. Comencemos con uno
+			const $data = {
+				labels: ['FRAGANCIA/AROMA', 'SABOR', 'SABOR RESIDUAL', 'ACIDEZ', 'CUERPO'],
+				datasets: [{
+					label: 'PERFIL SENSORIAL',
+					data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
+					//fill: true,
+					backgroundColor: 'rgba(255, 99, 132, 0)',
+					borderColor: 'rgb(255, 99, 132)',
+					pointBackgroundColor: 'rgb(255, 99, 132)',
+					pointBorderColor: '#fff',
+					pointHoverBackgroundColor: '#fff',
+					pointHoverBorderColor: 'rgb(255, 99, 132)'
+				}]
+			};
+			let optGrafico = {
+				responsive: true,
+				//elements: { line: { borderWidth: 3 } },
+				plugins: {
+					//legend: { display: false, labels: { color: 'rgb(255, 99, 132)' } },
+					title: { display: true, text: 'PERFIL SENSORIAL' }
+				},
+				scales:{
+					lineArc: true
+				},
+				scale:{
+					lineArc: true
+				},
+				animation: {
+					onComplete: function(){
+						$('#grafico').val(document.getElementById('grafica').toDataURL('image/png'));
+						//$('#imagengraph').attr('src',$('#grafico').val());
+					}
+				}
+			};
+			window.radarChart = new Chart($grafica, {
+				type: 'radar',// Tipo de gráfica
+				data: $data,
+				options: optGrafico
+			});
 		</script>
 		<?}elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'ventascliente'){ ?>
 		<script>

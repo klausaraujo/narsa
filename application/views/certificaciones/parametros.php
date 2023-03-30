@@ -612,7 +612,8 @@
 													</div>
 												</div>
 											</div>
-											<div style="width:400px" class="row align-items-center"><canvas style="width:100%" id="myChart" class="mx-auto"></canvas></div>
+											<!--<div style="width:400"><canvas style="width:100%" id="myChart"></canvas></div>-->
+											<canvas class="my-3" id="grafica"></canvas>
 											<!--<img id="imagengraph" src="imagen.png" />-->
 										</div>
 										<div class="modal-footer">

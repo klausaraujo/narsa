@@ -55,4 +55,6 @@ div.dataTables_wrapper .far, div.dataTables_wrapper .fa, div.dataTables_wrapper 
 <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default" async ></script>-->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async ></script>-->
 <script src="<?='https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&callback=initMap'?>" async ></script>
+<?}elseif($this->uri->segment(2) === 'parametros'){?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
 <?}?>
