@@ -172,11 +172,15 @@ btnCurl.bind('click',function(){
 				let msg = resp.errors? resp.errors[0].detail : '';
 				btnCurl.html('<i class="fa fa-search aria-hidden="true"></i>');
 				btnCurl.removeAttr("disabled");
+				console.log(JSON.parse(resp.data));
+
 				if(resp.valida){
 					alert('El Documento ya se encuentra registrado'); $('#doc').val(''); $('#doc').focus();
 				}else{
 					if(msg === ''){
 						let data = JSON.parse(resp.data);
+						
+						console.log(data.data.attributes.es_persona_viva);
 						//console.log(data);
 						if(tipodoc === '01' || tipodoc === '03'){
 							if(segmento === 'proveedores' || segmento === 'ventas'){
@@ -392,7 +396,7 @@ $('.blur').on('blur',function(){
 						title: { display: true, text: 'PERFIL SENSORIAL' }
 					},
 					scales:{
-						r:{ grid:{ circular: true }/*, beginAtZero: true*/ }
+						r:{ grid:{ circular: true }, beginAtZero: true }
 					},
 					animation: {
 						onComplete: function(){
@@ -402,17 +406,23 @@ $('.blur').on('blur',function(){
 					}
 				};
 				const data = {
-					labels: ['FRAGANCIA/AROMA', 'SABOR', 'SABOR RESIDUAL', 'ACIDEZ', 'CUERPO', ],
+					labels: [
+					'FRAGANCIA/AROMA',
+					'SABOR',
+					'SABOR RESIDUAL',
+					'ACIDEZ',
+					'CUERPO',
+					],
 					datasets: [{
-						label: 'PERFIL SENSORIAL',
-						data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
-						//fill: true,
-						backgroundColor: 'transparent',
-						borderColor: 'rgb(255, 99, 132)',
-						pointBackgroundColor: 'rgb(255, 99, 132)',
-						pointBorderColor: '#fff',
-						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: 'rgb(255, 99, 132)'
+					label: 'PERFIL SENSORIAL',
+					data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
+					//fill: true,
+					backgroundColor: 'rgba(255, 99, 132, 0)',
+					borderColor: 'rgb(255, 99, 132)',
+					pointBackgroundColor: 'rgb(255, 99, 132)',
+					pointBorderColor: '#fff',
+					pointHoverBackgroundColor: '#fff',
+					pointHoverBorderColor: 'rgb(255, 99, 132)'
 					}]
 				};
 				

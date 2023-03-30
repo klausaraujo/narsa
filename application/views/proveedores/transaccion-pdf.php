@@ -223,13 +223,13 @@
 			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE TRANSACCI&Oacute;N DEL PROVEEDOR</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td>Monto</td><td>Tasa</td>
+					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>>
 				</tr>				
 				<tr>
 					<td>1</td><td colspan="2"><?=$movimiento->sucursal?></td><td colspan="4"><?=$movimiento->tipo_operacion?></td>
 					<td colspan="2"><?=date_format(date_create($movimiento->fecha_movimiento),'d-m-Y')?></td>
-					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td><?=number_format(floatval($movimiento->monto_factor_final),2,'.',',')?></td>
-					<td><?=number_format(floatval($movimiento->tasa),2,'.',',')?></td>
+					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td colspan="2"><?=number_format(floatval($movimiento->monto_factor_final),2,'.',',')?></td>
+					<!--<td col><?=number_format(floatval($movimiento->tasa),2,'.',',')?></td>-->
 				</tr>
 			</table>
 		</main>
@@ -237,13 +237,13 @@
 			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE TRANSACCI&Oacute;N DEL PROVEEDOR</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td>Monto</td><td>Tasa</td>
+					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>>
 				</tr>				
 				<tr>
 					<td>1</td><td colspan="2"><?=$movimiento->sucursal?></td><td colspan="4"><?=$movimiento->tipo_operacion?></td>
 					<td colspan="2"><?=date_format(date_create($movimiento->fecha_movimiento),'d-m-Y')?></td>
-					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td><?=number_format(floatval($movimiento->monto_factor_final),2,'.',',')?></td>
-					<td><?=number_format(floatval($movimiento->tasa),2,'.',',')?></td>
+					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td colspan="2"><?=number_format(floatval($movimiento->monto_factor_final),2,'.',',')?></td>
+					<!--<td col><?=number_format(floatval($movimiento->tasa),2,'.',',')?></td>-->
 				</tr>
 			</table>
 		</main>
