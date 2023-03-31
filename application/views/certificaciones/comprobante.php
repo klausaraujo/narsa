@@ -308,9 +308,7 @@
 			<?	}	?>
 
 			<div style="page-break-after:always;"></div>
-			<table align="center" style="width:10cm">
-				<tr><td><img style="width:100%" src="<?=base_url()?>public/images/graficos/<?=$certificado->ruta_grafico?>" /></td></tr>
-			</table>
+			<img style="margin-left:7cm;width:7cm" src="<?=base_url()?>public/images/graficos/<?=$certificado->ruta_grafico?>" />
         </main>
     </body>
 </html>
