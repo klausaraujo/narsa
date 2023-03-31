@@ -180,9 +180,8 @@ btnCurl.bind('click',function(){
 					if(msg === ''){
 						//let data = JSON.parse(resp.data);
 						
-						if(data.data.attributes.es_persona_viva){ $('#btnEnviar').removeClass('disabled'); $('.fallecido').html(''); }
-						else{ $('#btnEnviar').addClass('disabled'); $('.fallecido').html('Fallecido'); }
-						
+						if(data.data.attributes.es_persona_viva) $('#btnEnviar').removeClass('disabled'), $('.fallecido').html('');
+						else $('#btnEnviar').addClass('disabled'), $('.fallecido').html('FALLECIDO');
 						//console.log(data);
 						if(tipodoc === '01' || tipodoc === '03'){
 							if(segmento === 'proveedores' || segmento === 'ventas'){

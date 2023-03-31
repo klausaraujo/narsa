@@ -306,6 +306,11 @@
 				</tr>
 			</table>
 			<?	}	?>
+
+			<div style="page-break-after:always;"></div>
+			<table align="center" style="width:10cm">
+				<tr><td><img style="width:100%" src="<?=base_url()?>public/images/graficos/<?=$certificado->ruta_grafico?>" /></td></tr>
+			</table>
         </main>
     </body>
 </html>

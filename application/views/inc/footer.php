@@ -192,7 +192,7 @@
 			const $data = {
 				labels: ['FRAGANCIA/AROMA', 'SABOR', 'SABOR RESIDUAL', 'ACIDEZ', 'CUERPO'],
 				datasets: [{
-					label: 'PERFIL SENSORIAL',
+					label: '',
 					data: [$('#fragptos').val(),$('#sabptos').val(),$('#sabreptos').val(),$('#aciptos').val(),$('#cuerptos').val()],
 					//fill: true,
 					backgroundColor: 'rgba(255, 99, 132, 0)',
@@ -207,14 +207,11 @@
 				responsive: true,
 				//elements: { line: { borderWidth: 3 } },
 				plugins: {
-					//legend: { display: false, labels: { color: 'rgb(255, 99, 132)' } },
+					legend: { display: false, labels: { color: 'rgb(255, 99, 132)' } },
 					title: { display: true, text: 'PERFIL SENSORIAL' }
 				},
 				scales:{
-					lineArc: true
-				},
-				scale:{
-					lineArc: true
+					r:{ grid:{ circular: true }, beginAtZero: true }
 				},
 				animation: {
 					onComplete: function(){

@@ -45,6 +45,36 @@ div.dataTables_wrapper .far, div.dataTables_wrapper .fa, div.dataTables_wrapper 
 	line-height: 2;
 	font-size: medium;
 }
+.fallecido {
+  font-weight: bold;
+  animation-name: parpadeo;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
 </style>
 
 <?if(($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')) || 
@@ -56,5 +86,6 @@ div.dataTables_wrapper .far, div.dataTables_wrapper .fa, div.dataTables_wrapper 
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async ></script>-->
 <script src="<?='https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&callback=initMap'?>" async ></script>
 <?}elseif($this->uri->segment(2) === 'parametros'){?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?}?>
