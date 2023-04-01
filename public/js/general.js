@@ -483,9 +483,15 @@ $('.blur').on('blur',function(){
 			alert('El pago de intereses no puede ser mayor a los intereses generados');
 			$(this).focus();
 		}
+	}else if(id === 'nronegro' || id === 'nroagrio' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos' || id === 'uniptos' || id === 'balptos' || id === 'tazptos'
+		|| id === 'dulptos' || id === 'apreptos'){
+		
 	}
 	
 });
+
+/* Seleccionar texto al posicionarse sobre el campo */
+$('.blur').focus(function(){ this.select(); });
 
 /*$('.ruc').bind('click',function(){
 	let ruc = $('#rucvalor').val();
