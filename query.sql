@@ -2975,4 +2975,48 @@ alter table movimientos_cliente add impuesto_igv decimal(20,2) after base_imponi
 alter table movimientos_cliente alter column base_imponible set default 0;
 alter table movimientos_cliente alter column impuesto_igv set default 0;
 
+/*
+Nuevas Entradas en la Base de Datos (01/03/2023)
+*/
+alter table certificado add bourbon char(1) after idvariedad;
+alter table certificado add tipica char(1) after bourbon;
+alter table certificado add caturra char(1) after tipica;
+alter table certificado add pache char(1) after caturra;
+alter table certificado add catimor char(1) after pache;
+alter table certificado add catuai char(1) after catimor;
+alter table certificado add pacamara char(1) after catuai;
+alter table certificado add gesha char(1) after pacamara;
+alter table certificado add marcellesa char(1) after gesha;
+alter table certificado add gran_colombia char(1) after marcellesa;
+alter table certificado add costa_rica_95 char(1) after gran_colombia;
+alter table certificado add tupo char(1) after costa_rica_95;
+alter table certificado add limani char(1) after tupo;
+alter table certificado add maragogipe char(1) after limani;
+alter table certificado add otros char(1) after maragogipe;
+alter table certificado add otros_detalle varchar(100) after otros;
+
+alter table certificado alter column bourbon set default '0';
+alter table certificado alter column tipica set default '0';
+alter table certificado alter column caturra set default '0';
+alter table certificado alter column pache set default '0';
+alter table certificado alter column catimor set default '0';
+alter table certificado alter column catuai set default '0';
+alter table certificado alter column pacamara set default '0';
+alter table certificado alter column gesha set default '0';
+alter table certificado alter column marcellesa set default '0';
+alter table certificado alter column gran_colombia set default '0';
+alter table certificado alter column costa_rica_95 set default '0';
+alter table certificado alter column tupo set default '0';
+alter table certificado alter column limani set default '0';
+alter table certificado alter column maragogipe set default '0';
+alter table certificado alter column otros set default '0';
+
+
+
+
+
+
+
+
+
 
