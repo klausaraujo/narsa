@@ -275,26 +275,199 @@ class Main extends CI_Controller
 	public function registraOp()
 	{
 		$this->load->model('Proveedores_model');
+		// Mensajes devueltos por el servidor
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
-		$id = $this->input->post('idproveedor'); $fecha = date('Y-m-d H:i:s'); $tipo = $this->input->post('tipoop'); $tipoDet = $this->input->post('tipodetalle'); //$saldo = true;
-		$suc = $this->input->post('sucursal'); $monto = ''; $vence = date('Y-m-d'); $int = 0; $check = 0; $inttotal = 0; $cobro = true; $presta = 0; $parcial = false;
-		$obs = $this->input->post('obstransacciones');
+		// Variables generales de los 3 modulos
+		$idproveedor = $this->input->post('idproveedor'); $suc = $this->input->post('sucursal'); $tipoop = $this->input->post('tipoop');
+		$detalletipo = $this->input->post('tipodetalle'); $obs = $this->input->post('obstransacciones'); $fecha = date('Y-m-d H:i:s'); $check = 0; $inttotal = 0;
 		
-		if($tipo === '1' || $tipo === '7'){
+		// Campos del modulo prestamos
+		$vence = date('Y-m-d'); $monto = 0; $interes = 0;
+		// Variables de los modulos pagos
+		$prestamo = 0;
+		
+		if($tipoop === '1' || $tipoop === '7'){
+			$monto = $this->input->post('monto'); $vence = $this->input->post('fechavenc');
+			$interes = $this->input->post('interes') !== null && floatval($this->input->post('interes')) > 0? floatval($this->input->post('interes')) : 0;
+		}elseif($tipoop === '2'){
+			$prestamo = $this->input->post('mtopago'); $monto = $this->input->post('montopago'); $check = $this->input->post('checkliquidapago')!== null? 1 : 0;
+			$inttotal = is_numeric(floatval($this->input->post('interespago')))? floatval($this->input->post('interespago')) : 0;
+		}elseif($tipoop === '3'){
+			$prestamo = $this->input->post('mtoprestamo'); $monto = $this->input->post('montocobro'); $check = $this->input->post('checkliquida')!== null? 1 : 0;
+			$inttotal = is_numeric(floatval($this->input->post('interescobro')))? floatval($this->input->post('interescobro')) : 0;
+		}elseif($tipoop === '9'){
+			$monto = $this->input->post('montoanterior'); $detalletipo = 'ESTADO DE CUENTA ANTERIOR PROVEEDOR';
+		}
+		
+		// Obtener el factor del tipo de operacion de proveedor
+		$factor = $this->Proveedores_model->factor(['destino' => 1,'idtipooperacion'=>$tipoop,'activo' => 1]);
+		// Array del registro de la transaccion en la base
+		$dataTransaccion = array(
+			'fecha' => $fecha,
+			'vencimiento' => $vence,
+			'monto' => floatval($monto) + floatval($inttotal),
+			'activo' => 1,
+		);
+		// Array del registro del movimiento del proveedor en la base
+		$dataOp = array(
+			'idtipooperacion' => $tipoop,
+			'idsucursal' => $suc,
+			'idproveedor' => $idproveedor,
+			'monto' => $monto,
+			'interes' => $interes,
+			'liquidado' => $check,
+			'interes_total' => $inttotal,
+			'observaciones' => $obs,
+			'idfactor' => (!empty($factor)? $factor->idfactor : 1),
+			'fecha_vencimiento' => $vence,
+			'fecha_movimiento' => $fecha,
+			'idusuario_registro' => $this->usuario->idusuario,
+			'fecha_registro' => $fecha,
+			'activo' => 1,
+		);
+		
+		if($tipoop === '1' || $tipoop === '7'){
+			if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion,'transacciones')){
+				$dataOp['idtransaccion'] = $idtran;
+				if($this->Proveedores_model->registrarOp($dataOp,'movimientos_proveedor')){
+					$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+					if($this->Proveedores_model->registrarOp($dataOp,'movimientos_caja')){ $status = 200; $message = 'Transacci&oacute;n registrada exitosamente'; }
+				}
+			}
+		}elseif($tipoop === '2' || $tipoop === '3'){
+			if($tipoop === '2'){
+				// ID de la transaccion a actualizar
+				$trans = $this->input->post('idpago'); $interes = $this->input->post('tasapago');
+			}else{
+				// ID de la transaccion a actualizar
+				$trans = $this->input->post('idprestamo'); $interes = $this->input->post('tasaprestamo');
+			}
+			
+			if($check > 0){
+				if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
+					$dataOp['idtransaccion'] = $idtran;
+					if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor')){
+						$dataOp['monto'] = floatval($monto) + floatval($inttotal);
+						$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+						if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){
+							// Variables para actualizar el movimiento anterior
+							$campos = [
+								'interes' => 0, 'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
+								'idusuario_modificacion' => $this->usuario->idusuario, 'fecha_modificacion' => date('Y-m-d H:i:s')
+							];
+							if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_proveedor')){
+								unset($campos['interes_total']); unset($campos['liquidado']);
+								if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_caja')){
+									$status = 200; $message = 'Transacci&oacute;n registrada exitosamente';
+								}
+							}
+						}
+					}
+				}
+			}else{
+				$guardado = false;
+				if(floatval($monto) > 0){
+					if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
+						$dataOp['idtransaccion'] = $idtran;
+						if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor')){
+							$dataOp['monto'] = floatval($monto) + floatval($inttotal);
+							$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+							if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){ $guardado = true; }
+						}
+					}
+					if($guardado){
+						// Se actualizan las tablas con los montos parciales
+						if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], ['monto' => $monto], 'transacciones')){
+							$campos = [
+								'monto' => $monto, 'interes' => 0, 'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
+								'idusuario_modificacion' => $this->usuario->idusuario, 'fecha_modificacion' => date('Y-m-d H:i:s')
+							];
+							if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_proveedor')){
+								unset($campos['interes_total']); unset($campos['liquidado']);
+								$this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_caja');
+							}
+						}
+						// Variables para el registro de una nueva op por el monto restante
+						$tipoop = $this->input->post('idtipoop_p'); $detalletipo = $tipoop === '9'? 'ESTADO DE CUENTA ANTERIOR PROVEEDOR' : $this->input->post('tipoop_p');
+						// Factor para registrar la nueva operacion anterior parcial
+						$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipoop,'activo'=>1]);
+						// Setear valores para la nueva op parcial
+						$dataOp['idfactor'] = !empty($factor)? $factor->idfactor : 1; $dataOp['idtipooperacion'] = $tipoop;
+						$monto = floatval($prestamo) - floatval($monto); $dataOp['interes_total'] = 0; $dataTransaccion['monto'] = $monto; $dataOp['monto'] = $monto;
+						$dataOp['interes'] = $interes; $dataOp['idproveedor'] = $idproveedor; $dataOp['liquidado'] = 0;
+						
+						// Registra la nueva operacion parcial
+						if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
+							$dataOp['idtransaccion'] = $idtran;
+							if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor')){
+								$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+								if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){
+									$status = 200; $message = 'Transacci&oacute;n registrada exitosamente';
+								}
+							}
+						}
+					}
+				}else{
+					if(floatval($inttotal > 0)){
+						if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
+							$dataOp['idtransaccion'] = $idtran; $dataOp['interes_total'] = $inttotal; $dataOp['monto'] = 0;
+							if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor')){
+								$dataOp['monto'] = $inttotal;
+								$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+								if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){ $guardado = true; }
+							}
+						}
+						if($guardado){
+							$campos = [
+								'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'), 'idusuario_modificacion' => $this->usuario->idusuario,
+								'fecha_modificacion' => date('Y-m-d H:i:s')
+							];
+							if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_proveedor')){
+								unset($campos['interes_total']);
+								if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_caja')){
+									$status = 200; $message = 'Transacci&oacute;n registrada exitosamente';
+								}
+							}
+							
+						}
+					}
+				}
+			}
+		}elseif($tipoop === '9'){
+			if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion,'transacciones')){
+				$dataOp['idtransaccion'] = $idtran;
+				if($this->Proveedores_model->registrarOp($dataOp,'movimientos_proveedor')){
+					$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+					if($this->Proveedores_model->registrarOp($dataOp,'movimientos_caja')){ $status = 200; $message = 'Transacci&oacute;n registrada exitosamente'; }
+				}
+			}
+		}
+		
+		/*if($tipo === '1' || $tipo === '7'){
 			$monto = $this->input->post('monto'); $vence = $this->input->post('fechavenc');
 			$int = ($this->input->post('interes') !== null && floatval($this->input->post('interes')) > 0)? floatval($this->input->post('interes')) : 0;
 		}elseif($tipo === '2'){
 			$presta = floatval($this->input->post('mtopago'));
 			$monto = $this->input->post('montopago'); $check = $this->input->post('checkliquidapago')!== null? 1 : 0; $int = $this->input->post('tasapago');
 			$inttotal = $this->input->post('interespago')!== null && floatval($this->input->post('interespago')) > 0? floatval($this->input->post('interespago')) : 0;
+			$montottal = $monto + $inttotal; $noact = false;
 			if($check > 0){
-				$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idpago')],['liquidado' => 1]);
+				$cobro = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['liquidado' => 1],'movimientos_proveedor');
 			}else{
 				if(floatval($monto) > 0){
-					$presta -= $monto; $parcial = true;
-					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idpago')],['monto' => $monto,'liquidado' => 1,'fecha_movimiento' => date('Y-m-d H:i:s')]);
+					$presta -= $monto; $parcial = true; $movP = false;
+					$tran = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['monto' => $monto],'transacciones');
+					if($tran) $movP = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['monto' => $monto,'liquidado' => 1,'fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_proveedor');
+					if($movP) $cobro = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['monto' => $monto,'fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_caja');
 				}else{
-					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idpago')],['fecha_movimiento' => date('Y-m-d H:i:s')]);
+					if($inttotal > 0){
+						
+					}else{
+
+					}
+					$cobro = false;
+					/*$movP = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_proveedor');
+					$cobro = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_caja');
 				}
 			}
 		}elseif($tipo === '3'){
@@ -321,7 +494,7 @@ class Main extends CI_Controller
 			$dataTransaccion = array(
 				'fecha' => $fecha,
 				'vencimiento' => $vence,
-				'monto' => $monto,
+				'monto' => $montottal,
 				'activo' => 1,
 			);
 			$dataOp = array(
@@ -330,7 +503,7 @@ class Main extends CI_Controller
 				'idproveedor' => $id,
 				'monto' => $monto,
 				'interes' => $int,
-				'liquidado' => 0,
+				'liquidado' => $check,
 				'interes_total' => $inttotal,
 				'observaciones' => $obs,
 				'idfactor' => (!empty($factor)? $factor->idfactor : 1),
@@ -342,7 +515,8 @@ class Main extends CI_Controller
 			);
 			if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet) > 0){
 				if($parcial){
-					$tipoop = $this->input->post('idtipoop_p'); $detTipo = $this->input->post('tipoop_p');
+					$tipoop = $this->input->post('idtipoop_p');
+					$detTipo = $this->input->post('idtipoop_p') === '9'? 'ESTADO DE CUENTA ANTERIOR PROVEEDOR' : $this->input->post('tipoop_p');
 					$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipoop,'activo'=>1]);
 					
 					$dataTransaccion = array(
@@ -351,7 +525,7 @@ class Main extends CI_Controller
 						'monto' => $presta,
 						'activo' => 1,
 					);
-					$dataOp = array(
+					$dataOpParcial = array(
 						'idtipooperacion' => $tipoop,
 						'idsucursal' => $suc,
 						'idproveedor' => $id,
@@ -368,7 +542,7 @@ class Main extends CI_Controller
 						'activo' => 1,
 					);
 					
-					if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$detTipo) >0){
+					if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOpParcial,$detTipo) >0){
 						$message = 'Transacci&oacute;n registrada exitosamente';
 						$status = 200;
 					}
@@ -384,18 +558,33 @@ class Main extends CI_Controller
 		}*/
 		//echo $monto + ($monto * ($int/100));
 		
-		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor'=>$id, 'idsucursal' => $suc]);
+		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor' => $idproveedor, 'idsucursal' => $suc]);
 		
 		$data = array(
 			'status' => $status,
 			'message' => $message,
 			'edocta' => $edocta,
-			/*'$factor' => $factor,
-			'check' => $check,
-			'mov' => $monto*/
 		);
 		
 		echo json_encode($data);
+	}
+	public function dataMovCaja($dataOp,$desc)
+	{
+		/* Array para insertar en movimientos caja, eliminamos las columnas no existentes */
+		unset($dataOp['idproveedor']);
+		unset($dataOp['liquidado']);
+		unset($dataOp['interes_total']);
+		
+		$op = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $desc,'activo' => 1]);
+		$factor = !empty($op)? $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : array();
+		
+		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
+		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
+		
+		echo $desc.'   ';
+		echo $factor->idfactor.'   ';
+		echo $op->idtipooperacion;
+		return $dataOp;
 	}
 	public function anulaOp()
 	{

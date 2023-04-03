@@ -366,7 +366,10 @@ $(document).ready(function (){
 			columns:[
 				{ data: 'tipo_operacion' },
 				{ data: 'monto', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
-				{ data: 'intereses', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
+				{
+					data: 'intereses',
+					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+				},
 			],
 			columnDefs: [
 				/*{ orderable: false,className:'select-checkbox',targets:0 },*/
@@ -396,11 +399,16 @@ $('#tablaCobros').on('click','tr',function(){
 				$(this).addClass('selected');
 			}
 			if($('tr.selected').length > 0){
-				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion);
-				$('#interescobro').val(parseFloat(fila.intereses).toFixed(2)), $('#montocobro').val(parseFloat(fila.monto).toFixed(2));
-				$('#mtoprestamo').val(parseFloat(fila.monto)), $('#intprestamo').val(parseFloat(fila.intereses));
+				//Valores de los input hidden
+				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion), $('#mtoprestamo').val(parseFloat(fila.monto));
+				if(parseFloat(fila.intereses) < 0)
+					$('#intprestamo').val((parseFloat(fila.intereses) * -1).toFixed(2)), $('#interescobro').val((parseFloat(fila.intereses) * -1).toFixed(2));
+				else $('#intprestamo').val(parseFloat(fila.intereses)), $('#interescobro').val(parseFloat(fila.intereses).toFixed(2));
+				
+				$('#idprestamo').val(fila.idtransaccion), $('#tasaprestamo').val(fila.tasa);
+								
+				$('#montocobro').val(parseFloat(fila.monto).toFixed(2)), $('#checkliquida').prop('checked', true);
 				$('#montocobro').removeAttr('readonly'), $('#interescobro').removeAttr('readonly'), $('#checkliquida').removeAttr('disabled');
-				$('#checkliquida').prop('checked', true), $('#idprestamo').val(fila.idmovimiento), $('#tasaprestamo').val(fila.tasa);
 			}else{
 				let tipo = $('.tipoop').prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
 				$('#form_transacciones')[0].reset();
@@ -428,11 +436,17 @@ $('#tablaPagos').on('click','tr',function(){
 				$(this).addClass('selected');
 			}
 			if($('tr.selected').length > 0){
-				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion);
-				$('#interespago').val(parseFloat(fila.intereses).toFixed(2)), $('#montopago').val(parseFloat(fila.monto).toFixed(2));
-				$('#mtopago').val(parseFloat(fila.monto)), $('#intpago').val(parseFloat(fila.intereses));
+				//Valores de los input hidden
+				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion), $('#mtopago').val(parseFloat(fila.monto));
+				if(parseFloat(fila.intereses) < 0)
+					$('#intpago').val((parseFloat(fila.intereses) * -1).toFixed(2)), $('#interespago').val((parseFloat(fila.intereses) * -1).toFixed(2));
+				else $('#intpago').val(parseFloat(fila.intereses)), $('#interespago').val(parseFloat(fila.intereses).toFixed(2));
+				
+				$('#idpago').val(fila.idtransaccion), $('#tasapago').val(fila.tasa);
+				
+				$('#montopago').val(parseFloat(fila.monto).toFixed(2)), $('#checkliquidapago').prop('checked', true);
 				$('#montopago').removeAttr('readonly'), $('#interespago').removeAttr('readonly'), $('#checkliquidapago').removeAttr('disabled');
-				$('#checkliquidapago').prop('checked', true), $('#idpago').val(fila.idmovimiento), $('#tasapago').val(fila.tasa);
+				
 				if(fila.idtipooperacion === '9'){ $('#interespago').attr('readonly', true); }
 			}else{
 				let tipo = $('.tipoop').prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
@@ -549,12 +563,12 @@ $('#form_transacciones').validate({
 		interescobro: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 		montoanterior: { required: '&nbsp;&nbsp;Monto Requerido' },
 	},
-	errorPlacement: function(error, element) {
+	errorPlacement: function(error, element){
 		error.insertAfter(element);
 	},
-	submitHandler: function (form, event) {
+	submitHandler: function (form, event){
 		event.preventDefault();
-		tipoop = $('#tipoop').val();/*let mayor = false;*/
+		let tipoop = $('#tipoop').val(), intp = parseFloat($('#intpago').val());/*let mayor = false;*/
 		if(tipoop === '3'){
 			if(parseFloat($('#montocobro').val()) === parseFloat($('#mtoprestamo').val()) && !$('#checkliquida').prop('checked')) $('#checkliquida').prop('checked', true);
 			else if(parseFloat($('#montocobro').val()) < parseFloat($('#mtoprestamo').val()) && $('#checkliquida').prop('checked')) $('#checkliquida').prop('checked', false);
@@ -562,23 +576,30 @@ $('#form_transacciones').validate({
 			if(parseFloat($('#montopago').val()) === parseFloat($('#mtopago').val()) && !$('#checkliquidapago').prop('checked')) $('#checkliquidapago').prop('checked', true);
 			else if(parseFloat($('#montopago').val()) < parseFloat($('#mtopago').val()) && $('#checkliquidapago').prop('checked')) $('#checkliquidapago').prop('checked', false);
 		}
+		
+		if(parseFloat($('#interespago').val()) > intp){
+			$('#interespago').val('');
+			alert('El pago de intereses no puede ser mayor a los intereses generados');
+			$('#interespago').focus();
+			return 0;
+		}
 		/*if(tipoop === '2'){
 			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,''), monto = $('#monto').val();
 			if(parseFloat(monto) > parseFloat(mto)){ alert('No se puede pagar un monto mayor a la deuda'), mayor = true; return false; }
 		}
 		if(!mayor){*/
-			let formData = new FormData(document.getElementById('form_transacciones'));
-			formData.set('tipodetalle',$('#tipoop').find(':selected').text());
-			//console.log(parseFloat($('#monto').val()));
+		let formData = new FormData(document.getElementById('form_transacciones'));
+		formData.set('tipodetalle',$('#tipoop').find(':selected').text());
+		//console.log(parseFloat($('#monto').val()));
 			$.ajax({
 				data: new URLSearchParams(formData).toString(),
 				url: base_url + segmento + '/transacciones/operaciones',
 				method: 'POST',
 				dataType: 'JSON',
-				beforeSend: function () {
+				beforeSend: function(){
 					//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
-					$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-					$('#form_transacciones button[type=submit]').addClass('disabled');
+					//$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+					//$('#form_transacciones button[type=submit]').addClass('disabled');
 				},
 				success: function (data) {
 					//$('.resp').html('');
@@ -922,7 +943,7 @@ $('#modalVal').bind('click', function(){
 $('.tipoop').bind('change', function(){
 	let tipo = $(this).prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex'), valid = $('#form_transacciones').validate();
 	valid.resetForm(); $('#form_transacciones .error').removeClass('error');
-	//$('#form_transacciones')[0].reset();
+	$('#form_transacciones')[0].reset();
 	$(this).prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc), $('#tipoop_p').val('');;
 	
 	if(parseInt($('.tipoop').val()) > 0) $('#opciones_p').removeClass('d-none');

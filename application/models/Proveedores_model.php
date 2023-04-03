@@ -110,6 +110,7 @@ class Proveedores_model extends CI_Model
 		
 		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
 		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
+		//$dataOp['monto'] = $mtocaja;
 		
 		$this->db->insert('movimientos_caja', $dataOp);
 		
@@ -511,14 +512,6 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function actMovProv($where, $data){
-		$this->db->db_debug = FALSE;
-		$this->db->set($data, TRUE);
-        $this->db->where($where);
-		if($this->db->update('movimientos_proveedor'))return true;
-		else return false;
-        //else { $error = $this->db->error(); return $error["code"];}
-	}
 	public function listaOperacion($where)
     {
         $this->db->select('lm.*,mp.observaciones');
@@ -530,4 +523,36 @@ class Proveedores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
     }
+	public function regCaja($dataTran,$dataOp,$tipoDet){
+		$idtran = 0;
+		$this->db->trans_begin();
+		$this->db->insert('transacciones', $dataTran);
+		
+		$idtran = $this->db->insert_id();
+		
+		$dataOp['idtransaccion'] = $idtran;
+		
+		$this->db->insert('movimientos_caja', $dataOp);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return $idtran;
+		}
+	}
+	public function registrarOp($dataOp,$tabla)
+	{
+		if($this->db->insert($tabla, $dataOp))
+			return $this->db->insert_id();
+		else return false;
+	}
+	public function actMovProv($where, $data, $tabla){
+		$this->db->db_debug = FALSE;
+		$this->db->set($data, TRUE);
+        $this->db->where($where);
+		if($this->db->update($tabla))return true;
+		else return false;
+	}
 }
