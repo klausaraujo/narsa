@@ -176,8 +176,7 @@ $(document).ready(function (){
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language: lngDataTable, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
 			columns:[
 				{
-					data: null,
-					orderable: false,
+					data: null, orderable: false,
 					render: function(data){
 						return '<div class="btn-group"><a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarIngdetalle">'+
 								'<i class="far fa-trash mx-auto" aria-hidden="true"></i></a></div>';
@@ -330,7 +329,7 @@ $(document).ready(function (){
 			columnDefs: headersVal,/* dom: botones, buttons:{dom:{container:{tag: 'div',className: 'flexcontent'},buttonLiner:{tag: null}},buttons:[
 			'copy','csv','excel','pdf','print']},*/order: [],
 		});
-		
+		/* Tabla para listar las operaciones pendientes por cobrar */
 		tablaCobros = $('#tablaCobros').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/cobros/lista',
@@ -352,7 +351,7 @@ $(document).ready(function (){
 			],
 			pageLength: 5, dom: 'tp', order: [], language: lngDataTable,
 		});
-		
+		/* Tabla para listar las operaciones pendientes por pagar */
 		tablaPagos = $('#tablaPagos').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/pagos/lista',

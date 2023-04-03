@@ -24,8 +24,7 @@ jQuery(document).ready(function($){
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
 			columns:[
 				{
-					data: null,
-					orderable: false,
+					data: null, orderable: false,
 					render: function(data){
 						let nulable = 0; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
 							data.idtipooperacion === '13') nulable = 1;
@@ -92,7 +91,7 @@ $('.sucursal').bind('change', function(){
 	});
 });
 $('.tipoCaja').bind('change', function(e){
-	let suc = $('.sucursal').prop('selectedIndex'), val = true;
+	let suc = $('.sucursal').prop('selectedIndex'), tipocaja = $('#tipoCaja').prop('selectedIndex'), inputs = $('#gastos input'), sel = $('#gastos select');
 	/*if((parseInt($('#saldoActual').val()) === 0 || parseInt($('#saldoActual').val()) < 0) && this.value !== 7){
 		alert('No hay saldo suficiente para la Sucursal elegida');
 		$('#form_caja')[0].reset();
@@ -102,11 +101,13 @@ $('.tipoCaja').bind('change', function(e){
 		//$('.obs').html('');
 		val = false;
 	}*/
-	if(this.value === '9' && val){
-		let inputs = $('#gastos input'), sel = $('#gastos select');
-		$.each(inputs,function(i,e){ $(e).val(''); });
-		$.each(sel,function(i,e){ $(e).prop('selectedIndex',0); });
-		$('#renta').attr('disabled',true);
+	$.each(inputs,function(i,e){ $(e).val(''); });
+	$.each(sel,function(i,e){ $(e).prop('selectedIndex',0); });
+	$('#renta').attr('disabled',true);
+	$('#form_caja .form_error').removeClass('form_error'), $('#form_caja select').prop('selectedIndex', 0), $('#form_caja .success').removeClass('success');
+	$('#form_caja')[0].reset(), $('.sucursal').prop('selectedIndex', suc), $('#tipoCaja').prop('selectedIndex', tipocaja);
+	
+	if(this.value === '9'){
 		if($('#gastos').css('display') == 'none' || $('#gastos').css('opacity') == 0) $('#gastos').removeClass('d-none');
 		if(!$('#checkrenta').attr('disabled')){ $('#checkrenta').attr('disabled',true); $('#checkrenta').attr('checked', false); $('#checkigv').removeAttr('disabled'); }
 	}else if(this.value !== '9'){

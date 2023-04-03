@@ -55,7 +55,7 @@ class Main extends CI_Controller
 		/* Los checks recibidos */
 		$checkrenta = $this->input->post('checkrenta')!== null? 1 : 0; $checkigv = $this->input->post('checkigv') !== null? 1 : 0;
 		
-		$factor = $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$tipo,'activo'=>1]);
+		$factor = $this->Proveedores_model->factor(['destino' => 2,'idtipooperacion' => $tipo,'activo' => 1]);
 		if($this->input->post('tiporegistro') === 'registrar'){
 			$this->session->set_flashdata('flashMessage', 'No se pudo registrar la <b>Operaci&oacute;n</b>');
 			$dataTran = array(

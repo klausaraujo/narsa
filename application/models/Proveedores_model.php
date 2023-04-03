@@ -110,7 +110,6 @@ class Proveedores_model extends CI_Model
 		
 		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
 		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
-		//$dataOp['monto'] = $mtocaja;
 		
 		$this->db->insert('movimientos_caja', $dataOp);
 		

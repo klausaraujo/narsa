@@ -443,121 +443,6 @@ class Main extends CI_Controller
 			}
 		}
 		
-		/*if($tipo === '1' || $tipo === '7'){
-			$monto = $this->input->post('monto'); $vence = $this->input->post('fechavenc');
-			$int = ($this->input->post('interes') !== null && floatval($this->input->post('interes')) > 0)? floatval($this->input->post('interes')) : 0;
-		}elseif($tipo === '2'){
-			$presta = floatval($this->input->post('mtopago'));
-			$monto = $this->input->post('montopago'); $check = $this->input->post('checkliquidapago')!== null? 1 : 0; $int = $this->input->post('tasapago');
-			$inttotal = $this->input->post('interespago')!== null && floatval($this->input->post('interespago')) > 0? floatval($this->input->post('interespago')) : 0;
-			$montottal = $monto + $inttotal; $noact = false;
-			if($check > 0){
-				$cobro = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['liquidado' => 1],'movimientos_proveedor');
-			}else{
-				if(floatval($monto) > 0){
-					$presta -= $monto; $parcial = true; $movP = false;
-					$tran = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['monto' => $monto],'transacciones');
-					if($tran) $movP = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['monto' => $monto,'liquidado' => 1,'fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_proveedor');
-					if($movP) $cobro = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['monto' => $monto,'fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_caja');
-				}else{
-					if($inttotal > 0){
-						
-					}else{
-
-					}
-					$cobro = false;
-					/*$movP = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_proveedor');
-					$cobro = $this->Proveedores_model->actMovProv(['idtransaccion'=>$this->input->post('idpago')],['fecha_movimiento' => date('Y-m-d H:i:s')],'movimientos_caja');
-				}
-			}
-		}elseif($tipo === '3'){
-			$presta = floatval($this->input->post('mtoprestamo'));
-			$monto = $this->input->post('montocobro'); $check = $this->input->post('checkliquida')!== null? 1 : 0; $int = $this->input->post('tasaprestamo');
-			$inttotal = $this->input->post('interescobro')!== null && floatval($this->input->post('interescobro')) > 0? floatval($this->input->post('interescobro')) : 0;
-			if($check > 0){
-				$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['liquidado' => 1]);
-			}else{
-				if(floatval($monto) > 0){
-					$presta -= $monto; $parcial = true;
-					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['monto' => $monto,'liquidado' => 1,'fecha_movimiento' => date('Y-m-d H:i:s')]);
-				}else{
-					$cobro = $this->Proveedores_model->actMovProv(['idmovimiento'=>$this->input->post('idprestamo')],['fecha_movimiento' => date('Y-m-d H:i:s')]);
-				}
-			}
-		}elseif($tipo === '9'){
-			$monto = $this->input->post('montoanterior'); $tipoDet = 'ESTADO DE CUENTA ANTERIOR PROVEEDOR';
-		}
-		
-		if($cobro){
-			$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipo,'activo'=>1]);
-			
-			$dataTransaccion = array(
-				'fecha' => $fecha,
-				'vencimiento' => $vence,
-				'monto' => $montottal,
-				'activo' => 1,
-			);
-			$dataOp = array(
-				'idtipooperacion' => $tipo,
-				'idsucursal' => $suc,
-				'idproveedor' => $id,
-				'monto' => $monto,
-				'interes' => $int,
-				'liquidado' => $check,
-				'interes_total' => $inttotal,
-				'observaciones' => $obs,
-				'idfactor' => (!empty($factor)? $factor->idfactor : 1),
-				'fecha_vencimiento' => $vence,
-				'fecha_movimiento' => $fecha,
-				'idusuario_registro' => $this->usuario->idusuario,
-				'fecha_registro' => $fecha,
-				'activo' => 1,
-			);
-			if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoDet) > 0){
-				if($parcial){
-					$tipoop = $this->input->post('idtipoop_p');
-					$detTipo = $this->input->post('idtipoop_p') === '9'? 'ESTADO DE CUENTA ANTERIOR PROVEEDOR' : $this->input->post('tipoop_p');
-					$factor = $this->Proveedores_model->factor(['destino'=>1,'idtipooperacion'=>$tipoop,'activo'=>1]);
-					
-					$dataTransaccion = array(
-						'fecha' => date('Y-m-d'),
-						'vencimiento' => date('Y-m-d'),
-						'monto' => $presta,
-						'activo' => 1,
-					);
-					$dataOpParcial = array(
-						'idtipooperacion' => $tipoop,
-						'idsucursal' => $suc,
-						'idproveedor' => $id,
-						'monto' => $presta,
-						'interes' => $int,
-						'liquidado' => 0,
-						'interes_total' => 0,
-						'observaciones' => $obs,
-						'idfactor' => (!empty($factor)? $factor->idfactor : 1),
-						'fecha_vencimiento' => date('Y-m-d'),
-						'fecha_movimiento' => date('Y-m-d'),
-						'idusuario_registro' => $this->usuario->idusuario,
-						'fecha_registro' => date('Y-m-d'),
-						'activo' => 1,
-					);
-					
-					if($this->Proveedores_model->regTransaccion($dataTransaccion,$dataOpParcial,$detTipo) >0){
-						$message = 'Transacci&oacute;n registrada exitosamente';
-						$status = 200;
-					}
-				}else{
-					$message = 'Transacci&oacute;n registrada exitosamente';
-					$status = 200;
-				}
-			}
-		}
-		/*if($tipo === '1' || $tipo === '2' || $tipo === '4'){
-			$s = $this->saldoCaja($this->input->post('sucursal'));
-			if($s < ($monto + ($monto * ($int/100)))){ $saldo = false; $status = 100; $message = 'El saldo en Caja para la sucursal elegida no es suficiente'; }
-		}*/
-		//echo $monto + ($monto * ($int/100));
-		
 		$edocta = $this->Proveedores_model->traeEdoCta(['idproveedor' => $idproveedor, 'idsucursal' => $suc]);
 		
 		$data = array(
@@ -576,7 +461,7 @@ class Main extends CI_Controller
 		unset($dataOp['interes_total']);
 		
 		$op = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $desc,'activo' => 1]);
-		$factor = !empty($op)? $this->Proveedores_model->factor(['destino'=>2,'idtipooperacion'=>$op->idtipooperacion,'activo'=>1]) : array();
+		$factor = !empty($op)? $this->Proveedores_model->factor(['destino' => 2, 'idtipooperacion' => $op->idtipooperacion, 'activo' => 1]) : array();
 		
 		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
 		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
