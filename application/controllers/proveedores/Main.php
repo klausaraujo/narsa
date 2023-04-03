@@ -581,9 +581,6 @@ class Main extends CI_Controller
 		!empty($op)? $dataOp['idtipooperacion'] = $op->idtipooperacion : '';
 		!empty($factor)? $dataOp['idfactor'] = $factor->idfactor : '';
 		
-		echo $desc.'   ';
-		echo $factor->idfactor.'   ';
-		echo $op->idtipooperacion;
 		return $dataOp;
 	}
 	public function anulaOp()
