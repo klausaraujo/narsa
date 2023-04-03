@@ -40,8 +40,8 @@ jQuery(document).ready(function($){
 							}
 						}
 						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
-						let hrefPdf = btnPdf && nulable? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
-						if(! nulable){ hrefPdf = 'href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'; }
+						let hrefPdf = btnPdf? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						//if(! nulable){ hrefPdf = 'href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'; }
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'">'+
