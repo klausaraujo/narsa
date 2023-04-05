@@ -90,16 +90,30 @@ $(document).ready(function (){
 				},
 				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
-					data: 'monto_factor_final',
-					className: 'text-right',
-					render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); }
+					data: 'monto_factor_final', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
-				{ data: 'intereses', className: 'text-right', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
-				{ data: 'tasa', className: 'text-right', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
 				{
-					data: 'interes_pagado',
-					className: 'text-right',
-					render: function(data,type,row,meta){ let number = parseFloat(data); if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number); }
+					data: 'intereses', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{
+					data: 'tasa', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{
+					data: 'interes_pagado', className: 'text-right',
+					render: function(data,type,row,meta){
+						//let number = 0; if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number);
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); if(number < 0) number *= -1 }
+						return number.toLocaleString('es-PE', opt);
+					}
 				},
 				/*{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return ceros( formato, 10 ); } },
 				{ data: 'usuario' },
@@ -184,35 +198,41 @@ $(document).ready(function (){
 				},
 				{ data: 'articulo' },
 				{
-					data: 'cantidad',
-					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'cantidad', className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
 				/*{ data: 'sucursal' },*/
 				{
-					data: 'humedad',
-					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'humedad', className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
 				{
-					data: 'calidad',
-					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'calidad', className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
 				{ 
-					data: 'cantidad_valorizada',
-					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'cantidad_valorizada', className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
 				{
-					data: 'costo',
-					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'costo', className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
 				{
-					data: 'importe',
-					className: 'text-left',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'importe', className: 'text-left',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
 			],
 			columnDefs:[
@@ -238,11 +258,9 @@ $(document).ready(function (){
 				{ data: 'anio_guia', visible: (window.innerWidth < 674? false : true), },
 				{ data: 'numero', render:function(data){ return ceros( data, 6 );}, visible: (window.innerWidth < 674? false : true), },{ data: 'articulo' },
 				{
-					data: 'cantidad',
-					render: function(data){
-						let number = parseFloat(data);
-						number = number.toFixed(2);
-						return isNaN(number)? 0 : number.toLocaleString('es-PE');
+					data: 'cantidad', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
@@ -308,9 +326,10 @@ $(document).ready(function (){
 					data: 'monto',
 					className: 'text-left',
 					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 						switch(row.activo){
-							case '1': return isNaN(data)? '0.00' : formatMoneda(data); break;
-							case '0': return '<span class="text-danger">'+isNaN(data)? '0.00' : formatMoneda(data)+'</span>'; break;
+							case '1': return number.toLocaleString('es-PE', opt); break;
+							case '0': return '<span class="text-danger">'+return number.toLocaleString('es-PE', opt)+'</span>'; break;
 						}
 					}
 				},
@@ -342,8 +361,18 @@ $(document).ready(function (){
 			},
 			columns:[
 				{ data: 'tipo_operacion' },
-				{ data: 'monto', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
-				{ data: 'intereses', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
+				{
+					data: 'monto', className: 'text-right',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+				{
+					data: 'intereses', className: 'text-right',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				}
 			],
 			columnDefs: [
 				/*{ orderable: false,className:'select-checkbox',targets:0 },*/
@@ -364,11 +393,18 @@ $(document).ready(function (){
 			},
 			columns:[
 				{ data: 'tipo_operacion' },
-				{ data: 'monto', render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); } },
 				{
-					data: 'intereses',
-					render: function(data,type,row,meta){ let number = parseFloat(data); number = number.toFixed(2); return isNaN(number)? '0.00' : number.toLocaleString('es-PE'); }
+					data: 'monto', className: 'text-right',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
 				},
+				{
+					data: 'intereses', className: 'text-right',
+					render: function(data){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				}
 			],
 			columnDefs: [
 				/*{ orderable: false,className:'select-checkbox',targets:0 },*/
@@ -533,7 +569,8 @@ $('#form_proveedor').validate({
 		$('#form_proveedor button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
 		$('#form_proveedor button[type=submit]').addClass('disabled');
 		btnCancelar.addClass('disabled');
-		return true;
+		//return true;
+		form.submit();
 	}
 });
 $('#form_transacciones').validate({
@@ -597,8 +634,8 @@ $('#form_transacciones').validate({
 				dataType: 'JSON',
 				beforeSend: function(){
 					//$('.resp').html('<i class="fas fa-spinner fa-pulse fa-2x"></i>');
-					//$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-					//$('#form_transacciones button[type=submit]').addClass('disabled');
+					$('#form_transacciones button[type=submit]').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+					$('#form_transacciones button[type=submit]').addClass('disabled');
 				},
 				success: function (data) {
 					//$('.resp').html('');

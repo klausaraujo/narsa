@@ -85,7 +85,7 @@ $(document).ready(function (){
 				{ data: 'idtransaccion', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'medio_pago' },{ data: 'sucursal' },
 				{ data: 'nombre' },{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
 				{
-					data: 'monto', className: 'text-left',
+					data: 'monto', className: 'text-right',
 					render: function(data){
 						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
@@ -274,14 +274,11 @@ $('#form_pago_venta').validate({
 				dataType: 'JSON',
 				beforeSend: function () { 
 					$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-					$('#generarSal').addClass('disabled');
-					$('#cancelSal').addClass('disabled');
+					$('#generarSal').addClass('disabled'), $('#cancelSal').addClass('disabled');
 				},
 				success: function (data) {
 					//console.log(data);
-					$('#generarSal').html('Generar Venta');
-					$('#generarSal').removeClass('disabled');
-					$('#cancelSal').removeClass('disabled');
+					$('#generarSal').html('Generar Venta'), $('#generarSal').removeClass('disabled'), $('#cancelSal').removeClass('disabled');
 					if(parseInt(data.status) === 200){
 						$('#modalVentas').modal('hide');
 						$('html, body').animate({ scrollTop: 0 }, 'fast');
@@ -472,6 +469,34 @@ $('#checkigv').bind('click',function(e){
 	}else{
 		$('#igv').val(''), $('#imp_igv').val(0), $('#total_vta').val(''), $('#base_imponible').val(mto), $('#baseImp').val(formatMoneda(mto));
 		$('#totalvta').val(formatMoneda(mto)), $('#total_vta').val(mto);
+	}
+});
+$('#form_cliente').validate({
+	errorClass: 'form_error',
+	validClass: 'success',
+	rules: {
+		tipodoc: { required: function (){ if ($('#tipodoc').css('display') != 'none') return true; else return false; } },
+		/*rucvalor: { required: function () { if ($('#rucvalor').css('display') != 'none') return true; else return false; } },
+		razonSoc: { required: function () { if ($('#razonSoc').css('display') != 'none') return true; else return false; } },
+		tipoComp: { required: function () { if ($('#tipoComp').css('display') != 'none') return true; else return false; } },
+		serie: { required: function () { if ($('#serie').css('display') != 'none') return true; else return false; } },
+		num: { required: function () { if ($('#num').css('display') != 'none') return true; else return false; } },
+		renta: { required: function () { if(!$('#renta').attr('disabled') && $('#renta').css('display') != 'none') return true; else return false; } },
+		baseImp: { required: function () { if ($('#baseImp').css('display') != 'none') return true; else return false; } },*/
+	},
+	messages: {
+		tipodoc: { required: '&nbsp;&nbsp;Tipo documento requerido' },
+		doc: { required: '' }, ruc: { required: '' }, doc: { required: '' }, nombres: { required: '' }, direccion: { required: '' },
+		dep: { required: '' }, pro: { required: '' }, dis: { required: '' }, zona: { required: '' },
+	},
+	errorPlacement: function(error, element) {
+		if (element.attr('name') == 'tipodoc') error.insertAfter(element);
+	},
+	submitHandler: function (form, event) {
+		$('#btnEnviar').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$('#btnEnviar').addClass('disabled');
+		$('.btn-cancelar').addClass('disabled');
+		form.submit();
 	}
 });
 $('#modalVtas').on('click',function(){
