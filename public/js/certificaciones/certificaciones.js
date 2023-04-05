@@ -229,19 +229,22 @@ $('#form_certificado').validate({
 		sucursalCert: { required: function () { if ($('#sucursalCert').css('display') != 'none') return true; else return false; } },
 		fecha: { required: function () { if ($('#fecha').css('display') != 'none') return true; else return false; } },
 		h2o: { required: function () { if ($('#h2o').css('display') != 'none') return true; else return false; } },
-		altitud: { required: function () { if ($('#altitud').css('display') != 'none') return true; else return false; } },
+		//altitud: { required: function () { if ($('#altitud').css('display') != 'none') return true; else return false; } },
 		proceso: { required: function () { if ($('#proceso').css('display') != 'none') return true; else return false; } },
 		densidad: { required: function () { if ($('#densidad').css('display') != 'none') return true; else return false; } },
 		variedad: { required: function () { if ($('#variedad').css('display') != 'none') return true; else return false; } },
+		//detalle_otros: { required: function () { if ($('#detalle_otros').css('display') != 'none' || $('#checkotros').prop('checked')) return true; else return false; } },
 	},
 	messages: {
 		productor: { required: 'Debe Elegir un Productor' },
-		sucursalCert: { required: '' }, fecha: { required: '' }, h2o: { required: '' }, altitud: { required: '' },
+		sucursalCert: { required: '' }, fecha: { required: '' }, h2o: { required: '' },//altitud: { required: '' },
 		proceso: { required: '' }, densidad: { required: '' }, variedad: { required: '' },
+		//detalle_otros: { required: '&nbsp;&nbsp;Debe indicar el detalle' },
 	},
 	errorPlacement: function(error, element) {
 		let boton = $('#buscar');
 		if (element.attr('name') == 'productor') error.insertAfter(boton);
+		//if (element.attr('name') == 'detalle_otros') error.insertAfter(element);
 		//else error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
@@ -310,4 +313,12 @@ $('#guardaCatadores').bind('click', function(){
 $('#malla_gen').on('change', function(){
 	$('#malla16').val(''), $('#malla15').val(''), $('#malla14').val(''), $('#mallabase').val(''), $('#grtotmalla').val('');
 	$('#mallaporc').val(''), $('#malla15porc').val(''), $('#malla14porc').val(''), $('#mallabaseporc').val(''), $('#portotmalla').val('');
+});
+$('#checkotros').bind('click', function(){
+	console.log($(this).prop('checked'));
+	console.log(this.value);
+	if($(this).prop('checked')) $('#detalle_otros').removeAttr('disabled');
+	else{ $('#detalle_otros').attr('disabled', true); $('#detalle_otros').focus(); }
+	console.log($('#detalle_otros').val().trim().length);
+	
 });

@@ -102,6 +102,102 @@
 												</div>
 											</div>
 										</div>
+										<hr>
+										<div class="row my-3">
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkbourbon" id="checkbourbon" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkbourbon">Bourbon</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checktipica" id="checktipica" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checktipica">Tipica</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcaturra" id="checkcaturra" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcaturra">Caturra</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkpache" id="checkpache" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkpache">Pache</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcatimor" id="checkcatimor" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcatimor">Catimor</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcatuai" id="checkcatuai" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcatuai">Catuai</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkpacamara" id="checkpacamara" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkpacamara">Pacamara</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkgesha" id="checkgesha" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkgesha">Gesha</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkmarcellesa" id="checkmarcellesa" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkmarcellesa">Marcellesa</label>
+												</div>
+											</div>
+											<div class="col-sm-6 col-md-3 col-lg-2 pr-lg-0 my-lg-4">
+												<div class="custom-control custom-switch px-lg-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcolombia" id="checkcolombia" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcolombia">Gran Colombia</label>
+												</div>
+											</div>
+											<div class="col-sm-6 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcosta" id="checkcosta" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcosta">Costa Rica</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checktupo" id="checktupo" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checktupo">Tupo</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checklimani" id="checklimani" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checklimani">Limani</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch px-lg-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkmaragogipe" id="checkmaragogipe" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkmaragogipe">Maragogipe</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkotros" id="checkotros" />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkotros">Otros</label>
+												</div>
+											</div>
+											<div class="col-sm-8 col-md-3 col-lg-6">
+												<input type="text" name="detalle_otros" id="detalle_otros" class="form-control" disabled />
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>

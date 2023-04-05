@@ -106,6 +106,119 @@
 												</div>
 											</div>
 										</div>
+										<hr>
+										<div class="row my-3">
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkbourbon" id="checkbourbon"
+														<?=$certificado->bourbon === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkbourbon">Bourbon</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checktipica" id="checktipica"
+														<?=$certificado->tipica === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checktipica">Tipica</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcaturra" id="checkcaturra"
+														<?=$certificado->caturra === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcaturra">Caturra</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkpache" id="checkpache"
+														<?=$certificado->pache === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkpache">Pache</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcatimor" id="checkcatimor"
+														<?=$certificado->catimor === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcatimor">Catimor</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcatuai" id="checkcatuai"
+														<?=$certificado->catuai === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcatuai">Catuai</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkpacamara" id="checkpacamara"
+														<?=$certificado->pacamara === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkpacamara">Pacamara</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkgesha" id="checkgesha"
+														<?=$certificado->gesha === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkgesha">Gesha</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkmarcellesa" id="checkmarcellesa"
+														<?=$certificado->marcellesa === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkmarcellesa">Marcellesa</label>
+												</div>
+											</div>
+											<div class="col-sm-6 col-md-3 col-lg-2 pr-lg-0 my-lg-4">
+												<div class="custom-control custom-switch px-lg-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcolombia" id="checkcolombia"
+														<?=$certificado->gran_colombia === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcolombia">Gran Colombia</label>
+												</div>
+											</div>
+											<div class="col-sm-6 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkcosta" id="checkcosta"
+														<?=$certificado->costa_rica_95 === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkcosta">Costa Rica</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2 my-lg-4">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checktupo" id="checktupo"
+														<?=$certificado->tupo === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checktupo">Tupo</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checklimani" id="checklimani"
+														<?=$certificado->limani === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checklimani">Limani</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch px-lg-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkmaragogipe" id="checkmaragogipe"
+														<?=$certificado->maragogipe === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkmaragogipe">Maragogipe</label>
+												</div>
+											</div>
+											<div class="col-sm-4 col-md-3 col-lg-2">
+												<div class="custom-control custom-switch pr-0 d-inline ml-2">
+													<input type="checkbox" class="custom-control-input" name="checkotros" id="checkotros"
+														<?=$certificado->otros === '1'? ' checked': '';?> />
+													<label class="custom-control-label mt-3 mt-lg-0" for="checkotros">Otros</label>
+												</div>
+											</div>
+											<div class="col-sm-8 col-md-3 col-lg-6">
+												<input type="text" name="detalle_otros" id="detalle_otros" class="form-control" required=""
+													<?=$certificado->otros === '1'? '' : 'disabled';?> value="<?=$certificado->otros_detalle?>" />
+												<div class="invalid-feedback">Debe indicar el detalle</div>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>
