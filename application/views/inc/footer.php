@@ -176,7 +176,6 @@
 		<script src="<?=base_url()?>public/js/mapa/map.js"></script>
 		<script>
 			let map = null;
-			console.log(<?=$lat?>);
 			window.onload = function(){
 				var opt = {lat: parseFloat(<?=$lat?>), lng: parseFloat(<?=$lng?>),zoom: 16};
 				<?/*if($this->uri->segment(2) === 'editar' || $this->uri->segment(3) === 'editar'){?> $('.ajaxMap').removeClass('d-none');<?}*/?>
