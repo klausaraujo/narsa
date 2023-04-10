@@ -85,7 +85,20 @@
 					<td colspan="3"><b>ZONA</b></td><td colspan="3"><?=$certificado->sucursal?></td><td colspan="3"><b>PROCESO</b></td><td colspan="3"><?=$certificado->proceso?></td>
 				</tr>
 				<tr style="font-size:10px">
-					<td colspan="3"><b>VARIEDAD</b></td><td colspan="3"><?=$certificado->variedad?></td><td colspan="3"><b>DENSIDAD</b></td><td colspan="3"><?=$certificado->densidad?></td>
+					<td colspan="3"><b>DENSIDAD</b></td><td colspan="3"><?=$certificado->densidad?></td><td style="border:0" colspan="6">&nbsp;</td>
+				</tr>
+				<tr style="font-size:10px">
+					<td colspan="3"><b>VARIEDAD</b></td>
+					<td colspan="9" style="text-align:left;padding-left:3mm;padding-right:3mm">
+					<?
+						$variedad = ($certificado->bourbon? 'BOURBON, ': '').($certificado->tipica? 'TIPICA, ': '').($certificado->caturra? 'CATURRA, ': '').($certificado->pache? 'PACHE, ': '').
+						($certificado->catimor? 'CATIMOR, ': '').($certificado->catuai? 'CATUAI, ': '').($certificado->pacamara? 'PACAMARA, ': '').($certificado->gesha? 'GESHA, ': '').
+						($certificado->marcellesa? 'MARCELLESA, ': '').($certificado->gran_colombia? 'GRAN COLOMBIA, ': '').($certificado->costa_rica_95? 'COSTA RICA 95, ': '').
+						($certificado->tupo? 'TUPO, ': '').($certificado->limani? 'LIMANI, ': '').($certificado->maragogipe? 'MARAGOGIPE, ': '').
+						($certificado->otros? $certificado->otros_detalle: '');
+						echo strtoupper(trim($variedad, ', '));
+					?>
+					</td>
 				</tr>
 			</table>
 			
@@ -305,10 +318,12 @@
 			<?		}	?>
 				</tr>
 			</table>
-			<?	}	?>
-
+			<?	}
+			// Si el grafico esta guardado mostrarlo en la segunda pagina
+			if($certificado->ruta_grafico){?>
 			<div style="page-break-after:always;"></div>
-			<img style="margin-left:7cm;width:7cm" src="<?=base_url()?>public/images/graficos/<?=$certificado->ruta_grafico?>" />
+			<img style="width:12cm;margin-left:4.5cm" src="<?=base_url()?>public/images/graficos/<?=$certificado->ruta_grafico?>" />
+			<?}?>
         </main>
     </body>
 </html>
