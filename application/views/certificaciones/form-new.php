@@ -42,7 +42,7 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="h2o">&nbsp;&nbsp;H2O verde (ISO):</label>
 											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
 												<div class="row">
-													<input type="text" class="form-control h2o moneda" name="h2o" id="h2o" required="" />
+													<input type="text" class="form-control h2o moneda" name="h2o" id="h2o" required="" autocomplete="off" />
 													<div class="invalid-feedback">Campo Requerido</div>
 												</div>
 											</div>
@@ -70,35 +70,36 @@
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="densidad">&nbsp;&nbsp;Densidad:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
-													<input type="text" class="form-control densidad moneda" name="densidad" id="densidad" required="" />
-													<div class="invalid-feedback">Debe indicar la Densidad</div>
+													<input type="text" class="form-control densidad moneda" name="densidad" id="densidad" autocomplete="off" />
 												</div>
 											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="variedad">&nbsp;&nbsp;Variedad:</label>
+											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="finca">&nbsp;&nbsp;Finca:</label>
 											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
 												<div class="row">
-													<select class="form-control variedad" name="variedad" id="variedad" required="">
-													<? foreach($variedad as $row): ?>
-														<option value="<?=$row->idvariedad;?>" ><?=$row->variedad;?></option>
-													<? endforeach;	?>
+													<input type="text" class="form-control mayusc" name="finca" id="finca" readonly />
+												</div>
+											</div>
+											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0 d-none">
+												<div class="row">
+													<select class="form-control variedad" name="variedad" id="variedad">
+														<option value="1" >BLEND</option>
 													</select>
-													<div class="invalid-feedback">Debe elegir la Variedad</div>
 												</div>
 											</div>
 										</div>
-										<div class="row mt-3">
+										<!--<div class="row mt-3">
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="finca">&nbsp;&nbsp;Finca:</label>
 											<div class="col-sm-6 col-lg-3">
 												<div class="row">
 													<input type="text" class="form-control mayusc" name="finca" id="finca" readonly />
 												</div>
 											</div>
-										</div>
+										</div>-->
 										<div class="row mt-3">
 											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
 											<div class="col-sm-6 col-lg-8">
 												<div class="row">
-													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" />
+													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones" autocomplete="off" />
 												</div>
 											</div>
 										</div>
@@ -195,7 +196,8 @@
 												</div>
 											</div>
 											<div class="col-sm-8 col-md-3 col-lg-6">
-												<input type="text" name="detalle_otros" id="detalle_otros" class="form-control" disabled />
+												<input type="text" name="detalle_otros" id="detalle_otros" class="form-control mayusc" autocomplete="off" required="" disabled />
+												<div class="invalid-feedback">Debe indicar el detalle</div>
 											</div>
 										</div>
 									</div>

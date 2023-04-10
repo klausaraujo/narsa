@@ -123,7 +123,7 @@ class Proveedores_model extends CI_Model
 	}
 	public function listaOperaciones($data)
     {
-        $this->db->select('*');
+        $this->db->select('*,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
         $this->db->from('lista_movimientos_proveedor');
 		$this->db->where($data);
 		$this->db->order_by('idmovimiento', 'DESC');
@@ -144,7 +144,7 @@ class Proveedores_model extends CI_Model
     }
 	public function listaIngresos($data)
     {
-        $this->db->select('ge.*,su.sucursal,pr.nombre');
+        $this->db->select('ge.*,DATE_FORMAT(ge.fecha,"%d/%m/%Y") as fecha_guia,su.sucursal,pr.nombre');
         $this->db->from('guia_entrada ge');
 		$this->db->join('sucursal su','su.idsucursal = ge.idsucursal');
 		$this->db->join('proveedor pr','pr.idproveedor = ge.idproveedor');
@@ -155,7 +155,7 @@ class Proveedores_model extends CI_Model
     }
 	public function listaValorizaciones($where)
     {
-        $this->db->select('va.*,su.sucursal,pr.nombre,monto');
+        $this->db->select('va.*,su.sucursal,pr.nombre,monto,DATE_FORMAT(va.fecha,"%d/%m/%Y") as fecha_val');
         $this->db->from('valorizacion va');
 		$this->db->join('sucursal su','su.idsucursal = va.idsucursal');
 		$this->db->join('proveedor pr','pr.idproveedor = va.idproveedor');

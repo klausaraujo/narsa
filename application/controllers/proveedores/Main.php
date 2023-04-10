@@ -109,9 +109,10 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$id = $this->input->get('id');
 		$hOperaciones = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'Nro. Oper.', 'targets' => 1],'2'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 2],
-			'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Productor', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
-			'6'=>['title' => 'Inter&eacute;s', 'targets' => 6],'7'=>['title' => 'Tasa (%)', 'targets' => 7],'8'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 8],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'Nro. Oper.', 'targets' => 1],'2'=>['title' => 'Fecha', 'targets' => 2],
+			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Productor', 'targets' => 5],
+			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Inter&eacute;s', 'targets' => 7],'8'=>['title' => 'Tasa (%)', 'targets' => 8],
+			'9'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 9],
 			/*'9'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],*/
 		);
 		$hIngresos = array(

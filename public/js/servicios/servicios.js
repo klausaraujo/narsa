@@ -58,7 +58,7 @@ jQuery(document).ready(function($){
 				{
 					data: 'monto_factor_final', className: 'text-right',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{ data: 'fecha_registro' },

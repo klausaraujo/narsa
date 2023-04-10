@@ -231,14 +231,13 @@ $('#form_certificado').validate({
 		h2o: { required: function () { if ($('#h2o').css('display') != 'none') return true; else return false; } },
 		//altitud: { required: function () { if ($('#altitud').css('display') != 'none') return true; else return false; } },
 		proceso: { required: function () { if ($('#proceso').css('display') != 'none') return true; else return false; } },
-		densidad: { required: function () { if ($('#densidad').css('display') != 'none') return true; else return false; } },
-		variedad: { required: function () { if ($('#variedad').css('display') != 'none') return true; else return false; } },
+		//densidad: { required: function () { if ($('#densidad').css('display') != 'none') return true; else return false; } },
+		//variedad: { required: function () { if ($('#variedad').css('display') != 'none') return true; else return false; } },
 		//detalle_otros: { required: function () { if ($('#detalle_otros').css('display') != 'none' || $('#checkotros').prop('checked')) return true; else return false; } },
 	},
 	messages: {
 		productor: { required: 'Debe Elegir un Productor' },
-		sucursalCert: { required: '' }, fecha: { required: '' }, h2o: { required: '' },//altitud: { required: '' },
-		proceso: { required: '' }, densidad: { required: '' }, variedad: { required: '' },
+		sucursalCert: { required: '' }, fecha: { required: '' }, h2o: { required: '' }, proceso: { required: '' },
 		//detalle_otros: { required: '&nbsp;&nbsp;Debe indicar el detalle' },
 	},
 	errorPlacement: function(error, element) {
@@ -315,10 +314,11 @@ $('#malla_gen').on('change', function(){
 	$('#mallaporc').val(''), $('#malla15porc').val(''), $('#malla14porc').val(''), $('#mallabaseporc').val(''), $('#portotmalla').val('');
 });
 $('#checkotros').bind('click', function(){
-	console.log($(this).prop('checked'));
-	console.log(this.value);
+	//console.log($(this).prop('checked'));
+	//console.log(this.value);
+	$('#detalle_otros').val('');
 	if($(this).prop('checked')) $('#detalle_otros').removeAttr('disabled');
 	else{ $('#detalle_otros').attr('disabled', true); $('#detalle_otros').focus(); }
-	console.log($('#detalle_otros').val().trim().length);
+	//console.log($('#detalle_otros').val().trim().length);
 	
 });

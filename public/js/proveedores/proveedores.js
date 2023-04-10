@@ -88,30 +88,31 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{	data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'sucursal' },{ data: 'nombre' },
+				{ data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); } },{ data: 'fecha' },{ data: 'tipo_operacion' },
+				{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
 					data: 'monto_factor_final', className: 'text-right',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'intereses', className: 'text-right',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'tasa', className: 'text-right',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'interes_pagado', className: 'text-right',
 					render: function(data,type,row,meta){
 						//let number = 0; if(number < 0) number *= -1; return isNaN(number)? '0.00' : formatMoneda(number);
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); if(number < 0) number *= -1 }
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); if(number < 0) number *= -1 }
 						return number.toLocaleString('es-PE', opt);
 					}
 				},
@@ -166,8 +167,7 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
-				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
+				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, }, { data: 'fecha_guia'},
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{
 					data: 'activo',
@@ -200,38 +200,38 @@ $(document).ready(function (){
 				{
 					data: 'cantidad', className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				/*{ data: 'sucursal' },*/
 				{
 					data: 'humedad', className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'calidad', className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{ 
 					data: 'cantidad_valorizada', className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'costo', className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'importe', className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 			],
@@ -255,12 +255,11 @@ $(document).ready(function (){
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language: lngDataTable, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
 			columns:[
 				{ data: 'idarticulo' },{ data: 'idguia' },
-				{ data: 'anio_guia', visible: (window.innerWidth < 674? false : true), },
-				{ data: 'numero', render:function(data){ return ceros( data, 6 );}, visible: (window.innerWidth < 674? false : true), },{ data: 'articulo' },
+				{ data: 'anio_guia' }, { data: 'numero', render:function(data){ return ceros( data, 6 );} },{ data: 'articulo' },
 				{
 					data: 'cantidad', className: 'text-right',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
@@ -319,17 +318,16 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idvalorizacion' },{ data: 'anio_valorizacion' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },
-				{ data: 'fecha', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
+				{ data: 'idvalorizacion' },{ data: 'anio_valorizacion' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, },{ data: 'fecha_val' },
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{ 
 					data: 'monto',
 					className: 'text-left',
 					render: function(data,type,row,meta){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data);
 						switch(row.activo){
 							case '1': return number.toLocaleString('es-PE', opt); break;
-							case '0': return '<span class="text-danger">'+return number.toLocaleString('es-PE', opt)+'</span>'; break;
+							case '0': return '<span class="text-danger">'+number.toLocaleString('es-PE', opt)+'</span>'; break;
 						}
 					}
 				},
@@ -364,13 +362,13 @@ $(document).ready(function (){
 				{
 					data: 'monto', className: 'text-right',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'intereses', className: 'text-right',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				}
 			],
@@ -396,13 +394,13 @@ $(document).ready(function (){
 				{
 					data: 'monto', className: 'text-right',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'intereses', className: 'text-right',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				}
 			],

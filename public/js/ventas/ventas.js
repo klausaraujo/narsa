@@ -81,13 +81,12 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idmovimiento' },
-				{ data: 'idtransaccion', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },{ data: 'medio_pago' },{ data: 'sucursal' },
-				{ data: 'nombre' },{ data: 'fecha_movimiento', render: function(data){ let fecha = new Date(data), formato = fecha.toLocaleDateString(); return formato; } },
+				{ data: 'idmovimiento' }, { data: 'idtransaccion', render: function(data){ return ceros( data, 6 ); }, },{ data: 'tipo_operacion' },
+				{ data: 'medio_pago' },{ data: 'sucursal' },{ data: 'nombre' },{ data: 'fecha' },
 				{
 					data: 'monto', className: 'text-right',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
@@ -121,31 +120,31 @@ $(document).ready(function (){
 				{
 					data: 'calidad', className: 'text-left',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'humedad', className: 'text-left',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'tasa', className: 'text-left',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{ 
 					data: 'cantidad', className: 'text-left',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 				{
 					data: 'costo', className: 'text-left',
 					render: function(data){
-						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 			],

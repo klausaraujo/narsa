@@ -14,6 +14,7 @@
 								</div>
 							<!--</div>-->
 							<!-- Tab panes -->
+							<!--<div id="am-radar-chart" style="height:500px;"></div>-->
 							<div class="tab-content">
 								<div class="tab-pane container active" id="pill-fisico">
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
@@ -455,7 +456,6 @@
 								</div>
 								<div class="tab-pane container fade" id="pill-sensorial">
 									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
-								
 									<form method="post" id="form_sensorial" action="<?=base_url().$this->uri->segment(1)?>/parametros/sensorial" class="form">
 										<input type="hidden" class="idproveedor" name="idproveedor" value="<?=$proveedor->idproveedor?>"/>
 										<input type="hidden" name="idcertificado" value="<?=$idcertificado?>"/>
