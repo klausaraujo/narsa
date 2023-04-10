@@ -352,7 +352,7 @@ class Main extends CI_Controller
 						if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){
 							// Variables para actualizar el movimiento anterior
 							$campos = [
-								'interes' => 0, 'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
+								'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
 								'idusuario_modificacion' => $this->usuario->idusuario, 'fecha_modificacion' => date('Y-m-d H:i:s')
 							];
 							if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_proveedor')){
@@ -379,7 +379,7 @@ class Main extends CI_Controller
 						// Se actualizan las tablas con los montos parciales
 						if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], ['monto' => $monto], 'transacciones')){
 							$campos = [
-								'monto' => $monto, 'interes' => 0, 'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
+								'monto' => $monto, 'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
 								'idusuario_modificacion' => $this->usuario->idusuario, 'fecha_modificacion' => date('Y-m-d H:i:s')
 							];
 							if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_proveedor')){

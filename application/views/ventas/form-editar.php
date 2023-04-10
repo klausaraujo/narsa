@@ -3,7 +3,7 @@
 							<div class="iq-header-title"><h4>Editar Cliente</h4></div>
 						</div>
 						<div class="iq-card-body">
-						<form method="post" id="form_proveedor" action="<?=base_url()?>ventas/cliente/registrar" class="needs-validation form-horizontal" novalidate="">
+						<form method="post" id="form_cliente" action="<?=base_url()?>ventas/cliente/registrar" class="needs-validation form-horizontal" novalidate="">
 							<input type="hidden" name="tiporegistro" value="editar" />
 							<input type="hidden" name="idcliente" value="<?=$cliente->idcliente;?>" />
 							<div class="form-row">
@@ -128,7 +128,8 @@
 											  <div id="place-name" class="title"></div>
 											  <div id="place-address"></div>
 											</div>-->
-											<input type="hidden" name="lat" id="lat" /><input type="hidden" name="lng" id="lng" />
+											<input type="hidden" name="lat" id="lat" value="<?=$cliente->latitud;?>"/>
+											<input type="hidden" name="lng" id="lng" value="<?=$cliente->longitud;?>"/>
 											<div id="map" style="min-height:350px;width:100%;margin:auto"></div>
 										</div>
 									</div>

@@ -83,41 +83,41 @@
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Tipo Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->tipo_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->tipo_documento)? $datos->tipo_documento : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nro. Documento</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->numero_documento : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->numero_documento) > 0? $datos->numero_documento : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Celular</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->celular : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->celular) > 0? $datos->celular : '&nbsp;';?></td></tr></table>
 					</td>
 					<td colspan="1" style="width:1.5cm"></td>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Correo Electr&oacute;nico</td>
 					<td colspan="2" style="text-align:left;width:3cm">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->correo : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->correo) > 0? $datos->correo : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Nombre/Raz&oacute;n Social</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->nombre : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->nombre) > 0? $datos->nombre : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Domicilio</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->domicilio : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->domicilio) > 0? $datos->domicilio : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="text-align:left;font-weight:bold;">Zona</td>
 					<td colspan="9" style="text-align:left;">
-						<table class="tablaround" style="width:100%"><tr><td><?=!empty($datos)?$datos->zona : '&nbsp;';?></td></tr></table>
+						<table class="tablaround" style="width:100%"><tr><td><?=strlen($datos->zona) > 0? $datos->zona : '&nbsp;';?></td></tr></table>
 					</td>
 				</tr>
 			</table>

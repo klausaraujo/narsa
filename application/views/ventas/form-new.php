@@ -41,7 +41,7 @@
 											<div class="row">
 												<input type="text" class="form-control ruc borra num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" 
 													maxlength="11" required=""/>
-												<div class="invalid-feedback" id="error-doc">Documento requerido</div>
+												<div class="invalid-feedback" id="error-doc">RUC requerido</div>
 											</div>
 										</div>
 										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">

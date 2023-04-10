@@ -55,7 +55,12 @@ jQuery(document).ready(function($){
 					}
 				},
 				{ data: 'idtipooperacion' },{ data: 'idtransaccion', render: function(data){ return ceros(data,6); } },{ data: 'sucursal' },{ data: 'tipo_operacion' },
-				{ data: 'monto_factor_final', className: 'text-left', render: function(data,type,row,meta){ return isNaN(data)? '0.00' : formatMoneda(data); } },
+				{
+					data: 'monto_factor_final', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
 				{ data: 'fecha_registro' },
 			],
 			columnDefs:headers,order: [],
