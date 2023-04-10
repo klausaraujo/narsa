@@ -3011,9 +3011,17 @@ alter table certificado alter column limani set default '0';
 alter table certificado alter column maragogipe set default '0';
 alter table certificado alter column otros set default '0';
 
+update factor set factor = 1 where idfactor=13;
 
+alter table movimientos_caja add liquidado char(1) after interes;
+alter table movimientos_caja alter column liquidado set default '0';
 
-
+drop view lista_movimientos_caja;
+create view lista_movimientos_caja
+as
+select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.sucursal,mc.idtransaccion,mc.monto,mc.interes as 'tasa',IF(mc.liquidado='1',0,((DATEDIFF(NOW(),mc.fecha_movimiento) * mc.monto)  * ((mc.interes)/30)/100)) as 'intereses',f.idfactor,f.factor * mc.monto as monto_factor,f.factor * mc.monto as monto_factor_final,mc.fecha_vencimiento,mc.fecha_movimiento 
+from movimientos_caja as mc inner join tipo_operacion_caja as toc on toc.idtipooperacion=mc.idtipooperacion inner join sucursal as s on s.idsucursal = mc.idsucursal inner join factor as f on f.idfactor=mc.idfactor
+where mc.activo='1';
 
 
 
