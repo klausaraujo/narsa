@@ -2976,7 +2976,7 @@ alter table movimientos_cliente alter column base_imponible set default 0;
 alter table movimientos_cliente alter column impuesto_igv set default 0;
 
 /*
-Nuevas Entradas en la Base de Datos (01/03/2023)
+Nuevas Entradas en la Base de Datos (01/04/2023)
 */
 alter table certificado add bourbon char(1) after idvariedad;
 alter table certificado add tipica char(1) after bourbon;
@@ -3023,8 +3023,11 @@ select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.suc
 from movimientos_caja as mc inner join tipo_operacion_caja as toc on toc.idtipooperacion=mc.idtipooperacion inner join sucursal as s on s.idsucursal = mc.idsucursal inner join factor as f on f.idfactor=mc.idfactor
 where mc.activo='1';
 
+/*
+Nuevas Entradas en la Base de Datos (12/04/2023)
+*/
 
-
-
-
-
+insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (10,'PAGO DE VALORIZACIONES PENDIENTES','1');
+insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (18,'PAGO DE VALORIZACIONES A PROVEEDORES','0');
+insert into factor (idfactor,destino,idtipooperacion,factor) values (27,1,10,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (28,2,18,-1);
