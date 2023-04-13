@@ -1,4 +1,4 @@
-let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, tablaCobros, tablapagos;
+let tabla = null, tablaOp, tablaReg, tablaIngDetalle, tablaValDetalle, tablaVal, tablaCobros, tablapagos, tablaPagosVal;
 
 /*function formateaNumero(value) {
   v = parseFloat(value)
@@ -411,6 +411,31 @@ $(document).ready(function (){
 			pageLength: 5, dom: 'tp', order: [], language: lngDataTable,
 		});
 		
+		tablaPagosVal = $('#tablaPagosVal').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/pagosVal/lista',
+				type: 'POST',
+				data: function (d) {
+					d.id = id,
+					d.sucursal = $('.sucursal').val(),
+					d.tipoop = $('.tipoop').val();
+				}
+			},
+			columns:[
+				{ data: 'tipo_operacion' },
+				{
+					data: 'monto', className: 'text-right',
+					render: function(data){
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},
+			],
+			columnDefs: [
+				/*{ orderable: false,className:'select-checkbox',targets:0 },*/
+				{ title: 'Tipo Op.', targets: 0 },{ title: 'Monto ', targets: 1 },
+			],
+			pageLength: 5, dom: 'tp', order: [], language: lngDataTable,
+		});
 		
 		/*if(window.innerWidth <= 710){ if(tablaValDetalle.columns(2).visible()[0] === true){ tablaValDetalle.columns([2,3]).visible(false); } }
 		else{ if(tablaValDetalle.columns(2).visible()[0] === false){ tablaValDetalle.columns([2,3]).visible(true); } }*/
@@ -487,6 +512,38 @@ $('#tablaPagos').on('click','tr',function(){
 				$('#montopago').attr('readonly', true);
 				$('#interespago').attr('readonly', true);
 				$('#checkliquidapago').attr('disabled', true);
+				$('.tipoop').prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
+			}
+			
+		}
+	}
+});
+$('#tablaPagosVal').on('click','tr',function(){
+	//alert('click');
+	if($('.tipoop').val() === '10'){
+		//alert('Cobros');
+		if(tablaPagosVal.rows().count() > 0){
+			let fila = tablaPagosVal.row(this).data(), valid = $('#form_transacciones').validate(); valid.resetForm();
+			$('#form_transacciones .error').removeClass('error');
+						
+			if($(this).hasClass('selected')) {
+				//$(this).removeClass('selected');
+			}else{
+				$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+			if($('tr.selected').length > 0){
+				//Valores de los input hidden
+				$('#tipoop_p').val(fila.tipo_operacion), $('#idtipoop_p').val(fila.idtipooperacion), $('#mtoval').val(parseFloat(fila.monto));
+				$('#idvalor').val(fila.idtransaccion), $('#montovalor').val(parseFloat(fila.monto).toFixed(2));
+				$('#checkliquidaval').prop('checked', true), $('#montovalor').removeAttr('readonly'), $('#checkliquidaval').removeAttr('disabled');
+				
+				if(fila.idtipooperacion === '9'){ $('#interespago').attr('readonly', true); }
+			}else{
+				let tipo = $('.tipoop').prop('selectedIndex'), suc = $('#sucursal').prop('selectedIndex');
+				$('#form_transacciones')[0].reset();
+				$('#montovalor').attr('readonly', true);
+				$('#checkliquidaval').attr('disabled', true);
 				$('.tipoop').prop('selectedIndex',tipo), $('#sucursal').prop('selectedIndex',suc);
 			}
 			
@@ -994,22 +1051,29 @@ $('.tipoop').bind('change', function(){
 	$('#interespago').attr('readonly', true);
 	$('#checkliquidapago').attr('disabled', true);
 	tablaPagos.clear().draw();
+
+	$('#montovalor').attr('readonly', true);
+	$('#checkliquidaval').attr('disabled', true);
+	tablaPagosVal.clear().draw();
 	
 	//tablaValDetalle.ajax.reload();
 	if($('.tipoop').val() === '1' || $('.tipoop').val() === '7'){
 		if($('#pp_pe').css('display') == 'none' || $('#pp_pe').css('opacity') == 0) $('#pp_pe').removeClass('d-none');
-		$('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#antcta_p').addClass('d-none');
+		$('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#antcta_p').addClass('d-none'), $('#pagos_val').addClass('d-none');
 	}else if($('.tipoop').val() === '2'){
 		if($('#pagos_p').css('display') == 'none' || $('#pagos_p').css('opacity') == 0) $('#pagos_p').removeClass('d-none');
-		$('#pp_pe').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#antcta_p').addClass('d-none');
+		$('#pp_pe').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#antcta_p').addClass('d-none'), $('#pagos_val').addClass('d-none');
 		tablaPagos.ajax.reload();
 	}else if($('.tipoop').val() === '3'){
 		if($('#cobros_p').css('display') == 'none' || $('#cobros_p').css('opacity') == 0) $('#cobros_p').removeClass('d-none');
-		$('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#antcta_p').addClass('d-none');
+		$('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#antcta_p').addClass('d-none'), $('#pagos_val').addClass('d-none');
 		tablaCobros.ajax.reload();
 	}else if($('.tipoop').val() === '9'){
 		if($('#antcta_p').css('display') == 'none' || $('#antcta_p').css('opacity') == 0) $('#antcta_p').removeClass('d-none');
-		$('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none');
+		$('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none'), $('#pagos_val').addClass('d-none');
+	}else if($('.tipoop').val() === '10'){
+		if($('#pagos_val').css('display') == 'none' || $('#pagos_val').css('opacity') == 0) $('#pagos_val').removeClass('d-none');
+		$('#antcta_p').addClass('d-none'), $('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none');
 	}
 });
 $('#valorizaIng').bind('click',function(e){

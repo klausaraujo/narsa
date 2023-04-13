@@ -87,7 +87,7 @@
 										</div>
 										<hr class="row col-11 mx-auto">
 										<div class="container-fluid d-none" id="opciones_p">
-											<input type="hidden" id="tipoop_p" name="tipoop_p" /><input type="hidden" id="idtipoop_p" name="idtipoop_p" />
+											<input type="text" id="tipoop_p" name="tipoop_p" /><input type="text" id="idtipoop_p" name="idtipoop_p" />
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="pp_pe">
 												<div class="col-md-4">
 													<div class="row">
@@ -173,6 +173,28 @@
 												<div class="col-8 mx-auto mt-3"><!--class="table-responsive" -->
 												<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
 													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
+												</div>
+											</div>
+											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_val">
+												<input type="text" id="mtoval" name="mtoval" /><input type="text" id="idvalor" name="idvalor" />
+												<div class="col-md-4">
+													<div class="row">
+														<label for="montovalor" class="align-self-center">Monto a Pagar:</label>
+													</div>
+													<div class="row">
+														<input type="text" class="form-control col-md-10 montovalor moneda blur" name="montovalor" id="montovalor" autocomplete="off" readonly />
+													</div>
+												</div>
+												<div class="col-md-2">
+													<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<div class="custom-control custom-switch pr-0 d-inline ml-2">
+														<input type="checkbox" class="custom-control-input" name="checkliquidaval" id="checkliquidaval" disabled />
+														<label class="custom-control-label" for="checkliquidaval">Liquidar</label>
+													</div>
+												</div>
+												<div class="col-8 mx-auto mt-3"><!--class="table-responsive" -->
+												<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+													<table id="tablaPagosVal" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
 												</div>
 											</div>
 											<div class="row col-md-6 mt-2 mx-auto d-none" id="antcta_p">

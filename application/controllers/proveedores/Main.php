@@ -254,6 +254,19 @@ class Main extends CI_Controller
 			echo json_encode(['data'=>array()]);
 		}
 	}
+	public function listaPagosVal()
+	{
+		$this->load->model('Proveedores_model');
+		
+		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
+		
+		if($tipo !== ''){
+			$lista = $this->Proveedores_model->listaOperaciones(['idproveedor' => $id, 'idsucursal' => $suc, 'idtipooperacion' => 6, 'liquidado' => 0]);
+			echo json_encode(['data' => $lista]);
+		}else{
+			echo json_encode(['data'=>array()]);
+		}
+	}
 	public function edocta()
 	{
 		$this->load->model('Proveedores_model');
