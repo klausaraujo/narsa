@@ -52,7 +52,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control borra nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" required="" readonly />
+												<input type="text" class="form-control borra nombres mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" required="" readonly />
 												<div class="invalid-feedback" id="error-razon">Debe indicar una Raz&oacute;n social</div>
 											</div>
 										</div>

@@ -641,6 +641,7 @@ $('#form_transacciones').validate({
 		montocobro: { required: function () { if ($('#montocobro').css('display') != 'none') return true; else return false; } },
 		interescobro: { required: function () { if ($('#interescobro').css('display') != 'none') return true; else return false; } },
 		montoanterior: { required: function () { if ($('#montoanterior').css('display') != 'none') return true; else return false; } },
+		montovalor: { required: function () { if ($('#montovalor').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipoop: { required: '&nbsp;&nbsp;Debe elegir una Transacci&oacute;n' },
@@ -652,7 +653,7 @@ $('#form_transacciones').validate({
 		interespago: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
 		montocobro: { required: '&nbsp;&nbsp;Monto Requerido' },
 		interescobro: { required: '&nbsp;&nbsp;Inter&eacute;s Requerido' },
-		montoanterior: { required: '&nbsp;&nbsp;Monto Requerido' },
+		montovalor: { required: '&nbsp;&nbsp;Monto Requerido' },
 	},
 	errorPlacement: function(error, element){
 		error.insertAfter(element);
@@ -666,13 +667,17 @@ $('#form_transacciones').validate({
 		}else if(tipoop === '2'){
 			if(parseFloat($('#montopago').val()) === parseFloat($('#mtopago').val()) && !$('#checkliquidapago').prop('checked')) $('#checkliquidapago').prop('checked', true);
 			else if(parseFloat($('#montopago').val()) < parseFloat($('#mtopago').val()) && $('#checkliquidapago').prop('checked')) $('#checkliquidapago').prop('checked', false);
+		}else if(tipoop === '10'){
+			if(parseFloat($('#montovalor').val()) === parseFloat($('#mtoval').val()) && !$('#checkliquidaval').prop('checked')) $('#checkliquidaval').prop('checked', true);
+			else if(parseFloat($('#montovalor').val()) < parseFloat($('#mtoval').val()) && $('#checkliquidaval').prop('checked')) $('#checkliquidaval').prop('checked', false);
 		}
 		
 		if(parseFloat($('#interespago').val()) > intp){
-			$('#interespago').val('');
-			alert('El pago de intereses no puede ser mayor a los intereses generados');
-			$('#interespago').focus();
-			return 0;
+			$('#interespago').val(''); alert('El pago de intereses no puede ser mayor a los intereses generados');
+			$('#interespago').focus(); return 0;
+		}
+		if(parseInt($('#montovalor').val()) === 0){
+			alert('El monto no puede ser '+$('#montovalor').val()), $('#montovalor').val(''), $('#montovalor').focus(); return 0;
 		}
 		/*if(tipoop === '2'){
 			let mto = $('#rescta').val(); mto = mto.replace(/\,/g,''), monto = $('#monto').val();
@@ -1074,6 +1079,7 @@ $('.tipoop').bind('change', function(){
 	}else if($('.tipoop').val() === '10'){
 		if($('#pagos_val').css('display') == 'none' || $('#pagos_val').css('opacity') == 0) $('#pagos_val').removeClass('d-none');
 		$('#antcta_p').addClass('d-none'), $('#pp_pe').addClass('d-none'), $('#pagos_p').addClass('d-none'), $('#cobros_p').addClass('d-none');
+		tablaPagosVal.ajax.reload();
 	}
 });
 $('#valorizaIng').bind('click',function(e){

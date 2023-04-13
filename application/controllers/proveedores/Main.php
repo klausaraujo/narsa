@@ -311,6 +311,9 @@ class Main extends CI_Controller
 			$inttotal = is_numeric(floatval($this->input->post('interescobro')))? floatval($this->input->post('interescobro')) : 0;
 		}elseif($tipoop === '9'){
 			$monto = $this->input->post('montoanterior'); $detalletipo = 'ESTADO DE CUENTA ANTERIOR PROVEEDOR';
+		}elseif($tipoop === '10'){
+			$prestamo = $this->input->post('mtoval');
+			$monto = $this->input->post('montovalor'); $detalletipo = 'PAGO DE VALORIZACIONES A PROVEEDORES'; $check = $this->input->post('checkliquidaval')!== null? 1 : 0;
 		}
 		
 		// Obtener el factor del tipo de operacion de proveedor
@@ -348,13 +351,16 @@ class Main extends CI_Controller
 					if($this->Proveedores_model->registrarOp($dataOp,'movimientos_caja')){ $status = 200; $message = 'Transacci&oacute;n registrada exitosamente'; }
 				}
 			}
-		}elseif($tipoop === '2' || $tipoop === '3'){
+		}elseif($tipoop === '2' || $tipoop === '3' || $tipoop === '10'){
 			if($tipoop === '2'){
 				// ID de la transaccion a actualizar
 				$trans = $this->input->post('idpago'); $interes = $this->input->post('tasapago');
-			}else{
+			}elseif($tipoop === '3'){
 				// ID de la transaccion a actualizar
 				$trans = $this->input->post('idprestamo'); $interes = $this->input->post('tasaprestamo');
+			}elseif($tipoop === '10'){
+				// ID de la transaccion a actualizar
+				$trans = $this->input->post('idvalor');
 			}
 			
 			if($check > 0){
@@ -390,15 +396,17 @@ class Main extends CI_Controller
 						}
 					}
 					if($guardado){
-						// Se actualizan las tablas con los montos parciales
+						// Se actualizan las tablas con los montos parciales si no es una valorizacion
 						if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], ['monto' => $monto], 'transacciones')){
 							$campos = [
 								'monto' => $monto, 'liquidado' => 1, 'interes_total' => $inttotal, 'fecha_movimiento' => date('Y-m-d H:i:s'),
 								'idusuario_modificacion' => $this->usuario->idusuario, 'fecha_modificacion' => date('Y-m-d H:i:s')
 							];
 							if($this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_proveedor')){
-								unset($campos['interes_total']); unset($campos['liquidado']);
-								$this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_caja');
+								if($tipoop === '2' || $tipoop === '3'){
+									unset($campos['interes_total']); unset($campos['liquidado']);
+									$this->Proveedores_model->actMovProv(['idtransaccion' => $trans], $campos, 'movimientos_caja');
+								}
 							}
 						}
 						// Variables para el registro de una nueva op por el monto restante
@@ -410,12 +418,16 @@ class Main extends CI_Controller
 						$monto = floatval($prestamo) - floatval($monto); $dataOp['interes_total'] = 0; $dataTransaccion['monto'] = $monto; $dataOp['monto'] = $monto;
 						$dataOp['interes'] = $interes; $dataOp['idproveedor'] = $idproveedor; $dataOp['liquidado'] = 0;
 						
-						// Registra la nueva operacion parcial
+						// Registra la nueva operacion parcial si no es un pago de valorizacion
 						if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
 							$dataOp['idtransaccion'] = $idtran;
 							if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor')){
-								$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
-								if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){
+								if($tipoop === '2' || $tipoop === '3'){
+									$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
+									if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){
+										$status = 200; $message = 'Transacci&oacute;n registrada exitosamente';
+									}
+								}else{
 									$status = 200; $message = 'Transacci&oacute;n registrada exitosamente';
 								}
 							}

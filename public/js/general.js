@@ -92,7 +92,7 @@ $('.tipodoc').bind('change',function(e){
 	else if(this.value === '2') $('.numcurl').prop('maxlength',9);
 	
 	if(this.value === '1' || this.value === '2'){
-		$('.ruc').removeAttr('disabled'), $('.numcurl').removeAttr('disabled'), $('.nombres').attr('readonly', true), $('.apellidos').attr('readonly', true);
+		$('.ruc').removeAttr('readonly'), $('.numcurl').removeAttr('readonly'), $('.nombres').attr('readonly', true), $('.apellidos').attr('readonly', true);
 		$('.btn_curl').removeClass('disabled'), $('.btn_ruc').removeClass('disabled'), $('.usuario').attr('readonly', true);
 	}
 	
@@ -103,8 +103,8 @@ $('.tipodoc').bind('change',function(e){
 	
 	if(this.value === '3'){
 		$('.numcurl').prop('maxlength',8), $('.numcurl').val('00000000'), $('.ruc').val('00000000000'), $('.usuario').removeAttr('readonly'), $('.apellidos').removeAttr('readonly');
-		$('.nombres').removeAttr('readonly'), $('.nombres').focus(), $('.btn_curl').addClass('disabled'), $('.btn_ruc').addClass('disabled'), $('.ruc').attr('disabled', true);
-		$('.numcurl').attr('disabled', true);
+		$('.nombres').removeAttr('readonly'), $('.nombres').focus(), $('.btn_curl').addClass('disabled'), $('.btn_ruc').addClass('disabled'), $('.ruc').attr('readonly', true);
+		$('.numcurl').attr('readonly', true);
 	}
 });
 
