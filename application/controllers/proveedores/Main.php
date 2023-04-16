@@ -581,9 +581,17 @@ class Main extends CI_Controller
 			if($idtranVal > 0){
 				if($data[0]->chk_pago === 1){
 					$pagar = true;
-					$montopag = $data[0]->tipo_op === '8'? $data[0]->desembolso : $data[0]->subtotal;
+					$montopag = $data[0]->tipo_op === '8'? floatval($data[0]->desembolso) : floatval($data[0]->subtotal); // 8 = pago parcial
 					
-					$f = $this->Proveedores_model->factor([ 'destino' => 1,'idtipooperacion' => $data[0]->tipo_op,'activo' => 1 ]);
+					// Trae datos de la valorizacion creada
+					$datosval = $this->Proveedores_model->datosByIdTran(['idtransaccion' => $idtranVal]);
+					$montoant = !empty($datosval)? floatval($datosval->monto) : 0;
+					
+					// Validar si el monto pagado es menor al monto de la valorizacion para setear el tipo de op que se registrará
+					$tipopago = $montopag < $montoant? '8' : '2';
+					
+					//$f = $this->Proveedores_model->factor([ 'destino' => 1,'idtipooperacion' => $data[0]->tipo_op,'activo' => 1 ]);
+					$f = $this->Proveedores_model->factor([ 'destino' => 1,'idtipooperacion' => $tipopago,'activo' => 1 ]);
 					$factor = (!empty($f)? $f->idfactor : 1);
 								
 					$dataTransaccion = [
@@ -593,7 +601,7 @@ class Main extends CI_Controller
 						'activo' => 1
 					];
 					$dataOp = [
-						'idtipooperacion' => $data[0]->tipo_op,
+						'idtipooperacion' => $tipopago,
 						'idsucursal' => $data[0]->idsucursal,
 						'idproveedor' => $data[0]->idproveedor,
 						'monto' => $montopag,
@@ -607,14 +615,39 @@ class Main extends CI_Controller
 						'fecha_registro' => date('Y-m-d H:i:s'),
 						'activo' => 1,
 					];
-						
-					$tipoop = $data[0]->tipo_op === '8'? 'ADELANTOS A PROVEEDORES' : 'PAGOS A PROVEEDORES';
+					
+					$tipoop = $montopag < $montoant? 'ADELANTOS A PROVEEDORES' : 'PAGOS A PROVEEDORES';
 					$tipoOpPago = $data[0]->tipo_op === '8'? 2 : 1;
 					$pago = 1;
 					$mtoValor = $data[0]->subtotal;
 
 					# Guardar la transaccion, mov proveedor y mov caja 
 					$idtranPago = $this->Proveedores_model->regTransaccion($dataTransaccion,$dataOp,$tipoop);
+					
+					//var_dump($tipo);
+					
+					// Variables para actualizar el movimiento anterior
+					$campos = [
+						'liquidado' => 1, 'fecha_movimiento' => date('Y-m-d H:i:s'), 'idusuario_modificacion' => $this->usuario->idusuario, 'fecha_modificacion' => date('Y-m-d H:i:s')
+					];
+					if($montopag < $montoant){ $campos['monto'] = $montopag; }
+					// Actualiza la tabla transacciones y movimientos proveedor
+					$this->Proveedores_model->actMovProv(['idtransaccion' => $idtranVal], $campos, 'movimientos_proveedor');
+					
+					// Crea la nueva transaccion de valorizacion por el restante del monto valorizado anteriormente
+					if($montopag < $montoant){
+						$this->Proveedores_model->actMovProv(['idtransaccion' => $idtranVal], ['monto' => $montopag], 'transacciones');
+						$montoparcial = $montoant - $montopag;
+						$tipoopval = $datosval->idtipooperacion;
+						$factorval = $datosval->idfactor;
+						if($montoparcial > 0){
+							$dataTransaccion['monto'] = $montoparcial; $dataOp['monto'] = $montoparcial; $dataOp['idtipooperacion'] = $tipoopval; $dataOp['idfactor'] = $factorval;
+							if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
+								$dataOp['idtransaccion'] = $idtran;
+								$this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor');
+							}
+						}
+					}
 				}
 			}
 			
@@ -624,8 +657,7 @@ class Main extends CI_Controller
 			}
 			
 			if($guia && ($idtranVal || !$valorizar) && ($idtranPago || !$pagar)){
-				$message = 'Gu&iacute;a registrada exitosamente';
-				$status = 200;
+				$message = 'Gu&iacute;a registrada exitosamente'; $status = 200;
 			}
 		//}
 		

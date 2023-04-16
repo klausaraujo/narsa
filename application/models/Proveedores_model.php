@@ -543,8 +543,7 @@ class Proveedores_model extends CI_Model
 	}
 	public function registrarOp($dataOp,$tabla)
 	{
-		if($this->db->insert($tabla, $dataOp))
-			return $this->db->insert_id();
+		if($this->db->insert($tabla, $dataOp)) return $this->db->insert_id();
 		else return false;
 	}
 	public function actMovProv($where, $data, $tabla){
@@ -553,5 +552,14 @@ class Proveedores_model extends CI_Model
         $this->db->where($where);
 		if($this->db->update($tabla))return true;
 		else return false;
+	}
+	public function datosByIdTran($idtran)
+	{
+		$this->db->select('idtipooperacion, monto, idfactor');
+		$this->db->from('movimientos_proveedor');
+		$this->db->where($idtran);
+		$this->db->limit(1);
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
 	}
 }
