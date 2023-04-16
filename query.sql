@@ -3029,5 +3029,7 @@ Nuevas Entradas en la Base de Datos (12/04/2023)
 
 insert into tipo_operacion_proveedor (idtipooperacion,tipo_operacion,combo_movimientos) values (10,'PAGO DE VALORIZACIONES PENDIENTES','1');
 insert into tipo_operacion_caja (idtipooperacion,tipo_operacion,combo_movimientos) values (18,'PAGO DE VALORIZACIONES A PROVEEDORES','0');
-insert into factor (idfactor,destino,idtipooperacion,factor) values (27,1,10,1);
+insert into factor (idfactor,destino,idtipooperacion,factor) values (27,1,10,-1);
 insert into factor (idfactor,destino,idtipooperacion,factor) values (28,2,18,-1);
+
+alter table certificado_detalle add olor varchar(200) after idolor;
