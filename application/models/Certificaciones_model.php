@@ -230,9 +230,8 @@ class Certificaciones_model extends CI_Model
 	}
 	public function detallePdf($where)
 	{
-		$this->db->select('cd.*,o.olor,c.color,a.apariencia,q.quaker');
+		$this->db->select('cd.*,c.color,a.apariencia,q.quaker');
         $this->db->from('certificado_detalle cd');
-		$this->db->join('olor o','o.idolor = cd.idolor');
 		$this->db->join('color c','c.idcolor = cd.idcolor');
 		$this->db->join('apariencia a','a.idapariencia = cd.idapariencia');
 		$this->db->join('quaker q','q.idquaker = cd.idquaker');

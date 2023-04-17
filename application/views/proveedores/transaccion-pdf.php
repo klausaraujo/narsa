@@ -228,7 +228,7 @@
 				<tr>
 					<td>1</td><td colspan="2"><?=$movimiento->sucursal?></td><td colspan="4"><?=$movimiento->tipo_operacion?></td>
 					<td colspan="2"><?=date_format(date_create($movimiento->fecha_movimiento),'d-m-Y')?></td>
-					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td colspan="2"><?=number_format(floatval($movimiento->monto_factor_final),2,'.',',')?></td>
+					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td colspan="2"><?=number_format(floatval(abs($movimiento->monto_factor_final)),2,'.',',')?></td>
 				</tr>
 			</table>
 		</main>
@@ -241,7 +241,7 @@
 				<tr>
 					<td>1</td><td colspan="2"><?=$movimiento->sucursal?></td><td colspan="4"><?=$movimiento->tipo_operacion?></td>
 					<td colspan="2"><?=date_format(date_create($movimiento->fecha_movimiento),'d-m-Y')?></td>
-					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td colspan="2"><?=number_format(floatval($movimiento->monto_factor_final),2,'.',',')?></td>
+					<td><?=sprintf("%'05s",$movimiento->idtransaccion)?></td><td colspan="2"><?=number_format(floatval(abs($movimiento->monto_factor_final)),2,'.',',')?></td>
 				</tr>
 			</table>
 		</main>

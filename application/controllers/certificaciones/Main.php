@@ -168,6 +168,7 @@ class Main extends CI_Controller
 				'idcertificado' => $id,
 				'idcolor' => $this->input->post('color'),
 				'idolor' => $this->input->post('olor'),
+				'olor' => $this->input->post('detolor'),
 				'granumelometria_malla_general' => $this->input->post('malla_gen'),
 				'granumelometria_malla_1620_nro' => $this->input->post('malla16'),
 				'granumelometria_malla_1620_por' => $this->input->post('mallaporc'),
@@ -200,6 +201,7 @@ class Main extends CI_Controller
 			$data = array(
 				'idcolor' => $this->input->post('color'),
 				'idolor' => $this->input->post('olor'),
+				'olor' => $this->input->post('detolor'),
 				'granumelometria_malla_general' => $this->input->post('malla_gen'),
 				'granumelometria_malla_1620_nro' => $this->input->post('malla16'),
 				'granumelometria_malla_1620_por' => $this->input->post('mallaporc'),

@@ -106,36 +106,35 @@
 				<tr>
 					<th colspan="3" bgcolor="#DDDDDD" style="width:5cm">GRANULOMETR&Iacute;A</th>
 					<th style="width:0.5cm;border:0px;border-left:1px solid #4B4B4B;border-right:1px solid #4B4B4B;" rowspan="7">&nbsp;</th>
-					<th colspan="2" bgcolor="#DDDDDD">COLOR</th><th colspan="2" bgcolor="#DDDDDD">OLOR</th>
+					<th colspan="4" bgcolor="#DDDDDD">COLOR</th>
 				</tr>
 				<tr>
 					<td><b>MALLA</b></td><td><b><?=!empty($detalle)?number_format($detalle->granumelometria_malla_general,2,'.',','):'';?></b></td><td><b>%</b></td>
-					<td colspan="2"><?=!empty($detalle)?$detalle->color:'&nbsp;';?></td><td colspan="2"><?=!empty($detalle)?$detalle->olor:'&nbsp;';?></td>
+					<td colspan="4"><?=!empty($detalle)?$detalle->color:'&nbsp;';?></td>
 				</tr>
 				<tr>
 					<td>16 al 20</td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_1620_nro,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_1620_por,2,'.',','):'';?></td>
-					<td colspan="4"></td>
+					<th colspan="4"  bgcolor="#DDDDDD"> OLOR</th>
 				</tr>
 				<tr>
 					<td>15</td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_15_nro,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_15_por,2,'.',','):'';?></td>
-					<th bgcolor="#DDDDDD" colspan="4">AN&Aacute;LISIS F&Iacute;SICO</th>
+					<td colspan="4"><?=!empty($detalle)? strtoupper($detalle->olor) : '';?></td>
 				</tr>
 				<tr>
 					<td>14</td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_14_nro,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_14_por,2,'.',','):'';?></td>
-					<td colspan="2"><b>DETALLE</b></td><td><b>PESO</b></td><td><b>%</b></td>
+					<th bgcolor="#DDDDDD" colspan="4">AN&Aacute;LISIS F&Iacute;SICO</th>
 				</tr>
 				<tr>
 					<td>BASE</td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_base_nro,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->granumelometria_malla_base_por,2,'.',','):'';?></td>
-					<td style="text-align:left" colspan="2">&nbsp;Caf&eacute; Exportable</td><td><?=!empty($detalle)?number_format($detalle->analisis_cafe_exportable_peso,2,'.',','):'';?></td>
-					<td><?=!empty($detalle)?number_format($detalle->analisis_cafe_exportable_por,2,'.',','):'';?></td>
+					<td colspan="2"><b>DETALLE</b></td><td><b>PESO</b></td><td><b>%</b></td>
 				</tr>
 				<?
 					$malla = 0; $porcmalla = 0;
@@ -147,17 +146,17 @@
 				<tr>
 					<td style="border:0">&nbsp;</td>
 					<td><?=!empty($detalle)?number_format($malla,2,'.',','):'';?></td><td><?=!empty($detalle)?number_format($porcmalla,2,'.',','):'';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Caf&eacute; Exportable</td><td><?=!empty($detalle)?number_format($detalle->analisis_cafe_exportable_peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->analisis_cafe_exportable_por,2,'.',','):'';?></td>
+				</tr>
+				<tr>
+					<td colspan="3" rowspan="3" style="border:0"></td><td rowspan="3" style="border:0"></td>
 					<td style="text-align:left" colspan="2">&nbsp;Sub Producto</td><td><?=!empty($detalle)?number_format($detalle->analisis_sub_procuto_peso,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->analisis_sub_procuto_por,2,'.',','):'';?></td>
 				</tr>
 				<tr>
-					<td colspan="3" rowspan="3" style="border:0"></td><td rowspan="3" style="border:0"></td>
 					<td style="text-align:left" colspan="2">&nbsp;Descarte</td><td><?=!empty($detalle)?number_format($detalle->analisis_descarte_peso,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($detalle->analisis_descarte_por,2,'.',','):'';?></td>
-				</tr>
-				<tr>
-					<td style="text-align:left" colspan="2">&nbsp;C&aacute;scara</td><td><?=!empty($detalle)?number_format($detalle->analisis_cascara_peso,2,'.',','):'';?></td>
-					<td><?=!empty($detalle)?number_format($detalle->analisis_cascara_por,2,'.',','):'';?></td>
 				</tr>
 				<?
 					$peso = 0; $porcpeso = 0;
@@ -167,20 +166,28 @@
 					}
 				?>
 				<tr>
+					<td style="text-align:left" colspan="2">&nbsp;C&aacute;scara</td><td><?=!empty($detalle)?number_format($detalle->analisis_cascara_peso,2,'.',','):'';?></td>
+					<td><?=!empty($detalle)?number_format($detalle->analisis_cascara_por,2,'.',','):'';?></td>
+				</tr>
+				<tr>
+					<th colspan="3" bgcolor="#DDDDDD">DATOS TOSTADO</th><td style="border:0"></td><!--<td colspan="4" style="border:0"></td>-->
 					<td colspan="2"><b>TOTAL</b></td><td><?=!empty($detalle)?number_format($peso,2,'.',','):'';?></td>
 					<td><?=!empty($detalle)?number_format($porcpeso,2,'.',','):'';?></td>
 				</tr>
-				<tr><th colspan="3" bgcolor="#DDDDDD">DATOS TOSTADO</th><td style="border:0"></td><td colspan="4" style="border:0"></td></tr>
 				<tr>
 					<td style="text-align:left" colspan="2">&nbsp;Tiempo de Tostado</td><td><?=!empty($detalle)?number_format($detalle->tostado_tiempo,2,'.',','):'';?></td>
-					<td rowspan="3" style="border:0"></td><th colspan="4" bgcolor="#DDDDDD">CATEGOR&Iacute;A / TOSTADO</th>
+					<td colspan="5" style="border:0"></td>
 				</tr>
 				<tr>
 					<td style="text-align:left" colspan="2">&nbsp;Color / agtron</td><td><?=!empty($detalle)?number_format($detalle->tostado_color_agtron,2,'.',','):'';?></td>
-					<td style="text-align:left" colspan="2">&nbsp;Apariencia</td><td colspan="2"><?=!empty($detalle)?$detalle->apariencia:'&nbsp;';?></td>
+					<td rowspan="3" style="border:0"></td><th colspan="4" bgcolor="#DDDDDD">CATEGOR&Iacute;A / TOSTADO</th>
 				</tr>
 				<tr>
 					<td style="text-align:left" colspan="2">&nbsp;% P&eacute;rdida</td><td><?=!empty($detalle)?number_format($detalle->tostado_perdida,2,'.',','):'';?></td>
+					<td style="text-align:left" colspan="2">&nbsp;Apariencia</td><td colspan="2"><?=!empty($detalle)?$detalle->apariencia:'&nbsp;';?></td>
+				</tr>
+				<tr>
+					<td style="border:0" colspan="3">&nbsp;</td>
 					<td style="text-align:left" colspan="2">&nbsp;QUAKER</td><td colspan="2"><?=!empty($detalle)?$detalle->quaker:'&nbsp;';?></td>
 				</tr>
 			</table>

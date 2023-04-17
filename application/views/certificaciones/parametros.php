@@ -31,12 +31,15 @@
 												<? endforeach;	?>
 												</select>
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-6">
 												<label class="control-label mb-0" for="olor">&nbsp;&nbsp;&nbsp;Olor:</label>
-												<select class="form-control olor" name="olor" id="olor">
-												<? foreach($olor as $row): ?>
+												<input type="text" class="form-control mayusc" maxlength="200" name="detolor" id="detolor"
+													value="<?=(!empty($detalle))? $detalle->olor : '';?>" />
+												<select class="form-control olor d-none" name="olor" id="olor">
+													<option value="1"> -- Seleccione -- </option>
+												<? /*foreach($olor as $row): ?>
 													<option value="<?=$row->idolor;?>" <?=(!empty($detalle) && $detalle->idolor === $row->idolor) ? 'selected' : '';?> ><?=$row->olor;?></option>
-												<? endforeach;	?>
+												<? endforeach;	*/?>
 												</select>
 											</div>
 										</div>
