@@ -206,6 +206,11 @@ class Certificaciones_model extends CI_Model
 			return true;
 		}
 	}
+	public function registraCatadores($data)
+	{
+		if($resp = $this->db->insert('catador',$data)) return $this->db->insert_id();
+		else return false;
+	}
 	public function traeCatadores($where)
 	{
 		$this->db->select('cc.idcatador,numero_documento as documento,CONCAT(apellidos," ",nombres) as nombres');

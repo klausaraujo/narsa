@@ -192,6 +192,14 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	$('#finca').val(data[2]);
 	$('#modalProveedores').modal('hide');
 });
+
+$('#modalRegCatador').on('hidden.bs.modal',function(e){
+	$('#form_catador')[0].reset();
+	$('#form_catador select').prop('selectedIndex',0);
+	
+	$('#nombres').attr('readonly', true), $('#apellidos').attr('readonly', true), $('#doc').removeAttr('readonly');
+});
+
 $('#tablaCatadores').on('dblclick','tr',function(){
 	let data = tablaCatSelec.row( this ).data(), row = [], esta = false;
 	//console.log(data);
@@ -218,7 +226,6 @@ $('#tablaCatadores').on('dblclick','tr',function(){
 $('#tablaSeleccionCatadores').on('click','a', function(){
 	if($(this).hasClass('remover')){ tablaCat.row($(this).parents("tr")).remove().draw(); }
 });
-
 $('#modalProveedores').on('show.bs.modal',function(e){});
 
 $('#form_certificado').validate({
@@ -254,6 +261,39 @@ $('#form_certificado').validate({
 	}
 });
 
+$('#btnEnviar').on('click',function(e){
+	e.preventDefault();
+	let boton = $(this);
+	$.ajax({
+		data: $('#form_catador').serialize(),
+		url: $('#form_catador').attr('action'),
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () { 
+			boton.html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+			boton.addClass('disabled');
+		},
+		success: function(data) {
+			boton.html('Registrar');
+			boton.removeClass('disabled');
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			$('.resp').html(data.message);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+			if(parseInt(data.status) === 200){
+				if(tablaCat.rows().count() > 0){
+					if(tablaCat.rows().count() < 3){
+						row = [{'idcatador': data.id, 'documento': $('#doc').val(), 'nombres': $('#nombres').val()+' '+$('#apellidos').val()}];
+						tablaCat.rows.add(row).draw();
+					}else{ alert('Deben agregarse máximo 3 Catadores'); }
+				}else{
+					row = [{'idcatador': data.id, 'documento': $('#doc').val(), 'nombres': $('#nombres').val()+' '+$('#apellidos').val()}];
+					tablaCat.rows.add(row).draw();
+				}
+				$('#modalRegCatador').modal('hide');
+			}else{ alert(data.message); }
+		}
+	});
+});
 $('.form').on('submit',function(e){
 	e.preventDefault();
 	let boton = $(this).find('button'), f = e.target;

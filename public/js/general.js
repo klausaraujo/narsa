@@ -193,6 +193,10 @@ btnCurl.bind('click',function(){
 								$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);
 								$('.nombres').val(data.data.attributes.nombres); $('.usuario').val(doc);
 								//$('.apellidos').prop('readonly', true);
+							}else if(segmento === 'certificaciones'){
+								$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);
+								$('.nombres').val(data.data.attributes.nombres);
+								//$('.apellidos').prop('readonly', true);
 							}
 							//$('.nombres').prop('readonly', true);
 						}//else console.log(data);

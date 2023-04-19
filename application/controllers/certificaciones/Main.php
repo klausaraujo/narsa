@@ -135,6 +135,7 @@ class Main extends CI_Controller
 	public function parametros()
 	{
 		$this->load->model('Certificaciones_model');
+		$this->load->model('Proveedores_model');
 		$id = $this->input->get('id');
 		$color = $this->Certificaciones_model->color();
 		$olor = $this->Certificaciones_model->olor();
@@ -143,6 +144,7 @@ class Main extends CI_Controller
 		$proveedor = $this->Certificaciones_model->traeDatosProv(['idcertificado' => $id]);
 		$detalle = $this->Certificaciones_model->certificadoDetalle(['idcertificado' => $id, 'activo' => 1]);
 		$catadores = $this->Certificaciones_model->traeCatadores(['idcertificado' => $id, 'cc.activo' => 1]);
+		$tipodoc = $this->Proveedores_model->tipodoc();
 				
 		$data = array(
 			'proveedor' => $proveedor,
@@ -153,6 +155,7 @@ class Main extends CI_Controller
 			'idcertificado' => $id,
 			'detalle' => $detalle,
 			'catadores' => $catadores,
+			'tipodoc' => $tipodoc
 		);
 		
 		$this->load->view('main',$data);
@@ -429,6 +432,28 @@ class Main extends CI_Controller
 		}
 		
 		$data = array( 'message' => $resp );
+		
+		echo json_encode($data);
+	}
+	public function regcatadores()
+	{
+		$this->load->model('Certificaciones_model');
+		$resp = 'No se pudo registrar el catador'; $id = 0; $status = 500;
+		
+		$data = array(
+			'idtipodocumento' => $this->input->post('tipodoc'),
+			'numero_documento' => $this->input->post('doc'),
+			'apellidos' => $this->input->post('apellidos'),
+			'nombres' => $this->input->post('nombres'),
+			'activo' => 1,
+		);
+		
+		if($id = $this->Certificaciones_model->registraCatadores($data)){
+			$resp = 'Catador registrado Exitosamente';
+			$status = 200;
+		}
+		
+		$data = array( 'message' => $resp, 'id' => $id, 'status' => $status );
 		
 		echo json_encode($data);
 	}

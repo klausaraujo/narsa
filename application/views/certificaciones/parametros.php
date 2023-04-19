@@ -644,9 +644,11 @@
 									</form>-->
 									<div class="container mx-auto">
 										<div class="row">
-											<div class="col-md-11 mt-4 mb-2">
-												<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->
-												<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalCat" data-target="#modalCatadores">Buscar Catador</button>
+											<div class="col-md-11 mt-4 mb-2 mx-auto">
+												<!--<label for="btnbuscaIE" class="col-sm-12">&nbsp;</label>-->												
+												<button type="button" data-toggle="modal" class="btn btn-narsa pull-right" id="modalCat" data-target="#modalCatadores">Buscar Catador</button>
+												<div class="pull-right my-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+												<button type="button" data-toggle="modal" class="btn btn-narsa pull-right" id="modalRegCat" data-target="#modalRegCatador">Agregar Catador</button>
 											</div>
 										</div>
 									</div>
@@ -677,7 +679,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- Modal catadores -->
+					<!-- Modal buscar catadores -->
 					<div class="modal fade" id="modalCatadores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
@@ -693,6 +695,84 @@
 												<table id="tablaCatadores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto" style="width:100%">
 													<thead><tr><th>ID</th><th>Documento</th><th>Nombres del Catador</th><th>nombres</th></tr></thead>
 												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal buscar catadores -->
+					<div class="modal fade" id="modalRegCatador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">Registrar Catador</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<div class="container-fluid mt-2">
+										<div class="row">
+											<div class="col-12 mx-auto" style="overflow-x:auto">
+												<div class="iq-card">
+													<div class="iq-card-body">
+														<form method="post" id="form_catador" action="<?=base_url()?>certificaciones/parametros/registrarcatador" class="needs-validation form-horizontal" novalidate="">
+															<div class="form-row">
+																<div class="row"><div class="ml-5 h4 text-danger mr-auto fallecido"></div></div>
+																<div class="col-12 my-1">
+																	<div class="row">
+																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
+																		<div class="col-md-6 col-lg-3">
+																			<div class="row">
+																				<select class="form-control tipodoc" name="tipodoc" id="tipodoc" required="">
+																				<?
+																						foreach($tipodoc as $row):	?>
+																							<option value="<?=$row->idtipodocumento;?>"><?=$row->tipo_documento;?></option>
+																				<?		endforeach;	?>
+																				</select>
+																				<div class="invalid-feedback">Debe elegir un tipo de documento</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row mt-3">
+																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
+																		<div class="col-md-4 col-lg-2">
+																			<div class="row">
+																				<input type="text" class="form-control doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
+																					placeholder="Nro. Documento" required="" />
+																				<div class="invalid-feedback" id="error-doc">Documento requerido</div>
+																			</div>
+																		</div>
+																		<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+																			<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
+																		</div>
+																		<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
+																		<input type="hidden" name="tabla" id="tabla" value="catador" />
+																	</div>
+																	<div class="row mt-3">
+																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Nombres:</label>
+																		<div class="col-md-6 col-lg-4">
+																			<div class="row">
+																				<input type="text" class="form-control borra nombres" name="nombres" id="nombres" placeholder="Nombres" required="" readonly />
+																				<div class="invalid-feedback" id="error-doc">Campo requerido</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row mt-3">
+																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="apellidos">Apellidos:</label>
+																		<div class="col-md-6 col-lg-4">
+																			<div class="row">
+																				<input type="text" class="form-control borra apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" required="" readonly />
+																				<div class="invalid-feedback">Campo requerido</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-12 py-2"><button type="submit" class="btn btn-narsa" id="btnEnviar">Registrar</button></div>
+																</div>
+															</div>
+														</form>	
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
