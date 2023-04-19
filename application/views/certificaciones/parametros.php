@@ -721,8 +721,8 @@
 																<div class="row"><div class="ml-5 h4 text-danger mr-auto fallecido"></div></div>
 																<div class="col-12 my-1">
 																	<div class="row">
-																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
-																		<div class="col-md-6 col-lg-3">
+																		<label class="control-label col-md-6 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
+																		<div class="col-md-6">
 																			<div class="row">
 																				<select class="form-control tipodoc" name="tipodoc" id="tipodoc" required="">
 																				<?
@@ -735,23 +735,23 @@
 																		</div>
 																	</div>
 																	<div class="row mt-3">
-																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
-																		<div class="col-md-4 col-lg-2">
+																		<label class="control-label col-md-6 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
+																		<div class="col-md-4">
 																			<div class="row">
 																				<input type="text" class="form-control doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
 																					placeholder="Nro. Documento" required="" />
 																				<div class="invalid-feedback" id="error-doc">Documento requerido</div>
 																			</div>
 																		</div>
-																		<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+																		<div class="col-md-2 col-lg-1 px-0 mt-3 mt-lg-0 align-self-center">
 																			<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
 																		</div>
 																		<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
 																		<input type="hidden" name="tabla" id="tabla" value="catador" />
 																	</div>
 																	<div class="row mt-3">
-																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Nombres:</label>
-																		<div class="col-md-6 col-lg-4">
+																		<label class="control-label col-md-6 align-self-center mb-0" for="nombres">Nombres:</label>
+																		<div class="col-md-6">
 																			<div class="row">
 																				<input type="text" class="form-control borra nombres" name="nombres" id="nombres" placeholder="Nombres" required="" readonly />
 																				<div class="invalid-feedback" id="error-doc">Campo requerido</div>
@@ -759,8 +759,8 @@
 																		</div>
 																	</div>
 																	<div class="row mt-3">
-																		<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="apellidos">Apellidos:</label>
-																		<div class="col-md-6 col-lg-4">
+																		<label class="control-label col-md-6 align-self-center mb-0" for="apellidos">Apellidos:</label>
+																		<div class="col-md-6">
 																			<div class="row">
 																				<input type="text" class="form-control borra apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" required="" readonly />
 																				<div class="invalid-feedback">Campo requerido</div>
