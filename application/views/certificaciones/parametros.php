@@ -282,55 +282,55 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Negro Completo</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nronegro" id="nronegro"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nronegro" id="nronegro"
 																		value="<?=!empty($detalle)? floatval($detalle->def_pri_negro_completo_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqnegro" id="eqnegro"
-																		value="<?=!empty($detalle)? $detalle->def_pri_negro_completo_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqnegro" id="eqnegro"
+																		value="<?=!empty($detalle)? $detalle->def_pri_negro_completo_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Agrio Completo</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroagrio" id="nroagrio"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroagrio" id="nroagrio"
 																		value="<?=!empty($detalle)? floatval($detalle->def_pri_agrio_completo_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqagrio" id="eqagrio"
-																		value="<?=!empty($detalle)? $detalle->def_pri_agrio_completo_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqagrio" id="eqagrio"
+																		value="<?=!empty($detalle)? $detalle->def_pri_agrio_completo_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Cereza Seca</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nrocereza" id="nrocereza"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nrocereza" id="nrocereza"
 																		value="<?=!empty($detalle)? floatval($detalle->def_pri_cereza_seca_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqcereza" id="eqcereza"
-																		value="<?=!empty($detalle)? $detalle->def_pri_cereza_seca_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqcereza" id="eqcereza"
+																		value="<?=!empty($detalle)? $detalle->def_pri_cereza_seca_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Da&ntilde;ado por Hongos</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nrohongos" id="nrohongos"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nrohongos" id="nrohongos"
 																		value="<?=!empty($detalle)? floatval($detalle->def_pri_danado_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqhongos" id="eqhongos"
-																		value="<?=!empty($detalle)? $detalle->def_pri_danado_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqhongos" id="eqhongos"
+																		value="<?=!empty($detalle)? $detalle->def_pri_danado_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Da&ntilde;o Severo de Insectos</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroinsec" id="nroinsec"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroinsec" id="nroinsec"
 																		value="<?=!empty($detalle)? floatval($detalle->def_pri_danado_severo_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqinsec" id="eqinsec"
-																		value="<?=!empty($detalle)? $detalle->def_pri_danado_severo_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqinsec" id="eqinsec"
+																		value="<?=!empty($detalle)? $detalle->def_pri_danado_severo_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item mb-3">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Materia Extraña</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroextr" id="nroextr"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroextr" id="nroextr"
 																		value="<?=!empty($detalle)? floatval($detalle->def_pri_materia_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqextr" id="eqextr"
-																		value="<?=!empty($detalle)? $detalle->def_pri_materia_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqextr" id="eqextr"
+																		value="<?=!empty($detalle)? $detalle->def_pri_materia_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 														</ul>
@@ -350,91 +350,91 @@
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Negro Parcial</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nronegrop" id="nronegrop"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nronegrop" id="nronegrop"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_negro_parcial_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqnegrop" id="eqnegrop"
-																		value="<?=!empty($detalle)? $detalle->def_sec_negro_parcial_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqnegrop" id="eqnegrop"
+																		value="<?=!empty($detalle)? $detalle->def_sec_negro_parcial_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Agrio Parcial</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroagriop" id="nroagriop"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroagriop" id="nroagriop"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_agrio_parcial_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqagriop" id="eqagriop"
-																		value="<?=!empty($detalle)? $detalle->def_sec_agrio_parcial_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqagriop" id="eqagriop"
+																		value="<?=!empty($detalle)? $detalle->def_sec_agrio_parcial_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Pergamino</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroperg" id="nroperg"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroperg" id="nroperg"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_pergamino_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqperg" id="eqperg"
-																		value="<?=!empty($detalle)? $detalle->def_sec_pergamino_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqperg" id="eqperg"
+																		value="<?=!empty($detalle)? $detalle->def_sec_pergamino_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Flotador</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroflot" id="nroflot"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroflot" id="nroflot"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_flotador_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqflot" id="eqflot"
-																		value="<?=!empty($detalle)? $detalle->def_sec_flotador_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqflot" id="eqflot"
+																		value="<?=!empty($detalle)? $detalle->def_sec_flotador_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Inmaduro</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroinmad" id="nroinmad"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroinmad" id="nroinmad"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_inmaduro_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqinmad" id="eqinmad"
-																		value="<?=!empty($detalle)? $detalle->def_sec_inmaduro_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqinmad" id="eqinmad"
+																		value="<?=!empty($detalle)? $detalle->def_sec_inmaduro_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Averanado</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroavera" id="nroavera"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroavera" id="nroavera"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_averanado_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqavera" id="eqavera"
-																		value="<?=!empty($detalle)? $detalle->def_sec_averanado_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqavera" id="eqavera"
+																		value="<?=!empty($detalle)? $detalle->def_sec_averanado_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Concha</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroconc" id="nroconc"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroconc" id="nroconc"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_concha_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqconc" id="eqconc"
-																		value="<?=!empty($detalle)? $detalle->def_sec_concha_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqconc" id="eqconc"
+																		value="<?=!empty($detalle)? $detalle->def_sec_concha_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Quebrado/Cortado/Mordido</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nroqueb" id="nroqueb"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nroqueb" id="nroqueb"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_quebrado_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqqueb" id="eqqueb"
-																		value="<?=!empty($detalle)? $detalle->def_sec_quebrado_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqqueb" id="eqqueb"
+																		value="<?=!empty($detalle)? $detalle->def_sec_quebrado_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">C&aacute;scara/Pulpa</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nropul" id="nropul"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nropul" id="nropul"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_cascara_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqpul" id="eqpul"
-																		value="<?=!empty($detalle)? $detalle->def_sec_cascara_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqpul" id="eqpul"
+																		value="<?=!empty($detalle)? $detalle->def_sec_cascara_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item">
 																<div class="row">
 																	<p class="col-4 align-self-center mb-0">Da&ntilde;o Ligero de Insectos</p>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right blur" type="text" name="nrolgins" id="nrolgins"
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 num text-right blur" type="text" name="nrolgins" id="nrolgins"
 																		value="<?=!empty($detalle)? floatval($detalle->def_sec_insectos_num) : ''?>" /></div>
-																	<div class="col-4"><input class="form-control form-control-sm mx-2 moneda text-right" type="text" name="eqlgins" id="eqlgins"
-																		value="<?=!empty($detalle)? $detalle->def_sec_insectos_equi : ''?>" /></div>
+																	<div class="col-4"><input class="form-control form-control-sm mx-2 eq text-right" type="text" name="eqlgins" id="eqlgins"
+																		value="<?=!empty($detalle)? $detalle->def_sec_insectos_equi : ''?>" readonly /></div>
 																</div>
 															</li>
 															<li class="list-group-item mb-3">

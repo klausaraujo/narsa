@@ -448,9 +448,20 @@ $('.blur').on('blur',function(){
 			alert('El pago de intereses no puede ser mayor a los intereses generados');
 			$(this).focus();
 		}
-	}else if(id === 'nronegro' || id === 'nroagrio' || id === 'sabreptos' || id === 'aciptos' || id === 'cuerptos' || id === 'uniptos' || id === 'balptos' || id === 'tazptos'
-		|| id === 'dulptos' || id === 'apreptos'){
+	}else if(id === 'nronegro' || id === 'nroagrio' || id === 'nrocereza' || id === 'nrohongos' || id === 'nroextr' || id === 'nronegrop' || id === 'nroagriop'
+		|| id === 'nroinsec' || id === 'nroperg' || id === 'nroflot' || id === 'nroinmad' || id === 'nroavera' || id === 'nroconc' || id === 'nroqueb' || id === 'nropul'
+		|| id === 'nrolgins'){
+		/* || id === 'uniptos' || id === 'balptos' || id === 'tazptos' || id === 'dulptos' || id === 'apreptos'*/
+		let herm = $(this).closest('.row').find('.eq'), val = parseInt($(this).val()), container = $(this).closest('.container').find('.eq'), total = 0;		
 		
+		if(id === 'nronegro' || id === 'nroagrio' || id === 'nrocereza' || id === 'nrohongos' || id === 'nroextr'){ factor = 1; herm.val(parseInt(val) / factor); }
+		else if(id === 'nronegrop' || id === 'nroagriop'){ factor = 3; herm.val(parseInt(val / factor)); }
+		else if(id === 'nroinsec' || id === 'nroperg' || id === 'nroflot' || id === 'nroinmad' || id === 'nroavera' || id === 'nroconc' || id === 'nroqueb' || id === 'nropul'){
+			factor = 5; herm.val(parseInt(val / factor));
+		}else if(id === 'nrolgins'){ factor = 10; herm.val(parseInt(val / factor)); }
+		
+		$.each(container, function(i, e){ total += parseInt(e.value); });
+		$('#totconteo').val(parseInt(total));
 	}
 	
 });
