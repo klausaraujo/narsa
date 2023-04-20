@@ -140,6 +140,7 @@ $('.sucursal').bind('change', function(){
 	});*/
 });
 
+/** Anular un certificado */
 $('#tablaCertificaciones').bind('click','a',function(e){
 	let evt = e.target, a = $(evt).closest('a');
 	
@@ -193,13 +194,16 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	$('#modalProveedores').modal('hide');
 });
 
+/** Accion al cerrar el modal */
 $('#modalRegCatador').on('hidden.bs.modal',function(e){
 	$('#form_catador')[0].reset();
 	$('#form_catador select').prop('selectedIndex',0);
 	
 	$('#nombres').attr('readonly', true), $('#apellidos').attr('readonly', true), $('#doc').removeAttr('readonly');
+	tablaCatSelec.ajax.reload();
 });
 
+/** Accion al clicar dos veces sobre la fila */
 $('#tablaCatadores').on('dblclick','tr',function(){
 	let data = tablaCatSelec.row( this ).data(), row = [], esta = false;
 	//console.log(data);
@@ -223,11 +227,14 @@ $('#tablaCatadores').on('dblclick','tr',function(){
 	}
 	$('#modalCatadores').modal('hide');
 });
+
+/** Eliminar el registro de la grilla de catadores*/
 $('#tablaSeleccionCatadores').on('click','a', function(){
 	if($(this).hasClass('remover')){ tablaCat.row($(this).parents("tr")).remove().draw(); }
 });
-$('#modalProveedores').on('show.bs.modal',function(e){});
+//$('#modalProveedores').on('show.bs.modal',function(e){});
 
+/** Formulario de registro de certificado */
 $('#form_certificado').validate({
 	errorClass: 'form_error',
 	validClass: 'success',
@@ -261,6 +268,7 @@ $('#form_certificado').validate({
 	}
 });
 
+/** Accion para guardar el catador en la base y mostrarlo en la grilla */
 $('#btnEnviar').on('click',function(e){
 	e.preventDefault();
 	let boton = $(this);
@@ -294,6 +302,8 @@ $('#btnEnviar').on('click',function(e){
 		}
 	});
 });
+
+/** Accion de los formularios que guardan los parametros*/
 $('.form').on('submit',function(e){
 	e.preventDefault();
 	let boton = $(this).find('button'), f = e.target;
@@ -320,6 +330,8 @@ $('.form').on('submit',function(e){
 		}
 	});
 });
+
+/** Accion que guarda los catadores en el detalle del certificado */
 $('#guardaCatadores').bind('click', function(){
 	let boton = this, json = [], i = 0, id = $('#idcertificado').val();
 	
