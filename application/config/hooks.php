@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+include APPPATH.'libraries\Dotenv.php';
 /*
 | -------------------------------------------------------------------------
 | Hooks
@@ -11,3 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
+
+$hook['pre_system'] = function() {
+    $dotenv = new Dotenv(FCPATH);
+    $dotenv->loadFile();
+};

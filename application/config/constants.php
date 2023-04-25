@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 //SISTEMA
 
-define('TITULO_PRINCIPAL','Sistema Integrado de Registro de Eventos del Sector Educación');
+/*define('TITULO_PRINCIPAL','Sistema Integrado de Registro de Eventos del Sector Educación');
 define('TITULO_WEB','SIRESE');
 define('TITULO_MAIN','SIRESE');
 define('COPY_RIGHT','Centro de Operaciones de Emergencias Sectorial MINEDU');
@@ -103,4 +103,4 @@ define('ERROR_IMAGEN_FORMATO','Error, cargue una imagen JPG o PNG');
 define('EXITO_ARCHIVO','Archivo cargado');
 define('ERROR_ARCHIVO_RUTA','Error con la carga del archivo, revise la ruta del servidor');
 define('ERROR_ARCHIVO_GRANDE','Error, cargue un archivo no mayor de 10MB');
-define('ERROR_ARCHIVO_FORMATO','Error, cargue un PDF');
+define('ERROR_ARCHIVO_FORMATO','Error, cargue un PDF');*/

@@ -75,11 +75,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '12345678',
-	'database' => 'narsa',
-	'dbdriver' => 'mysqli',
+	'hostname' => getenv('database.default.hostname'),
+	'username' => getenv('database.default.username'),
+	'password' => getenv('database.default.password'),
+	'database' => getenv('database.default.database'),
+	'dbdriver' => getenv('database.default.DBDriver'),
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
