@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 class Dotenv
 {
@@ -14,7 +14,7 @@ class Dotenv
 		$this->path = $path.'.env';
 	}
 	
-    public function loadFile() :void
+    public function loadFile()
     {
 		if(!file_exists($this->path)) {
             throw new \InvalidArgumentException(sprintf('%s does not exist', $this->path));
@@ -28,7 +28,7 @@ class Dotenv
         $this->env();
     }
 	
-	public function loadURL() :void
+	public function loadURL()
     {
 		if(! $this->url_exists($this->path)) {
             throw new \InvalidArgumentException(sprintf('%s URL No existe', $this->path));
