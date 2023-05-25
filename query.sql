@@ -3033,3 +3033,6 @@ insert into factor (idfactor,destino,idtipooperacion,factor) values (27,1,10,-1)
 insert into factor (idfactor,destino,idtipooperacion,factor) values (28,2,18,-1);
 
 alter table certificado_detalle add olor varchar(200) after idolor;
+
+INSERT INTO tipo_operacion_caja (idtipooperacion, tipo_operacion, combo_movimientos, activo) VALUES ('19', 'SALIDA DE DINERO DE CAJA (BANCOS)', '0', '1');
+INSERT INTO factor (idfactor, destino, idtipooperacion, factor, activo) VALUES ('29', '2', '19', '-1', '1');
