@@ -254,8 +254,8 @@ $(document).ready(function (){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, language: lngDataTable, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
 			columns:[
-				{ data: 'idarticulo' },{ data: 'idguia' },
-				{ data: 'anio_guia' }, { data: 'numero', render:function(data){ return ceros( data, 6 );} },{ data: 'articulo' },
+				{ data: 'idarticulo' },{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'fecha' },
+				{ data: 'numero', render:function(data){ return ceros( data, 6 );} },{ data: 'articulo' },
 				{
 					data: 'cantidad', className: 'text-right',
 					render: function(data,type,row,meta){
@@ -285,8 +285,8 @@ $(document).ready(function (){
 			],
 			columnDefs:[
 				{ title: 'ID Articulo', targets: 0, visible: false },{ title: 'ID Gu&iacute;a', targets: 1, visible: false },{ title: 'A&ntilde;o Gu&iacute;a', targets: 2 },
-				{ title: 'Nro. Gu&iacute;a', targets: 3 },{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Saldo', targets: 5 },{ title: 'Valorizar', targets: 6 },
-				{ title: 'Cantidad', targets: 7 },{ title: 'Costo', targets: 8 },
+				{ title: 'Fecha Gu&iacute;a', targets: 3 },{ title: 'Nro. Gu&iacute;a', targets: 4 },{ title: 'Art&iacute;culo', targets: 5 },{ title: 'Saldo', targets: 6 },
+				{ title: 'Valorizar', targets: 7 },{ title: 'Cantidad', targets: 8 },{ title: 'Costo', targets: 9 },
 			],
 			dom: '<"row"rt>', order: [],
 		});

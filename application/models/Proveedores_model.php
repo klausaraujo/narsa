@@ -167,7 +167,7 @@ class Proveedores_model extends CI_Model
     }
 	public function listaValorizacionDetalle($where)
 	{
-		$this->db->select('idguia,anio_guia,numero,idarticulo,articulo,cantidad,idsucursal');
+		$this->db->select('idguia,anio_guia,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,numero,idarticulo,articulo,cantidad,idsucursal');
         $this->db->from('lista_ingresos_valorizaciones_saldo');
 		$this->db->where($where);
 		$this->db->order_by('idguia ASC, idarticulo ASC');

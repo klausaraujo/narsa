@@ -46,16 +46,17 @@ class Dotenv
             if (strpos(trim($line), '#') === 0) {
                 continue;
             }
+			if(! ctype_space($line)){
+				list($name, $value) = explode('=', $line, 2);
+				$name = trim($name);
+				$value = trim($value);
 
-            list($name, $value) = explode('=', $line, 2);
-            $name = trim($name);
-            $value = trim($value);
-
-            if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-                putenv(sprintf('%s=%s', $name, $value));
-                $_ENV[$name] = $value;
-                $_SERVER[$name] = $value;
-            }
+				if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
+					putenv(sprintf('%s=%s', $name, $value));
+					$_ENV[$name] = $value;
+					$_SERVER[$name] = $value;
+				}
+			}
         }
 	}
 	
