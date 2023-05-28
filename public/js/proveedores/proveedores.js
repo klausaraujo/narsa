@@ -34,7 +34,7 @@ $(document).ready(function (){
 							'<a title="Editar Proveedor" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+' ">'+
 								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 							'<a title="Movimientos Proveedor" '+hrefMov+'class="bg-success btnTable '+((data.activo === '0' || !btnMov)?'disabled':'')+' acciones">'+
-								'<i class="far fa-house" aria-hidden="true"></i></a>'+
+								'<i class="fas fa-house" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
@@ -78,10 +78,10 @@ $(document).ready(function (){
 							(data.idtipooperacion !== '6')?
 							'<a title="Anular Operaci&oacute;n" '+(btnAnulaOp?'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+
 								'&op=operaciones"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular">'+
-								'<i class="far fa-trash" aria-hidden="true"></i></a>':
+								'<i class="fa fa-trash" aria-hidden="true"></i></a>':
 							'<a title="Anular Operaci&oacute;n" '+(btnAnulaOp?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+
 								'&op=valorizop"':'')+' class="bg-danger btnTable '+(!btnAnulaOp?'disabled':'')+' anular">'+
-								'<i class="far fa-trash" aria-hidden="true"></i></a>';
+								'<i class="fa fa-trash" aria-hidden="true"></i></a>';
 						btnAccion = '<div class="btn-group">'+btnAccion+
 							'<a title="Ver Transacción" href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'+
 							' class="bg-primary btnTable" target="_blank" ><i class="fas fa-file-pdf" aria-hidden="true"></i></a></div>';
@@ -156,13 +156,13 @@ $(document).ready(function (){
 							'data-toggle="modal"><i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
 						'<a title="Anular Gu&iacute;a Ingreso" '+((data.activo === '1' || btnAnulGuia || data.anula === '1')?'href="'+base_url+'proveedores/ingresos/anular?id='+data.idguia+
 							'&op=ingresos"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulGuia || data.anula === '0')?'disabled':'')+' anular">'+
-							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+							'<i class="fa fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Gu&iacute;a Ingreso" '+((data.activo === '1' || btnPdfGuia)?'href="'+base_url+'proveedores/ingresos/guia_ingreso?id='+data.idguia+
 							'&op=guiaing"':'')+' class="bg-primary btnTable '+((data.activo === '0' || !btnPdfGuia)?'disabled':'')+' ver_guia_pdf" target="_blank" >'+
-							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
+							'<i class="fa fa-file-pdf" aria-hidden="true"></i></a>'+
 						'<a title="Ver Comprobante" '+((data.activo === '1' || btnCompGuia)?'href="'+base_url+'proveedores/ingresos/comprobante?id='+data.idguia+
 							'&op=comp"':'')+' class="bg-success btnTable '+((data.activo === '0' || !btnCompGuia)?'disabled':'')+' ver_comp_pdf" target="_blank" >'+
-							'<i class="fas fa-receipt" aria-hidden="true"></i></a>'+
+							'<i class="fa fa-receipt" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
@@ -310,10 +310,10 @@ $(document).ready(function (){
 						'<div class="btn-group">'+
 						'<a title="Anular Valorizaciones" '+((data.activo === '1' || btnAnulValor)?'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idvalorizacion+
 							'&op=valorizaciones"':'')+' class="bg-danger btnTable '+((data.activo === '0' || !btnAnulValor)?'disabled':'')+' anular">'+
-							'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+							'<i class="fa fa-trash" aria-hidden="true"></i></a>'+
 						'<a title="Ver Detalle Valorizaci&oacute;n" '+((data.activo === '1' || btnVerValor)?'href="'+base_url+'proveedores/valorizaciones/valoriz_pdf?id='+data.idvalorizacion+
 							'&op=valorizdet"':'')+' class="bg-primary btnTable '+((data.activo === '0' || !btnVerValor)?'disabled':'')+' ver_valoriz_pdf" target="_blank" >'+
-							'<i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
+							'<i class="fa fa-file-pdf" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}

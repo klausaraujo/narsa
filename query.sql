@@ -3036,3 +3036,35 @@ alter table certificado_detalle add olor varchar(200) after idolor;
 
 INSERT INTO tipo_operacion_caja (idtipooperacion, tipo_operacion, combo_movimientos, activo) VALUES ('19', 'SALIDA DE DINERO DE CAJA (BANCOS)', '0', '1');
 INSERT INTO factor (idfactor, destino, idtipooperacion, factor, activo) VALUES ('29', '2', '19', '-1', '1');
+
+/*
+Nuevas para Reportes
+*/
+
+drop view if EXISTS reporte_deudores;
+drop view if EXISTS reporte_deudas;
+
+create view reporte_deudores
+as
+select idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular,sum(monto_factor_final) as 'monto' from lista_movimientos_proveedor 
+group by idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular
+having sum(monto_factor_final)<0;
+
+create view reporte_deudas
+as
+select idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular,sum(monto_factor_final) as 'monto' from lista_movimientos_proveedor 
+group by idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular
+having sum(monto_factor_final)>0;
+
+
+
+
+
+
+
+
+
+
+
+
+

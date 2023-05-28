@@ -70,13 +70,13 @@ $(document).ready(function (){
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+'">'+
-								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+								'<i class="fa fa-pen-to-square" aria-hidden="true"></i></a>'+
 							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular)?'disabled':'')+'">'+
-								'<i class="far fa-trash" aria-hidden="true"></i></a>'+
+								'<i class="fa fa-trash" aria-hidden="true"></i></a>'+
 							'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
-								'" target="_blank"><i class="fas fa-file-pdf" aria-hidden="true"></i></a>'+
+								'" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>'+
 							'<a title="Ver Comprobante" '+hrefComp+' class="bg-success btnTable '+((data.activo === '0' || !btnComp)?'disabled':'')+
-								'" target="_blank"><i class="fas fa-receipt" aria-hidden="true"></i></a>'+
+								'" target="_blank"><i class="fa fa-receipt" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
