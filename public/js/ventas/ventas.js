@@ -18,9 +18,9 @@ $(document).ready(function (){
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Cliente" '+hrefEditar+' class="bg-warning btnTable '+((data.activo === '0' || !btnEdit)?'disabled':'')+' ">'+
-								'<i class="fas fa-pen-to-square" aria-hidden="true"></i></a>'+
+								'<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
 							'<a title="Ventas Cliente" '+hrefVta+'class="bg-success btnTable '+((data.activo === '0' || !btnVta)?'disabled':'')+' acciones">'+
-								'<i class="far fa-house" aria-hidden="true"></i></a>'+
+								'<i class="fa fa-home" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
@@ -70,13 +70,13 @@ $(document).ready(function (){
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+'">'+
-								'<i class="fa fa-pen-to-square" aria-hidden="true"></i></a>'+
+								'<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
 							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular)?'disabled':'')+'">'+
-								'<i class="fa fa-trash" aria-hidden="true"></i></a>'+
+								'<i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
 							'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
-								'" target="_blank"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>'+
+								'" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+
 							'<a title="Ver Comprobante" '+hrefComp+' class="bg-success btnTable '+((data.activo === '0' || !btnComp)?'disabled':'')+
-								'" target="_blank"><i class="fa fa-receipt" aria-hidden="true"></i></a>'+
+								'" target="_blank"><i class="fa fa-file-o" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
@@ -112,8 +112,8 @@ $(document).ready(function (){
 				{
 					data: null, orderable: false,
 					render: function(data){
-						return '<div class="btn-group"><a title="Eliminar Detalle" href="#" class="bg-warning btnTable eliminarSaldetalle">'+
-								'<i class="far fa-trash mx-auto" aria-hidden="true"></i></a></div>';
+						return '<div class="btn-group"><a title="Eliminar Detalle" href="#" class="bg-danger btnTable eliminarSaldetalle">'+
+								'<i class="fa fa-trash-o mx-auto" aria-hidden="true"></i></a></div>';
 					}
 				},
 				{ data: 'articulo' },
