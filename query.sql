@@ -3041,30 +3041,54 @@ INSERT INTO factor (idfactor, destino, idtipooperacion, factor, activo) VALUES (
 Nuevas para Reportes
 */
 
-drop view if EXISTS reporte_deudores;
-drop view if EXISTS reporte_deudas;
+drop view if exists reporte_deudores;
+drop view if exists reporte_deudas;
+drop view if exists cuentas_cobrar;
+drop view if exists cuentas_pagar;
+drop view if exists articulos_ingresados;
+drop view if exists articulos_valorizados;
+drop view if exists articulos_x_valorizar;
 
-create view reporte_deudores
+
+create view cuentas_cobrar
 as
 select idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular,sum(monto_factor_final) as 'monto' from lista_movimientos_proveedor 
 group by idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular
 having sum(monto_factor_final)<0;
 
-create view reporte_deudas
+create view cuentas_pagar
 as
 select idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular,sum(monto_factor_final) as 'monto' from lista_movimientos_proveedor 
 group by idsucursal,sucursal,idproveedor,tipo_documento,numero_documento,nombre,zona,celular
 having sum(monto_factor_final)>0;
 
+update menu_detalle set descripcion ='Reporte 1' where idmenudetalle=1;
+update menu_detalle set descripcion ='Reporte 2' where idmenudetalle=2;
+update menu_detalle set descripcion ='Reporte 3' where idmenudetalle=3;
+update menu_detalle set descripcion ='Reporte 4' where idmenudetalle=4;
+update menu_detalle set descripcion ='Reporte 5' where idmenudetalle=5;
+update menu_detalle set descripcion ='Reporte 6' where idmenudetalle=6;
+update menu_detalle set descripcion ='Reporte 7' where idmenudetalle=7;
+update menu_detalle set descripcion ='Reporte 8' where idmenudetalle=8;
+update menu_detalle set descripcion ='Reporte 9' where idmenudetalle=9;
+update menu_detalle set descripcion ='Reporte 10' where idmenudetalle=10;
 
+update menu_detalle set descripcion ='Articulos Ingresados' where idmenudetalle=1;
+update menu_detalle set descripcion ='Articulos Valorizados' where idmenudetalle=2;
+update menu_detalle set descripcion ='Articulos Por Valorizar' where idmenudetalle=3;
+update menu_detalle set descripcion ='Cuentas por Cobrar' where idmenudetalle=4;
+update menu_detalle set descripcion ='Cuentas por Pagar' where idmenudetalle=5;
 
+create view articulos_ingresados
+as
+select idsucursal,sucursal,anio_guia as 'anio',tipo_documento,numero_documento,nombre as 'productor',idguia,numero as 'guia',fecha,articulo,cantidad,costo from lista_ingresos_proveedores;
 
+create view articulos_valorizados
+as
+select idsucursal,sucursal,anio_valorizacion as 'anio',tipo_documento,numero_documento,nombre as 'productor',idguia,numero_guia as guia,fecha_guia,articulo,cantidad,costo from lista_valorizaciones_proveedores;
 
-
-
-
-
-
-
+create view articulos_x_valorizar
+as
+select idsucursal,sucursal,anio_guia as 'anio',tipo_documento,numero_documento,nombre as 'productor',numero as 'guia',fecha,articulo,cantidad from lista_ingresos_valorizaciones_saldo where cantidad>0;
 
 
