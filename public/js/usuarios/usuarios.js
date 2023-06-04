@@ -24,13 +24,13 @@ $(document).ready(function (){
 						/* Boton de permisos */
 						'<a title="Permisos" '+((data.activo === '1' || btnPermisos)?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
 							' class="bg-secondary btnTable '+((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
-							'<i class="fa fa-cogs" aria-hidden="true"></i></a></div><div class="btn-group">'+
+							'<i class="fa fa-cogs" aria-hidden="true"></i></a></div><br><div class="btn-group mt-2">'+
 						/* Boton de Reset Clave */
 						'<a title="Resetear Clave" '+((data.activo === '1' || btnClave)?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
-							' class="bg-info btnTable '+((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave mt-2"><i class="fa fa-key" aria-hidden="true"></i></a>'+
+							' class="bg-info btnTable '+((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="fa fa-key" aria-hidden="true"></i></a>'+
 						/* Boton de activacion */
 						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' || btnActiva)?'href="'+base_url+'usuarios/habilitar?id='+data.idusuario+
-							'&stat='+data.activo+'"':'')+' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar mt-2" >'+
+							'&stat='+data.activo+'"':'')+' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
 							'<i class="fa '+(data.activo === '1'? 'fa-unlock':'fa-lock')+'" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}

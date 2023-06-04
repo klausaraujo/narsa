@@ -115,6 +115,17 @@ $route['proveedores/ingresos/comprobante'] = 'proveedores/main/informes';
 $route['proveedores/cobros/lista'] = 'proveedores/main/listaCobros';
 $route['proveedores/pagos/lista'] = 'proveedores/main/listaPagos';
 $route['proveedores/pagosVal/lista'] = 'proveedores/main/listaPagosVal';
+$route['proveedores/reporte1'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte2'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte3'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte4'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte5'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte6'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte7'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte8'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte9'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte10'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';

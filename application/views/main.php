@@ -32,6 +32,7 @@
 						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'nuevo') $this->load->view('proveedores/form-new');
 						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'editar') $this->load->view('proveedores/form-editar');
 						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones') $this->load->view('proveedores/transacciones');
+						elseif($this->uri->segment(1) === 'proveedores' && substr($this->uri->segment(2),0,strlen('reporte')) === 'reporte') $this->load->view('proveedores/reportes');
 						elseif($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) == '') $this->load->view('servicios/servicios');
 						elseif($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) === 'nuevo') $this->load->view('servicios/form-new');
 						elseif($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) === 'editar') $this->load->view('servicios/form-editar');

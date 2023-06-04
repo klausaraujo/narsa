@@ -45,6 +45,7 @@
 		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>-->
 		<script src="<?=base_url()?>/public/datatable/jquery.dataTables.min.js"></script>
 		<script src="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.js"></script>
+		<script src="<?=base_url()?>/public/datatable/dataTables.buttons.min.js"></script>
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
@@ -76,6 +77,7 @@
 		<!-- Rutinas Javascript por cada uno de los segmentos 1 -->
 		<?php if($this->uri->segment(1) === 'proveedores'){ ?>
 		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>
+		<script src="<?=base_url()?>/public/js/proveedores/reportes.js"></script>
 		<script>
 			let botonesProv = JSON.parse('<?=$this->session->userdata('perProv')?>');
 			<?if($this->uri->segment(2) == ''){?>
@@ -226,120 +228,6 @@
 				data: $data,
 				options: optGrafico
 			});
-			
-			
-			
-			
-//if (jQuery('#am-radar-chart').length) {
-	/*window.onload = function(){
-    am4core.ready(function(){
-
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
-
-        // Create chart instance 
-        chart = am4core.create('am-radar-chart', am4charts.RadarChart);
-        chart.colors.list = [am4core.color("#089bab")];
-		let title = chart.titles.create();
-		title.text = 'ANALISIS SENSORIAL';
-		title.fontSize = 20;
-
-        // Add data 
-        chart.data = [
-			{'sensoriales': "SABOR", 'litres': 20, 'units': 20},
-			{'sensoriales': 'OLOR', 'litres': 15, 'units': 15},
-			{'sensoriales': 'DISQUE', 'litres': 10, 'units': 10},
-			{'sensoriales': 'TACTO', 'litres': 7, 'units': 7},
-			{'sensoriales': 'OLFATO','litres': 4, 'units': 4}
-		];
-
-        // Create axes 
-        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = 'sensoriales';
-
-        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.renderer.axisFills.template.fill = chart.colors.getIndex(1);
-        valueAxis.renderer.axisFills.template.fillOpacity = 0.05;
-
-        // Create and configure series 
-        var series = chart.series.push(new am4charts.RadarSeries());
-        series.dataFields.valueY = 'litres';
-        series.dataFields.categoryX = 'sensoriales';
-        series.name = 'Aromas';
-        series.strokeWidth = 2;
-		series.zIndex = 2;
-	
-		let series2 = chart.series.push(new am4charts.RadarColumnSeries());
-		series2.dataFields.valueY = 'units';
-		series2.dataFields.categoryX = 'sensoriales';
-		series2.name = 'Units';
-		series2.strokeWidth = 0;
-		series2.columns.template.fill = am4core.color("#CDA2AB");
-		series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
-		
-		/*chart.xAxes.rangeChangeAnimation.once('animationended', (ev) => {
-			console.log('Listo');
-			setTimeout(function(){
-				let svg = document.querySelector('svg');
-
-				let svgURL = new XMLSerializer().serializeToString(svg);
-				//let encoded = btoa(svgURL);
-				let encoded = btoa(unescape(encodeURIComponent(svgURL)));
-				//console.log(encoded);
-				//console.log(encodeURIComponent(svgURL));
-				$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
-				
-			}, 500);
-		});*/
-		//console.log(chart);
-		
-		/*chart.events.on('frameended', (ev) => {
-			setTimeout(function(){
-				let svg = document.querySelector('svg');
-
-				let svgURL = new XMLSerializer().serializeToString(svg);
-				//let encoded = btoa(svgURL);
-				let encoded = btoa(unescape(encodeURIComponent(svgURL)));
-				//console.log(encoded);
-				//console.log(encodeURIComponent(svgURL));
-				$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
-				
-			}, 500);
-		});*/
-		/*chart.events.on('beforedatavalidated', function(ev) {
-			setTimeout(function(){
-				let svg = document.querySelector('svg');
-
-				let svgURL = new XMLSerializer().serializeToString(svg);
-				//let encoded = btoa(svgURL);
-				let encoded = btoa(unescape(encodeURIComponent(svgURL)));
-				//console.log(encoded);
-				//console.log(encodeURIComponent(svgURL));
-				$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
-				
-			}, 1000);
-		});*/
-		/*chart.events.on('extremeschanged',function(){
-			let svg = document.querySelector('svg');
-
-			let svgURL = new XMLSerializer().serializeToString(svg);
-			//let encoded = btoa(svgURL);
-			let encoded = btoa(unescape(encodeURIComponent(svgURL)));
-			//console.log(encoded);
-			//console.log(encodeURIComponent(svgURL));
-			$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
-		});*/
-	//}); // end am4core.ready()
-//}
-//}
-			
-			
-			
-			
-			
-			
-			
 		</script>
 		<?}elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'ventascliente'){ ?>
 		<script>
