@@ -8,11 +8,13 @@ class Reportes_model extends CI_Model
 	private $anio = [];
 	private $articulo = [];
 	private $productor = [];
+	private $nombre = [];
 	
 	public function setSucursal($data){ $this->idsucursal = [ 'idsucursal' => $this->db->escape_str($data) ]; }
 	public function setAnio($data){ $this->anio = [ 'anio' => $this->db->escape_str($data) ]; }
 	public function setArticulo($data){ $this->articulo = [ 'articulo' => $this->db->escape_str($data) ]; }
 	public function setProductor($data){ $this->productor = [ 'productor' => $this->db->escape_str($data) ]; }
+	public function setNombre($data){ $this->nombre = [ 'nombre' => $this->db->escape_str($data) ]; }
 	
 	public function __construct(){
 		parent::__construct();
@@ -76,6 +78,26 @@ class Reportes_model extends CI_Model
 		if($this->productor) $this->db->where($this->productor);
 		$this->db->order_by('guia', 'ASC');
 		$this->db->order_by('articulo', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
+	public function repCtasCobrar()
+    {
+        $this->db->select('*,FORMAT(monto,2) as monto');
+        $this->db->from('cuentas_cobrar');
+		if($this->idsucursal) $this->db->where($this->idsucursal);
+		if($this->productor) $this->db->where($this->productor);
+		$this->db->order_by('idproveedor', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
+	public function repCtasPagar()
+    {
+        $this->db->select('*,FORMAT(monto,2) as monto');
+        $this->db->from('cuentas_pagar');
+		if($this->idsucursal) $this->db->where($this->idsucursal);
+		if($this->nombre) $this->db->where($this->nombre);
+		$this->db->order_by('idproveedor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }

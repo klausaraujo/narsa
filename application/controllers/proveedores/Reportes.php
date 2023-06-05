@@ -35,12 +35,15 @@ class Reportes extends CI_Controller
 		if($this->input->post('anio') && $this->input->post('anio') != '') $this->Reportes_model->setAnio($this->input->post('anio'));
 		if($this->input->post('articulo') && $this->input->post('articulo') != '') $this->Reportes_model->setArticulo($this->input->post('articulo'));
 		if($this->input->post('productor') && $this->input->post('productor') != '') $this->Reportes_model->setProductor($this->input->post('productor'));
+		if($this->input->post('productor') && $this->input->post('productor') != '') $this->Reportes_model->setNombre($this->input->post('productor'));
 		
 		$segmento = $this->input->post('segmento'); $reporte = [];
 		
 		if($segmento === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($segmento === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($segmento === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
+		elseif($segmento === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
+		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		
 		echo json_encode(['data' => $reporte]);
 	}
