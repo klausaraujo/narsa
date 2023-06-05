@@ -86,7 +86,7 @@ class Reportes_model extends CI_Model
         $this->db->select('*,FORMAT(monto,2) as monto');
         $this->db->from('cuentas_cobrar');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
-		if($this->productor) $this->db->where($this->productor);
+		if($this->nombre) $this->db->where($this->nombre);
 		$this->db->order_by('idproveedor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
