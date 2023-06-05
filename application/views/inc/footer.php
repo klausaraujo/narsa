@@ -43,13 +43,22 @@
 		<script src="<?=base_url()?>/public/js/custom.js"></script>
 		<!--<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
 		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>-->
-		<script src="<?=base_url()?>/public/datatable/jquery.dataTables.min.js"></script>
-		<script src="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.js"></script>
-		<script src="<?=base_url()?>/public/datatable/dataTables.buttons.min.js"></script><!---->
+		
+		<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+		<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+		
+		<!--<script src="<?=base_url()?>/public/datatable/dataTables.min.js"></script>-->
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
-			let botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';
+			let botones = '<"row"<"col-11 mt-2 mb-4"B><"col-6 float-left my-2"l><"col-6 float-right my-2"f><"col-12"rt><"col-6 float-left"i><"col-6 float-right"p>>';
 			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>', segmento2 = '<?=$this->uri->segment(2)?>';
 			const opt = { style:'decimal', minimumFractionDigits: 2 };
 			const lngDataTable = {

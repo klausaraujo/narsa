@@ -16,7 +16,7 @@ jQuery(document).ready(function($){
 					d.segmento = $('#segmento').val();
 				}
 			},
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
 			columns:[
 				{ data: 'anio' },{ data: 'tipo_documento' },{ data: 'numero_documento'},{ data: 'productor' },{ data: 'guia', render: function(data){ return ceros( data, 6 ); } },
 				{ data: 'fechaguia' },{ data: 'articulo' },{ data: 'cantidad' },{ data: 'costo' }
@@ -25,7 +25,16 @@ jQuery(document).ready(function($){
 				{ title: 'A&ntilde;o', targets: 0 },{ title: 'Tipo Doc.', targets: 1 },{ title: 'Nro. Doc.', targets: 2 },{ title: 'Productor', targets: 3 },
 				{ title: 'Nro. Gu&iacute;a', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Art&iacute;culo', targets: 6 },{ title: 'Cantidad', targets: 7 },
 				{ title: 'Costo', targets: 8 },
-			],order: [],
+			], dom: botones,
+			buttons: {
+				dom: { container: { tag: 'div', className: 'flexcontent' }, buttonLiner: { tag: null } },
+				buttons: [
+					{ extend: 'copy', className: 'rounded-pill' },
+					{ extend: 'excel', className: 'rounded-pill' },
+					{ extend: 'pdf', className: 'rounded-pill' },
+					{ extend: 'print', className: 'rounded-pill' }
+				]
+			}
 		});
 	}else if(segmento2 == 'reporte4' || segmento2 == 'reporte5'){
 		tabla2 = $('#tablaReporte2').DataTable({
@@ -38,16 +47,26 @@ jQuery(document).ready(function($){
 					d.segmento = $('#segmento').val();
 				}
 			},
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable, order: [],
 			columns:[
 				{ data: 'tipo_documento' },{ data: 'numero_documento'},{ data: 'nombre' },{ data: 'zona' },{ data: 'celular' },{ data: 'monto' },
 			],
 			columnDefs:[
 				{ title: 'Tipo Doc.', targets: 0 },{ title: 'Nro. Doc.', targets: 1 },{ title: 'Productor', targets: 3 },{ title: 'Zona', targets: 3 },
 				{ title: 'Celular', targets: 4 },{ title: 'Monto', targets: 5 },
-			],order: [],
+			], dom: botones,
+			buttons: {
+				dom: { container: { tag: 'div', className: 'flexcontent' }, buttonLiner: { tag: null } },
+				buttons: [
+					{ extend: 'copy', className: 'rounded-pill' },
+					{ extend: 'excel', className: 'rounded-pill' },
+					{ extend: 'pdf', className: 'rounded-pill' },
+					{ extend: 'print', className: 'rounded-pill' }
+				]
+			}
 		});
 	}
+	
 	tablaProv = $('#tablaProveedores').DataTable({
 		processing: true,
 		serverSide: true,
