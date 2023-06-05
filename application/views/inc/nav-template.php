@@ -83,7 +83,7 @@
 										<ul id="sub_<?=$row->idmenu?>" class="collapse collapse-level-1 pb-1 pl-1">
 										<?  foreach($submenu as $srow):
 												if($row->idmenu === $srow->idmenu){ ?>
-											<li><a href="<?=$this->uri->segment(1).'/'.$srow->url?>" rel=""><i class="<?=$srow->icono?> mr-20"></i><?=$srow->descripcion?></a></li>
+											<li><a href="<?=base_url().$this->uri->segment(1).'/'.$srow->url?>" rel=""><i class="<?=$srow->icono?> mr-20"></i><?=$srow->descripcion?></a></li>
 												<?}
 											endforeach; ?> 
 										</ul>
