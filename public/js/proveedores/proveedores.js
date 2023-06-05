@@ -807,7 +807,7 @@ $('body').bind('click','a',function(e){
 		
 		let confirmacion = confirm('Está seguro que desea anular la Transacción?');
 		if(confirmacion){
-			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+			a.html('<i class="fa fa-spinner fa-pulse fa-1x"></i>');
 			$.ajax({
 				data: {},
 				url: a.attr('href')+'&suc='+ $('#sucursal').val(),
@@ -819,7 +819,7 @@ $('body').bind('click','a',function(e){
 						tablaReg.ajax.reload(); tablaOp.ajax.reload(); tablaVal.ajax.reload(); tablaCobros.ajax.reload();
 					}else{
 						a.removeClass('disabled');
-						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
+						a.html('<i class="fa fa-trash" aria-hidden="true"></i>');
 					}
 					muestraEdoCta(data.edocta);
 					//$('#rescta').val(formatMoneda(data.edocta));

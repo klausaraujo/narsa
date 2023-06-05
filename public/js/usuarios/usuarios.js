@@ -1,4 +1,4 @@
-let tablaUser = null;
+let tablaUser = null;/**/
 
 $(document).ready(function (){
 	if(segmento2 == ''){

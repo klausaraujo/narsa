@@ -125,7 +125,7 @@ $route['proveedores/reporte7'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte8'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte9'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte10'] = 'proveedores/reportes/nuevoreporte';
-$route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';
+$route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';#
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';

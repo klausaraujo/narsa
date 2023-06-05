@@ -1074,7 +1074,7 @@ a.disabled{ pointer-events: none; color: grey }
 .centraVert{ display:flex; align-items:center;/* justify-content: center;*/ }
 .custom-control-input:checked~.custom-control-label::before { border-color: #dd5f1a; background-color: #dd5f1a; }
 .custom-control-input:focus:not(:checked)~.custom-control-label::before { border-color: #adb5bd; }
-.success { border: 1px solid #27b345; color: #000; }
+.success { border: 1px solid #27b345; color: #000; }/**/
 
 *::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }
 ::-moz-selection { background: rgba(221,95,26,1); color: #fff; text-shadow: none; }

@@ -2,7 +2,7 @@ let btnCurl = $('.btn_curl'), btnCancelar = $('.btn-cancelar'), upload = $('.upl
 
 $(document).ready(function (){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
-	setTimeout(function () { $('.msg').hide('slow'); }, 3000);
+	setTimeout(function () { $('.msg').hide('slow'); }, 3000);/**/
 });
 
 /*$('body').bind('click','a',function(e){

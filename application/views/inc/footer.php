@@ -45,7 +45,7 @@
 		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>-->
 		<script src="<?=base_url()?>/public/datatable/jquery.dataTables.min.js"></script>
 		<script src="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.js"></script>
-		<script src="<?=base_url()?>/public/datatable/dataTables.buttons.min.js"></script>
+		<script src="<?=base_url()?>/public/datatable/dataTables.buttons.min.js"></script><!---->
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
