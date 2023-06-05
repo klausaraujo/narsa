@@ -24,7 +24,7 @@ $(document).ready(function (){
 						/* Boton de permisos */
 						'<a title="Permisos" '+((data.activo === '1' || btnPermisos)?'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"':'')+
 							' class="bg-secondary btnTable '+((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
-							'<i class="fa fa-cogs" aria-hidden="true"></i></a></div><br><div class="btn-group mt-2">'+
+							'<i class="fa fa-cogs" aria-hidden="true"></i></a>'+
 						/* Boton de Reset Clave */
 						'<a title="Resetear Clave" '+((data.activo === '1' || btnClave)?'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'"':'')+
 							' class="bg-info btnTable '+((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="fa fa-key" aria-hidden="true"></i></a>'+
