@@ -77,7 +77,6 @@
 		<!-- Rutinas Javascript por cada uno de los segmentos 1 -->
 		<?php if($this->uri->segment(1) === 'proveedores'){ ?>
 		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>
-		<script src="<?=base_url()?>/public/js/proveedores/reportes.js"></script>
 		<script>
 			let botonesProv = JSON.parse('<?=$this->session->userdata('perProv')?>');
 			<?if($this->uri->segment(2) == ''){?>
@@ -184,6 +183,8 @@
 				map = mapa(opt);
 			}
 		</script>
+		<?}elseif($this->uri->segment(1) === 'proveedores'  && substr($this->uri->segment(2),0,strlen('reporte')) === 'reporte'){?>
+			<script src="<?=base_url()?>/public/js/proveedores/reportes.js"></script>
 		<?}else if($this->uri->segment(2) === 'parametros'){?>
 		<script>
 			let catadores = JSON.parse('<?=json_encode($catadores)?>');
