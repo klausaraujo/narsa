@@ -3073,11 +3073,11 @@ update menu_detalle set descripcion ='Reporte 8' where idmenudetalle=8;
 update menu_detalle set descripcion ='Reporte 9' where idmenudetalle=9;
 update menu_detalle set descripcion ='Reporte 10' where idmenudetalle=10;
 
-update menu_detalle set descripcion ='Articulos Ingresados' where idmenudetalle=1;
-update menu_detalle set descripcion ='Articulos Valorizados' where idmenudetalle=2;
-update menu_detalle set descripcion ='Articulos Por Valorizar' where idmenudetalle=3;
-update menu_detalle set descripcion ='Cuentas por Cobrar' where idmenudetalle=4;
-update menu_detalle set descripcion ='Cuentas por Pagar' where idmenudetalle=5;
+update menu_detalle set descripcion ='Articulos Ingresados',url='reporte1',icono='fa fa-newspaper-o' where idmenudetalle=1;
+update menu_detalle set descripcion ='Articulos Valorizados',url='reporte2' where idmenudetalle=2;
+update menu_detalle set descripcion ='Articulos Por Valorizar',url='reporte3' where idmenudetalle=3;
+update menu_detalle set descripcion ='Cuentas por Cobrar',url='reporte4' where idmenudetalle=4;
+update menu_detalle set descripcion ='Cuentas por Pagar',url='reporte5' where idmenudetalle=5;
 
 create view articulos_ingresados
 as
