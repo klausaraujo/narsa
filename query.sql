@@ -3096,7 +3096,7 @@ select idsucursal,sucursal,anio_guia as 'anio',tipo_documento,numero_documento,n
 /*
 Nuevas para Tostados
 */
-INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (6,'Módulo de Registro Ordenes de Tostado','Módulo Tostado','tostado.png','tostado','1','fa fa-thermometer-three-quarters',5);
+INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (6,'Módulo de Registro Ordenes de Tostado','Módulo Tostado','tostado.png','tostado','1','fa fa-thermometer-full',5);
 
 UPDATE modulo set orden=6 where idmodulo=4;
 
