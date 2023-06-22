@@ -51,6 +51,7 @@ DROP TABLE IF EXISTS transacciones;
 DROP TABLE IF EXISTS articulo;
 DROP TABLE IF EXISTS sucursal;
 DROP TABLE IF EXISTS medio_pago;
+DROP TABLE IF EXISTS tostado;
 
 CREATE TABLE ubigeo(
 	idubigeo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -3099,12 +3100,69 @@ INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUE
 
 UPDATE modulo set orden=6 where idmodulo=4;
 
-insert into modulo_rol(idmodulo,idperfil) values(6,1);
-insert into modulo_rol(idmodulo,idperfil) values(6,2);
+insert into modulo_rol(idmodulorol,idmodulo,idperfil) values(11,6,1);
+insert into modulo_rol(idmodulorol,idmodulo,idperfil) values(12,6,2);
 
+insert into menu(idmenu,idmodulo,descripcion,nivel,url,icono) values (13,6,'Nuevo Registro',0,'nuevotostado','fa fa-pencil-square-o');
 
+insert into permiso(idpermiso,descripcion,tipo,orden,activo,idmodulo) values(28,'Editar Tostado','1','28','1','6');
+insert into permiso(idpermiso,descripcion,tipo,orden,activo,idmodulo) values(29,'Anular Proceso','1','29','1','6');
+insert into permiso(idpermiso,descripcion,tipo,orden,activo,idmodulo) values(30,'Emitir PDF','1','30','1','6');
 
+insert into permisos_menu(idpermisosmenu,idmenu,idusuario) values (16,13,1);
 
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (30,28,1);
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (31,29,1);
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (32,30,1);
 
+create table tostado(
+idtostado smallint(4) NOT NULL AUTO_INCREMENT,
+anio_tostado smallint(4) NOT NULL,
+numero smallint(4) NOT NULL,
+fecha datetime NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+idarticulo smallint(4) NOT NULL,
+cantidad decimal (20,2),
+cascara decimal (20,2),
+malla15 decimal (20,2),
+malla14 decimal (20,2),
+descarte decimal (20,2),
+eliminacion decimal (20,2),
+seleccion smallint(4),
+tostado smallint(4),
+molido smallint(4),
+envasado smallint(4),
+observaciones varchar(1000), 
+idusuario_registro smallint(4),
+fecha_registro datetime,
+idusuario_modificacion smallint(4),
+fecha_modificacion datetime,
+idusuario_anulacion smallint(4),
+fecha_anulacion datetime,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtostado),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+/*
+Items Campo 
+1 - Exportacion
+2 - Segunda
 
+Items Campo Tostado 
+1 - Claro
+2 - Medio
+3 - Oscuro
+
+Items Campo Molido 
+1 - Fino
+2 - Medio
+3 - Grueso
+
+Items Campo Envasado 
+1 - 1 Kg.
+2 - 500 Gr.
+3 - 250 Gr.
+*/
