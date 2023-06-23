@@ -62,6 +62,7 @@ $route['proveedores'] = 'main/proveedores';
 $route['servicios'] = 'main/servicios';
 $route['certificaciones'] = 'main/servicios';
 $route['ventas'] = 'main/ventas';
+$route['tostado'] = 'main/tostado';
 $route['usuarios'] = 'main/usuarios';
 $route['main/curl'] = 'main/curl';
 $route['main/ruccurl'] = 'main/ruccurl';
@@ -155,6 +156,9 @@ $route['certificaciones/parametros/listacatadores'] = 'certificaciones/main/list
 $route['certificaciones/parametros/catadores'] = 'certificaciones/main/catadores';
 $route['certificaciones/parametros/registrarcatador'] = 'certificaciones/main/regcatadores';
 
+/* Tostado */
+$route['tostado/lista'] = 'tostado/main/listaTostado';
+
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';
 $route['nuevousuario'] = 'usuarios/main/nuevo';
@@ -167,7 +171,6 @@ $route['usuarios/permisos'] = 'usuarios/main/permisosUsuario';
 $route['usuarios/permisos/asignar'] = 'usuarios/main/asignarPermisos';
 $route['usuarios/sucursales'] = 'usuarios/main/sucursalesUsuario';
 $route['usuarios/sucursales/asignar'] = 'usuarios/main/asignarSucursales';
-
 
 /**/
 $route['404_override'] = '';

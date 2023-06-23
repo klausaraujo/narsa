@@ -155,9 +155,23 @@
 			});
 			<?}?>
 		</script>
+		<?}else if($this->uri->segment(1) === 'tostado'){ ?>
+		<script src="<?=base_url()?>public/js/tostado/tostado.js"></script>
+		<script>
+			let botonesTos = JSON.parse('<?=$this->session->userdata('perTost')?>');
+			<?if($this->uri->segment(2) == ''){?>
+			let btnEdit = false, btnAnular = false, btnPdf = false;
+			
+			$.each(botonesTos,function(i,e){
+				if(e.idpermiso === '28') btnEdit = true;
+				else if(e.idpermiso === '29') btnAnular = true;
+				else if(e.idpermiso === '30') btnPdf = true;
+			});
+			<?}?>
+		</script>
 		<?}?>
 		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
-				$this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas') && $this->uri->segment(2) == ''){ ?>
+				$this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas' || $this->uri->segment(1) === 'tostado') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>

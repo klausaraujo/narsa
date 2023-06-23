@@ -114,6 +114,25 @@ class Main extends CI_Controller
 		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes, 'saldo' => $saldo];
 		$this->load->view('main',$data);
 	}
+	public function tostado()
+	{
+		$this->load->model('Servicios_model');
+		$this->load->model('Usuarios_model');
+		//$mod = $this->input->get('mod');
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 6,'po.activo' => 1]);
+		$this->session->set_userdata('perTost', json_encode($bot));
+		
+		$headers = array(
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n','targets' => 2],
+			'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Fecha Registro', 'targets' => 5],
+			'6'=>['targets' => 'no-sort', 'orderable' => false]//,'7'=>['targets' => 1, 'visible' => false],
+		);
+		$anio = $this->Servicios_model->anio();
+		$mes = $this->Servicios_model->mes();
+		
+		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes];
+		$this->load->view('main',$data);
+	}
 	public function curl(){
 		$token_ruc = 'Bearer apis-token-1.aTSI1U7KEuT-6bbbCguH-4Y8TI6KS73N';//10460278975
 		$api = 'http://mpi.minsa.gob.pe/api/v1/ciudadano/ver/';
