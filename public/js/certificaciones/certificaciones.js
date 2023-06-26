@@ -303,7 +303,7 @@ $('#btnEnviar').on('click',function(e){
 	});
 });
 
-/** Accion de los formularios que guardan los parametros*/
+/** Accion de los formularios que guardan los parametros */
 $('.form').on('submit',function(e){
 	e.preventDefault();
 	let boton = $(this).find('button'), f = e.target;

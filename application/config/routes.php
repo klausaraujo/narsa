@@ -158,6 +158,12 @@ $route['certificaciones/parametros/registrarcatador'] = 'certificaciones/main/re
 
 /* Tostado */
 $route['tostado/lista'] = 'tostado/main/listaTostado';
+$route['nuevotostado'] = 'tostado/main/nuevo';
+$route['tostado/nuevo'] = 'tostado/main/nuevo';
+$route['tostado/editar'] = 'tostado/main/nuevo';
+$route['tostado/registrar'] = 'tostado/main/registrar';
+$route['tostado/anular'] = 'tostado/main/anular';
+
 
 /* Usuarios */
 $route['usuarios/lista'] = 'usuarios/main/listaUsuarios';

@@ -124,8 +124,9 @@ class Main extends CI_Controller
 		
 		$headers = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n','targets' => 2],
-			'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Fecha Registro', 'targets' => 5],
-			'6'=>['targets' => 'no-sort', 'orderable' => false]//,'7'=>['targets' => 1, 'visible' => false],
+			'3'=>['title' => 'Fecha Registro', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Productor', 'targets' => 5],
+			'6'=>['title' => 'Art&iacute;culo', 'targets' => 6],'7'=>['title' => 'Cantidad', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
+			'9'=>['targets' => 1, 'visible' => false],
 		);
 		$anio = $this->Servicios_model->anio();
 		$mes = $this->Servicios_model->mes();

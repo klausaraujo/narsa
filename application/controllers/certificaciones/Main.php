@@ -110,7 +110,7 @@ class Main extends CI_Controller
 		);
 		
 		if($this->input->post('tiporegistro') === 'registrar'){
-			$numero = $this->Certificaciones_model->numeroCert(['idsucursal'=>$suc,'anio_certificado'=>date('Y')]); 
+			$numero = $this->Certificaciones_model->numeroCert(['idsucursal'=>$suc,'anio_certificado'=>date('Y')]);
 			$dataCert['numero'] = $numero;
 			$dataCert['idusuario_registro'] = $this->usuario->idusuario;
 			$dataCert['fecha_registro'] = date('Y-m-d H:i:s');
