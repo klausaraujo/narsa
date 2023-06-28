@@ -1,4 +1,4 @@
-let tablaTos = null;
+let tablaTos = null, tablaProv = null;
 
 jQuery(document).ready(function($){
 	if(segmento2 == ''){
@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
 					d.sucursal = $('.sucursal').val();
 				}
 			},
-			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language:{ lngDataTable },
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
 			columns:[
 				{
 					data: null, orderable: false,
@@ -78,7 +78,7 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	$('#productor1').val(data[1]);
 	$('#modalProveedores').modal('hide');
 });
-$('body').bind('click','a',function(e){
+$('#tablaTostado').bind('click','a',function(e){
 	let el = e.target, a = $(el).closest('a');
 	let fila = tablaTos.row($(a).parents('tr')).data();
 	

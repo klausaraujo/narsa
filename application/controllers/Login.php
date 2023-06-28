@@ -37,8 +37,13 @@ class Login extends CI_Controller
 				$usuario->modulos = $this->Usuario_model->listaModulo(['idperfil' => $usuario->idperfil]);
 				$usuario->menus = $this->Menu_model->listaMenuPermisos(['idusuario' => $usuario->idusuario]);
 				$usuario->submenus = $this->Menu_model->listaSubMenuPermisos(['idusuario' => $usuario->idusuario]);
+				$usuario->menugeneral = $this->Menu_model->listaMenu();
+				$usuario->submenugeneral = $this->Menu_model->listaSubMenu();
 				//$userialize = serialize($usuario);
 				$this->session->set_userdata('user', json_encode($usuario));
+				
+				//print_r($usuario->submenugeneral);
+				
 				header('location:' .base_url());
 			}
 			

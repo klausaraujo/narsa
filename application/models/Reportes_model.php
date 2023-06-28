@@ -44,7 +44,6 @@ class Reportes_model extends CI_Model
     {
         $this->db->select('*,DATE_FORMAT(fecha,"%d/%m/%Y") as fechaguia,FORMAT(cantidad,2) as cantidad,FORMAT(costo,2) as costo');
         $this->db->from('articulos_ingresados');
-		//$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->anio) $this->db->where($this->anio);
 		if($this->articulo) $this->db->where($this->articulo);

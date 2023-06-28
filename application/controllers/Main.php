@@ -9,15 +9,13 @@ class Main extends CI_Controller
 	
     public function __construct(){
 		parent::__construct();
-		//$this->load->library('User');
 		if($this->session->userdata('user')){
 			$this->usuario = json_decode($this->session->userdata('user'));
 			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
-			//var_dump($this->usuario->sucursales);
 			$seg = $this->uri->segment(1);
 			foreach($this->usuario->modulos as $mod):
 				if($mod->url === $seg){
-					if($mod->activo && !empty($this->usuario->sucursales)) $this->modulo = true;//{ header('location:' .base_url()); return; }
+					if($mod->activo && !empty($this->usuario->sucursales)) $this->modulo = true;
 				}
 			endforeach;
 			

@@ -8,18 +8,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="shortcut icon" href="<?=base_url()?>/public/images/favicon.jpg"/>
 <link rel="icon" href="<?=base_url()?>/public/images/favicon.jpg" type="image/x-icon">
-<!--<link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.min.css">-->
 <link rel="stylesheet" href="<?=base_url()?>/public/css/bootstrap.css">
-<!--<link rel="stylesheet" href="<?=base_url()?>/public/datatable/datatables.min.css">
-<link rel="stylesheet" href="<?=base_url()?>/public/datatable/responsive.dataTables.min.css">-->
 <link rel="stylesheet" href="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/typography.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/style.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/fontawesome.css">
-<!--<link rel="stylesheet" href="<?=base_url()?>/public/assets/css/fontawesome.min.css">
-<link rel="stylesheet" href="<?=base_url()?>/public/assets/css/brands.css">
-<link rel="stylesheet" href="<?=base_url()?>/public/assets/css/solid.css">--><!---->
 <style>
 @media(max-width: 1299px){
 	body.sidebar-main .iq-sidebar { width: 260px; left: 0; z-index: 999; background: rgba(221,95,26,1); background: -moz-linear-gradient(left, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(173,104,64,1)), color-stop(100%, rgba(221,95,26,1))); background: -webkit-linear-gradient(left, rgba(173,104,64,1) 100%) 0%, rgba(221,95,26,1) 100%); background: -o-linear-gradient(left, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); background: -ms-linear-gradient(left, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); background: linear-gradient(to right, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A0522D', endColorstr='#8B4513', GradientType=1); }
@@ -82,10 +76,7 @@ div.dataTables_wrapper .far, div.dataTables_wrapper .fa, div.dataTables_wrapper 
 <script>
 	function initMap(){}
 </script>
-<!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default" async ></script>-->
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async ></script>-->
 <script src="<?='https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&callback=initMap'?>" async ></script>
 <?}elseif($this->uri->segment(2) === 'parametros'){?>
-<!--<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?}?>

@@ -7,23 +7,36 @@ class Menu_model extends CI_Model
     
 	public function listaMenuPermisos($data)
     {
-        $this->db->select('pm.idmenu,idmodulo,descripcion,nivel,url,icono,pm.activo');
-        $this->db->from('permisos_menu pm');
-        $this->db->join('menu m','pm.idmenu=m.idmenu');
+        $this->db->select('idmenu,activo');
+        $this->db->from('permisos_menu');
 		$this->db->where($data);
-		$this->db->order_by('pm.idmenu', 'asc');
+		$this->db->order_by('idmenu', 'asc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
 	public function listaSubMenuPermisos($data)
     {
-        $this->db->select('pd.idmenudetalle,idmenu,descripcion,url,icono,orden,pd.activo');
-        $this->db->from('permisos_menu_detalle pd');
-        $this->db->join('menu_detalle md','pd.idmenudetalle=md.idmenudetalle');
+        $this->db->select('idmenudetalle,activo');
+        $this->db->from('permisos_menu_detalle');
         $this->db->where($data);
-        $this->db->order_by('pd.idmenudetalle', 'asc');
-		$this->db->order_by('orden', 'asc');
+		$this->db->order_by('idmenudetalle', 'asc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function listaMenu()
+	{
+		$this->db->select('*');
+		$this->db->from('menu');
+		$this->db->order_by('idmodulo', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function listaSubMenu()
+	{
+		$this->db->select('*');
+		$this->db->from('menu_detalle');
+		$this->db->order_by('idmenu', 'asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }
