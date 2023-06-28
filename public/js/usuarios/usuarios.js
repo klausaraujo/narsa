@@ -168,7 +168,7 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				$('#perfilU').html(data.perfil);
 				/*if(parseInt(data.status) === 200) alert('Se reseteó la clave del usuario exitosamente');
 				else alert('No se pudo resetear la clave del usuario');*/
-				console.log(data);
+				//console.log(data);
 				$.each(data.data,function(i,e){
 					//console.log(e);
 					$('#form_permisos input:checkbox').each(function(){
@@ -181,6 +181,22 @@ $('#tablaUsuarios').bind('click','a',function(e){
 						}else if($(this).attr('name') === 'certPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
 						}else if($(this).attr('name') === 'vtaPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
+						}
+					});
+				});
+				console.log(data.menus);
+				$.each(data.menus,function(i,e){
+					$('#form_permisos input:checkbox').each(function(){
+						if($(this).attr('name') === 'proveedoresMenu[]' && e.idmenu === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'usuariosMenu[]' && e.idmenu === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'cajasMenu[]' && e.idmenu === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'certMenu[]' && e.idmenu === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'vtaMenu[]' && e.idmenu === $(this).val()){
 							$(this).prop('checked',true);
 						}
 					});
@@ -283,4 +299,28 @@ $('#asignarSuc').bind('click', function(e){
 			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 		}
 	}); 
+});
+$('#form_permisos').bind('click', function(e){
+	let targ = e.target, sub = $('.submenu:checked'), men = $('.menus[data-nivel="1"]');
+	
+	if($(targ).hasClass('submenu')){
+		if(sub.length > 0){
+			let submenu = false;
+			$.each(men, function(i,e){
+				let data = $(e).attr('data-menu');
+				$.each(sub,function(i,e){ if($(e).attr('data-submenu') === data) submenu = true; });
+				if(submenu) $(e).prop('checked', true);
+				else $(e).prop('checked', false);
+				submenu = false;
+			});
+		}else{
+			men.prop('checked', false);
+		}
+	}else if($(targ).hasClass('menus')){
+		if($(targ).attr('data-nivel') === '1'){
+			if($(targ).prop('checked') === false){
+				$('.submenu[data-submenu="'+$(targ).attr('data-menu')+'"]').prop('checked',false);
+			}
+		}
+	}
 });

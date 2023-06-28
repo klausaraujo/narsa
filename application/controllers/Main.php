@@ -64,6 +64,7 @@ class Main extends CI_Controller
 		$permisos = $this->Usuarios_model->permisosOpciones();
 		$sucursales = $this->Usuarios_model->sucursalesUser();
 		$modulos = $this->Usuarios_model->buscaModulos();
+		$pMenus = $this->Usuarios_model->permisosOpciones();
 		
 		$headers = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],

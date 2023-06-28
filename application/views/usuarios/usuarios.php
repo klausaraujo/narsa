@@ -1,3 +1,4 @@
+						<? $usuario = json_decode($this->session->userdata('user')); ?>
 						<div class="col-12 card px-0 my-3">
 							<div class="card-body">
 								<h4 class="">Listado General de Usuarios del Sistema</h4>
@@ -40,107 +41,296 @@
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#cajas">Cajas</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#certificados">Certificaciones</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#ventas">Ventas</a></li>
+																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tostado">Tostado</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#modulos">M&oacute;dulos</a></li>
 															</ul>
 															<div class="tab-content mt-3">
 																<div id="proveedores" class="tab-pane fade in active show">
 																	<!--<div class="clearfix"></div>-->
 																	<div class="row my-2">
-																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones Proveedores</h5>
-																	  <?php 
-																			$i = 1;
-																			foreach($permisos as $row):
-																				if($row->idmodulo === '1'){
-																		?>
-																		<div class="custom-control custom-switch col-12 ml-3">
-																			<input type="checkbox" class="custom-control-input" name="proveedoresPer[]" value="<?=$row->idpermiso?>" id="checkPermisos<?=$i?>">
-																			<label class="custom-control-label" for="checkPermisos<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
-																		</div>
-																		<!--<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="proveedoresPer[]" value="" />
-																			<label for="proveedoresPer">&nbsp;&nbsp;</label>
-																		</div>-->
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
+																		<?php 
+																				$i = 1; $subnivel = []; $j = 0;
+																				foreach($usuario->menugeneral as $row):
+																					if($row->idmodulo === '1'){
+																						if($row->nivel === '1'){ $subnivel[$j] = $row->idmenu; $j++; }
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input menus" name="proveedoresMenu[]" data-nivel="<?=$row->nivel?>"
+																					value="<?=$row->idmenu?>" id="checkMenusProv<?=$i?>" data-menu="<?=$row->idmenu?>" >
+																				<label class="custom-control-label" for="checkMenusProv<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																			<!--<div class="checkbox checkbox-primary col-12">
+																				<input type="checkbox" name="proveedoresPer[]" value="" />
+																				<label for="proveedoresPer">&nbsp;&nbsp;</label>
+																			</div>-->
 																		<?php
-																					$i++;
-																				}
-																			endforeach;?>
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Submen&uacute;s</h5>
+																		<?php 
+																				$i = 1; $submenu = false;
+																				foreach($usuario->submenugeneral as $row):
+																					for($k = 0;$k < count($subnivel);$k++){ if($subnivel[$k] === $row->idmenu && $row->activo === '1') $submenu = true; }
+																					if($submenu){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input submenu" name="proveedoresSubMenu[]"
+																					value="<?=$row->idmenudetalle?>" id="checkSubMenusProv<?=$i?>" data-submenu="<?=$row->idmenu?>">
+																				<label class="custom-control-label" for="checkSubMenusProv<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones</h5>
+																		<?php 
+																				$i = 1;
+																				foreach($permisos as $row):
+																					if($row->idmodulo === '1'){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input" name="proveedoresPer[]" value="<?=$row->idpermiso?>" id="checkPermisos<?=$i?>">
+																				<label class="custom-control-label" for="checkPermisos<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
 																	</div>
 																</div>
 																<div id="usuarios" class="tab-pane fade in">
 																	<div class="row my-2">
-																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones Usuarios</h5>
-																	  <?php
-																			$i = 1;
-																			foreach($permisos as $row):
-																				if($row->idmodulo === '4'){
-																		?>
-																		<div class="custom-control custom-switch col-12 ml-3">
-																			<input type="checkbox" class="custom-control-input" name="usuariosPer[]" value="<?=$row->idpermiso?>" id="checkAccionesUser<?=$i?>">
-																			<label class="custom-control-label" for="checkAccionesUser<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
-																		</div>
-																		<!--<div class="checkbox checkbox-primary col-12">
-																			<input type="checkbox" name="usuariosPer[]" value="" />
-																			<label for="usuariosPer">&nbsp;&nbsp;</label>
-																		</div>-->
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
+																		<?php 
+																				$i = 1; $subnivel = []; $j = 0;
+																				foreach($usuario->menugeneral as $row):
+																					if($row->idmodulo === '4'){
+																						if($row->nivel === '1'){ $subnivel[$j] = $row->idmenu; $j++; }
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input menus" name="usuariosMenu[]" data-nivel="<?=$row->nivel?>"
+																					value="<?=$row->idmenu?>" id="checkMenusUser<?=$i?>" data-menu="<?=$row->idmenu?>" >
+																				<label class="custom-control-label" for="checkMenusUser<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
 																		<?php
-																					$i++;
-																				}
-																			endforeach;?>
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Submen&uacute;s</h5>
+																		<?php 
+																				$i = 1; $submenu = false;
+																				foreach($usuario->submenugeneral as $row):
+																					for($k = 0;$k < count($subnivel);$k++){ if($subnivel[$k] === $row->idmenu && $row->activo === '1') $submenu = true; }
+																					if($submenu){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input submenu" name="usuariosSubMenu[]"
+																					value="<?=$row->idmenudetalle?>" id="checkSubMenusUser<?=$i?>" data-submenu="<?=$row->idmenu?>">
+																				<label class="custom-control-label" for="checkSubMenusUser<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones</h5>
+																		  <?php
+																				$i = 1;
+																				foreach($permisos as $row):
+																					if($row->idmodulo === '4'){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input" name="usuariosPer[]" value="<?=$row->idpermiso?>" id="checkAccionesUser<?=$i?>">
+																				<label class="custom-control-label" for="checkAccionesUser<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																			<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
 																	</div>
 																</div>
 																<div id="cajas" class="tab-pane fade in">
 																	<div class="row my-2">
-																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones Cajas</h5>
-																	  <?php
-																			$i = 1;
-																			foreach($permisos as $row):
-																				if($row->idmodulo === '2'){
-																		?>
-																		<div class="custom-control custom-switch col-12 ml-3">
-																			<input type="checkbox" class="custom-control-input" name="cajasPer[]" value="<?=$row->idpermiso?>" id="checkAccionesCaja<?=$i?>">
-																			<label class="custom-control-label" for="checkAccionesCaja<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
-																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
+																		<?php 
+																				$i = 1; $subnivel = []; $j = 0;
+																				foreach($usuario->menugeneral as $row):
+																					if($row->idmodulo === '2'){
+																						if($row->nivel === '1'){ $subnivel[$j] = $row->idmenu; $j++; }
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input menus" name="cajasMenu[]" data-nivel="<?=$row->nivel?>"
+																					value="<?=$row->idmenu?>" id="checkMenusCajas<?=$i?>" data-menu="<?=$row->idmenu?>" >
+																				<label class="custom-control-label" for="checkMenusCajas<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
 																		<?php
-																					$i++;
-																				}
-																			endforeach;?>
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Submen&uacute;s</h5>
+																		<?php 
+																				$i = 1; $submenu = false;
+																				foreach($usuario->submenugeneral as $row):
+																					for($k = 0;$k < count($subnivel);$k++){ if($subnivel[$k] === $row->idmenu && $row->activo === '1') $submenu = true; }
+																					if($submenu){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input submenu" name="cajasSubMenu[]"
+																					value="<?=$row->idmenudetalle?>" id="checkSubMenusCajas<?=$i?>" data-submenu="<?=$row->idmenu?>">
+																				<label class="custom-control-label" for="checkSubMenusCajas<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones</h5>
+																		  <?php
+																				$i = 1;
+																				foreach($permisos as $row):
+																					if($row->idmodulo === '2'){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input" name="cajasPer[]" value="<?=$row->idpermiso?>" id="checkAccionesCaja<?=$i?>">
+																				<label class="custom-control-label" for="checkAccionesCaja<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																			<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
 																	</div>
 																</div>
 																<div id="certificados" class="tab-pane fade in">
 																	<div class="row my-2">
-																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Certificaciones</h5>
-																	  <?php
-																			$i = 1;
-																			foreach($permisos as $row):
-																				if($row->idmodulo === '3'){
-																		?>
-																		<div class="custom-control custom-switch col-12 ml-3">
-																			<input type="checkbox" class="custom-control-input" name="certPer[]" value="<?=$row->idpermiso?>" id="checkCert<?=$i?>">
-																			<label class="custom-control-label" for="checkCert<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
-																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
+																		<?php 
+																				$i = 1; $subnivel = []; $j = 0;
+																				foreach($usuario->menugeneral as $row):
+																					if($row->idmodulo === '3'){
+																						if($row->nivel === '1'){ $subnivel[$j] = $row->idmenu; $j++; }
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input menus" name="certMenu[]" data-nivel="<?=$row->nivel?>"
+																					value="<?=$row->idmenu?>" id="checkMenusCert<?=$i?>" data-menu="<?=$row->idmenu?>" >
+																				<label class="custom-control-label" for="checkMenusCert<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
 																		<?php
-																					$i++;
-																				}
-																			endforeach;?>
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Submen&uacute;s</h5>
+																		<?php 
+																				$i = 1; $submenu = false;
+																				foreach($usuario->submenugeneral as $row):
+																					for($k = 0;$k < count($subnivel);$k++){ if($subnivel[$k] === $row->idmenu && $row->activo === '1') $submenu = true; }
+																					if($submenu){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input submenu" name="certSubMenu[]"
+																					value="<?=$row->idmenudetalle?>" id="checkSubMenusCert<?=$i?>" data-submenu="<?=$row->idmenu?>">
+																				<label class="custom-control-label" for="checkSubMenusCert<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones</h5>
+																		  <?php
+																				$i = 1;
+																				foreach($permisos as $row):
+																					if($row->idmodulo === '3'){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input" name="certPer[]" value="<?=$row->idpermiso?>" id="checkCert<?=$i?>">
+																				<label class="custom-control-label" for="checkCert<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																			<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
 																	</div>
 																</div>
 																<div id="ventas" class="tab-pane fade in">
 																	<div class="row my-2">
-																		<h5 class="my-2 ml-3 font-weight-bold">Permisos Ventas</h5>
-																	  <?php
-																			$i = 1;
-																			foreach($permisos as $row):
-																				if($row->idmodulo === '5'){
-																		?>
-																		<div class="custom-control custom-switch col-12 ml-3">
-																			<input type="checkbox" class="custom-control-input" name="vtaPer[]" value="<?=$row->idpermiso?>" id="checkVta<?=$i?>">
-																			<label class="custom-control-label" for="checkVta<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
-																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
+																		<?php 
+																				$i = 1; $subnivel = []; $j = 0;
+																				foreach($usuario->menugeneral as $row):
+																					if($row->idmodulo === '5'){
+																						if($row->nivel === '1'){ $subnivel[$j] = $row->idmenu; $j++; }
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input menus" name="vtaMenu[]" data-nivel="<?=$row->nivel?>"
+																					value="<?=$row->idmenu?>" id="checkMenusVta<?=$i?>" data-menu="<?=$row->idmenu?>" >
+																				<label class="custom-control-label" for="checkMenusVta<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
 																		<?php
-																					$i++;
-																				}
-																			endforeach;?>
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Submen&uacute;s</h5>
+																		<?php 
+																				$i = 1; $submenu = false;
+																				foreach($usuario->submenugeneral as $row):
+																					for($k = 0;$k < count($subnivel);$k++){ if($subnivel[$k] === $row->idmenu && $row->activo === '1') $submenu = true; }
+																					if($submenu){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input submenu" name="vtaSubMenu[]"
+																					value="<?=$row->idmenudetalle?>" id="checkSubMenusVta<?=$i?>" data-submenu="<?=$row->idmenu?>">
+																				<label class="custom-control-label" for="checkSubMenusVta<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones</h5>
+																		  <?php
+																				$i = 1;
+																				foreach($permisos as $row):
+																					if($row->idmodulo === '5'){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input" name="vtaPer[]" value="<?=$row->idpermiso?>" id="checkVta<?=$i?>">
+																				<label class="custom-control-label" for="checkVta<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																			<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
 																	</div>
+																</div>
+																<div id="tostado" class="tab-pane fade in">
 																</div>
 																<div id="modulos" class="tab-pane fade in">
 																	<input type="hidden" id="perfilUsuario" name="perfilUsuario" />

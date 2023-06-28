@@ -149,6 +149,23 @@ class Usuarios_model extends CI_Model
 			$this->db->trans_commit();
 			return true;
 		}
-		
+	}
+	public function permisosMenus($where)
+	{
+		$this->db->select('*');
+		$this->db->from('permisos_menu');
+		$this->db->where($where);
+		$this->db->order_by('idmenu','asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function permisosMenuDetalle($where)
+	{
+		$this->db->select('*');
+		$this->db->from('permisos_menu_detalle');
+		$this->db->where($where);
+		$this->db->order_by('idmenudetalle','asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 }

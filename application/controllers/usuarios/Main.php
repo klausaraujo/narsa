@@ -116,6 +116,8 @@ class Main extends CI_Controller
 		$this->load->model('Usuarios_model');
 		$permisos = $this->Usuarios_model->buscaPermisos(['idusuario'=>$id]);
 		$modulos = $this->Usuarios_model->permisosModulos(['u.idusuario'=>$id,'mr.activo' => 1]);
+		$menus = $this->Usuarios_model->permisosMenus(['idusuario'=>$id, 'activo' => 1]);
+		$submenus = $this->Usuarios_model->permisosMenuDetalle(['idusuario'=>$id, 'activo' => 1]);
 		$idperfil = !empty($modulos)? $modulos[0]->idperfil : '';
 		$perfil = !empty($modulos)? $modulos[0]->perfil : '';
 		
@@ -123,6 +125,8 @@ class Main extends CI_Controller
 			'data' => $permisos,
 			'idusuario' => $id,
 			'modulos' => $modulos,
+			'menus' => $menus,
+			'submenus' => $submenus,
 			'idperfil' => $idperfil,
 			'perfil' => $perfil,
 		);
