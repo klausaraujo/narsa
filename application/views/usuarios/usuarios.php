@@ -38,8 +38,8 @@
 															<ul class="nav nav-tabs" role="tablist">
 																<li class="nav-item"><a aria-selected="true" class="nav-link active" role="tab" data-toggle="tab" href="#proveedores">Proveedores</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#usuarios">Usuarios</a></li>
-																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#cajas">Cajas</a></li>
-																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#certificados">Certificaciones</a></li>
+																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#servicios">Cajas</a></li>
+																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#certificaciones">Certificaciones</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#ventas">Ventas</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tostado">Tostado</a></li>
 																<li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#modulos">M&oacute;dulos</a></li>
@@ -162,7 +162,7 @@
 																		</div>
 																	</div>
 																</div>
-																<div id="cajas" class="tab-pane fade in">
+																<div id="servicios" class="tab-pane fade in">
 																	<div class="row my-2">
 																		<div class="col-md-4">
 																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
@@ -218,7 +218,7 @@
 																		</div>
 																	</div>
 																</div>
-																<div id="certificados" class="tab-pane fade in">
+																<div id="certificaciones" class="tab-pane fade in">
 																	<div class="row my-2">
 																		<div class="col-md-4">
 																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
@@ -331,6 +331,60 @@
 																	</div>
 																</div>
 																<div id="tostado" class="tab-pane fade in">
+																	<div class="row my-2">
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Men&uacute;s</h5>
+																		<?php 
+																				$i = 1; $subnivel = []; $j = 0;
+																				foreach($usuario->menugeneral as $row):
+																					if($row->idmodulo === '6'){
+																						if($row->nivel === '1'){ $subnivel[$j] = $row->idmenu; $j++; }
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input menus" name="tosMenu[]" data-nivel="<?=$row->nivel?>"
+																					value="<?=$row->idmenu?>" id="checkMenusTos<?=$i?>" data-menu="<?=$row->idmenu?>" >
+																				<label class="custom-control-label" for="checkMenusTos<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Submen&uacute;s</h5>
+																		<?php 
+																				$i = 1; $submenu = false;
+																				foreach($usuario->submenugeneral as $row):
+																					for($k = 0;$k < count($subnivel);$k++){ if($subnivel[$k] === $row->idmenu && $row->activo === '1') $submenu = true; }
+																					if($submenu){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input submenu" name="tosSubMenu[]"
+																					value="<?=$row->idmenudetalle?>" id="checkSubMenusTos<?=$i?>" data-submenu="<?=$row->idmenu?>">
+																				<label class="custom-control-label" for="checkSubMenusTos<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																		<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																		<div class="col-md-4">
+																			<h5 class="my-2 ml-3 font-weight-bold">Permisos Acciones</h5>
+																		  <?php
+																				$i = 1;
+																				foreach($permisos as $row):
+																					if($row->idmodulo === '6'){
+																			?>
+																			<div class="custom-control custom-switch col-12 ml-3">
+																				<input type="checkbox" class="custom-control-input" name="tosPer[]" value="<?=$row->idpermiso?>" id="checkTos<?=$i?>">
+																				<label class="custom-control-label" for="checkTos<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
+																			</div>
+																			<?php
+																						$i++;
+																					}
+																				endforeach;?>
+																		</div>
+																	</div>
 																</div>
 																<div id="modulos" class="tab-pane fade in">
 																	<input type="hidden" id="perfilUsuario" name="perfilUsuario" />
@@ -341,7 +395,8 @@
 																			foreach($modulos as $row):
 																		?>
 																		<div class="custom-control custom-switch col-12 ml-3">
-																			<input type="checkbox" class="custom-control-input" name="modPer[]" value="<?=$row->idmodulo?>" id="checkMod<?=$i?>">
+																			<input type="checkbox" class="custom-control-input modulos" name="modPer[]" value="<?=$row->idmodulo?>"
+																				data-modulo="<?=$row->url?>" id="checkMod<?=$i?>">
 																			<label class="custom-control-label" for="checkMod<?=$i?>">&nbsp;&nbsp;<?=$row->descripcion?></label>
 																		</div>
 																		<?php

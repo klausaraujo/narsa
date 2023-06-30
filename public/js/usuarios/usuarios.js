@@ -182,10 +182,11 @@ $('#tablaUsuarios').bind('click','a',function(e){
 							$(this).prop('checked',true);
 						}else if($(this).attr('name') === 'vtaPer[]' && e.idpermiso === $(this).val()){
 							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'tosPer[]' && e.idpermiso === $(this).val()){
+							$(this).prop('checked',true);
 						}
 					});
 				});
-				console.log(data.menus);
 				$.each(data.menus,function(i,e){
 					$('#form_permisos input:checkbox').each(function(){
 						if($(this).attr('name') === 'proveedoresMenu[]' && e.idmenu === $(this).val()){
@@ -198,6 +199,25 @@ $('#tablaUsuarios').bind('click','a',function(e){
 							$(this).prop('checked',true);
 						}else if($(this).attr('name') === 'vtaMenu[]' && e.idmenu === $(this).val()){
 							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'tosMenu[]' && e.idmenu === $(this).val()){
+							$(this).prop('checked',true);
+						}
+					});
+				});
+				$.each(data.submenus,function(i,e){
+					$('#form_permisos input:checkbox').each(function(){
+						if($(this).attr('name') === 'proveedoresSubMenu[]' && e.idmenudetalle === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'usuariosSubMenu[]' && e.idmenudetalle === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'cajasSubMenu[]' && e.idmenudetalle === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'certSubMenu[]' && e.idmenudetalle === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'vtaSubMenu[]' && e.idmenudetalle === $(this).val()){
+							$(this).prop('checked',true);
+						}else if($(this).attr('name') === 'tosSubMenu[]' && e.idmenudetalle === $(this).val()){
+							$(this).prop('checked',true);
 						}
 					});
 				});
@@ -207,6 +227,12 @@ $('#tablaUsuarios').bind('click','a',function(e){
 							$(this).prop('checked',true);
 						}
 					});
+				});
+				$.each($('.modulos'),function(i,e){
+					let c = $(e), modulo = c.attr('data-modulo');;
+					if(c.prop('checked') === false){
+						$('#'+modulo+' *').prop('disabled', true);
+					}
 				});
 			}
 		});
@@ -322,5 +348,8 @@ $('#form_permisos').bind('click', function(e){
 				$('.submenu[data-submenu="'+$(targ).attr('data-menu')+'"]').prop('checked',false);
 			}
 		}
+	}else if($(targ).hasClass('modulos')){
+		if($(targ).prop('checked') === false) $('#'+$(targ).attr('data-modulo')+' input:checkbox').prop('checked', false);
+		$('#'+$(targ).attr('data-modulo')+' *').prop('disabled', ! $(targ).prop('checked'));
 	}
 });

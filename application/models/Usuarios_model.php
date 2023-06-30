@@ -112,7 +112,7 @@ class Usuarios_model extends CI_Model
 	}
 	public function buscaModulos()
 	{
-		$this->db->select('idmodulo,descripcion');
+		$this->db->select('idmodulo,descripcion,url');
 		$this->db->from('modulo');
 		$this->db->order_by('orden','asc');
 		$result = $this->db->get();
