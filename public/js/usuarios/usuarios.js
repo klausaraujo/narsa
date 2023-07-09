@@ -82,6 +82,7 @@ $(document).ready(function (){
 $('#modalPermisos').on('hidden.bs.modal',function(e){
 	$('#form_permisos')[0].reset();
 	$('#form_permisos input:checkbox').prop('checked',false);
+	$('#form_permisos input:checkbox').prop('disabled',false);
 	//$(' input[type=checkbox]')
 	/*tablaIngDetalle.clear().draw();
 	$('#sucursalIng').removeAttr('disabled');
@@ -170,24 +171,15 @@ $('#tablaUsuarios').bind('click','a',function(e){
 				else alert('No se pudo resetear la clave del usuario');*/
 				//console.log(data);
 				$.each(data.data,function(i,e){
-					//console.log(e);
-					$('#form_permisos input:checkbox').each(function(){
-						if($(this).attr('name') === 'proveedoresPer[]' && e.idpermiso === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'usuariosPer[]' && e.idpermiso === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'cajasPer[]' && e.idpermiso === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'certPer[]' && e.idpermiso === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'vtaPer[]' && e.idpermiso === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'tosPer[]' && e.idpermiso === $(this).val()){
-							$(this).prop('checked',true);
-						}
+					$('.permisos').each(function(){
+						if(e.idpermiso === this.value) $(this).prop('checked',true);
 					});
 				});
 				$.each(data.menus,function(i,e){
+					$('.menus').each(function(){
+						if(e.idmenu === this.value) $(this).prop('checked',true);
+					});
+					/*
 					$('#form_permisos input:checkbox').each(function(){
 						if($(this).attr('name') === 'proveedoresMenu[]' && e.idmenu === $(this).val()){
 							$(this).prop('checked',true);
@@ -202,37 +194,21 @@ $('#tablaUsuarios').bind('click','a',function(e){
 						}else if($(this).attr('name') === 'tosMenu[]' && e.idmenu === $(this).val()){
 							$(this).prop('checked',true);
 						}
-					});
+					});*/
 				});
 				$.each(data.submenus,function(i,e){
-					$('#form_permisos input:checkbox').each(function(){
-						if($(this).attr('name') === 'proveedoresSubMenu[]' && e.idmenudetalle === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'usuariosSubMenu[]' && e.idmenudetalle === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'cajasSubMenu[]' && e.idmenudetalle === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'certSubMenu[]' && e.idmenudetalle === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'vtaSubMenu[]' && e.idmenudetalle === $(this).val()){
-							$(this).prop('checked',true);
-						}else if($(this).attr('name') === 'tosSubMenu[]' && e.idmenudetalle === $(this).val()){
-							$(this).prop('checked',true);
-						}
+					$('.submenu').each(function(){
+						if(e.idmenudetalle === this.value) $(this).prop('checked',true);
 					});
 				});
 				$.each(data.modulos,function(i,e){
-					$('#form_permisos input:checkbox').each(function(){
-						if($(this).attr('name') === 'modPer[]' && e.idmodulo === $(this).val()){
-							$(this).prop('checked',true);
-						}
+					$('.modulos').each(function(){
+						if(e.idmodulo === this.value) $(this).prop('checked',true);
 					});
 				});
 				$.each($('.modulos'),function(i,e){
-					let c = $(e), modulo = c.attr('data-modulo');;
-					if(c.prop('checked') === false){
-						$('#'+modulo+' *').prop('disabled', true);
-					}
+					let c = $(e), modulo = c.attr('data-modulo');
+					if(c.prop('checked') === false) $('#'+modulo+' *').prop('disabled', true);
 				});
 			}
 		});
@@ -326,7 +302,7 @@ $('#asignarSuc').bind('click', function(e){
 		}
 	}); 
 });
-$('#form_permisos').bind('click', function(e){
+/*$('#form_permisos').bind('click', function(e){
 	let targ = e.target, sub = $('.submenu:checked'), men = $('.menus[data-nivel="1"]');
 	
 	if($(targ).hasClass('submenu')){
@@ -342,7 +318,7 @@ $('#form_permisos').bind('click', function(e){
 		}else{
 			men.prop('checked', false);
 		}
-	}else if($(targ).hasClass('menus')){
+	}/*else if($(targ).hasClass('menus')){
 		if($(targ).attr('data-nivel') === '1'){
 			if($(targ).prop('checked') === false){
 				$('.submenu[data-submenu="'+$(targ).attr('data-menu')+'"]').prop('checked',false);
@@ -351,5 +327,21 @@ $('#form_permisos').bind('click', function(e){
 	}else if($(targ).hasClass('modulos')){
 		if($(targ).prop('checked') === false) $('#'+$(targ).attr('data-modulo')+' input:checkbox').prop('checked', false);
 		$('#'+$(targ).attr('data-modulo')+' *').prop('disabled', ! $(targ).prop('checked'));
+	}
+});*/
+
+$('input:checkbox').bind('change', function(e){
+	if($(this).hasClass('menus')){
+		if($(this).attr('data-nivel') === '1' && !this.checked)
+			$('.submenu[data-submenu="'+$(this).attr('data-menu')+'"]').prop('checked',false);
+	}else if($(this).hasClass('submenu')){
+		let sub = $('.submenu[data-submenu="'+$(this).attr('data-submenu')+'"]:checked');
+		if(sub.length > 0)
+			$('.menus[data-menu="'+$(this).attr('data-submenu')+'"]').prop('checked',true);
+		else
+			$('.menus[data-menu="'+$(this).attr('data-submenu')+'"]').prop('checked',false);
+	}else if($(this).hasClass('modulos')){
+		if(!this.checked) $('#'+$(this).attr('data-modulo')+' input:checkbox').prop('checked', false);
+		$('#'+$(this).attr('data-modulo')+' *').prop('disabled', !this.checked);
 	}
 });

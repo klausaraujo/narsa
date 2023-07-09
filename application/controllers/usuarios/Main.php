@@ -136,28 +136,46 @@ class Main extends CI_Controller
 	public function asignarPermisos()
 	{
 		$this->load->model('Usuarios_model');
-		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500; $modulos = [];
+		$arrayPer = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500; $modulos = []; $arrayMenu = []; $arraySubm = [];
 		
 		$id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
+		$permisos = (isset($_POST['permisos'])?$_POST['permisos'] : array());
+		$menus = (isset($_POST['menus'])?$_POST['menus'] : array());
+		$submenus = (isset($_POST['submenus'])?$_POST['submenus'] : array());
+		$perMod = (isset($_POST['modPer'])?$_POST['modPer'] : array());
 		$idperfil = (isset($_POST['perfilUsuario'])?$_POST['perfilUsuario'] : '');
-		$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array());
+		/*$perProv = (isset($_POST['proveedoresPer'])?$_POST['proveedoresPer'] : array());
 		$perUser = (isset($_POST['usuariosPer'])?$_POST['usuariosPer'] : array());
 		$perServ = (isset($_POST['cajasPer'])?$_POST['cajasPer'] : array());
 		$perCert = (isset($_POST['certPer'])?$_POST['certPer'] : array());
 		$perVtas = (isset($_POST['vtaPer'])?$_POST['vtaPer'] : array());
 		$perMod = (isset($_POST['modPer'])?$_POST['modPer'] : array());
 		
-		/*if(isset($_POST['proveedoresPer'])$data['proveedores'] = $_POST['proveedoresPer'];
+		if(isset($_POST['proveedoresPer'])$data['proveedores'] = $_POST['proveedoresPer'];
 		if(isset($_POST['usuariosPer'])$data['usuarios'] = $_POST['usuariosPer'];
 		if(isset($_POST['cajasPer'])$data['cajas'] = $_POST['cajasPer'];
 		if(isset($_POST['certPer'])$data['certificado'] = $_POST['certPer'];*/
 		
-		if(!empty($perProv)){
-			foreach($perProv as $row):
-				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
+		if(!empty($permisos)){
+			foreach($permisos as $row):
+				$arrayPer[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
 				$i++;
 			endforeach;
 		}
+		if(!empty($menus)){
+			$i = 0;
+			foreach($menus as $row):
+				$arrayMenu[$i] = ['idmenu'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}
+		if(!empty($submenus)){
+			$i = 0;
+			foreach($submenus as $row):
+				$arraySubm[$i] = ['idmenudetalle'=>$row,'idusuario'=>$id,'activo'=>1];
+				$i++;
+			endforeach;
+		}/*
 		if(!empty($perUser)){
 			foreach($perUser as $row):
 				$dataArray[$i] = ['idpermiso'=>$row,'idusuario'=>$id,'activo'=>1];
@@ -182,13 +200,16 @@ class Main extends CI_Controller
 				$i++;
 			endforeach;
 		}
-		
-		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'permisos_opcion');
+		*/
+		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$arrayPer,'permisos_opcion');
+		$regMenu = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$arrayMenu,'permisos_menu');
+		$regSub = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$arraySubm,'permisos_menu_detalle');
 		$regMod = $this->Usuarios_model->actualizaModulosUser(['activo' => 1],$perMod,['idperfil' => $idperfil]);
 		
-		if($regPer && $regMod){ $msg = 'Permisos Asignados'; $status = 200; }
+		if($regPer || $regMenu || $regSub || $regMod){ $msg = 'Permisos Asignados'; $status = 200; }
 		
-		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray,'mod' => $regMod]);
+		echo json_encode(['msg'=>$msg, 'status'=>$status]);
+		//var_dump($arrayPer, $arrayMenu, $arraySubm, $perMod);
 	}
 	public function sucursalesUsuario()
 	{
