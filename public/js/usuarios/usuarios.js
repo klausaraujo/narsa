@@ -295,8 +295,6 @@ $('#asignarSuc').bind('click', function(e){
 		error: function(xhr){},
 		beforeSend: function(){},
 		success: function(data){
-			//console.log(data);
-			//$('#mdalPermisos').modal('hide');
 			$('.resp').html(data.msg);
 			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 		}
