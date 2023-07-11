@@ -3111,9 +3111,9 @@ insert into permiso(idpermiso,descripcion,tipo,orden,activo,idmodulo) values(30,
 
 insert into permisos_menu(idpermisosmenu,idmenu,idusuario) values (16,13,1);
 
-insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (30,28,1);
-insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (31,29,1);
-insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (32,30,1);
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (51,28,1);
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (52,29,1);
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (53,30,1);
 
 create table tostado(
 idtostado smallint(4) NOT NULL AUTO_INCREMENT,

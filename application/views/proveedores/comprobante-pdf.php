@@ -70,7 +70,11 @@
 				</tr>
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
-					<span style="font-size:10;font-weight:bold;">Sistema Integrado de Gestión Financiera y Administrativa Versión 3.0 </td>
+					<span style="font-size:10;font-weight:bold;">Av. Fray Jerónimo Jiménez 1601-1603 San Carlos Chanchamayo Junín </td>
+				</tr>
+				<tr>
+					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
+					<span style="font-size:10;font-weight:bold;">Cel. 963628072 / 963618606 </td>
 				</tr>
 			</table>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;margin-top:3mm" width="18cm">
@@ -155,7 +159,11 @@
 				</tr>
 				<tr>
 					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
-					<span style="font-size:10;font-weight:bold;">Sistema Integrado de Gestión Financiera y Administrativa Versión 3.0 </td>
+					<span style="font-size:10;font-weight:bold;">Av. Fray Jerónimo Jiménez 1601-1603 San Carlos Chanchamayo Junín </td>
+				</tr>
+				<tr>
+					<td style="aling:center;color:#600000;text-align:center;font-weight:bold" >
+					<span style="font-size:10;font-weight:bold;">Cel. 963628072 / 963618606 </td>
 				</tr>
 			</table>
 			<table cellspacing="0" cellpadding="1" align="center" style="text-align:center;margin-top:3mm" width="18cm">
