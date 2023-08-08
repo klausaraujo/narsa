@@ -3166,3 +3166,52 @@ Items Campo Envasado
 2 - 500 Gr.
 3 - 250 Gr.
 */
+
+/* New desde 06/08/2023*/
+update menu_detalle set descripcion ='Productor Movimientos',url='reporte6' where idmenudetalle=6;
+
+DROP TABLE IF EXISTS tostado;
+
+create table tostado(
+idtostado smallint(4) NOT NULL AUTO_INCREMENT,
+anio_tostado smallint(4) NOT NULL,
+numero smallint(4) NOT NULL,
+idsucursal smallint(4) NOT NULL,
+idproveedor smallint(4) NOT NULL,
+idarticulo smallint(4) NOT NULL,
+cantidad decimal (20,2),
+fecha datetime NOT NULL,
+densidad decimal (20,2),
+h2o decimal (20,2),
+seleccionado char(1),
+precio_total decimal (20,2),
+a_cuenta decimal (20,2),
+saldo decimal (20,2),
+tipo_tostado_claro decimal (20,2),
+tipo_tostado_medio decimal (20,2),
+tipo_tostado_oscuro decimal (20,2),
+tipo_molienda_media decimal (20,2),
+tipo_molienda_media_fina decimal (20,2),
+tipo_molienda_media_gruesa decimal (20,2),
+tipo_embolsado_250 decimal (20,2),
+tipo_embolsado_500 decimal (20,2),
+tipo_embolsado_1000 decimal (20,2),
+observaciones varchar(1000), 
+idusuario_registro smallint(4),
+fecha_registro datetime,
+idusuario_modificacion smallint(4),
+fecha_modificacion datetime,
+idusuario_anulacion smallint(4),
+fecha_anulacion datetime,
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtostado),
+FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+
+
+
+
+
+
