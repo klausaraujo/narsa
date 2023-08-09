@@ -64,7 +64,7 @@ jQuery(document).ready(function($){
 				}
 			},
 			columns:[
-				{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },
+				{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },{ data: 4, visible: false },
 			],
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
 			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
@@ -102,7 +102,7 @@ jQuery(document).ready(function($){
 					orderable: false,
 					render: function(data){
 						let btnAccion =
-						'<div class="btn-group"><a title="Remover Catador" href="#" class="bg-danger btnTable remover"><i class="far fa-trash" aria-hidden="true"></i></a></div>';
+						'<div class="btn-group"><a title="Remover Catador" href="#" class="bg-danger btnTable remover"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},
@@ -189,8 +189,8 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	let data = tablaProv.row( this ).data();
 	$('#idproveedor').val(data[0]);
 	$('#productor').val(data[1]);
-	$('#altitud').val(data[3]);
-	$('#finca').val(data[2]);
+	$('#altitud').val(data[4]);
+	$('#finca').val(data[3]);
 	$('#modalProveedores').modal('hide');
 });
 
@@ -261,7 +261,7 @@ $('#form_certificado').validate({
 		//else error.insertAfter(element);
 	},
 	submitHandler: function (form, event) {
-		let boton = $('#btnEnviar');
+		let boton = $('#btnRegistrar');
 		$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
 		$(boton).addClass('disabled'); $('.btn-cancelar').addClass('disabled');
 		return true;

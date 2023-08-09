@@ -7,9 +7,9 @@
 							<!--<div class="row">
 								<!-- Nav pills -->
 								<div class="nav nav-pills row" id="nav-tab" role="tablist">
-									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center active" data-toggle="tab" href="#pill-operaciones">Registro de Operaciones</a>
-									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-ingresos">Ingreso de Productos</a>
-									<a class="nav-item nav-link col-lg-3 col-12 col-md-4 text-center" data-toggle="tab" href="#pill-valorizaciones">Valorizaci&oacute;n de Productos</a>
+									<a class="nav-item nav-link text-center active" data-toggle="tab" href="#pill-operaciones">Registro de Operaciones</a>
+									<a class="nav-item nav-link text-center" data-toggle="tab" href="#pill-ingresos">Ingreso de Productos</a>
+									<a class="nav-item nav-link text-center" data-toggle="tab" href="#pill-valorizaciones">Valorizaci&oacute;n de Productos</a>
 								</div>
 							<!--</div>-->
 							<!-- Tab panes -->
@@ -22,66 +22,36 @@
 												<div class="row">
 													<div class="col-md-6 mt-4">
 														<div class="row">
-															<span class="col-12" style="display:flex;align-items:center"><label for="tipoop">Tipo de Operaci&oacute;n:</label></span>
-														</div>
-														<div class="row">
 															<!--1,2,3,5,6,8-->
-															<select class="form-control col-md-11 tipoop" name="tipoop" id="tipoop">
-																<option value="">--Seleccione--</option>
-														<?
-														foreach($tipo_op as $row):
-															if($row->idtipooperacion !== '4' && $row->idtipooperacion !== '5'):
-														?>
-																<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
-														<?
-															endif;
-														endforeach;	?>
-															</select>
+															<label class="control-label col-md-5 align-self-center mb-0" for="tipoop">Tipo Operaci&oacute;n:</label>
+															<div class="col-md-7">
+																<select class="form-control form-control-sm tipoop" name="tipoop" id="tipoop">
+																	<option value="">--Seleccione--</option>
+															<?
+															foreach($tipo_op as $row):
+																if($row->idtipooperacion !== '4' && $row->idtipooperacion !== '5'):
+															?>
+																	<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
+															<?
+																endif;
+															endforeach;	?>
+																</select>
+															</div>
 														</div>
 													</div>
 													<div class="col-md-6 mt-4">
 														<div class="row">
-															<span class="col-12" style="display:flex;align-items:center"><label for="sucursal">Sucursal:</label></span>
-														</div>
-														<div class="row">
-															<select class="form-control col-md-11 sucursal" name="sucursal" id="sucursal">
+															<label class="control-label col-md-5 align-self-center mb-0" for="sucursal">&nbsp;&nbsp;Sucursal:</label>
+															<div class="col-md-7">
+															<select class="form-control form-control-sm sucursal" name="sucursal" id="sucursal">
 														<?
 														foreach($usuario->sucursales as $row):	?>
 																<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>
 													<?	endforeach;	?>
 															</select>
-														</div>
-													</div>
-													<!--
-													<div class="col-md-6 mt-2">
-														<div class="row">
-															<span class="col-12" style="display:flex;align-items:center"><label for="fechavenc">Fecha de Vencimiento:</label></span>
-														</div>
-														<div class="row">
-															<input type="date" class="form-control col-md-9 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
-														</div>
-													</div>
-													<div class="col-md-6 mt-2">
-														<div class="row">
-															<span class="col-12" style="display:flex;align-items:center"><label for="monto">Monto Operaci&oacute;n:</label></span>
-														</div>
-														<div class="row">
-															<input type="text" class="form-control col-md-7 monto moneda" name="monto" id="monto" autocomplete="off" />
-															<div class="col-md-5 ml-auto" style="display:flex;align-items:center">
-																<button type="submit" class="btn btn-narsa">Ejecutar</button>
 															</div>
-															<label id="monto-error" class="form_error" for="monto"></label>
 														</div>
 													</div>
-													<div class="col-md-6 mt-2 interesAjax" style="display:none">
-														<div class="row">
-															<span class="col-12" style="display:flex;align-items:center"><label for="interes">Tasa de Inter&eacute;s:</label></span>
-														</div>
-														<div class="row">
-															<input type="text" class="form-control col-md-4 interes moneda" maxlength="3" name="interes" id="interes" autocomplete="off" />
-														</div>
-													</div>
-													-->
 												</div>
 											</div>
 										</div>
@@ -91,132 +61,133 @@
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="pp_pe">
 												<div class="col-md-4">
 													<div class="row">
-														<label for="fechavenc" class="align-self-center">Fecha de Vencimiento:</label>
-													</div>
-													<div class="row">
-														<input type="date" class="form-control col-md-10 fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
-													</div>
-												</div>
-												<div class="col-md-4">
-													<div class="row">
-														<label for="monto" class="align-self-center">Monto Pr&eacute;stamo:</label>
-													</div>
-													<div class="row">
-														<input type="text" class="form-control col-md-10 monto moneda" name="monto" id="monto" autocomplete="off" />
+														<label class="control-label col-md-5 align-self-center mb-0" for="fechavenc">Fecha Venc.:</label>
+														<div class="col-md-7 pl-0">
+															<input type="date" class="form-control form-control-sm fechavenc" value="<?=date('Y-m-d')?>" name="fechavenc" id="fechavenc" />
+														</div>
 													</div>
 												</div>
 												<div class="col-md-4">
 													<div class="row">
-														<label for="interes" class="align-self-center">Tasa de Inter&eacute;s:</label>
+														<label class="control-label col-md-5 align-self-center mb-0 pr-0" for="monto">Mto Pr&eacute;stamo:</label>
+														<div class="col-md-7">
+															<input type="text" class="form-control form-control-sm  monto moneda" name="monto" id="monto" autocomplete="off" />
+														</div>
 													</div>
+												</div>
+												<div class="col-md-3">
 													<div class="row">
-														<input type="text" class="form-control col-md-10 interes moneda" maxlength="3" name="interes" id="interes" autocomplete="off" />
+														<label class="control-label col-md-6 align-self-center mb-0 pr-0" for="interes">Tasa Inter&eacute;s:</label>
+														<div class="col-md-6">
+															<input type="text" class="form-control form-control-sm interes moneda" maxlength="3" name="interes" id="interes" autocomplete="off" />
+														</div>
 													</div>
 												</div>
 											</div>
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_p">
 												<input type="hidden" id="mtopago" name="mtopago" /><input type="hidden" id="intpago" name="intpago" />
 												<input type="hidden" id="idpago" name="idpago" /><input type="hidden" id="tasapago" name="tasapago" />
-												<div class="col-md-4">
+												<div class="col-md-4 offset-md-1">
 													<div class="row">
-														<label for="montopago" class="align-self-center">Monto Pago:</label>
-													</div>
-													<div class="row">
-														<input type="text" class="form-control col-md-10 monto moneda blur" name="montopago" id="montopago" autocomplete="off" readonly />
+														<label class="control-label col-md-5 align-self-center mb-0 pr-0" for="montopago">Monto Pago:</label>
+														<div class="col-md-7">
+															<input type="text" class="form-control form-control-sm monto moneda blur" name="montopago" id="montopago" autocomplete="off" readonly />
+														</div>
 													</div>
 												</div>
 												<div class="col-md-4">
 													<div class="row">
-														<label for="interespago" class="align-self-center">Total Intereses:</label>
-													</div>
-													<div class="row">
-														<input type="text" class="form-control col-md-10 interes moneda blur" name="interespago" id="interespago" autocomplete="off" readonly />
+														<label class="control-label col-md-6 align-self-center mb-0 pr-0" for="interespago">Total Intereses:</label>
+														<div class="col-md-6">
+															<input type="text" class="form-control form-control-sm interes moneda blur" name="interespago" id="interespago" autocomplete="off" readonly />
+														</div>
 													</div>
 												</div>
 												<div class="col-md-2">
-													<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<!--<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>-->
 													<div class="custom-control custom-switch pr-0 d-inline ml-2">
 														<input type="checkbox" class="custom-control-input" name="checkliquidapago" id="checkliquidapago" disabled />
-														<label class="custom-control-label" for="checkliquidapago">Liquidar</label>
+														<label class="custom-control-label mt-md-1" for="checkliquidapago">Liquidar</label>
 													</div>
 												</div>
 												<div class="col-8 mx-auto mt-3">
-													<table id="tablaPagos" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
+													<table id="tablaPagos" class="table table-striped table-hover table-bordered mx-auto" style="width:100%"></table>
 												</div>
 											</div>
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="cobros_p">
 												<input type="hidden" id="mtoprestamo" name="mtoprestamo" /><input type="hidden" id="intprestamo" name="intprestamo" />
 												<input type="hidden" id="idprestamo" name="idprestamo" /><input type="hidden" id="tasaprestamo" name="tasaprestamo" />
-												<div class="col-md-4">
+												<div class="col-md-4 offset-md-1">
 													<div class="row">
-														<label for="montocobro" class="align-self-center">Monto Cobro:</label>
-													</div>
-													<div class="row">
-														<input type="text" class="form-control col-md-10 monto moneda blur" name="montocobro" id="montocobro" autocomplete="off" readonly />
+														<label class="control-label col-md-5 align-self-center mb-0 pr-0" for="montocobro">Monto Cobro:</label>
+														<div class="col-md-7">
+															<input type="text" class="form-control form-control-sm monto moneda blur" name="montocobro" id="montocobro" autocomplete="off" readonly />
+														</div>
 													</div>
 												</div>
 												<div class="col-md-4">
 													<div class="row">
-														<label for="interescobro" class="align-self-center">Total Intereses:</label>
-													</div>
-													<div class="row">
-														<input type="text" class="form-control col-md-10 interes moneda blur" name="interescobro" id="interescobro" autocomplete="off" readonly />
+														<label class="control-label col-md-6 align-self-center mb-0 pr-0" for="interescobro">Total Intereses:</label>
+														<div class="col-md-6">
+															<input type="text" class="form-control form-control-sm interes moneda blur" name="interescobro" id="interescobro" autocomplete="off" readonly />
+														</div>
 													</div>
 												</div>
 												<div class="col-md-2">
-													<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<!--<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>-->
 													<div class="custom-control custom-switch pr-0 d-inline ml-2">
 														<input type="checkbox" class="custom-control-input" name="checkliquida" id="checkliquida" disabled />
-														<label class="custom-control-label" for="checkliquida">Liquidar</label>
+														<label class="custom-control-label mt-md-1" for="checkliquida">Liquidar</label>
 													</div>
 												</div>
 												<div class="col-8 mx-auto mt-3"><!--class="table-responsive" -->
 												<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
+													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%"></table>
 												</div>
 											</div>
 											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_val">
 												<input type="hidden" id="mtoval" name="mtoval" /><input type="hidden" id="idvalor" name="idvalor" />
 												<div class="col-md-4 offset-md-3">
-													<div class="row">
+													<!--<div class="row">
 														<label for="montovalor" class="align-self-center">Monto a Pagar:</label>
-													</div>
+													</div>-->
 													<div class="row">
-														<input type="text" class="form-control col-md-10 montovalor moneda blur" name="montovalor" id="montovalor" autocomplete="off" readonly />
+														<label class="control-label col-md-5 align-self-center mb-0 pr-0" for="montovalor">Monto a Pagar:</label>
+														<div class="col-md-7">
+															<input type="text" class="form-control form-control-sm montovalor moneda blur" name="montovalor" id="montovalor" autocomplete="off" readonly />
+														</div>
 													</div>
 												</div>
 												<div class="col-md-2">
-													<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>
+													<!--<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>-->
 													<div class="custom-control custom-switch pr-0 d-inline ml-2">
 														<input type="checkbox" class="custom-control-input" name="checkliquidaval" id="checkliquidaval" disabled />
-														<label class="custom-control-label" for="checkliquidaval">Liquidar</label>
+														<label class="custom-control-label mt-md-1" for="checkliquidaval">Liquidar</label>
 													</div>
 												</div>
 												<div class="col-8 mx-auto mt-3"><!--class="table-responsive" -->
 												<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-													<table id="tablaPagosVal" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7rem"></table>
+													<table id="tablaPagosVal" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7em"></table>
 												</div>
 											</div>
 											<div class="row col-md-6 mt-2 mx-auto d-none" id="antcta_p">
-												<label for="montoanterior" class="control-label col-md-4 align-self-center">Monto:</label>
-												<div class="col-md-7"><input type="text" class="form-control moneda" name="montoanterior" id="montoanterior" autocomplete="off" /></div>
+												<label for="montoanterior" class="control-label col-md-3 offset-md-2 align-self-center mb-0">Monto:</label>
+												<div class="col-md-5">
+													<input type="text" class="form-control form-control-sm moneda" name="montoanterior" id="montoanterior" autocomplete="off" />
+												</div>
 											</div>
 											<div class="row mt-3">
-												<div class="col-md-11 mx-auto pl-md-5">
-													<label for="obstransacciones" class="align-self-center">Observaciones:</label>
-													<input class="form-control col-md-11 mayusc" maxlength="1000" id="obstransacciones" name="obstransacciones" />
+												<label class="control-label col-md-2 align-self-center mb-0 ml-md-5" for="obstransacciones">Observaciones:</label>
+												<div class="col-md-6">
+													<input class="form-control form-control-sm mayusc" maxlength="1000" id="obstransacciones" name="obstransacciones" />
 												</div>
-											</div>
-											<div class="row col-11 mx-auto mt-3">												
-												<div class="col-md-3 pl-0">
-													<button type="submit" class="btn btn-narsa col-md-8">Ejecutar</button>
-												</div>
+												<div class="col-md-3"><button type="submit" class="btn btn-narsa col-md-7 offset-md-3">Ejecutar</button></div>
 											</div>
 											<hr class="row col-11 mx-auto">
 										</div>
 									</form>
-									<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>
-									<div class="container-fluid my-2">
+									<div class="col-md-12 text-center resp" style="font-size:1.3em">&nbsp;</div>
+									<div class="container-fluid">
 										<div class="row">
 											<div class="col-md-6 mb-3">
 												<a class="btn btn-narsa ml-3" href="<?=base_url()?>proveedores/transacciones/edo_cta?id=<?=$this->input->get('id')?>&op=edocta" 
@@ -240,17 +211,10 @@
 											<div class="container-fluid">
 												<div class="row">
 													<div class="col-12 mx-auto" style="overflow-x:auto">
-													<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-														<!--<table id="tablaUsuarios" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>-->
-														<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+														<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%;font-size:0.7em"></table>
 													</div>
 												</div>
 											</div>
-											<!--<div style="overflow-x:scroll" class="col-12">
-											<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-												<!--<table id="tablaOp" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-auto"></table>
-												<table id="tablaOp" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
-											</div>-->
 										</div>
 									</div>
 								</div>
@@ -261,8 +225,8 @@
 											<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalIng" data-target="#modalIngresos">Nuevo Ingreso</button>
 										</div>
 									</div>
-									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
-									<div class="container-fluid my-2">
+									<div class="col-md-12 text-center resp" style="font-size:1.3em">&nbsp;</div>
+									<div class="container-fluid">
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
@@ -279,8 +243,8 @@
 											<button type="button" data-toggle="modal" class="btn btn-narsa d-flex ml-auto" id="modalVal" data-target="#modalValorizaciones">Nueva Valorizaci&oacute;n</button>
 										</div>
 									</div>
-									<div class="col-md-12 text-center pt-2 resp" style="font-size:1.3em">&nbsp;</div>
-									<div class="container-fluid my-2">
+									<div class="col-md-12 text-center resp" style="font-size:1.3em">&nbsp;</div>
+									<div class="container-fluid">
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 											<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->

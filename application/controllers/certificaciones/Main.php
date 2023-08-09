@@ -33,7 +33,7 @@ class Main extends CI_Controller
 		$this->load->library('datatables_server_side', array(
 			'table' => 'proveedor',
 			'primary_key' => 'idproveedor',
-			'columns' => array('idproveedor', 'nombre', 'finca', 'altitud'),
+			'columns' => array('idproveedor', 'nombre', 'numero_documento','finca', 'altitud'),
 			'where' => array('activo' => 1),
 		));
 

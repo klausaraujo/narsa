@@ -52,9 +52,11 @@ class Proveedores_model extends CI_Model
 	}
 	public function registrar($data)
 	{
-		if ($this->db->insert('proveedor', $data))return true;
+		if ($this->db->insert('proveedor', $data)){
+			return $this->db->insert_id();
+		}else return 0;
         //else return $error['code'];
-		else return false;
+		
 	}
 	public function editar($data,$id)
 	{

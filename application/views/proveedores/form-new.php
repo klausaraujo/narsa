@@ -1,9 +1,17 @@
 					<div class="col-12 iq-card my-3">
+					<? if($this->uri->segment(1) === 'proveedores'){
+							$action = base_url().'proveedores/registrar';
+							$btncancelar = 'btn-cancelar';
+					?>
 						<div class="iq-card-header d-flex justify-content-between">
 							<div class="iq-header-title"><h4>Registro de Proveedor</h4></div><div class="ml-5 h4 text-danger mr-auto fallecido"></div>
 						</div>
+					<?}else{
+						$action = '';
+						$btncancelar = 'cancel';
+					}?>
 						<div class="iq-card-body">
-						<form method="post" id="form_proveedor" action="<?=base_url()?>proveedores/registrar" class="needs-validation form-horizontal" novalidate="">
+						<form method="post" id="form_proveedor" action="<?=$action?>" class="needs-validation form-horizontal" novalidate="">
 							<input type="hidden" name="tiporegistro" value="registrar" /><input type="hidden" id="tabla" value="proveedor" />
 							<div class="form-row">
 								<div class="col-12 my-1">
@@ -163,7 +171,7 @@
 							<div class="container-fluid row"><hr class="col-sm-12"></div>
 							<div class="col-12 mx-auto pb-2">
 								<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Guardar Registro</button>
-								<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
+								<button type="reset" class="btn btn-narsa <?=$btncancelar?>">Cancelar</button>
 							</div>
 						</form>
 						</div>

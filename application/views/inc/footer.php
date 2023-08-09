@@ -184,7 +184,8 @@
 			});
 		</script>
 		<?}else if(($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')) || 
-			($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar'))){ ?>
+			($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar')) ||
+			($this->uri->segment(1) === 'tostado' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar'))){ ?>
 		<script src="<?=base_url()?>public/js/mapa/map.js"></script>
 		<script>
 			let map = null;

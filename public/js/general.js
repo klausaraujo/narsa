@@ -184,10 +184,11 @@ btnCurl.bind('click',function(){
 						else $('#btnEnviar').addClass('disabled'), $('.fallecido').html('FALLECIDO');
 						//console.log(data);
 						if(tipodoc === '01' || tipodoc === '03'){
-							if(segmento === 'proveedores' || segmento === 'ventas'){
+							if(segmento === 'proveedores' || segmento === 'ventas' || segmento === 'tostado'){
 								$('.direccion').val(data.data.attributes.domicilio_direccion);
 								$('.nombres').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno+' '+data.data.attributes.nombres);
 								$('#ruc').val('00000000000');
+								//$('#ruc').prop('readonly', true);
 								//$('.direccion').prop('readonly', true);
 							}else if(segmento === 'usuarios'){
 								$('.apellidos').val(data.data.attributes.apellido_paterno+' '+data.data.attributes.apellido_materno);

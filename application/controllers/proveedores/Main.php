@@ -109,23 +109,24 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$id = $this->input->get('id');
 		$hOperaciones = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'Nro. Oper.', 'targets' => 1],'2'=>['title' => 'Fecha', 'targets' => 2],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'Oper.', 'targets' => 1],'2'=>['title' => 'Fecha', 'targets' => 2],
 			'3'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Productor', 'targets' => 5],
-			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Inter&eacute;s', 'targets' => 7],'8'=>['title' => 'Tasa (%)', 'targets' => 8],
-			'9'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 9],
+			'6'=>['title' => 'Monto', 'targets' => 6],'7'=>['title' => 'Inter&eacute;s', 'targets' => 7],'8'=>['title' => 'Tasa(%)', 'targets' => 8],
+			'9'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 9],'10'=>['targets' => 4, 'visible' => false],
 			/*'9'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],*/
 		);
 		$hIngresos = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
 			'3'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
 			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-			'9'=>['targets' => 1, 'visible' => false],
+			'9'=>['targets' => 1, 'visible' => false],'10'=>['targets' => 2, 'visible' => false],'11'=>['targets' => 7, 'visible' => false],
 		);
 		$hValorizaciones = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o', 'targets' => 2],
 			'3'=>['title' => 'Nro.', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
 			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
-			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 1, 'visible' => false],
+			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 1, 'visible' => false],'11'=>['targets' => 2, 'visible' => false],
+			'12'=>['targets' => 8, 'visible' => false],
 		);
 		$tipo = $this->Proveedores_model->tipoOperacion(['combo_movimientos'=> 1,'activo' => 1]);
 		$articulos = $this->Proveedores_model->listaArticulos(['activo' => 1]);

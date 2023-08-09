@@ -237,7 +237,7 @@
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 												<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
-													<thead><tr><th>ID</th><th>Nombre del Productor</th></tr></thead>
+													<thead><tr><th>Item</th><th>Nombre del Productor</th><th>nro doc</th><th>finca</th><th>altitud</th></tr></thead>
 												</table>
 											</div>
 										</div>

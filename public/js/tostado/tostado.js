@@ -44,6 +44,7 @@ jQuery(document).ready(function($){
 			columnDefs:headers,order: [],
 		});
 	}else if(segmento2 === 'nuevo' || segmento2 === 'editar'){
+		$('.btn-cancelar').addClass('d-none');
 		tablaProv = $('#tablaProveedores').DataTable({
 			processing: true,
 			serverSide: true,
@@ -55,13 +56,21 @@ jQuery(document).ready(function($){
 				}
 			},
 			columns:[
-				{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },
+				{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },{ data: 4, visible: false },
 			],
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
 			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
 		});
 	}
 });
+
+function limpiaValidacion(f) {
+	let validator = $('#'+f).validate();
+    validator.resetForm();
+    $('#form_proveedor .form_error').removeClass('form_error');
+	$('#form_proveedor .success').removeClass('success');
+}
+
 $('.anio').bind('change', function(){
 	tablaTos.ajax.reload();
 });
@@ -73,10 +82,21 @@ $('.sucursal').bind('change', function(){
 });
 $('#tablaProveedores').on('dblclick','tr',function(){
 	let data = tablaProv.row( this ).data();
-	$('#idproveedor').val(data[0]);
-	$('#productor').val(data[1]);
-	$('#productor1').val(data[1]);
-	$('#modalProveedores').modal('hide');
+	$('#docu').val(data[2]), $('#productor').val(data[1]), $('#modalProveedores').modal('hide'), $('#idproveedor').val(data[0]);
+});
+$('.resetea').bind('click', function(){ $('#docu').val(''), $('#productor').val(''), $('#idproveedor').val(''); });
+
+$('#sucursalTos').bind('change', function(){ $('#sucursal').val(this.value); });
+
+$('.cancel').bind('click', function(){ $('#modalRegProveedor').modal('hide'); });
+
+$('#modalRegProveedor').on('hidden.bs.modal',function(e){
+	$('#form_proveedor')[0].reset();
+	$('#form_proveedor select').prop('selectedIndex',0);
+	$('.ajaxMap').addClass('d-none');
+	//limpiaValidacion('form_proveedor');
+	$('#btnEnviar').removeClass('disabled'), $('.cancel').removeClass('disabled');
+	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
 $('#tablaTostado').bind('click','a',function(e){
 	let el = e.target, a = $(el).closest('a');
@@ -107,5 +127,76 @@ $('#tablaTostado').bind('click','a',function(e){
 				}
 			});
 		}
+	}
+});
+
+/** Formulario de registro de tostado */
+$('#form_tostado').validate({
+	errorClass: 'form_error',
+	validClass: 'success',
+	rules: {
+		propter: { required: function () { if ($('#propter').css('display') != 'none') return true; else return false; } },
+	},
+	messages: {
+		propter: { required: 'Debe Elegir una Opción' },
+	},
+	errorPlacement: function(error, element) {
+		//let boton = $('#buscar');
+		//if (element.attr('name') == 'propter') error.insertAfter(boton);
+		//if (element.attr('name') == 'detalle_otros') error.insertAfter(element);
+		//error.insertAfter(element);
+		if (element.attr('id') == 'propio') $('#errorcheck').html('Debe Elegir una Opción');
+		
+	},
+	submitHandler: function (form, event) {
+		let boton = $('#btnRegistrar');
+		$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$(boton).addClass('disabled'); $('.btn-cancelar').addClass('disabled');
+		return true;
+	}
+});
+$('#form_proveedor').validate({
+	errorClass: 'form_error',
+	validClass: 'success',
+	rules: {
+		tipodoc: { required: function () { if ($('#tipodoc').css('display') != 'none') return true; else return false; } },
+	},
+	messages: {
+		tipodoc: { required: 'Debe Seleccionar una Opción' },
+	},
+	errorPlacement: function(error, element) {
+		//if (element.attr('id') == 'propio') $('#errorcheck').html('Debe Elegir una Opción');
+	},
+	submitHandler: function (form, event) {
+		event.preventDefault();
+		let boton = $('#btnEnviar');
+		let formData = new FormData(document.getElementById('form_proveedor'));
+		//formData.set('tipodetalle',$('#tipoop').find(':selected').text());
+		$(boton).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+		$(boton).addClass('disabled'), $('.cancel').addClass('disabled');
+		$.ajax({
+			data: new URLSearchParams(formData).toString(),
+			url: base_url + 'tostado/proveedor/registrar',
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function(){ },
+			success: function(data){
+				console.log(data);
+				if(data.id > 0){
+					$('#idproveedor').val(data.id);
+					$('#productor').val($('#nombres').val());
+					$('#docu').val($('#doc').val());
+				}else{
+					$('#idproveedor').val('');
+					$('#productor').val('');
+					$('#docu').val('');
+				}
+				$('.reg').html(data.msg);
+				$('#modalRegProveedor').modal('hide');
+				$(boton).html('Guardar Registro');
+				setTimeout(function () { $('.reg').html(''); }, 2500);
+			}
+		});
+		
 	}
 });

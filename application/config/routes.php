@@ -162,6 +162,7 @@ $route['nuevotostado'] = 'tostado/main/nuevo';
 $route['tostado/nuevo'] = 'tostado/main/nuevo';
 $route['tostado/editar'] = 'tostado/main/nuevo';
 $route['tostado/registrar'] = 'tostado/main/registrar';
+$route['tostado/proveedor/registrar'] = 'tostado/main/regProveedor';
 $route['tostado/anular'] = 'tostado/main/anular';
 
 

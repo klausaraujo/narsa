@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/fontawesome.css">
 <style>
+label, .btn, .pagination, .form-control, .nav-pills .nav-item.nav-link, a, li, span { font-size: 12.5px }
+.nav-pills .nav-item.nav-link { padding:0.4em 1em }
 @media(max-width: 1299px){
 	body.sidebar-main .iq-sidebar { width: 260px; left: 0; z-index: 999; background: rgba(221,95,26,1); background: -moz-linear-gradient(left, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(173,104,64,1)), color-stop(100%, rgba(221,95,26,1))); background: -webkit-linear-gradient(left, rgba(173,104,64,1) 100%) 0%, rgba(221,95,26,1) 100%); background: -o-linear-gradient(left, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); background: -ms-linear-gradient(left, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); background: linear-gradient(to right, rgba(173,104,64,1) 0%, rgba(221,95,26,1) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A0522D', endColorstr='#8B4513', GradientType=1); }
 }
@@ -29,7 +31,7 @@
 }
 .modal-lg, .modal-xl { max-width: 900px; }
 .modal-ing { max-width: 1100px; }
-table.dataTable tr, th, td{font-size: 0.8rem;}
+table.dataTable tr, th, td{ font-size: 0.7rem }
 #tablaCobros tr, #tablaCobros th, #tablaCobros td, #tablaPagos tr, #tablaPagos th, #tablaPagos td, #tablaPagosVal tr, #tablaPagosVal th, #tablaPagosVal td{font-size: 0.7rem;}
 div.dataTables_wrapper div.dataTables_length .form-control-sm{
 	line-height: 1.5;
@@ -72,7 +74,8 @@ div.dataTables_wrapper .far, div.dataTables_wrapper .fa, div.dataTables_wrapper 
 </style>
 
 <?if(($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')) || 
-		($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar'))){ ?>
+		($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar')) ||
+		($this->uri->segment(1) === 'tostado' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar'))){ ?>
 <script>
 	function initMap(){}
 </script>

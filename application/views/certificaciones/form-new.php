@@ -204,7 +204,7 @@
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>
 								<div class="col-12 mx-auto pb-2">
-									<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Guardar Registro</button>
+									<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnRegistrar">Guardar Registro</button>
 									<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
 								</div>
 							</form>
@@ -223,7 +223,7 @@
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 												<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
-													<thead><tr><th>ID</th><th>Nombre del Productor</th><th>finca</th><th>altitud</th></tr></thead>
+													<thead><tr><th>Item</th><th>Nombre del Productor</th><th>nro doc</th><th>finca</th><th>altitud</th></tr></thead>
 												</table>
 											</div>
 										</div>
