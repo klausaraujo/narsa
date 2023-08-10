@@ -17,9 +17,9 @@ jQuery(document).ready(function($){
 				{
 					data: null, orderable: false,
 					render: function(data){
-						let hrefAnular = btnAnular ? 'href="#"' : '';//+base_url+'tostado/anular?id='+data.idtostado+'"' : '';
+						let hrefAnular = btnAnular ? 'href="'+base_url+'tostado/anular?id='+data.idtostado+'"' : '';
 						let hrefEdit = btnEdit ?  'href="'+base_url+'tostado/editar?id='+data.idtostado+'"' : '';
-						let hrefPdf = btnPdf ? 'href=#' : '';//+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
+						let hrefPdf = btnPdf ? 'href="'+base_url+'tostado/comprobante?id='+data.idtostado+'"' : '';
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Tostado" '+hrefEdit+' class="bg-warning btnTable '+(!btnEdit?'disabled':'')+'">'+
@@ -40,11 +40,16 @@ jQuery(document).ready(function($){
 						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
 					}
 				},
+				{
+					data: 'precio_total', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				}
 			],
 			columnDefs:headers,order: [],
 		});
 	}else if(segmento2 === 'nuevo' || segmento2 === 'editar'){
-		$('.btn-cancelar').addClass('d-none');
 		tablaProv = $('#tablaProveedores').DataTable({
 			processing: true,
 			serverSide: true,
@@ -64,11 +69,12 @@ jQuery(document).ready(function($){
 	}
 });
 
-function limpiaValidacion(f) {
-	let validator = $('#'+f).validate();
-    validator.resetForm();
-    $('#form_proveedor .form_error').removeClass('form_error');
-	$('#form_proveedor .success').removeClass('success');
+function limpiaForm(f) {
+	$('#'+f+' .form_error').prop('aria-invalid',false);
+	$('#'+f).removeClass('was-validated');
+	$('#'+f+' .form_error').removeClass('form_error');
+	$('#'+f+' .success').removeClass('success');
+	$('#'+f+' .errores').html('');
 }
 
 $('.anio').bind('change', function(){
@@ -89,12 +95,13 @@ $('.resetea').bind('click', function(){ $('#docu').val(''), $('#productor').val(
 $('#sucursalTos').bind('change', function(){ $('#sucursal').val(this.value); });
 
 $('.cancel').bind('click', function(){ $('#modalRegProveedor').modal('hide'); });
+$('#buscar').bind('click', function(){ limpiaForm('form_tostado'); });
 
 $('#modalRegProveedor').on('hidden.bs.modal',function(e){
+	limpiaForm('form_proveedor');
 	$('#form_proveedor')[0].reset();
 	$('#form_proveedor select').prop('selectedIndex',0);
 	$('.ajaxMap').addClass('d-none');
-	//limpiaValidacion('form_proveedor');
 	$('#btnEnviar').removeClass('disabled'), $('.cancel').removeClass('disabled');
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
@@ -134,7 +141,7 @@ $('#tablaTostado').bind('click','a',function(e){
 $('#form_tostado').validate({
 	errorClass: 'form_error',
 	validClass: 'success',
-	rules: {
+	rules: { 
 		propter: { required: function () { if ($('#propter').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
@@ -145,7 +152,7 @@ $('#form_tostado').validate({
 		//if (element.attr('name') == 'propter') error.insertAfter(boton);
 		//if (element.attr('name') == 'detalle_otros') error.insertAfter(element);
 		//error.insertAfter(element);
-		if (element.attr('id') == 'propio') $('#errorcheck').html('Debe Elegir una Opción');
+		if (element.attr('id') == 'propio') $('#errorcheck').addClass('form_error'), $('#errorcheck').html('Debe Elegir una Opción');
 		
 	},
 	submitHandler: function (form, event) {
@@ -155,17 +162,18 @@ $('#form_tostado').validate({
 		return true;
 	}
 });
+/* Formulario de registro de productores desde el modulo tostado */
 $('#form_proveedor').validate({
 	errorClass: 'form_error',
 	validClass: 'success',
 	rules: {
-		tipodoc: { required: function () { if ($('#tipodoc').css('display') != 'none') return true; else return false; } },
+		tipodoc: { required: function(){ if ($('#tipodoc').css('display') != 'none') return true; else return false; } },
 	},
 	messages: {
 		tipodoc: { required: 'Debe Seleccionar una Opción' },
 	},
-	errorPlacement: function(error, element) {
-		//if (element.attr('id') == 'propio') $('#errorcheck').html('Debe Elegir una Opción');
+	errorPlacement: function(error, element){
+		/*if (element.attr('id') == 'propio') $('#errorcheck').html('Debe Elegir una Opción');*/
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
@@ -181,19 +189,11 @@ $('#form_proveedor').validate({
 			dataType: 'JSON',
 			beforeSend: function(){ },
 			success: function(data){
-				console.log(data);
-				if(data.id > 0){
-					$('#idproveedor').val(data.id);
-					$('#productor').val($('#nombres').val());
-					$('#docu').val($('#doc').val());
-				}else{
-					$('#idproveedor').val('');
-					$('#productor').val('');
-					$('#docu').val('');
-				}
-				$('.reg').html(data.msg);
-				$('#modalRegProveedor').modal('hide');
-				$(boton).html('Guardar Registro');
+				//console.log(data);
+				if(data.id > 0) $('#idproveedor').val(data.id), $('#productor').val($('#nombres').val()), $('#docu').val($('#doc').val()), limpiaForm('form_tostado');
+				else $('#idproveedor').val(''), $('#productor').val(''), $('#docu').val('');
+				
+				$('.reg').html(data.msg), $(boton).html('Guardar Registro'), $('#modalRegProveedor').modal('hide');
 				setTimeout(function () { $('.reg').html(''); }, 2500);
 			}
 		});

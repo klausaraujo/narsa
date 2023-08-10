@@ -33,7 +33,7 @@
 													<input type="radio" id="tercero" name="propter" class="custom-control-input bg-success" value="tercero" required="" >
 													<label class="custom-control-label" for="tercero">Tercero</label>
 												</div>
-												<div class="row col-12 form_error" id="errorcheck"></div>
+												<div class="row col-12 errores" id="errorcheck"></div>
 											</div>
 											<div class="col-md-3">
 												<a type="button" class="btn btn-small btn-primary mr-3 px-3 resetea" data-toggle="modal" data-target="#modalProveedores" id="buscar">Buscar</a>
@@ -116,9 +116,9 @@
 												<div class="row">
 													<label class="control-label col-md-4 align-self-center mb-0" for="seleccionado">Seleccionado:</label>
 													<div class="col-md-6 pr-md-0">
-														<select class="form-control form-control-sm" id="seleccionado" required="" >
-															<option>SI</option>
-															<option>NO</option>
+														<select class="form-control form-control-sm" id="seleccionado" name="seleccionado" required="" >
+															<option value="0">NO</option>
+															<option value="1">SI</option>
 														</select>
 													</div>
 												</div>
@@ -174,7 +174,7 @@
 											<div class="col-md-2">
 												<div class="row">
 													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="media">Medio</label></div>
-													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="medio" id="medio" />
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="media" id="media" />
 												</div>
 											</div>
 											<div class="col-md-2">
@@ -208,6 +208,14 @@
 												<div class="row">
 													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="gde">1000g</label></div>
 													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="gde" id="gde" />
+												</div>
+											</div>
+										</div>
+										<div class="row mt-3">
+											<label class="control-label col-md-2 align-self-center mb-0">Observaciones:</label>
+											<div class="col-md-6">
+												<div class="row">
+													<input type="text" id="observaciones" name="observaciones" class="form-control form-control-sm" maxlength="1000" placeholder="Observaciones" />
 												</div>
 											</div>
 										</div>

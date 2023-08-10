@@ -146,11 +146,13 @@ class Proveedores_model extends CI_Model
     }
 	public function listaIngresos($data)
     {
-        $this->db->select('ge.*,DATE_FORMAT(ge.fecha,"%d/%m/%Y") as fecha_guia,su.sucursal,pr.nombre');
+        $this->db->select('ge.*,DATE_FORMAT(ge.fecha,"%d/%m/%Y") as fecha_guia,ged.idguia,SUM(cantidad) as cantidad_guia,su.sucursal,pr.nombre');
         $this->db->from('guia_entrada ge');
+		$this->db->join('guia_entrada_detalle ged','ged.idguia = ge.idguia');
 		$this->db->join('sucursal su','su.idsucursal = ge.idsucursal');
 		$this->db->join('proveedor pr','pr.idproveedor = ge.idproveedor');
 		$this->db->where($data);
+		$this->db->group_by('ge.idguia');
 		$this->db->order_by('ge.idguia', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
@@ -564,4 +566,17 @@ class Proveedores_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
+	public function pruebas($data)
+    {
+        $this->db->select('ge.*,DATE_FORMAT(ge.fecha,"%d/%m/%Y") as fecha_guia,ged.idguia,SUM(cantidad) as cantidad_guia,su.sucursal,pr.nombre');
+        $this->db->from('guia_entrada ge');
+		$this->db->join('guia_entrada_detalle ged','ged.idguia = ge.idguia');
+		$this->db->join('sucursal su','su.idsucursal = ge.idsucursal');
+		$this->db->join('proveedor pr','pr.idproveedor = ge.idproveedor');
+		$this->db->where($data);
+		$this->db->group_by('ge.idguia');
+		$this->db->order_by('ge.idguia', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
 }

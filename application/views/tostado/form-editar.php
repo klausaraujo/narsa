@@ -1,152 +1,223 @@
 					<? $usuario = json_decode($this->session->userdata('user')); ?>
 					
 					<div class="col-12 iq-card my-3">
-						<div class="iq-card-header d-flex justify-content-between">
-							<div class="iq-header-title"><h4>Edici&oacute;n del Proceso de Tostado</h4></div>
+						<div class="row iq-card-header d-flex justify-content-between">
+							<div class="iq-header-title col-md-7"><h4>Registro Tostado</h4></div>
+							<div class="col-md-3">
+								<div class="row">
+									<label class="control-label col-md-4 align-self-center mb-0" for="sucursalTos">Sucursal:</label>
+									<div class="col-md-8">
+										<select class="form-control form-control-sm" name="sucursalTos" id="sucursalTos" required="">
+										<? foreach($usuario->sucursales as $row): ?>
+											<option value="<?=$row->idsucursal;?>" <?if($row->idsucursal === $tostado->idsucursal) echo 'selected';?> ><?=$row->sucursal;?></option>
+										<? endforeach;	?>
+										</select>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="iq-card-body"><!--Anular-->
 							<form method="post" id="form_tostado" action="<?=base_url()?>tostado/registrar" class="needs-validation" novalidate="" >
-								<input type="hidden" name="tiporegistro" value="editar" />
-								<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$tostado->idproveedor?>" />
-								<input type="hidden" name="idtostado" value="<?=$tostado->idtostado?>" />
+								<input type="text" name="tiporegistro" value="editar" />
+								<input type="text" name="idproveedor" id="idproveedor" value="<?=$tostado->idproveedor?>" />
+								<input type="text" name="idtostado" value="<?=$tostado->idtostado?>" />
+								<input type="text" name="sucursal" id="sucursal" value="<?=$tostado->idsucursal?>" />
 								<div class="form-row">
 									<div class="col-12 my-1">
 										<div class="row">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="productor">&nbsp;&nbsp;Productor:</label>
-											<div class="col-sm-6 col-lg-3">
+											<div class="col-md-2 px-0">
+												<div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+													<input type="radio" id="propio" name="propter" class="custom-control-input bg-primary" value="propio" required="" />
+													<label class="custom-control-label" for="propio">Propio</label>
+												</div>
+												<div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+													<input type="radio" id="tercero" name="propter" class="custom-control-input bg-success" value="tercero" required="" >
+													<label class="custom-control-label" for="tercero">Tercero</label>
+												</div>
+												<div class="row col-12 errores" id="errorcheck"></div>
+											</div>
+											<div class="col-md-3">
+												<a type="button" class="btn btn-small btn-primary mr-3 px-3 resetea" data-toggle="modal" data-target="#modalProveedores" id="buscar">Buscar</a>
+												<a type="button" class="btn btn-small btn-narsa text-white px-3 resetea" data-toggle="modal" data-target="#modalRegProveedor" id="btnAgregar">Registrar</a>
+											</div>
+											<div class="col-md-7">
 												<div class="row">
-													<input type="text" class="form-control productor col-8" id="productor1" name="productor1" value="<?=$tostado->nombre?>" readonly />
-													<input type="text" class="form-control productor col-8 d-none" id="productor" name="productor" value="<?=$tostado->nombre?>" required="" />
-													<a type="button" class="btn btn-small btn-narsa align-self-center text-small ml-1 text-white" data-toggle="modal" 
-															data-target="#modalProveedores" id="buscar">Buscar</a>
-													<div class="invalid-feedback">Debe elegir un Productor</div>
+													<div class="col-12 reg text-center"></div>
+													<div class="col-md-5">
+														<div class="row">
+															<label class="control-label col-md-2 align-self-center mb-0" for="doc">Doc.:</label>
+															<div class="col-md-10">
+																<input type="text" class="form-control form-control-sm" name="docu" id="docu" value="<?=$tostado->numero_documento?>" required="" readonly />
+																<div class="invalid-feedback">Campo Requerido</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-7 pl-md-0">
+														<div class="row">
+															<label class="control-label col-md-3 align-self-center mb-0" for="productor">Nombre:</label>
+															<div class="col-md-9">
+																<input type="text" class="form-control form-control-sm" name="productor" id="productor" value="<?=$tostado->nombre?>" required="" readonly />
+																<div class="invalid-feedback">Campo Requerido</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="sucursalTos">&nbsp;&nbsp;Sucursal:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
+										</div>
+										<div class="row mt-4">
+											<div class="col-md-3">
 												<div class="row">
-													<select class="form-control" name="sucursalTos" id="sucursalTos" required="">
-													<? foreach($usuario->sucursales as $row): ?>
-														<option value="<?=$row->idsucursal;?>" <?if($row->idsucursal === $tostado->idsucursal) echo 'selected';?> ><?=$row->sucursal;?></option>
-													<? endforeach;	?>
-													</select>
-													<div class="invalid-feedback">Debe elegir una Sucursal</div>
+													<label class="control-label col-md-3 align-self-center mb-0" for="articulo">Art&iacute;culo:</label>
+													<div class="col-md-9">
+														<select class="form-control form-control-sm" id="articulo" name="articulo" required="" >
+															<? foreach($articulos as $row): ?>
+																<option value="<?=$row->idarticulo;?>" <?if($row->idarticulo === $tostado->idarticulo) echo 'selected';?>><?=$row->articulo?></option>
+															<? endforeach;	?>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="row">
+													<label class="control-label col-md-3 align-self-center mb-0 pl-md-0" for="cantidad">Cantidad:</label>
+													<div class="col-md-9">
+														<input type="text" class="form-control form-control-sm moneda" name="cantidad" id="cantidad" value="<?=$tostado->cantidad?>" required="" />
+														<div class="invalid-feedback">Campo Requerido</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="row">
+													<label class="control-label col-md-4 align-self-center mb-0 px-md-0" for="fecha">Fecha:</label>
+													<div class="col-md-8 px-md-0">
+														<input type="date" class="form-control form-control-sm" name="fecha" id="fecha"value="<?=date_format(date_create($tostado->fecha),'Y-m-d')?>" required="" />
+														<div class="invalid-feedback">Campo Requerido</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="row">
+													<label class="control-label col-md-5 align-self-center mb-0" for="densidad">Densidad:</label>
+													<div class="col-md-7 px-md-0">
+														<input type="text" class="form-control form-control-sm moneda" name="densidad" id="densidad" value="<?=$tostado->densidad?>" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="row">
+													<label class="control-label col-md-5 align-self-center mb-0" for="h2o">H2O:</label>
+													<div class="col-md-7">
+														<input type="text" class="form-control form-control-sm moneda" name="h2o" id="h2o" value="<?=$tostado->h2o?>" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row mt-4">
+											<div class="col-md-3">
+												<div class="row">
+													<label class="control-label col-md-4 align-self-center mb-0" for="seleccionado">Seleccionado:</label>
+													<div class="col-md-6 pr-md-0">
+														<select class="form-control form-control-sm" id="seleccionado" name="seleccionado" required="" >
+															<option value="0" <?if($tostado->seleccionado === '0'){ echo 'selected'; }?>>NO</option>
+															<option value="1" <?if($tostado->seleccionado === '1'){ echo 'selected'; }?>>SI</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="row">
+													<label class="control-label col-md-4 align-self-center mb-0 px-md-0" for="preciot">Precio Total:</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control form-control-sm moneda" name="preciot" id="preciot" value="<?=$tostado->precio_total?>" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="row">
+													<label class="control-label col-md-4 align-self-center mb-0 px-md-0" for="acuenta">Pago a Cta.:</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control form-control-sm moneda" name="acuenta" id="acuenta" value="<?=$tostado->a_cuenta?>" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="row">
+													<label class="control-label col-md-4 align-self-center mb-0" for="saldo">Saldo:</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control form-control-sm moneda" name="saldo" id="saldo" value="<?=$tostado->saldo?>" />
+													</div>
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="fecha">&nbsp;&nbsp;Fecha:</label>
-											<div class="col-sm-6 col-lg-3">
+											<label class="control-label col-md-2 align-self-center mb-0 mt-md-3">Tipo de Tostado:</label>
+											<div class="col-md-2">
 												<div class="row">
-													<input type="date" class="form-control fecha" value="<?=date_format(date_create($tostado->fecha),'Y-m-d')?>"
-															name="fecha" id="fecha" required="" />
-													<div class="invalid-feedback">Debe elegir la fecha</div>
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="claro">Claro</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="claro" id="claro" value="<?=$tostado->tipo_tostado_claro?>" />
 												</div>
 											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="articulo">&nbsp;&nbsp;Art&iacute;culo:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
+											<div class="col-md-2">
 												<div class="row">
-													<select class="form-control" name="articulo" id="articulo" required="">
-													<? foreach($articulos as $row): ?>
-														<option value="<?=$row->idarticulo;?>" <?if($tostado->idarticulo === $row->idarticulo) echo 'selected';?> ><?=$row->articulo;?></option>
-													<? endforeach;	?>
-													</select>
-													<div class="invalid-feedback">Campo Requerido</div>
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="medio">Medio</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="medio" id="medio" value="<?=$tostado->tipo_tostado_medio?>" />
 												</div>
 											</div>
-										</div>
-										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="cantidad">&nbsp;&nbsp;Cantidad:</label>
-											<div class="col-sm-6 col-lg-3">
+											<div class="col-md-2">
 												<div class="row">
-													<input type="text" class="form-control moneda" name="cantidad" id="cantidad" value="<?=$tostado->cantidad?>" required="" />
-													<div class="invalid-feedback">Cantidad Requerida</div>
-												</div>
-											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="cascara">&nbsp;&nbsp;C&aacute;scara:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
-												<div class="row">
-													<input type="text" class="form-control moneda" name="cascara" id="cascara" value="<?=$tostado->cascara?>" />
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="oscuro">Oscuro</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="oscuro" id="oscuro" value="<?=$tostado->tipo_tostado_oscuro?>" />
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="malla15">&nbsp;&nbsp;Malla #15:</label>
-											<div class="col-sm-6 col-lg-3">
+											<label class="control-label col-md-2 align-self-center mb-0 mt-md-3">Tipo de Molienda:</label>
+											<div class="col-md-2">
 												<div class="row">
-													<input type="text" class="form-control moneda" name="malla15" id="malla15" value="<?=$tostado->malla15?>" />
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="media">Medio</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="media" id="media" value="<?=$tostado->tipo_molienda_media?>" />
 												</div>
 											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="malla14">&nbsp;&nbsp;Malla #14:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
+											<div class="col-md-2">
 												<div class="row">
-													<input type="text" class="form-control moneda" name="malla14" id="malla14" value="<?=$tostado->malla14?>" />
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="mediafina">Media Fina</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="mediafina" id="mediafina" value="<?=$tostado->tipo_molienda_media_fina?>" />
 												</div>
 											</div>
-										</div>
-										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="descarte">&nbsp;&nbsp;Descarte:</label>
-											<div class="col-sm-6 col-lg-3">
+											<div class="col-md-2">
 												<div class="row">
-													<input type="text" class="form-control moneda" name="descarte" id="descarte" value="<?=$tostado->descarte?>" />
-												</div>
-											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="eliminacion">&nbsp;&nbsp;Eliminaci&oacute;n:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
-												<div class="row">
-													<input type="text" class="form-control moneda" name="eliminacion" id="eliminacion" value="<?=$tostado->eliminacion?>" />
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="mediagruesa">Oscuro</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="mediagruesa" id="mediagruesa" value="<?=$tostado->tipo_molienda_media_gruesa?>" />
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="seleccion">&nbsp;&nbsp;Selecci&oacute;n:</label>
-											<div class="col-sm-6 col-lg-3">
+											<label class="control-label col-md-2 align-self-center mb-0 mt-md-3">Tipo de Embolsado:</label>
+											<div class="col-md-2">
 												<div class="row">
-													<select class="form-control" name="seleccion" id="seleccion">
-														<option value="1" <?=$tostado->seleccion === '1'? 'selected' : ''?> >Exportacion</option>
-														<option value="2" <?=$tostado->seleccion === '2'? 'selected' : ''?> >Segunda</option>
-													</select>
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="peq">250g</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="peq" id="peq" value="<?=$tostado->tipo_embolsado_250?>" />
 												</div>
 											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="tostado">&nbsp;&nbsp;Tostado:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
+											<div class="col-md-2">
 												<div class="row">
-													<select class="form-control" name="tostado" id="tostado">
-														<option value="1" <?=$tostado->tostado === '1'? 'selected' : ''?> >Claro</option>
-														<option value="2" <?=$tostado->tostado === '2'? 'selected' : ''?> >Medio</option>
-														<option value="3" <?=$tostado->tostado === '3'? 'selected' : ''?> >Oscuro</option>
-													</select>
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="med">500g</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="med" id="med" value="<?=$tostado->tipo_embolsado_500?>" />
 												</div>
 											</div>
-										</div>
-										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="molido">&nbsp;&nbsp;Molido:</label>
-											<div class="col-sm-6 col-lg-3">
+											<div class="col-md-2">
 												<div class="row">
-													<select class="form-control" name="molido" id="molido">
-														<option value="1" <?=$tostado->molido === '1'? 'selected' : ''?> >Fino</option>
-														<option value="2" <?=$tostado->molido === '2'? 'selected' : ''?> >Medio</option>
-														<option value="3" <?=$tostado->molido === '3'? 'selected' : ''?> >Grueso</option>
-													</select>
-												</div>
-											</div>
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0 mt-sm-3 mt-lg-0 ml-lg-3" for="envasado">&nbsp;&nbsp;Envasado:</label>
-											<div class="col-sm-6 col-lg-3 mt-sm-3 mt-lg-0">
-												<div class="row">
-													<select class="form-control" name="envasado" id="envasado">
-														<option value="1" <?=$tostado->envasado === '1'? 'selected' : ''?> >1 Kg.</option>
-														<option value="2" <?=$tostado->envasado === '2'? 'selected' : ''?> >500 Gr.</option>
-														<option value="3" <?=$tostado->envasado === '3'? 'selected' : ''?> >250 Gr.</option>
-													</select>
+													<div class="col-md-7 mx-auto"><label class="control-label align-self-center mb-0" for="gde">1000g</label></div>
+													<input type="text" class="form-control form-control-sm col-md-10 moneda" name="gde" id="gde" value="<?=$tostado->tipo_embolsado_1000?>" />
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
-											<label class="control-label col-sm-6 col-lg-2 align-self-center mb-0" for="obs">&nbsp;&nbsp;Observaciones:</label>
-											<div class="col-sm-6 col-lg-8">
+											<label class="control-label col-md-2 align-self-center mb-0">Observaciones:</label>
+											<div class="col-md-6">
 												<div class="row">
-													<input type="text" class="form-control mayusc" name="obs" id="obs" placeholder="Observaciones"
-															value="<?=$tostado->observaciones?>" autocomplete="off" />
+													<input type="text" id="observaciones" name="observaciones" class="form-control form-control-sm mayusc" maxlength="1000" 
+														value="<?=$tostado->observaciones?>" />
 												</div>
 											</div>
 										</div>
@@ -154,7 +225,7 @@
 								</div>
 								<div class="container-fluid row"><hr class="col-sm-12"></div>
 								<div class="col-12 mx-auto pb-2">
-									<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnEnviar">Editar</button>
+									<button type="submit" class="btn btn-narsa ml-1 mr-4" id="btnRegistrar">Editar Registro</button>
 									<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
 								</div>
 							</form>
@@ -166,18 +237,32 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h4 class="modal-title" id="myModalLabel">Elegir Productor</h4>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size:14px">&times;</span></button>
 								</div>
 								<div class="modal-body">
 									<div class="container-fluid">
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 												<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
-													<thead><tr><th>ID</th><th>Nombre del Productor</th><th>finca</th><th>altitud</th></tr></thead>
+													<thead><tr><th>Item</th><th>Nombre del Productor</th><th>nro doc</th><th>finca</th><th>altitud</th></tr></thead>
 												</table>
 											</div>
 										</div>
 									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal registro de proveedores -->
+					<div class="modal fade" id="modalRegProveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">Registrar Productor</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size:14px">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<?$this->load->view('proveedores/form-new');?>
 								</div>
 							</div>
 						</div>

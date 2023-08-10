@@ -17,7 +17,7 @@ class Main extends CI_Controller
 	public function listaTostado()
 	{
 		$this->load->model('Tostado_model');
-		$anio = $this->input->post('anio'); $mes = $this->input->post('mes'); $sucursal = $this->input->post('sucursal'); $certificaciones = [];
+		$anio = $this->input->post('anio'); $mes = $this->input->post('mes'); $sucursal = $this->input->post('sucursal'); $tostados = [];
 		$tostados = $this->Tostado_model->listaTostados(['t.idsucursal' => $sucursal,'anio_tostado' => $anio,'SUBSTRING(fecha,6,2)' => sprintf("%'02s",$mes),'t.activo' => 1]);
 		echo json_encode(['data' => $tostados]);
 	}
@@ -78,25 +78,30 @@ class Main extends CI_Controller
 		$this->load->model('Tostado_model');
 		$status = 500; $message = 'No se pudo registrar el Proceso';
 		$fecha = $this->input->post('fecha'); $anio = date_format(date_create($fecha),'Y'); $suc = $this->input->post('sucursal');
-		var_dump($_POST);
-		/*
+		
 		$dataTost = array(
 			'anio_tostado' => $anio,
-			'fecha' => $fecha,
-			'idsucursal' => $suc,
+			'idsucursal' => $this->input->post('sucursal'),
 			'idproveedor' => $this->input->post('idproveedor'),
 			'idarticulo' => $this->input->post('articulo'),
 			'cantidad' => $this->input->post('cantidad'),
-			'cascara' => $this->input->post('cascara'),
-			'malla15' => $this->input->post('malla15'),
-			'malla14' => $this->input->post('malla14'),
-			'descarte' => $this->input->post('descarte'),
-			'eliminacion' => $this->input->post('eliminacion'),
-			'seleccion' => $this->input->post('seleccion'),
-			'tostado' => $this->input->post('tostado'),
-			'molido' => $this->input->post('molido'),
-			'envasado' => $this->input->post('envasado'),
-			'observaciones' => $this->input->post('obs'),
+			'fecha' => $fecha,
+			'densidad' => $this->input->post('densidad'),
+			'h2o' => $this->input->post('h2o'),
+			'seleccionado' => $this->input->post('seleccionado'),
+			'precio_total' => $this->input->post('preciot'),
+			'a_cuenta' => $this->input->post('acuenta'),
+			'saldo' => $this->input->post('saldo'),
+			'tipo_tostado_claro' => $this->input->post('claro'),
+			'tipo_tostado_medio' => $this->input->post('medio'),
+			'tipo_tostado_oscuro' => $this->input->post('oscuro'),
+			'tipo_molienda_media' => $this->input->post('media'),
+			'tipo_molienda_media_fina' => $this->input->post('mediafina'),
+			'tipo_molienda_media_gruesa' => $this->input->post('mediagruesa'),
+			'tipo_embolsado_250' => $this->input->post('peq'),
+			'tipo_embolsado_500' => $this->input->post('med'),
+			'tipo_embolsado_1000' => $this->input->post('gde'),
+			'observaciones' => $this->input->post('observaciones'),
 		);
 		
 		if($this->input->post('tiporegistro') === 'registrar'){
@@ -105,7 +110,6 @@ class Main extends CI_Controller
 			$dataTost['idusuario_registro'] = $this->usuario->idusuario;
 			$dataTost['fecha_registro'] = date('Y-m-d H:i:s');
 			$dataTost['activo'] = 1;
-			
 			if($this->Tostado_model->guardaTost($dataTost)){
 				$this->session->set_flashdata('flashMessage', '<b>Proceso</b> Registrado Exitosamente');
 				$this->session->set_flashdata('claseMsg', 'alert-primary');
@@ -120,7 +124,7 @@ class Main extends CI_Controller
 			}
 		}
 		
-		header('location:'.base_url().'tostado');*/
+		header('location:'.base_url().'tostado');
 	}
 	public function anular()
 	{
@@ -133,5 +137,22 @@ class Main extends CI_Controller
 		
 		$data = [ 'status' => $status, 'message' => $msg ];	
 		echo json_encode($data);
+	}
+	public function pdfTostado()
+	{
+		$this->load->model('Tostado_model');
+		$versionphp = 7; $id = $this->input->get('id'); $a5 = 'A4'; $direccion = 'portrait';
+		
+		$tostado = $this->Tostado_model->listaTostado(['idtostado' => $id]);
+		$data = ['tostado' => $tostado];
+		$html = $this->load->view('tostado/comprobante-pdf', $data, true);
+				
+		if(floatval(phpversion()) < $versionphp){
+			$this->load->library('dom');
+			$this->dom->generate($direccion, $a5, $html, 'Comprobante');
+		}else{
+			$this->load->library('dom1');
+			$this->dom1->generate($direccion, $a5, $html, 'Comprobante');
+		}
 	}
 }

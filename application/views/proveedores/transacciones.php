@@ -145,29 +145,35 @@
 													<table id="tablaCobros" class="table table-striped table-hover table-bordered mx-auto" style="width:100%"></table>
 												</div>
 											</div>
-											<div class="row col-md-11 mt-2 mx-auto d-none" id="pagos_val">
+											<div class="row mt-2 mx-auto d-none" id="pagos_val">
 												<input type="hidden" id="mtoval" name="mtoval" /><input type="hidden" id="idvalor" name="idvalor" />
-												<div class="col-md-4 offset-md-3">
-													<!--<div class="row">
-														<label for="montovalor" class="align-self-center">Monto a Pagar:</label>
-													</div>-->
-													<div class="row">
-														<label class="control-label col-md-5 align-self-center mb-0 pr-0" for="montovalor">Monto a Pagar:</label>
-														<div class="col-md-7">
-															<input type="text" class="form-control form-control-sm montovalor moneda blur" name="montovalor" id="montovalor" autocomplete="off" readonly />
+												<div class="col-md-11 mx-auto">
+													<div class="row mx-auto">
+														<div class="col-md-6 offset-md-1">
+															<!--<div class="row">
+																<label for="montovalor" class="align-self-center">Monto a Pagar:</label>
+															</div>-->
+															<div class="row">
+																<label class="control-label col-md-6 align-self-center mb-0 text-right" for="montovalor">Monto a Pagar:</label>
+																<div class="col-md-6">
+																	<input type="text" class="form-control form-control-sm montovalor moneda blur" name="montovalor" id="montovalor" autocomplete="off" readonly />
+																</div>
+															</div>
+														</div>
+														<div class="col-md-3">
+															<!--<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>-->
+															<div class="custom-control custom-switch pr-0 d-inline ml-2">
+																<input type="checkbox" class="custom-control-input" name="checkliquidaval" id="checkliquidaval" disabled />
+																<label class="custom-control-label" for="checkliquidaval">Liquidar</label>
+															</div>
 														</div>
 													</div>
-												</div>
-												<div class="col-md-2">
-													<!--<div class="row"><label for="" class="align-self-center">&nbsp;&nbsp;</label></div>-->
-													<div class="custom-control custom-switch pr-0 d-inline ml-2">
-														<input type="checkbox" class="custom-control-input" name="checkliquidaval" id="checkliquidaval" disabled />
-														<label class="custom-control-label mt-md-1" for="checkliquidaval">Liquidar</label>
+													<div class="row mx-auto">
+														<div class="col-7 mt-3 mx-auto"><!--class="table-responsive" -->
+														<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
+															<table id="tablaPagosVal" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7em"></table>
+														</div>
 													</div>
-												</div>
-												<div class="col-8 mx-auto mt-3"><!--class="table-responsive" -->
-												<!--<div class="col-sm-12 mx-auto" style="overflow-x:scroll"><!--align-items-center text-center-->
-													<table id="tablaPagosVal" class="table table-striped table-hover table-bordered mx-auto" style="width:100%;font-size:0.7em"></table>
 												</div>
 											</div>
 											<div class="row col-md-6 mt-2 mx-auto d-none" id="antcta_p">
@@ -181,7 +187,7 @@
 												<div class="col-md-6">
 													<input class="form-control form-control-sm mayusc" maxlength="1000" id="obstransacciones" name="obstransacciones" />
 												</div>
-												<div class="col-md-3"><button type="submit" class="btn btn-narsa col-md-7 offset-md-3">Ejecutar</button></div>
+												<div class="col-md-3"><button type="submit" class="btn btn-narsa col-md-8 offset-md-3">Ejecutar</button></div>
 											</div>
 											<hr class="row col-11 mx-auto">
 										</div>

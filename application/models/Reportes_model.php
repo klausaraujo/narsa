@@ -10,7 +10,7 @@ class Reportes_model extends CI_Model
 	private $productor = [];
 	private $nombre = [];
 	
-	public function setSucursal($data){ $this->idsucursal = [ 'idsucursal' => $this->db->escape_str($data) ]; }
+	public function setSucursal($data){ $this->idsucursal = [ 'r.idsucursal' => $this->db->escape_str($data) ]; }
 	public function setAnio($data){ $this->anio = [ 'anio' => $this->db->escape_str($data) ]; }
 	public function setArticulo($data){ $this->articulo = [ 'articulo' => $this->db->escape_str($data) ]; }
 	public function setProductor($data){ $this->productor = [ 'productor' => $this->db->escape_str($data) ]; }
@@ -42,8 +42,10 @@ class Reportes_model extends CI_Model
 	}
 	public function repArticulos()
     {
-        $this->db->select('*,DATE_FORMAT(fecha,"%d/%m/%Y") as fechaguia,FORMAT(cantidad,2) as cantidad,FORMAT(costo,2) as costo');
-        $this->db->from('articulos_ingresados');
+		$this->db->distinct();
+        $this->db->select('r.*,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fechaguia,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,ge.numero');
+        $this->db->from('articulos_ingresados r');
+		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->anio) $this->db->where($this->anio);
 		if($this->articulo) $this->db->where($this->articulo);
@@ -56,47 +58,52 @@ class Reportes_model extends CI_Model
     }
 	public function repValorizados()
     {
-        $this->db->select('*,DATE_FORMAT(fecha_guia,"%d/%m/%Y") as fechaguia,FORMAT(cantidad,2) as cantidad,FORMAT(costo,2) as costo');
-        $this->db->from('articulos_valorizados');
+		$this->db->distinct();
+        $this->db->select('r.*,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fechaguia,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,ge.idvalorizacion,va.numero');
+        $this->db->from('articulos_valorizados r');
+		$this->db->join('guia_entrada_detalle_valorizacion ge','ge.idguia = r.idguia');
+		$this->db->join('valorizacion va','va.idvalorizacion = ge.idvalorizacion');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->anio) $this->db->where($this->anio);
 		if($this->articulo) $this->db->where($this->articulo);
 		if($this->productor) $this->db->where($this->productor);
-		$this->db->order_by('idguia', 'ASC');
+		$this->db->order_by('guia', 'DESC');
 		$this->db->order_by('articulo', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
 	public function repXValorizar()
     {
-        $this->db->select('*,DATE_FORMAT(fecha,"%d/%m/%Y") as fechaguia,FORMAT(cantidad,2) as cantidad,(cantidad * 0) as costo');
-        $this->db->from('articulos_x_valorizar');
+		$this->db->distinct();
+        $this->db->select('r.*,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fechaguia,FORMAT(r.cantidad,2) as cantidad,(r.cantidad*0) as costo,ge.numero');
+        $this->db->from('articulos_x_valorizar r');
+		$this->db->join('guia_entrada ge','ge.idguia = r.guia');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->anio) $this->db->where($this->anio);
 		if($this->articulo) $this->db->where($this->articulo);
 		if($this->productor) $this->db->where($this->productor);
-		$this->db->order_by('guia', 'ASC');
+		$this->db->order_by('guia', 'DESC');
 		$this->db->order_by('articulo', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
 	public function repCtasCobrar()
     {
-        $this->db->select('*,FORMAT(monto,2) as monto');
-        $this->db->from('cuentas_cobrar');
+        $this->db->select('r.*,FORMAT(r.monto,2) as monto');
+        $this->db->from('cuentas_cobrar r');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->nombre) $this->db->where($this->nombre);
-		$this->db->order_by('idproveedor', 'ASC');
+		$this->db->order_by('r.idproveedor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
 	public function repCtasPagar()
     {
-        $this->db->select('*,FORMAT(monto,2) as monto');
-        $this->db->from('cuentas_pagar');
+        $this->db->select('r.*,FORMAT(r.monto,2) as monto');
+        $this->db->from('cuentas_pagar r');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->nombre) $this->db->where($this->nombre);
-		$this->db->order_by('idproveedor', 'ASC');
+		$this->db->order_by('r.idproveedor', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }

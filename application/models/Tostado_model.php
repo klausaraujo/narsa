@@ -25,7 +25,7 @@ class Tostado_model extends CI_Model
     }
 	public function listaTostado($where)
     {
-        $this->db->select('t.*,nombre');
+        $this->db->select('t.*,numero_documento,nombre');
         $this->db->from('tostado t');
 		$this->db->join('proveedor p','t.idproveedor=p.idproveedor');
 		$this->db->where($where);

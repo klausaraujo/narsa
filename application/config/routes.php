@@ -126,7 +126,8 @@ $route['proveedores/reporte7'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte8'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte9'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte10'] = 'proveedores/reportes/nuevoreporte';
-$route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';#
+$route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';
+$route['proveedores/pruebas'] = 'proveedores/main/pruebas';
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';
@@ -164,6 +165,7 @@ $route['tostado/editar'] = 'tostado/main/nuevo';
 $route['tostado/registrar'] = 'tostado/main/registrar';
 $route['tostado/proveedor/registrar'] = 'tostado/main/regProveedor';
 $route['tostado/anular'] = 'tostado/main/anular';
+$route['tostado/comprobante'] = 'tostado/main/pdfTostado';
 
 
 /* Usuarios */

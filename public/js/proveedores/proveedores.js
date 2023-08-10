@@ -167,17 +167,12 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idguia' },{ data: 'anio_guia' },{ data: 'numero', render: function(data){ return ceros( data, 6 ); }, }, { data: 'fecha_guia'},
-				{ data: 'nombre' },{ data: 'sucursal' },
+				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'idguia', render: function(data){ return ceros( data, 6 ); } },
+				{ data: 'fecha_guia'},{ data: 'nombre' },{ data: 'sucursal' },
 				{
-					data: 'activo',
-					render: function(data){
-						let var_status = '';
-						switch(data){
-							case '1': var_status = '<span class="text-success">Activo</span>'; break;
-							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
-						}
-						return var_status;
+					data: 'cantidad_guia', className: 'text-right',
+					render: function(data,type,row,meta){
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data); return number.toLocaleString('es-PE', opt);
 					}
 				},
 			],
@@ -322,7 +317,7 @@ $(document).ready(function (){
 				{ data: 'nombre' },{ data: 'sucursal' },
 				{ 
 					data: 'monto',
-					className: 'text-left',
+					className: 'text-right',
 					render: function(data,type,row,meta){
 						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != '') number = parseFloat(data);
 						switch(row.activo){

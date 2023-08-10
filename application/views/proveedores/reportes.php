@@ -12,36 +12,47 @@
 						<div class="card-body">
 							<h4 class=""><?=$titulo?></h4>
 							<hr>
+					<?	if($this->uri->segment(2) === 'reporte1' || $this->uri->segment(2) === 'reporte2' || $this->uri->segment(2) === 'reporte3'){	?>
 							<div class="row">
 								<div class="col-md-11 mx-auto">
 									<div class="row">
 										<div class="col-md-4">
-											<label class="control-label align-self-center mb-0 text-left" for="sucursal">&nbsp;&nbsp;&nbsp;Sucursal:</label>
-											<select class="form-control form-control-sm sucursal" name="sucursal" id="sucursal">
-											<? foreach($usuario->sucursales as $row): ?>
-												<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>	
-											<? endforeach;	?>
-											</select>
-										</div>
-				<?	if($this->uri->segment(2) === 'reporte1' || $this->uri->segment(2) === 'reporte2' || $this->uri->segment(2) === 'reporte3'){	?>
-										<div class="col-md-2">
-											<label class="control-label align-self-center mb-0 text-left" for="anio">&nbsp;&nbsp;&nbsp;A&ntilde;o:</label>
-											<select class="form-control form-control-sm anio" name="anio" id="anio">
-											<? foreach($anio as $row): ?>
-												<option value="<?=$row->anio?>" <?=date('Y') === $row->anio? 'selected' : '';?> ><?=$row->anio;?></option>	
-											<? endforeach;	?>
-											</select>
+											<div class="row">
+												<label class="control-label col-md-4 align-self-center mb-0 text-left" for="sucursal">&nbsp;&nbsp;&nbsp;Sucursal:</label>
+												<div class="col-md-8">
+													<select class="form-control form-control-sm sucursal" name="sucursal" id="sucursal">
+													<? foreach($usuario->sucursales as $row): ?>
+														<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>	
+													<? endforeach;	?>
+													</select>
+												</div>
+											</div>
+										</div>									
+										<div class="col-md-3">
+											<div class="row">
+												<label class="control-label col-md-4 align-self-center mb-0" for="anio">A&ntilde;o:</label>
+												<div class="col-md-8">
+													<select class="form-control form-control-sm anio" name="anio" id="anio">
+												<? foreach($anio as $row): ?>
+														<option value="<?=$row->anio?>" <?=date('Y') === $row->anio? 'selected' : '';?> ><?=$row->anio;?></option>	
+												<? endforeach;	?>
+													</select>
+												</div>
+											</div>
 										</div>
 										<div class="col-md-4">
-											<label class="control-label align-self-center mb-0 text-left" for="articulo">&nbsp;&nbsp;&nbsp;Art&iacute;culo:</label>
-											<select class="form-control form-control-sm articulo" name="articulo" id="articulo">
-												<option value=""> -- Todos -- </option>	
-											<? foreach($articulo as $row): ?>
-												<option value="<?=$row->articulo?>" ><?=$row->articulo;?></option>	
-										<? endforeach;	?>
-										</select>
-									</div>
-				<?	}	?>
+											<div class="row">
+												<label class="control-label col-md-4 align-self-center mb-0" for="articulo">&nbsp;&nbsp;&nbsp;Art&iacute;culo:</label>
+												<div class="col-md-8">
+													<select class="form-control form-control-sm articulo" name="articulo" id="articulo">
+														<option value=""> -- Todos -- </option>	
+													<? foreach($articulo as $row): ?>
+														<option value="<?=$row->articulo?>" ><?=$row->articulo;?></option>	
+													<? endforeach;	?>
+													</select>
+												</div>
+											</div>
+										</div>
 									</div>
 									<div class="row mt-3">
 										<div class="col-md-2">
@@ -60,14 +71,55 @@
 									</div>
 								</div>
 							</div>
+				<?	}else{	?>
+							<div class="row">
+								<div class="col-md-12 mx-auto">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="row">
+												<label class="control-label col-md-4 align-self-center mb-0 text-left" for="sucursal">&nbsp;&nbsp;&nbsp;Sucursal:</label>
+												<div class="col-md-8">
+													<select class="form-control form-control-sm sucursal" name="sucursal" id="sucursal">
+													<? foreach($usuario->sucursales as $row): ?>
+														<option value="<?=$row->idsucursal;?>"><?=$row->sucursal;?></option>	
+													<? endforeach;	?>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="row">
+												<label class="control-label col-md-4 align-self-center mb-0" for="productor">&nbsp;&nbsp;&nbsp;Productor:</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control form-control-sm productor" name="productor" id="productor" placeholder="Productor" readonly />
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="row">
+												<div class="col-md-4">
+													<a type="button" class="btn btn-small bg-success align-self-center text-small" data-toggle="modal" 
+														data-target="#modalProveedores" id="buscar">Buscar</a>
+												</div>
+												<div class="col-md-8">
+													<a type="button" class="btn btn-narsa align-self-center text-white" id="generar">Generar Reporte</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+				<?	}	?>
 							<hr>
-							<div class="row"> <!--class="table-responsive" -->
-								<div class="col-12 mx-auto" style="overflow-x:auto">
-								<?	if($this->uri->segment(2) === 'reporte1' || $this->uri->segment(2) === 'reporte2' || $this->uri->segment(2) === 'reporte3'){	?>
-									<table id="tablaReporte1" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
-								<?	}elseif($this->uri->segment(2) === 'reporte4' || $this->uri->segment(2) === 'reporte5'){	?>
-									<table id="tablaReporte2" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
-								<?	} ?>
+							<div class="container-fluid">
+								<div class="row"> <!--class="table-responsive" -->
+									<div class="col-12 mx-auto" style="overflow-x:auto">
+									<?	if($this->uri->segment(2) === 'reporte1' || $this->uri->segment(2) === 'reporte2' || $this->uri->segment(2) === 'reporte3'){	?>
+										<table id="tablaReporte1" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+									<?	}elseif($this->uri->segment(2) === 'reporte4' || $this->uri->segment(2) === 'reporte5'){	?>
+										<table id="tablaReporte2" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+									<?	} ?>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -87,7 +139,7 @@
 										<div class="row">
 											<div class="col-12 mx-auto" style="overflow-x:auto">
 												<table id="tablaProveedores" class="table table-striped dt-responsive table-bordered display nowrap table-hover mb-0 mx-0" style="width:100%">
-													<thead><tr><th>ID</th><th>Nombre del Productor</th><th>finca</th><th>altitud</th></tr></thead>
+													<thead><tr><th>Item</th><th>Nombre del Productor</th><th>nro doc</th><th>finca</th><th>altitud</th></tr></thead>
 												</table>
 											</div>
 										</div>

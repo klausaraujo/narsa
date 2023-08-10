@@ -19,13 +19,13 @@ jQuery(document).ready(function($){
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
 			columns:[
 				/*{ data: 'anio' },{ data: 'tipo_documento' },*/
-				{ data: 'numero_documento'},{ data: 'productor' },{ data: 'guia', render: function(data){ return ceros( data, 6 ); } },
-				{ data: 'fechaguia' },{ data: 'articulo' },{ data: 'cantidad' },{ data: 'costo' }
+				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'numero_documento'},{ data: 'productor' },
+				{ data: 'guia', render: function(data){ return ceros( data, 6 ); } },{ data: 'fechaguia' },{ data: 'articulo' },{ data: 'cantidad' },{ data: 'costo' }
 			],
 			columnDefs:[
 				/*{ title: 'A&ntilde;o', targets: 0 },{ title: 'Tipo Doc.', targets: 1 },*/
-				{ title: 'Doc.', targets: 0 },{ title: 'Productor', targets: 1 },{ title: 'Nro. Gu&iacute;a', targets: 2 },{ title: 'Fecha', targets: 3 },
-				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Cantidad', targets: 5 },{ title: 'Costo', targets: 6 },
+				{ title: 'Nro.Op.', targets: 0 },{ title: 'Doc.', targets: 1 },{ title: 'Productor', targets: 2 },{ title: 'Nro. Gu&iacute;a', targets: 3 },
+				{ title: 'Fecha Gu&iacute;a', targets: 4 },{ title: 'Art&iacute;culo', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 },
 			]/*, dom: botones,
 			buttons: {
 				dom: { container: { tag: 'div', className: 'flexcontent' }, buttonLiner: { tag: null } },
@@ -81,7 +81,7 @@ jQuery(document).ready(function($){
 			}
 		},
 		columns:[
-			{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },
+			{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },{ data: 4, visible: false }
 		],
 		dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
 		colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,

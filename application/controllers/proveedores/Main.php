@@ -116,14 +116,14 @@ class Main extends CI_Controller
 			/*'9'=>['title' => 'Inter&eacute;s Pagado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],*/
 		);
 		$hIngresos = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o Gu&iacute;a', 'targets' => 2],
-			'3'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
-			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-			'9'=>['targets' => 1, 'visible' => false],'10'=>['targets' => 2, 'visible' => false],'11'=>['targets' => 7, 'visible' => false],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'Oper.', 'targets' => 1],'2'=>['title' => 'Nro. Gu&iacute;a', 'targets' => 2],
+			'3'=>['title' => 'Fecha Gu&iacute;a', 'targets' => 3],'4'=>['title' => 'Productor', 'targets' => 4],'5'=>['title' => 'Sucursal', 'targets' => 5],
+			'6'=>['title' => 'Cantidad', 'targets' => 6],'7'=>['targets' => 'no-sort', 'orderable' => false]
+			
 		);
 		$hValorizaciones = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o', 'targets' => 2],
-			'3'=>['title' => 'Nro.', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
+			'3'=>['title' => 'Oper.', 'targets' => 3],'4'=>['title' => 'Fecha', 'targets' => 4],'5'=>['title' => 'Proveedor', 'targets' => 5],
 			'6'=>['title' => 'Sucursal', 'targets' => 6],'7'=>['title' => 'Monto', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],
 			'9'=>['targets' => 'no-sort', 'orderable' => false],'10'=>['targets' => 1, 'visible' => false],'11'=>['targets' => 2, 'visible' => false],
 			'12'=>['targets' => 8, 'visible' => false],
@@ -549,7 +549,8 @@ class Main extends CI_Controller
 		
 		echo json_encode($data);
 	}
-	public function nuevoIngreso(){
+	public function nuevoIngreso()
+	{
 		$this->load->model('Proveedores_model');
 		$status = 500; $message = 'No se pudo registrar la Gu&iacute;a'; $i = 0; $j = 0; $k = 0; $dataVal = []; $guiaArray = []; $dataTransaccion = []; $dataOp = []; $guia = 0;
 		$idtranVal = 0; $valorizar = false; $pagar = false;  $tipoop = ''; $montopag = 0; $tipoOpPago = 0; $pago = 0; $mtoValor = 0; $rs = 0; $idtranPago = 0; //$saldo = true;
@@ -780,5 +781,17 @@ class Main extends CI_Controller
 		);
 		
 		echo json_encode($data);
+	}
+	public function pruebas()
+	{
+		$this->load->model('Proveedores_model');
+		$prueba = $this->Proveedores_model->pruebas(['ge.idproveedor' => 2,'ge.activo' => 1]);
+		echo '<table class="table table-striped table-hover table-bordered mb-0 mx-auto">';
+		foreach($prueba as $row):
+			echo '<tr><td>'.$row->numero.'</td><td>'.$row->idguia.'</td><td>'.$row->fecha_guia.'</td><td>'.$row->nombre.'</td><td>'.$row->sucursal.'</td>'.
+				 '<td>'.$row->cantidad_guia.'</td></tr>';
+		endforeach;
+		echo '</table>';
+		//var_dump($prueba);
 	}
 }
