@@ -18,20 +18,25 @@
 						</div>
 						<div class="iq-card-body"><!--Anular-->
 							<form method="post" id="form_tostado" action="<?=base_url()?>tostado/registrar" class="needs-validation" novalidate="" >
-								<input type="text" name="tiporegistro" value="editar" />
-								<input type="text" name="idproveedor" id="idproveedor" value="<?=$tostado->idproveedor?>" />
-								<input type="text" name="idtostado" value="<?=$tostado->idtostado?>" />
-								<input type="text" name="sucursal" id="sucursal" value="<?=$tostado->idsucursal?>" />
+								<input type="hidden" name="tiporegistro" value="editar" />
+								<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$tostado->idproveedor?>" />
+								<input type="hidden" name="idtostado" value="<?=$tostado->idtostado?>" />
+								<input type="hidden" name="sucursal" id="sucursal" value="<?=$tostado->idsucursal?>" />
+								<input type="hidden" id="nmbHidden" value="<?=$narsa->nombre?>" />
+								<input type="hidden" id="nroHidden" value="<?=$narsa->numero_documento?>" />
+								<input type="hidden" name="idnarsa" id="idnarsa" value="<?=$narsa->idproveedor?>" />
 								<div class="form-row">
 									<div class="col-12 my-1">
 										<div class="row">
 											<div class="col-md-2 px-0">
 												<div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
-													<input type="radio" id="propio" name="propter" class="custom-control-input bg-primary" value="propio" required="" />
+													<input type="radio" id="propio" name="propter" class="custom-control-input bg-primary opcion" value="propio" 
+														<?=$tostado->idproveedor === '1'? 'checked': '';?> required="" />
 													<label class="custom-control-label" for="propio">Propio</label>
 												</div>
 												<div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
-													<input type="radio" id="tercero" name="propter" class="custom-control-input bg-success" value="tercero" required="" >
+													<input type="radio" id="tercero" name="propter" class="custom-control-input bg-success opcion" value="tercero"
+														<?=$tostado->idproveedor !== '1'? 'checked': '';?> required="" >
 													<label class="custom-control-label" for="tercero">Tercero</label>
 												</div>
 												<div class="row col-12 errores" id="errorcheck"></div>
@@ -128,7 +133,8 @@
 												<div class="row">
 													<label class="control-label col-md-4 align-self-center mb-0 px-md-0" for="preciot">Precio Total:</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control form-control-sm moneda" name="preciot" id="preciot" value="<?=$tostado->precio_total?>" />
+														<input type="text" class="form-control form-control-sm moneda precio" name="preciot" id="preciot" 
+															value="<?=$tostado->precio_total?>" required="" />
 													</div>
 												</div>
 											</div>
@@ -136,7 +142,8 @@
 												<div class="row">
 													<label class="control-label col-md-4 align-self-center mb-0 px-md-0" for="acuenta">Pago a Cta.:</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control form-control-sm moneda" name="acuenta" id="acuenta" value="<?=$tostado->a_cuenta?>" />
+														<input type="text" class="form-control form-control-sm moneda precio" name="acuenta" id="acuenta"
+															value="<?=$tostado->a_cuenta?>" />
 													</div>
 												</div>
 											</div>
@@ -144,7 +151,8 @@
 												<div class="row">
 													<label class="control-label col-md-4 align-self-center mb-0" for="saldo">Saldo:</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control form-control-sm moneda" name="saldo" id="saldo" value="<?=$tostado->saldo?>" />
+														<input type="text" class="form-control form-control-sm moneda" name="saldo" id="saldo"
+															readonly value="<?=$tostado->saldo?>" />
 													</div>
 												</div>
 											</div>

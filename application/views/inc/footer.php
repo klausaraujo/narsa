@@ -148,12 +148,13 @@
 		<script>
 			let botonesTos = JSON.parse('<?=$this->session->userdata('perTost')?>');
 			<?if($this->uri->segment(2) == ''){?>
-			let btnEdit = false, btnAnular = false, btnPdf = false;
+			let btnEdit = false, btnAnular = false, btnPdf = false, btnOp = false;
 			
 			$.each(botonesTos,function(i,e){
 				if(e.idpermiso === '28') btnEdit = true;
 				else if(e.idpermiso === '29') btnAnular = true;
 				else if(e.idpermiso === '30') btnPdf = true;
+				else if(e.idpermiso === '31') btnOp = true;
 			});
 			<?}?>
 		</script>
