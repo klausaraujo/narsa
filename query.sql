@@ -3170,6 +3170,9 @@ Items Campo Envasado
 /* New desde 06/08/2023*/
 update menu_detalle set descripcion ='Productor Movimientos',url='reporte6' where idmenudetalle=6;
 
+DROP TABLE IF EXISTS tostado_trillado;
+DROP TABLE IF EXISTS tostado_empaquetado;
+DROP TABLE IF EXISTS tostado_maquina;
 DROP TABLE IF EXISTS tostado;
 
 create table tostado(
@@ -3209,9 +3212,39 @@ FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON U
 FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+create table tostado_trillado(
+idtostadotrillado smallint(4) NOT NULL AUTO_INCREMENT,
+idtostado smallint(4) NOT NULL,
+cantidad decimal (20,2),
+zaranda_15_17 decimal(20,2),
+zaranda_13_14 decimal(20,2),
+zaranda_descarte decimal(20,2),
+pesos_gra decimal(20,2),
+pesos_segunda decimal(20,2),
+pesos_cascarilla decimal(20,2),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtostadotrillado),
+FOREIGN KEY (idtostado) REFERENCES tostado (idtostado) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+create table tostado_maquina(
+idtostadomaquina smallint(4) NOT NULL AUTO_INCREMENT,
+idtostado smallint(4) NOT NULL,
+idmaquina smallint(4) NOT NULL,
+idtipo smallint(4) NOT NULL,
+cantidad decimal(20,2),
+codigo varchar(20),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtostadomaquina),
+FOREIGN KEY (idtostado) REFERENCES tostado (idtostado) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-
-
+create table tostado_empaquetado(
+idtostadoempaquetado smallint(4) NOT NULL AUTO_INCREMENT,
+idtostado smallint(4) NOT NULL,
+empaque_250 smallint(4),
+empaque_500 smallint(4),
+empaque_1000 smallint(4),
+activo char(1) DEFAULT '1',
+PRIMARY KEY (idtostadoempaquetado),
+FOREIGN KEY (idtostado) REFERENCES tostado (idtostado) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 
