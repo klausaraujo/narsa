@@ -32,7 +32,8 @@ class Main extends CI_Controller
 			$art = $this->Tostado_model->articulos();
 			$tipodoc = $this->Proveedores_model->tipodoc();
 			$dep = $this->Proveedores_model->departamentos();
-			$data = array( 'tipodoc' => $tipodoc, 'dep' => $dep );
+			$narsa = $this->Proveedores_model->listaProveedor(['idproveedor' => 1]);
+			$data = array( 'tipodoc' => $tipodoc, 'dep' => $dep, 'narsa' => $narsa );
 			
 			if($this->uri->segment(2) === 'editar'){
 				$id = $this->input->get('id');

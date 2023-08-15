@@ -20,6 +20,7 @@ jQuery(document).ready(function($){
 						let hrefAnular = btnAnular ? 'href="'+base_url+'tostado/anular?id='+data.idtostado+'"' : '';
 						let hrefEdit = btnEdit ?  'href="'+base_url+'tostado/editar?id='+data.idtostado+'"' : '';
 						let hrefPdf = btnPdf ? 'href="'+base_url+'tostado/comprobante?id='+data.idtostado+'"' : '';
+						let hrefOp = btnOp ? 'href="'+base_url+'tostado/operaciones?id='+data.idtostado+'"' : '';
 						let btnAccion =
 						'<div class="btn-group">'+
 							'<a title="Editar Tostado" '+hrefEdit+' class="bg-warning btnTable '+(!btnEdit?'disabled':'')+'">'+
@@ -28,6 +29,8 @@ jQuery(document).ready(function($){
 								'<i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
 							'<a title="Emitir PDF" '+hrefPdf+' class="bg-primary btnTable '+(!btnPdf?'disabled':'')+'" target="_blank">'+
 								'<i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+
+							'<a title="Operaciones Tostado" '+hrefOp+' class="bg-success btnTable '+(!btnOp?'disabled':'')+'">'+
+								'<i class="fa fa-home" aria-hidden="true"></i></a>'+
 						'</div>';
 						return btnAccion;
 					}
@@ -91,6 +94,27 @@ $('#tablaProveedores').on('dblclick','tr',function(){
 	$('#docu').val(data[2]), $('#productor').val(data[1]), $('#modalProveedores').modal('hide'), $('#idproveedor').val(data[0]);
 });
 $('.resetea').bind('click', function(){ $('#docu').val(''), $('#productor').val(''), $('#idproveedor').val(''); });
+$('.opcion').bind('click', function(){
+	if(this.value === 'propio'){
+		$('#docu').val($('#nroHidden').val()), $('#productor').val($('#nmbHidden').val()), $('.resetea').addClass('disabled');
+		$('#idproveedor').val($('#idnarsa').val());
+	}else{
+		$('#docu').val(''), $('#productor').val(''), $('#idproveedor').val('');
+		$('.resetea').removeClass('disabled');
+	}
+});
+$('.precio').bind('blur', function(){
+	if(parseFloat($('#preciot').val()) > 0 && parseFloat($('#preciot').val()) !== ''){
+		$('#acuenta').prop('readonly', false);
+		if(parseFloat($('#acuenta').val()) > parseFloat($('#preciot').val())){
+			alert('El pago no puede ser mayor al precio Total'); $('#acuenta').val(''), $('#acuenta').focus();
+		}else{
+			$('#saldo').val(parseFloat($('#preciot').val()) -parseFloat($('#acuenta').val()));
+		}
+	}else $('#acuenta').prop('readonly', true);
+
+});
+$('.precio').focus(function(){ this.select(); });
 
 $('#sucursalTos').bind('change', function(){ $('#sucursal').val(this.value); });
 
