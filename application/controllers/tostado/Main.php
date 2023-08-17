@@ -139,6 +139,94 @@ class Main extends CI_Controller
 		$data = [ 'status' => $status, 'message' => $msg ];	
 		echo json_encode($data);
 	}
+	public function operaciones()
+	{
+		$this->load->model('Proveedores_model');
+		$this->load->model('Tostado_model');
+		$proveedor = [];
+		
+		$tostado = $this->Tostado_model->listaTostado(['idtostado' => $this->input->get('id')]);
+		$proveedor = $this->Proveedores_model->listaProveedor(['idproveedor' => $tostado->idproveedor]);
+		
+		$data = ['proveedor' => $proveedor, 'tostado' => $tostado];
+		
+		$this->load->view('main',$data);
+	}
+	public function listaoptostado()
+	{
+		$this->load->model('Tostado_model');
+		$id = $this->input->post('idtostado');
+		$lista = $this->Tostado_model->listaoptostado(['idtostado' => $id]);
+		echo json_encode(['data' => $lista]);
+	}
+	public function optostado()
+	{
+		$this->load->model('Tostado_model');
+		$status = 500; $msg = 'No se pudo guardar la Operaci&oacute;n';
+		$table = json_decode(filter_input(INPUT_POST,'data'));
+		parse_str($_POST['f'],$par); $i = 0; $tost = array();
+		//print_r($par['kg']);
+		foreach($table as $row):
+			$tost[$i] = array(
+				'idtostado' => $par['idtostado'],
+				'idmaquina' => $row->idmaquina,
+				'idtipo' => $row->idtipo,
+				'cantidad' => $row->cantidad,
+				'codigo' => $row->codigo,
+				'activo' => 1
+			);
+			$i++;
+		endforeach;
+		//var_dump($tost);
+		$res = $this->Tostado_model->regtostado($tost,['idtostado' => $par['idtostado']],'tostado_maquina');
+		
+		if($res){ $status = 200; $msg = 'Se guard&oacute; la Operaci&oacute;n'; }
+		
+		$data = ['status' => $status, 'msg' => $msg];
+		echo json_encode($data);
+	}
+	public function opdespacho()
+	{
+		$this->load->model('Tostado_model');
+		$status = 500; $msg = 'No se pudo guardar la Operaci&oacute;n';
+		
+		$tost = array(
+			'idtostado' => $_POST['idtostado'],
+			'empaque_250' => $_POST['250g'],
+			'empaque_500' => $_POST['500g'],
+			'empaque_1000' => $_POST['1000g'],
+			'activo' => 1
+		);
+		
+		$res = $this->Tostado_model->regtridesp($tost,['idtostado' => $_POST['idtostado']],'tostado_empaquetado');
+		if($res){ $status = 200; $msg = 'Se guard&oacute; la Operaci&oacute;n'; }
+		
+		$data = ['status' => $status, 'msg' => $msg];
+		echo json_encode($data);
+	}
+	public function optrillado()
+	{
+		$this->load->model('Tostado_model');
+		$status = 500; $msg = 'No se pudo guardar la Operaci&oacute;n';
+		
+		$tost = array(
+			'idtostado' => $_POST['idtostado'],
+			'cantidad' => $_POST['cantidad'],
+			'zaranda_15_17' => $_POST['malla1517'],
+			'zaranda_13_14' => $_POST['malla1314'],
+			'zaranda_descarte' => $_POST['descarte'],
+			'pesos_gra' => $_POST['gra'],
+			'pesos_segunda' => $_POST['segunda'],
+			'pesos_cascarilla' => $_POST['mascarilla'],
+			'activo' => 1
+		);
+		
+		$res = $this->Tostado_model->regtridesp($tost,['idtostado' => $_POST['idtostado']],'tostado_trillado');
+		if($res){ $status = 200; $msg = 'Se guard&oacute; la Operaci&oacute;n'; }
+		
+		$data = ['status' => $status, 'msg' => $msg];
+		echo json_encode($data);
+	}
 	public function pdfTostado()
 	{
 		$this->load->model('Tostado_model');

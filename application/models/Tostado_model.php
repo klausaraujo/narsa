@@ -73,4 +73,55 @@ class Tostado_model extends CI_Model
 		if ($this->db->update('tostado',$data)) return true;
         else return false;
 	}
+	public function regtostado($data,$where,$tabla)
+	{
+		$cuenta = $this->db->where($where)->from($tabla)->count_all_results();
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		
+		if($cuenta > 0){
+			$this->db->where($where)->from($tabla)->delete();
+			$this->db->insert_batch($tabla,$data);
+		}else{
+			$this->db->insert_batch($tabla,$data);
+		}
+		
+		if($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return 1;
+		}
+	}
+	public function regtridesp($data,$where,$tabla)
+	{
+		$cuenta = $this->db->where($where)->from($tabla)->count_all_results();
+		$this->db->trans_begin();
+		$this->db->db_debug = FALSE;
+		
+		if($cuenta > 0){
+			$this->db->where($where)->from($tabla)->delete();
+			$this->db->insert($tabla,$data);
+		}else{
+			$this->db->insert($tabla,$data);
+		}
+		
+		if($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			return 0;
+		}else{
+			$this->db->trans_commit();
+			return 1;
+		}
+	}
+	public function listaoptostado($where)
+	{
+		$this->db->select('*');
+        $this->db->from('tostado_maquina');
+		$this->db->where($where);
+		$this->db->order_by('idmaquina', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }

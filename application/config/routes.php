@@ -166,6 +166,11 @@ $route['tostado/registrar'] = 'tostado/main/registrar';
 $route['tostado/proveedor/registrar'] = 'tostado/main/regProveedor';
 $route['tostado/anular'] = 'tostado/main/anular';
 $route['tostado/comprobante'] = 'tostado/main/pdfTostado';
+$route['tostado/operaciones'] = 'tostado/main/operaciones';
+$route['tostado/operaciones/listaoptostado'] = 'tostado/main/listaoptostado';
+$route['tostado/operaciones/tostado'] = 'tostado/main/optostado';
+$route['tostado/operaciones/trillado'] = 'tostado/main/optrillado';
+$route['tostado/operaciones/despacho'] = 'tostado/main/opdespacho';
 
 
 /* Usuarios */

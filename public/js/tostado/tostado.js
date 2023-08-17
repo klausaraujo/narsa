@@ -1,4 +1,4 @@
-let tablaTos = null, tablaProv = null;
+let tablaTos = null, tablaProv = null, tablaOp = null;
 
 jQuery(document).ready(function($){
 	if(segmento2 == ''){
@@ -68,6 +68,52 @@ jQuery(document).ready(function($){
 			],
 			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
 			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
+		});
+	}else if(segmento2 === 'operaciones'){
+		tablaOp = $('#opmaquina').DataTable({
+			ajax: {
+				url: base_url + 'tostado/operaciones/listaoptostado',
+				type: 'POST',
+				data: function (d) {
+					d.idtostado = $('#idtostado').val();
+				}
+			},
+			bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
+			columns:[
+				{
+					data: null, orderable: false,
+					render: function(data){
+						let btnAccion =
+						'<div class="btn-group">'+
+							'<a title="Anular" href="#" class="bg-danger btnTable remover"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
+						'</div>';
+						return btnAccion;
+					}
+				},
+				{ data: 'maquina', render: function(data,type,row,meta){ return row.idmaquina === '1'? 'Maquina 01': 'Maquina 02'; } },
+				{
+					data: 'tipo',
+					render: function(data,type,row,meta){
+						let tipo = '';
+						switch(row.idtipo){
+							case '1': tipo = 'Claro'; break;
+							case '2': tipo = 'Medio'; break;
+							case '3': tipo = 'Oscuro'; break;
+						}
+						return tipo;
+					}
+				},
+				{
+					data: 'cantidad',
+					render: function(data,type,row,meta){
+						let number = 0; if(data && typeof parseFloat(data) === 'number' && data != ''){ number = parseFloat(data); } return number.toLocaleString('es-PE', opt);
+					}
+				},{ data: 'codigo' },
+			],
+			columnDefs:[
+				{ title: 'Acciones', targets: 0 },{ title: 'Máquina', targets: 1 },{ title: 'Tipo', targets: 2 },{ title: 'Cantidad', targets: 3 },{ title: 'Código', targets: 4 },
+			],order: [],
+			
 		});
 	}
 });
@@ -222,5 +268,65 @@ $('#form_proveedor').validate({
 			}
 		});
 		
+	}
+});
+
+$('#agregar').bind('click', function(){
+	let input = $('.datamaquina input, .datamaquina select'), vacio = false;
+	$.each(input,function(){
+		if(this.value === ''){
+			alert('Los campos no pueden estar vacios');
+			$(this).focus();
+			vacio = true;
+			return false;
+		}
+	});
+	if(!vacio){
+		let json = [{'maquina':$('#maquina').find(':selected').text(),'tipo':$('#tipo').find(':selected').text(),'cantidad':$('#cantidadtostado').val(),
+			'codigo':$('#cod').val(),'activo':1,'idmaquina':$('#maquina').val(),'idtipo':$('#tipo').val()}];
+		tablaOp.rows.add(json).draw(), $('#cantidadtostado').val(''), $('#cod').val(''), $('#maquina').prop('selectedIndex',0), $('#tipo').prop('selectedIndex',0);
+		
+	}
+	console.log($('#cantidad').val());
+});
+$('#opmaquina').on('click','a', function(){
+	if($(this).hasClass('remover')){ tablaOp.row($(this).parents('tr')).remove().draw(); }
+});
+$('.form').bind('submit',function(e){
+	e.preventDefault();
+	let btn = $(this).find('.btn-operaciones'), idbtn = btn.attr('id'), formData = null, validar = false, data = null, url = $(this).prop('action');
+	
+	if(idbtn === 'guardadespacho'){
+		validar = true;
+		f = new FormData(document.getElementById('form_despacho'));
+		data = new URLSearchParams(f).toString();
+	}else if(idbtn === 'guardatrillado'){
+		validar = true;
+		f = new FormData(document.getElementById('form_trillado'));
+		data = new URLSearchParams(f).toString();
+	}else if(idbtn === 'guardatostado'){
+		data = tablaOp.rows().data().toArray();
+		if(data.length > 0){
+			validar = true;
+			f = new FormData(document.getElementById('form_optostado'));
+			formu = new URLSearchParams(f).toString();
+			data = { data: JSON.stringify(tablaOp.rows().data().toArray()), f: formu };
+		}
+	}
+	if(validar){
+		$.ajax({
+			data: data,
+			url: url,
+			method: 'POST',
+			dataType: 'JSON',
+			beforeSend: function(){
+				btn.addClass('disabled'); btn.html('<i class="fa fa-spinner fa-pulse fa-1x"></i> Cargando');
+			},
+			success: function(data){
+				btn.html('Guardar Operaci&oacute;n'), btn.removeClass('disabled');
+				$('.resp').html(data.msg);
+				setTimeout(function () { $('.resp').html(''); }, 1500);
+			}
+		});
 	}
 });
