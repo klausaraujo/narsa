@@ -3175,7 +3175,6 @@ DROP TABLE IF EXISTS tostado_empaquetado;
 DROP TABLE IF EXISTS tostado_maquina;
 DROP TABLE IF EXISTS tostado;
 
-
 create table tostado(
 idtostado smallint(4) NOT NULL AUTO_INCREMENT,
 anio_tostado smallint(4) NOT NULL,
@@ -3213,12 +3212,9 @@ FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON U
 FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
-<<<<<<< HEAD
 insert into permiso(idpermiso,descripcion,tipo,orden,activo,idmodulo) values(31,'Operaciones','1','31','1','6');
 insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (54,31,1);
 
-=======
->>>>>>> 2906410ec4909b6f9c1b3b6fe6e5934e245c1fea
 create table tostado_trillado(
 idtostadotrillado smallint(4) NOT NULL AUTO_INCREMENT,
 idtostado smallint(4) NOT NULL,
@@ -3253,10 +3249,6 @@ empaque_1000 smallint(4),
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idtostadoempaquetado),
 FOREIGN KEY (idtostado) REFERENCES tostado (idtostado) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 2906410ec4909b6f9c1b3b6fe6e5934e245c1fea
 
 
