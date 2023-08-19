@@ -3212,6 +3212,9 @@ FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON U
 FOREIGN KEY (idproveedor) REFERENCES proveedor (idproveedor) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
+insert into permiso(idpermiso,descripcion,tipo,orden,activo,idmodulo) values(31,'Operaciones','1','31','1','6');
+insert into permisos_opcion(idpermisoopcion,idpermiso,idusuario) values (54,31,1);
+
 create table tostado_trillado(
 idtostadotrillado smallint(4) NOT NULL AUTO_INCREMENT,
 idtostado smallint(4) NOT NULL,
@@ -3246,5 +3249,6 @@ empaque_1000 smallint(4),
 activo char(1) DEFAULT '1',
 PRIMARY KEY (idtostadoempaquetado),
 FOREIGN KEY (idtostado) REFERENCES tostado (idtostado) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
 
 
