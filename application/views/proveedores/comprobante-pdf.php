@@ -241,7 +241,7 @@
 		</div>
 
         <!-- Etiqueta principal del pdf -->
-        <main style="overflow-y:hidden">
+        <main style="overflow-y:hidden;margin-top:2mm">
 			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
@@ -278,7 +278,7 @@
 				</tr>
 			</table>
         </main>
-		<main id="main2">
+		<main id="main2" style="margin-top:2mm">
 			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE PRODUCTOS INGRESADOS</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">

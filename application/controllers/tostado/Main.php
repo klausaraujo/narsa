@@ -144,11 +144,13 @@ class Main extends CI_Controller
 		$this->load->model('Proveedores_model');
 		$this->load->model('Tostado_model');
 		$proveedor = [];
+		$trillado = $this->Tostado_model->traeOpTostado('tostado_trillado', ['idtostado' => $this->input->get('id')]);
+		$despacho = $this->Tostado_model->traeOpTostado('tostado_empaquetado', ['idtostado' => $this->input->get('id')]);
 		
 		$tostado = $this->Tostado_model->listaTostado(['idtostado' => $this->input->get('id')]);
 		$proveedor = $this->Proveedores_model->listaProveedor(['idproveedor' => $tostado->idproveedor]);
 		
-		$data = ['proveedor' => $proveedor, 'tostado' => $tostado];
+		$data = ['proveedor' => $proveedor, 'tostado' => $tostado, 'trillado' => $trillado, 'despacho' => $despacho];
 		
 		$this->load->view('main',$data);
 	}
@@ -217,7 +219,7 @@ class Main extends CI_Controller
 			'zaranda_descarte' => $_POST['descarte'],
 			'pesos_gra' => $_POST['gra'],
 			'pesos_segunda' => $_POST['segunda'],
-			'pesos_cascarilla' => $_POST['mascarilla'],
+			'pesos_cascarilla' => $_POST['cascarilla'],
 			'activo' => 1
 		);
 		
@@ -233,7 +235,10 @@ class Main extends CI_Controller
 		$versionphp = 7; $id = $this->input->get('id'); $a5 = 'A4'; $direccion = 'portrait';
 		
 		$tostado = $this->Tostado_model->listaTostado(['idtostado' => $id]);
-		$data = ['tostado' => $tostado];
+		$trillado = $this->Tostado_model->traeOpTostado('tostado_trillado', ['idtostado' => $id]);
+		$despacho = $this->Tostado_model->traeOpTostado('tostado_empaquetado', ['idtostado' => $id]);
+		
+		$data = ['tostado' => $tostado, 'trillado' => $trillado, 'despacho' => $despacho];
 		$html = $this->load->view('tostado/comprobante-pdf', $data, true);
 				
 		if(floatval(phpversion()) < $versionphp){

@@ -223,7 +223,7 @@
 			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE TRANSACCI&Oacute;N DEL PROVEEDOR</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>>
+					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>
 				</tr>				
 				<tr>
 					<td>1</td><td colspan="2"><?=$movimiento->sucursal?></td><td colspan="4"><?=$movimiento->tipo_operacion?></td>
@@ -236,7 +236,7 @@
 			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE DE TRANSACCI&Oacute;N DEL PROVEEDOR</th></tr>
 				<tr style="font-weight:bold;" bgcolor="#B5B2B2">
-					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>>
+					<td>&Iacute;tem</td><td colspan="2">Sucursal</td><td colspan="4">Tipo Operaci&oacute;n</td><td colspan="2">Fecha</td><td>Nro. Oper.</td><td colspan="2">Monto</td>
 				</tr>				
 				<tr>
 					<td>1</td><td colspan="2"><?=$movimiento->sucursal?></td><td colspan="4"><?=$movimiento->tipo_operacion?></td>

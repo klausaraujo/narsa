@@ -29,6 +29,7 @@ label, .btn, .pagination, .form-control, .nav-pills .nav-item.nav-link, a, li, s
 	.iq-top-navbar .navbar-toggler{ right: 20px; }
 	.iq-top-navbar .iq-navbar-custom .iq-menu-bt { right: 80px; }
 }
+@media(min-width:767px) and (max-width: 1699px) { .sign-in-detail { height: 100%; min-height: 470px; } }
 .modal-lg, .modal-xl { max-width: 900px; }
 .modal-ing { max-width: 1100px; }
 table.dataTable tr, th, td{ font-size: 0.7rem }

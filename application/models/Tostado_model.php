@@ -25,9 +25,11 @@ class Tostado_model extends CI_Model
     }
 	public function listaTostado($where)
     {
-        $this->db->select('t.*,numero_documento,nombre');
+        $this->db->select('t.*,numero_documento,nombre,domicilio,sucursal,tipo_documento');
         $this->db->from('tostado t');
 		$this->db->join('proveedor p','t.idproveedor=p.idproveedor');
+		$this->db->join('sucursal s','t.idsucursal=s.idsucursal');
+		$this->db->join('tipo_documento td','p.idtipodocumento=td.idtipodocumento');
 		$this->db->where($where);
 		$this->db->limit(1);
         $result = $this->db->get();
@@ -101,8 +103,9 @@ class Tostado_model extends CI_Model
 		$this->db->db_debug = FALSE;
 		
 		if($cuenta > 0){
-			$this->db->where($where)->from($tabla)->delete();
-			$this->db->insert($tabla,$data);
+			//$this->db->where($where)->from($tabla)->delete();
+			//$this->db->insert($tabla,$data);
+			$this->db->update($tabla,$data,$where);
 		}else{
 			$this->db->insert($tabla,$data);
 		}
@@ -123,5 +126,10 @@ class Tostado_model extends CI_Model
 		$this->db->order_by('idmaquina', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function traeOpTostado($tabla, $where)
+	{
+		$result= $this->db->get_where($tabla, $where, 1);
+		return ($result->num_rows() > 0)? $result->row() : array();
 	}
 }

@@ -1,4 +1,8 @@
-<? $usuario = json_decode($this->session->userdata('user'));?>
+<?
+	$usuario = json_decode($this->session->userdata('user'));
+	$trillado = $trillado;
+	$despacho = $despacho;
+?>
 					<div class="col-12 iq-card my-3">
 						<div class="iq-card-header d-flex justify-content-between">
 							<div class="iq-header-title"><h4><b><?=ucwords(strtolower($proveedor->nombre))?></b> (Operaciones Tostado)</h4></div>
@@ -16,7 +20,7 @@
 							<!--<div id="am-radar-chart" style="height:500px;"></div>-->
 							<div class="tab-content">
 								<div class="tab-pane container active" id="pill-trillado">
-									<div class="col-md-12 text-center resp" style="font-size:1.07em"></div>
+									<div class="col-md-12 text-center mt-2 resp" style="font-size:1.07em"></div>
 									<form method="post" id="form_trillado" action="<?=base_url().$this->uri->segment(1)?>/operaciones/trillado" class="form">
 										<input type="hidden" class="idproveedor" name="idproveedor" value="<?=$proveedor->idproveedor?>"/>
 										<input type="hidden" name="idtostado" value="<?=$tostado->idtostado?>"/>
@@ -26,7 +30,8 @@
 													<label class="control-label col-md-5 align-self-center mb-0" for="cantidad">Cantidad a Trillar:</label>
 													<div class="col-md-6">
 														<div class="row">
-															<input type="text" class="form-control form-control-sm col-md-8 moneda" name="cantidad" id="cantidad" />
+															<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+																name="cantidad" id="cantidad" value="<?=!empty($trillado)? $trillado->cantidad: '';?>" />
 															<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 														</div>
 													</div>
@@ -42,7 +47,8 @@
 															<label class="control-label align-self-center mb-0">Malla 15-17</label>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control form-control-sm col-md-8 moneda" name="malla1517" id="malla1517" />
+															<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+																name="malla1517" id="malla1517" value="<?=!empty($trillado)? $trillado->zaranda_15_17: '';?>" />
 															<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 														</div>
 													</div>
@@ -53,7 +59,8 @@
 													<label class="control-label align-self-center mb-0">Malla 13-14</label>
 												</div>
 												<div class="row">
-													<input type="text" class="form-control form-control-sm col-md-8 moneda" name="malla1314" id="malla1314" />
+													<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+														name="malla1314" id="malla1314" value="<?=!empty($trillado)? $trillado->zaranda_13_14: '';?>" />
 													<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 												</div>
 											</div>
@@ -62,7 +69,8 @@
 													<label class="control-label align-self-center mb-0">Descarte</label>
 												</div>
 												<div class="row">
-													<input type="text" class="form-control form-control-sm col-md-8 moneda" name="descarte" id="descarte" />
+													<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+														name="descarte" id="descarte" value="<?=!empty($trillado)? $trillado->zaranda_descarte: '';?>" />
 													<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 												</div>
 											</div>
@@ -76,7 +84,8 @@
 															<label class="control-label align-self-center mb-0">Gra</label>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control form-control-sm col-md-8 moneda" name="gra" id="gra" />
+															<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+																name="gra" id="gra" value="<?=!empty($trillado)? $trillado->pesos_gra: '';?>" />
 															<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 														</div>
 													</div>
@@ -87,16 +96,18 @@
 													<label class="control-label align-self-center mb-0">Segunda</label>
 												</div>
 												<div class="row">
-													<input type="text" class="form-control form-control-sm col-md-8 moneda" name="segunda" id="segunda" />
+													<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+														name="segunda" id="segunda" value="<?=!empty($trillado)? $trillado->pesos_segunda: '';?>" />
 													<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 												</div>
 											</div>
 											<div class="col-md-2">
 												<div class="row">
-													<label class="control-label align-self-center mb-0">Mascarilla</label>
+													<label class="control-label align-self-center mb-0">Cascarilla</label>
 												</div>
 												<div class="row">
-													<input type="text" class="form-control form-control-sm col-md-8 moneda" name="mascarilla" id="mascarilla" />
+													<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+														name="cascarilla" id="cascarilla" value="<?=!empty($trillado)? $trillado->pesos_cascarilla: '';?>" />
 													<label class="control-label align-self-center mb-0 col-md-4 text-left">Kg. </label>
 												</div>
 											</div>
@@ -151,7 +162,7 @@
 									</form>
 								</div>
 								<div class="tab-pane container fade" id="pill-despacho">
-									<div class="col-12 text-center resp" style="font-size:1.07em"></div>
+									<div class="col-12 text-center mt-2 resp" style="font-size:1.07em"></div>
 									<form method="post" id="form_despacho" action="<?=base_url().$this->uri->segment(1)?>/operaciones/despacho" class="form">
 										<input type="hidden" class="idproveedor" name="idproveedor" value="<?=$proveedor->idproveedor?>"/>
 										<input type="hidden" name="idtostado" value="<?=$tostado->idtostado?>"/>
@@ -165,7 +176,8 @@
 															<label class="control-label align-self-center mb-0">250g</label>
 														</div>
 														<div class="row">
-															<input type="text" class="form-control form-control-sm col-md-8 moneda" name="250g" id="250g" required="" />
+															<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+																name="250g" id="250g" required="" value="<?=!empty($despacho)? $despacho->empaque_250: '';?>" />
 														</div>
 													</div>
 												</div>
@@ -175,7 +187,8 @@
 													<label class="control-label align-self-center mb-0">500g</label>
 												</div>
 												<div class="row">
-													<input type="text" class="form-control form-control-sm col-md-8 moneda" name="500g" id="500g" required="" />
+													<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+														name="500g" id="500g" required="" value="<?=!empty($despacho)? $despacho->empaque_500: '';?>" />
 												</div>
 											</div>
 											<div class="col-md-2">
@@ -183,7 +196,8 @@
 													<label class="control-label align-self-center mb-0">1000g</label>
 												</div>
 												<div class="row">
-													<input type="text" class="form-control form-control-sm col-md-8 moneda" name="1000g" id="1000g" required="" />
+													<input type="text" class="form-control form-control-sm col-md-8 moneda text-right blur"
+														name="1000g" id="1000g" required="" value="<?=!empty($despacho)? $despacho->empaque_1000: '';?>" />
 												</div>
 											</div>
 										</div>
