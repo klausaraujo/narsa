@@ -11,6 +11,9 @@
 	<body>
 		<section class="sign-in-page">
 			<div class="login">
+				<div class="container-fluid row col-12 px-0 mx-0">
+					<div style="width:150px" class="mx-auto mt-4"><img src="<?=base_url()?>/public/images/logo-white.png" class="img-fluid" alt="logo"></div>
+				</div>
 				<div class="sign-in-from">
 					<h1 class="mb-0">Iniciar Sesi&oacute;n</h1>
 						<p>Ingrese su Usuario y Clave para ingresar al Tablero de Control</p>
