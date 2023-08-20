@@ -15,6 +15,19 @@
 <link rel="stylesheet" href="<?=base_url()?>/public/css/responsive.css">
 <link rel="stylesheet" href="<?=base_url()?>/public/css/fontawesome.css">
 <style>
+/* Formulario de Login */
+.login {
+		position:absolute;min-width:500px;height:450px;top:50%;left:50%;background:#ffffff;transform: translate(-50%, -50%);
+		border-radius:37px;border: 1px solid #dd5f1a;overflow:auto;
+}
+.sign-in-from { padding:0 30px; position: relative; top: 5%; bottom: 5% }
+@media(max-width: 500px){
+	.login { min-width:100%;height:70% }
+}
+@media(max-width: 295px){
+	.login { height:78% }
+}
+
 label, .btn, .pagination, .form-control, .nav-pills .nav-item.nav-link, a, li, span { font-size: 12.5px }
 .nav-pills .nav-item.nav-link { padding:0.4em 1em }
 @media(max-width: 1299px){

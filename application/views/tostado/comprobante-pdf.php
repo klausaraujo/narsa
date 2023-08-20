@@ -206,9 +206,31 @@
         <main style="overflow-y:hidden">
 			<table cellspacing="0" cellpadding="1" align="center" class="acciones">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE ORDEN DE TOSTADO</th></tr>
-				<tr style="font-weight:bold;" bgcolor="#dfdfdf">
-					<td>Nro.Orden</td><td>Fecha Orden</td><td colspan="1">Sucursal</td><td colspan="3">Productor</td><td colspan="2">Art&iacute;culo</td>
-					<td colspan="2">Cantidad</td><td colspan="2">Precio</td>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Art&iacute;culo</td><td colspan="2"><?=$tostado->articulo?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+						Cantidad</td><td colspan="2" style="text-align:right"><?=number_format($tostado->cantidad,2,'.',',')?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Densidad</td><td colspan="2"><?=$tostado->densidad?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">H2O</td>
+					<td colspan="2"><?=$tostado->h2o?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Seleccionado</td><td colspan="2"><?=$tostado->seleccionado === '1'?'SI':'NO';?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Precio Total</td><td colspan="2" style="text-align:right"><?=number_format($tostado->precio_total,2,'.',',')?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">A Cuenta</td><td colspan="2" style="text-align:right"><?=number_format($tostado->a_cuenta,2,'.',',')?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Saldo</td><td colspan="2" style="text-align:right"><?=number_format($tostado->saldo,2,'.',',')?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Claro</td><td colspan="2"><?=$tostado->tipo_tostado_claro?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+					Medio</td><td colspan="2"><?=$tostado->tipo_tostado_medio?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Oscuro</td><td colspan="2">
+					<?=$tostado->tipo_tostado_oscuro?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Molienda Media</td><td colspan="2"><?=$tostado->tipo_molienda_media?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Media Fina</td><td colspan="2"><?=$tostado->tipo_molienda_media_fina?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+					Media Gruesa</td><td colspan="2"><?=$tostado->tipo_molienda_media_gruesa?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Embolsado 250</td><td colspan="2">
+					<?=$tostado->tipo_embolsado_250?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Embolsado 500</td><td colspan="2"><?=$tostado->tipo_embolsado_500?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Embolsado 1000</td><td colspan="2"><?=$tostado->tipo_embolsado_1000?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+					Observaciones</td><td colspan="8"><?=$tostado->observaciones?></td>
 				</tr>
 			</table>
 		</main>
@@ -216,9 +238,31 @@
 		<main id="main2">
 			<table cellspacing="0" cellpadding="1" class="acciones" style="position:relative;left:1.5cm">
 				<tr><th bgcolor="#B5B2B2" colspan="12">DETALLE ORDEN DE TOSTADO</th></tr>
-				<tr style="font-weight:bold;" bgcolor="#dfdfdf">
-					<td>Nro.Orden</td><td>Fecha Orden</td><td colspan="1">Sucursal</td><td colspan="3">Productor</td><td colspan="2">Art&iacute;culo</td>
-					<td colspan="2">Cantidad</td><td colspan="2">Precio</td>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Art&iacute;culo</td><td colspan="2"><?=$tostado->articulo?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+						Cantidad</td><td colspan="2" style="text-align:right"><?=number_format($tostado->cantidad,2,'.',',')?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Densidad</td><td colspan="2"><?=$tostado->densidad?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">H2O</td>
+					<td colspan="2"><?=$tostado->h2o?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Seleccionado</td><td colspan="2"><?=$tostado->seleccionado === '1'?'SI':'NO';?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Precio Total</td><td colspan="2" style="text-align:right"><?=number_format($tostado->precio_total,2,'.',',')?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">A Cuenta</td><td colspan="2" style="text-align:right"><?=number_format($tostado->a_cuenta,2,'.',',')?></td>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Saldo</td><td colspan="2" style="text-align:right"><?=number_format($tostado->saldo,2,'.',',')?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Claro</td><td colspan="2"><?=$tostado->tipo_tostado_claro?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+					Medio</td><td colspan="2"><?=$tostado->tipo_tostado_medio?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Oscuro</td><td colspan="2">
+					<?=$tostado->tipo_tostado_oscuro?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Molienda Media</td><td colspan="2"><?=$tostado->tipo_molienda_media?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Media Fina</td><td colspan="2"><?=$tostado->tipo_molienda_media_fina?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+					Media Gruesa</td><td colspan="2"><?=$tostado->tipo_molienda_media_gruesa?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Embolsado 250</td><td colspan="2">
+					<?=$tostado->tipo_embolsado_250?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">Embolsado 500</td><td colspan="2"><?=$tostado->tipo_embolsado_500?></td>
+				</tr>
+				<tr>
+					<td bgcolor="#dfdfdf" style="font-weight:bold;">Embolsado 1000</td><td colspan="2"><?=$tostado->tipo_embolsado_1000?></td><td bgcolor="#dfdfdf" style="font-weight:bold;">
+					Observaciones</td><td colspan="8"><?=$tostado->observaciones?></td>
 				</tr>
 			</table>
 		</main>

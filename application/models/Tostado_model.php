@@ -25,10 +25,11 @@ class Tostado_model extends CI_Model
     }
 	public function listaTostado($where)
     {
-        $this->db->select('t.*,numero_documento,nombre,domicilio,sucursal,tipo_documento');
+        $this->db->select('t.*,numero_documento,nombre,domicilio,sucursal,tipo_documento,articulo');
         $this->db->from('tostado t');
 		$this->db->join('proveedor p','t.idproveedor=p.idproveedor');
 		$this->db->join('sucursal s','t.idsucursal=s.idsucursal');
+		$this->db->join('articulo a','a.idarticulo=t.idarticulo');
 		$this->db->join('tipo_documento td','p.idtipodocumento=td.idtipodocumento');
 		$this->db->where($where);
 		$this->db->limit(1);

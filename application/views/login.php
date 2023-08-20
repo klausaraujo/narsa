@@ -5,10 +5,42 @@
 		<?php	require_once('inc/header.php');	?>
 		<title>Login</title>
 		<style>
-			body{ background: #1f373a; }
+			/*body{ background: #1f373a; }*/
 		</style>
 	</head>
-   <body>
+	<body>
+		<section class="sign-in-page">
+			<div class="login">
+				<div class="sign-in-from">
+					<h1 class="mb-0">Iniciar Sesi&oacute;n</h1>
+						<p>Ingrese su Usuario y Clave para ingresar al Tablero de Control</p>
+						<form class="mt-4" action="dologin" method="post" id="login-form">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Usuario</label>
+								<input type="text" class="form-control mb-0" id="usuario" name="usuario" placeholder="Ingrese su usuario" 
+										value="<?=$this->session->flashdata('usuarioError');?>" autocomplete="off" >
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Contrase&ntilde;a</label>
+								<!--<a href="#" class="float-right">Forgot password?</a>-->
+								<input type="password" class="form-control mb-0" name="pass" id="pass" placeholder="Ingrese su contraseña" autocomplete="new-password" >
+							</div>
+							<div class="d-inline-block w-100">
+								<!--<div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+										<input type="checkbox" class="custom-control-input" id="customCheck1">
+										<label class="custom-control-label" for="customCheck1">Remember Me</label>
+									</div>-->
+								<button type="submit" class="btn btn-narsa float-right">Iniciar Sesi&oacute;n</button>
+							</div>
+						</form>
+				<?php 
+					$message = $this->session->flashdata('loginError');
+					if($message){ ?>
+						<p style="color:#dc8b89;margin:auto;text-align:center;"><?=$message;?></p>
+				<?php } ?>
+				</div>
+			</div>
+		</section>
       <!-- loader Start -->
       <!--<div id="loading">
          <div id="loading-center">
@@ -16,7 +48,7 @@
       </div>-->
       <!-- loader END -->
         <!-- Sign in Start -->
-        <section class="sign-in-page">
+        <!--<section class="sign-in-page">
             <div class="container sign-in-page-bg mt-5 p-0">
                 <div class="row no-gutters">
                     <div class="col-md-6 text-center">
@@ -43,7 +75,7 @@
                                     <h4 class="mb-1 text-white">Titulo 04</h4>
                                     <p>Descripcion 04</p>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 position-relative">
@@ -58,14 +90,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Contrase&ntilde;a</label>
-                                    <!--<a href="#" class="float-right">Forgot password?</a>-->
+                                    <!--<a href="#" class="float-right">Forgot password?</a>
 									<input type="password" class="form-control mb-0" name="pass" id="pass" placeholder="Ingrese su contraseña" autocomplete="new-password" >
                                 </div>
                                 <div class="d-inline-block w-100">
                                     <!--<div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
                                         <input type="checkbox" class="custom-control-input" id="customCheck1">
                                         <label class="custom-control-label" for="customCheck1">Remember Me</label>
-                                    </div>-->
+                                    </div>
                                     <button type="submit" class="btn btn-narsa float-right">Iniciar Sesi&oacute;n</button>
                                 </div>
                                 
@@ -79,7 +111,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section>-->
         <!-- Sign in END -->
 		<!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
