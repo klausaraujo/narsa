@@ -235,10 +235,10 @@ class Main extends CI_Controller
 		$versionphp = 7; $id = $this->input->get('id'); $a5 = 'A4'; $direccion = 'portrait';
 		
 		$tostado = $this->Tostado_model->listaTostado(['idtostado' => $id]);
-		$trillado = $this->Tostado_model->traeOpTostado('tostado_trillado', ['idtostado' => $id]);
-		$despacho = $this->Tostado_model->traeOpTostado('tostado_empaquetado', ['idtostado' => $id]);
+		/*$trillado = $this->Tostado_model->traeOpTostado('tostado_trillado', ['idtostado' => $id]);
+		$despacho = $this->Tostado_model->traeOpTostado('tostado_empaquetado', ['idtostado' => $id]);*/
 		
-		$data = ['tostado' => $tostado, 'trillado' => $trillado, 'despacho' => $despacho];
+		$data = ['tostado' => $tostado/*, 'trillado' => $trillado, 'despacho' => $despacho*/];
 		$html = $this->load->view('tostado/comprobante-pdf', $data, true);
 				
 		if(floatval(phpversion()) < $versionphp){
