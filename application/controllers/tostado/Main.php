@@ -238,7 +238,7 @@ class Main extends CI_Controller
 		/*$trillado = $this->Tostado_model->traeOpTostado('tostado_trillado', ['idtostado' => $id]);
 		$despacho = $this->Tostado_model->traeOpTostado('tostado_empaquetado', ['idtostado' => $id]);*/
 		
-		$data = ['tostado' => $tostado/*, 'trillado' => $trillado, 'despacho' => $despacho*/];
+		$data = ['tostado' => $tostado];
 		$html = $this->load->view('tostado/comprobante-pdf', $data, true);
 				
 		if(floatval(phpversion()) < $versionphp){
