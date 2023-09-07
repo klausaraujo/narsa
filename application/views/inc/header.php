@@ -27,6 +27,7 @@
 @media(max-width: 360px){
 	.login { height:85% }
 }
+.btn { padding: 0.3rem 0.7rem 0.3rem 0.7rem; }
 
 label, .btn, .pagination, .form-control, .nav-pills .nav-item.nav-link, a, li, span { font-size: 12.5px }
 .nav-pills .nav-item.nav-link { padding:0.4em 1em }

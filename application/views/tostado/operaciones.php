@@ -113,7 +113,7 @@
 											</div>
 										</div>
 										<div class="row mb-3">
-											<div class="col-md-12">
+											<div class="col-md-4 ml-md-auto">
 												<button class="btn btn-narsa btn-operaciones" id="guardatrillado" type="submit">Guardar Operaci&oacute;n</button>
 											</div>
 										</div>
@@ -140,7 +140,7 @@
 											<input class="form-control form-control-sm col-md-1 mx-md-0 moneda" id="cantidadtostado" name="cantidadtostado" />
 											<label class="control-label align-self-center mb-0 mr-md-1 ml-md-2">C&oacute;d. Tostado:</label>
 											<input class="form-control form-control-sm col-md-1 mx-md-0 mayusc" id="cod" name="cod" />
-											<a class="btn btn-success ml-md-2" id="agregar">Agregar</a>
+											<a class="btn btn-primary ml-md-2" id="agregar">Agregar</a>
 										</div>
 										<hr>
 										<div class="form-row container-fluid">
@@ -155,8 +155,8 @@
 											<input class="form-control form-control-sm col-md-1 moneda" id="merma" name="merma" />
 										</div>
 										<div class="row my-4">
-											<div class="col-md-12">
-												<button class="btn btn-narsa btn-operaciones" id="guardatostado" type="submit">Guardar Operaci&oacute;n</button>
+											<div class="col-md-3 ml-md-auto">
+												<button class="btn btn-narsa btn-operaciones col-md-11" id="guardatostado" type="submit">Guardar Operaci&oacute;n</button>
 											</div>
 										</div>
 									</form>
@@ -240,7 +240,7 @@
 														</div>
 													</div>
 													<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
-														<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
+														<button type="button" class="btn btn-primary btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
 													</div>
 													<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
 												</div>
@@ -254,7 +254,7 @@
 														</div>
 													</div>
 													<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
-														<button type="button" class="btn btn-info btn-small col-12 align-self-center btn_ruc" id="busca_ruc"><i class="fa fa-search" aria-hidden="true"></i></button>
+														<button type="button" class="btn btn-primary btn-small col-12 align-self-center btn_ruc" id="busca_ruc"><i class="fa fa-search" aria-hidden="true"></i></button>
 													</div>
 												</div>
 												<div class="row mt-3">
@@ -310,7 +310,7 @@
 											</div>
 										</div>
 										<div class="row mb-3">
-											<div class="col-md-12">
+											<div class="col-md-4 ml-md-auto">
 												<button class="btn btn-narsa btn-operaciones" id="guardadespacho" type="submit">Guardar Operaci&oacute;n</button>
 											</div>
 										</div>
@@ -322,7 +322,7 @@
 						<div class="iq-card-footer mb-3">
 							<div class="row">
 								<div class="col-md-12">
-									<button class="btn btn-narsa btn-cancelar">Volver</button>
+									<button class="btn btn-primary btn-cancelar text-white ml-md-3">Volver</button>
 								</div>
 							</div>
 						</div>

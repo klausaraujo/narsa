@@ -1,4 +1,4 @@
-var tabla1 = null, table2 = null, tablaProv = null;
+var tabla1 = null, tabla2 = null, tablaProv = null;
 
 jQuery(document).ready(function($){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
@@ -111,4 +111,30 @@ $('#generar').bind('click',function(e){
 		btn.html('Generar Reporte');
 		btn.removeClass('disabled');
 	});
+});
+$('.exportar').bind('click', function(){
+	let data = {}, url = '';
+	
+	if(segmento2 === 'reporte1' || segmento2 === 'reporte2' || segmento2 === 'reporte3')
+		url = 's='+$('#sucursal').val()+'&a='+$('#anio').val()+'&art='+$('#articulo').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val();
+	if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6')
+		url = 's='+$('#sucursal').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val();
+
+	if(this.id === 'pdf'){
+		$(this).attr('href', base_url + 'proveedores/reportes/pdf?' + url);
+	}else if(this.id === 'excel'){
+		$(this).attr('href', base_url + 'proveedores/reportes/excel?' + url);
+	}
+	//$(this).attr('target','_blank');
+	/*
+	$.ajax({
+		data: { data : JSON.stringify(data) },
+		url: base_url + 'proveedores/reportes/pdf',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function (){ },
+		success: function (data){
+			console.log(data);
+		}
+	});*/
 });

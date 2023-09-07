@@ -107,4 +107,8 @@ class Reportes_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function repMovimientos()
+    {
+        
+    }
 }

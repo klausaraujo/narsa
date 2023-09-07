@@ -153,11 +153,17 @@ $('.precio').bind('blur', function(){
 	if(parseFloat($('#preciot').val()) > 0 && parseFloat($('#preciot').val()) !== ''){
 		$('#acuenta').prop('readonly', false);
 		if(parseFloat($('#acuenta').val()) > parseFloat($('#preciot').val())){
-			alert('El pago no puede ser mayor al precio Total'); $('#acuenta').val(''), $('#acuenta').focus();
+			alert('El pago no puede ser mayor al precio Total'); $('#acuenta').val(0), $('#acuenta').focus();
 		}else{
-			$('#saldo').val(parseFloat($('#preciot').val()) -parseFloat($('#acuenta').val()));
+			if($('#acuenta').val() === '') $('#acuenta').val(0);
+			$('#saldo').val(parseFloat($('#preciot').val()) - parseFloat($('#acuenta').val()));
 		}
-	}else $('#acuenta').prop('readonly', true);
+	}else{
+		$('#acuenta').prop('readonly', true);
+		$('#acuenta').val('');
+		$('#saldo').val('');
+		$('#preciot').val('');
+	}
 
 });
 $('.precio').focus(function(){ this.select(); });
@@ -285,9 +291,8 @@ $('#agregar').bind('click', function(){
 		let json = [{'maquina':$('#maquina').find(':selected').text(),'tipo':$('#tipo').find(':selected').text(),'cantidad':$('#cantidadtostado').val(),
 			'codigo':$('#cod').val(),'activo':1,'idmaquina':$('#maquina').val(),'idtipo':$('#tipo').val()}];
 		tablaOp.rows.add(json).draw(), $('#cantidadtostado').val(''), $('#cod').val(''), $('#maquina').prop('selectedIndex',0), $('#tipo').prop('selectedIndex',0);
-		
 	}
-	console.log($('#cantidad').val());
+	//console.log($('#cantidad').val());
 });
 $('#opmaquina').on('click','a', function(){
 	if($(this).hasClass('remover')){ tablaOp.row($(this).parents('tr')).remove().draw(); }

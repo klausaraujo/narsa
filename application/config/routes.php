@@ -128,6 +128,8 @@ $route['proveedores/reporte9'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte10'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';
 $route['proveedores/pruebas'] = 'proveedores/main/pruebas';
+$route['proveedores/reportes/pdf'] = 'proveedores/reportes/pdf';
+$route['proveedores/reportes/excel'] = 'proveedores/reportes/excel';
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';

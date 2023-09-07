@@ -11,9 +11,10 @@
 						<input type="hidden" id="segmento" value="<?=$this->uri->segment(2)?>" />
 						<div class="card-body">
 							<h4 class=""><?=$titulo?></h4>
+							<input id="reportename" type="hidden" value="<?=$this->uri->segment(2)?>" />
 							<hr>
 					<?	if($this->uri->segment(2) === 'reporte1' || $this->uri->segment(2) === 'reporte2' || $this->uri->segment(2) === 'reporte3'){	?>
-							<div class="row">
+							<div class="row reporte1">
 								<div class="col-md-11 mx-auto">
 									<div class="row">
 										<div class="col-md-4">
@@ -71,7 +72,7 @@
 									</div>
 								</div>
 							</div>
-				<?	}else{	?>
+					<?	}else{	?>
 							<div class="row">
 								<div class="col-md-12 mx-auto">
 									<div class="row">
@@ -113,7 +114,13 @@
 							<hr>
 							<div class="container-fluid">
 								<div class="row"> <!--class="table-responsive" -->
-									<div class="col-12 mx-auto" style="overflow-x:auto">
+									<a href="#" class="btn btn-danger align-self-center ml-2 exportar" id="pdf" target="_blank" title="Exportar a PDF" >
+										<i class="fa fa-file-pdf-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
+									</a>
+									<a href="#" class="btn btn-success align-self-center ml-2 exportar" id="excel" target="_blank" title="Exportar a EXCEL" >
+										<i class="fa fa-file-excel-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
+									</a>
+									<div class="col-12 mx-auto mt-md-2" style="overflow-x:auto">
 									<?	if($this->uri->segment(2) === 'reporte1' || $this->uri->segment(2) === 'reporte2' || $this->uri->segment(2) === 'reporte3'){	?>
 										<table id="tablaReporte1" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 									<?	}elseif($this->uri->segment(2) === 'reporte4' || $this->uri->segment(2) === 'reporte5'){	?>

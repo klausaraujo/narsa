@@ -9,6 +9,9 @@
 		</style>
 	</head>
 	<body>
+		<!--<div id="loading">
+			<div id="loading-center"></div>
+		</div>-->
 		<section class="sign-in-page">
 			<div class="login">
 				<div class="container-fluid row col-12 px-0 mx-0">
