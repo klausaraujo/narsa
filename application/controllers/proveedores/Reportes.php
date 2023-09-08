@@ -42,8 +42,9 @@ class Reportes extends CI_Controller
 		if($segmento === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($segmento === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($segmento === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
-		elseif($segmento === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
-		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
+		elseif($segmento === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
+		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repPagar();
+		elseif($segmento === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		
 		echo json_encode(['data' => $reporte]);
 	}
@@ -69,22 +70,35 @@ class Reportes extends CI_Controller
 		if($this->input->get('rep') === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($this->input->get('rep') === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($this->input->get('rep') === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
-		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
-		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
-		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovimientos();
+		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
+		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repPagar();
+		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		
 		if(!empty($reporte)){
-		$data = ['reporte' => $reporte];
-		$html = $this->load->view('proveedores/reporte-pdf', $data, true);
+			$data = ['reporte' => $reporte];
+			
+			if(count($reporte) > 500){
+				$data['font'] = '11px';
+				$data['tamano'] = '80%';
+				$data['body'] = '100%';
+				$data['title'] = 'Reporte HTML';
+				$this->load->view('proveedores/reporte-pdf', $data);
+			}else{
+				$data['font'] = '9px';
+				$data['body'] = '21cm';
+				$data['tamano'] = '18cm';
+				$data['title'] = 'Reporte PDF';
+				$html = $this->load->view('proveedores/reporte-pdf', $data, true);
 				
-		if(floatval(phpversion()) < $versionphp){
-			$this->load->library('dom');
-			$this->dom->generate($direccion, $a5, $html, $this->input->get('rep'));
-		}else{
-			$this->load->library('dom1');
-			$this->dom1->generate($direccion, $a5, $html, $this->input->get('rep'));
-		}
-		}else{ echo '<h2 class="bg-warning">No hay registros</h2>'; }
+				if(floatval(phpversion()) < $versionphp){
+					$this->load->library('dom');
+					$this->dom->generate($direccion, $a5, $html, $this->input->get('rep'));
+				}else{
+					$this->load->library('dom1');
+					$this->dom1->generate($direccion, $a5, $html, $this->input->get('rep'));
+				}
+			}
+		}else{ echo '<div class="bg-warning"><h2>No hay registros</h2></div>'; }
 	}
 	public function excel()
 	{
@@ -108,9 +122,9 @@ class Reportes extends CI_Controller
 		if($this->input->get('rep') === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($this->input->get('rep') === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($this->input->get('rep') === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
-		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
-		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
-		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovimientos();
+		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
+		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repPagar();
+		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		
 		if(!empty($reporte)){
 			//$cabecera = json_decode(json_encode($reporte[0]), true);
@@ -127,6 +141,6 @@ class Reportes extends CI_Controller
 			
 			fclose($fp);
 			exit;
-		}else{ echo '<h2 class="bg-warning">No hay registros</h2>'; }
+		}
 	}
 }

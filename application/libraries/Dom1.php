@@ -19,12 +19,13 @@ class Dom1 {
 
 	// Render the HTML as PDF
 	$dompdf->render();
-	
-	$pdf = $dompdf->output();
+	header('Content-type: application/pdf');
+	header('Content-Disposition: inline; filename='.time().'.pdf');
+	echo $dompdf->output();
 
 	// Output the generated PDF to Browser
-	$dompdf->stream($nombre, array("Attachment" => false));
-	return $pdf;
+	//$dompdf->stream($nombre, array("Attachment" => false));
+	//return $pdf;
  
  }
  public function versionDom(){

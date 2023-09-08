@@ -114,10 +114,10 @@
 							<hr>
 							<div class="container-fluid">
 								<div class="row"> <!--class="table-responsive" -->
-									<a href="#" class="btn btn-danger align-self-center ml-2 exportar" id="pdf" target="_blank" title="Exportar a PDF" >
+									<a href="#" class="btn btn-danger align-self-center ml-3 exportar" id="pdf" target="_blank" title="Exportar a PDF" >
 										<i class="fa fa-file-pdf-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
 									</a>
-									<a href="#" class="btn btn-success align-self-center ml-2 exportar" id="excel" target="_blank" title="Exportar a EXCEL" >
+									<a href="#" class="btn btn-success align-self-center ml-1 exportar" id="excel" title="Exportar a EXCEL" >
 										<i class="fa fa-file-excel-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
 									</a>
 									<div class="col-12 mx-auto mt-md-2" style="overflow-x:auto">
@@ -125,6 +125,8 @@
 										<table id="tablaReporte1" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 									<?	}elseif($this->uri->segment(2) === 'reporte4' || $this->uri->segment(2) === 'reporte5'){	?>
 										<table id="tablaReporte2" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
+									<?	}elseif($this->uri->segment(2) === 'reporte6'){	?>
+										<table id="tablaReporte3" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 									<?	} ?>
 									</div>
 								</div>

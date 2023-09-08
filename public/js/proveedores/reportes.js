@@ -1,4 +1,4 @@
-var tabla1 = null, tabla2 = null, tablaProv = null;
+var tabla1 = null, tabla2 = null, tabla3 = null, tablaProv = null;
 
 jQuery(document).ready(function($){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
@@ -19,8 +19,8 @@ jQuery(document).ready(function($){
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
 			columns:[
 				/*{ data: 'anio' },{ data: 'tipo_documento' },*/
-				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'numero_documento'},{ data: 'productor' },
-				{ data: 'guia', render: function(data){ return ceros( data, 6 ); } },{ data: 'fechaguia' },{ data: 'articulo' },{ data: 'cantidad' },{ data: 'costo' }
+				{ data: 'nro_op', render: function(data){ return ceros( data, 6 ); } },{ data: 'numero_documento'},{ data: 'productor' },
+				{ data: 'guia', render: function(data){ return ceros( data, 6 ); } },{ data: 'fecha' },{ data: 'articulo' },{ data: 'cantidad' },{ data: 'costo' }
 			],
 			columnDefs:[
 				/*{ title: 'A&ntilde;o', targets: 0 },{ title: 'Tipo Doc.', targets: 1 },*/
@@ -50,13 +50,12 @@ jQuery(document).ready(function($){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable, order: [],
 			columns:[
-				/*{ data: 'tipo_documento' },*/
-				{ data: 'numero_documento'},{ data: 'nombre' },{ data: 'zona' },{ data: 'celular' },{ data: 'monto' },
+				{ data: 'nro_op', render: function(data){ return ceros( data, 6 ); } },{ data: 'tipo_operacion'},{ data: 'sucursal' },{ data: 'nombre' },
+				{ data: 'monto' },
 			],
 			columnDefs:[
-				/*{ title: 'Tipo Doc.', targets: 0 },*/
-				{ title: 'Doc.', targets: 0 },{ title: 'Productor', targets: 1 },{ title: 'Zona', targets: 2 },
-				{ title: 'Celular', targets: 3 },{ title: 'Monto', targets: 4 },
+				{ title: 'Nro.Op.', targets: 0 },{ title: 'Tipo Op.', targets: 1 },{ title: 'Sucursal', targets: 2 },{ title: 'Productor', targets: 3 },
+				{ title: 'Monto', targets: 4 },
 			]/*, dom: botones,
 			buttons: {
 				dom: { container: { tag: 'div', className: 'flexcontent' }, buttonLiner: { tag: null } },
@@ -67,6 +66,27 @@ jQuery(document).ready(function($){
 					{ extend: 'print', className: 'rounded-pill' }
 				]
 			}*/
+		});
+	}else if(segmento2 == 'reporte6'){
+		tabla3 = $('#tablaReporte3').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/tblreporte1',
+				type: 'POST',
+				data: function (d) {
+					d.sucursal = $('.sucursal').val();
+					d.productor = $('.productor').val();
+					d.segmento = $('#segmento').val();
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
+			columns:[
+				{ data: 'nro_op', render: function(data){ return ceros( data, 6 ); } },{ data: 'tipo_operacion'},{ data: 'sucursal' },{ data: 'nombre' },
+				{ data: 'monto' },{ data: 'tasa' },{ data: 'fecha' }
+			],
+			columnDefs:[
+				{ title: 'Nro.Op.', targets: 0 },{ title: 'Tipo Op.', targets: 1 },{ title: 'Sucursal', targets: 2 },{ title: 'Productor', targets: 3 },
+				{ title: 'Monto', targets: 4 },{ title: 'Tasa', targets: 5 },{ title: 'Fecha Movimiento', targets: 6 },
+			]
 		});
 	}
 	
@@ -103,6 +123,7 @@ $('#generar').bind('click',function(e){
 	let btn = $(this), tabla =null;
 	if(segmento2 === 'reporte1' || segmento2 ==='reporte2' || segmento2 ==='reporte3') tabla = tabla1;
 	if(segmento2 === 'reporte4' || segmento2 ==='reporte5') tabla = tabla2;
+	if(segmento2 === 'reporte6') tabla = tabla3;
 	
 	btn.html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
 	btn.addClass('disabled');

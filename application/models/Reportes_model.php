@@ -43,7 +43,7 @@ class Reportes_model extends CI_Model
 	public function repArticulos()
     {
 		$this->db->distinct();
-        $this->db->select('r.*,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fechaguia,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,ge.numero');
+        $this->db->select('ge.numero as nro_op,r.*,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fecha,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo');
         $this->db->from('articulos_ingresados r');
 		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
@@ -59,7 +59,7 @@ class Reportes_model extends CI_Model
 	public function repValorizados()
     {
 		$this->db->distinct();
-        $this->db->select('r.*,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fechaguia,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,ge.idvalorizacion,va.numero');
+        $this->db->select('va.numero as nro_op,r.*,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fecha,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,ge.idvalorizacion');
         $this->db->from('articulos_valorizados r');
 		$this->db->join('guia_entrada_detalle_valorizacion ge','ge.idguia = r.idguia');
 		$this->db->join('valorizacion va','va.idvalorizacion = ge.idvalorizacion');
@@ -75,7 +75,7 @@ class Reportes_model extends CI_Model
 	public function repXValorizar()
     {
 		$this->db->distinct();
-        $this->db->select('r.*,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fechaguia,FORMAT(r.cantidad,2) as cantidad,(r.cantidad*0) as costo,ge.numero');
+        $this->db->select('ge.numero as nro_op,r.*,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fecha,FORMAT(r.cantidad,2) as cantidad,(r.cantidad*0) as costo');
         $this->db->from('articulos_x_valorizar r');
 		$this->db->join('guia_entrada ge','ge.idguia = r.guia');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
@@ -107,8 +107,38 @@ class Reportes_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
-	public function repMovimientos()
+	public function repMovProv()
     {
-        
+		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto,FORMAT(tasa,2) as tasa,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
+        $this->db->from('lista_movimientos_proveedor r');
+		if($this->idsucursal) $this->db->where($this->idsucursal);
+		if($this->nombre) $this->db->where($this->nombre);
+		$this->db->order_by('idtransaccion', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function repCobrar()
+	{
+		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto');
+		$this->db->from('lista_movimientos_proveedor r');
+		if($this->idsucursal) $this->db->where($this->idsucursal);
+		if($this->nombre) $this->db->where($this->nombre);
+		$this->db->group_by(array('idsucursal','sucursal','idproveedor'));
+		$this->db->having('SUM(monto_factor_final) < 0');
+		$this->db->order_by('idtransaccion', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function repPagar()
+	{
+		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto');
+		$this->db->from('lista_movimientos_proveedor r');
+		if($this->idsucursal) $this->db->where($this->idsucursal);
+		if($this->nombre) $this->db->where($this->nombre);
+		$this->db->group_by(array('idsucursal','sucursal','idproveedor'));
+		$this->db->having('SUM(monto_factor_final) > 0');
+		$this->db->order_by('idtransaccion', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }
