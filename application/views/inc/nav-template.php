@@ -22,7 +22,7 @@
 						if($this->uri->segment(1) == ''){
 							foreach($usuario->modulos as $row): ?>
 						<li>
-				<?				if($row->activo > 0 && ! empty($usuario->sucursales)){ ?>
+				<?				if($row->activo > 0){ ?>
 							<a href="<?=base_url().$row->url?>" class="iq-waves-effect"><i class="<?=$row->mini?>" aria-hidden="true"></i><span><?=$row->menu?></span></a>
 				<?				}else { ?>
 							<span class="disable"><div class="pull-left">

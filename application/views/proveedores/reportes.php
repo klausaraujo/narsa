@@ -6,6 +6,8 @@
 					if($this->uri->segment(2) === 'reporte3') $titulo = 'Reporte de Art&iacute;culos por Valorizar';
 					if($this->uri->segment(2) === 'reporte4') $titulo = 'Reporte de Cuentas por Cobrar';
 					if($this->uri->segment(2) === 'reporte5') $titulo = 'Reporte de Cuentas por Pagar';
+					if($this->uri->segment(2) === 'reporte6') $titulo = 'Reporte de Movimientos Proveedor';
+					if($this->uri->segment(2) === 'reporte7') $titulo = 'Reporte de Transacciones Anuladas';
 ?>
 					<div class="col-12 card px-0 my-3">
 						<input type="hidden" id="segmento" value="<?=$this->uri->segment(2)?>" />
@@ -46,7 +48,7 @@
 												<label class="control-label col-md-4 align-self-center mb-0" for="articulo">&nbsp;&nbsp;&nbsp;Art&iacute;culo:</label>
 												<div class="col-md-8">
 													<select class="form-control form-control-sm articulo" name="articulo" id="articulo">
-														<option value=""> -- Todos -- </option>	
+														<option value=""> -- Todos -- </option>
 													<? foreach($articulo as $row): ?>
 														<option value="<?=$row->articulo?>" ><?=$row->articulo;?></option>	
 													<? endforeach;	?>
@@ -110,6 +112,23 @@
 									</div>
 								</div>
 							</div>
+							<?	if($this->uri->segment(2) === 'reporte7'){ ?>
+							<div class="row my-3">
+								<div class="col-md-4">
+									<div class="row">
+										<label class="control-label col-md-4 align-self-center mb-0 text-left" for="tipoop">&nbsp;&nbsp;&nbsp;Tipo Op.:</label>
+										<div class="col-md-8">
+											<select class="form-control form-control-sm" name="tipoop" id="tipoop">
+												<option value=""> -- Todos -- </option>
+											<? foreach($op as $row): ?>
+												<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
+											<? endforeach;	?>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<?}?>
 				<?	}	?>
 							<hr>
 							<div class="container-fluid">
@@ -125,7 +144,7 @@
 										<table id="tablaReporte1" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 									<?	}elseif($this->uri->segment(2) === 'reporte4' || $this->uri->segment(2) === 'reporte5'){	?>
 										<table id="tablaReporte2" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
-									<?	}elseif($this->uri->segment(2) === 'reporte6'){	?>
+									<?	}elseif($this->uri->segment(2) === 'reporte6' || $this->uri->segment(2) === 'reporte7'){	?>
 										<table id="tablaReporte3" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 									<?	} ?>
 									</div>

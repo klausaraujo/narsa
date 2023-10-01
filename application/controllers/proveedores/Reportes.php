@@ -20,10 +20,12 @@ class Reportes extends CI_Controller
 		$this->load->model('Reportes_model');
 		$anio = $this->Reportes_model->anio();
 		$material = $this->Reportes_model->articulos();
+		$op = $this->Reportes_model->tipoop();
 		
 		$data = array(
 			'anio' => $anio,
-			'articulo' => $material
+			'articulo' => $material,
+			'op' => $op
 		);
 		
 		$this->load->view('main',$data);
@@ -36,6 +38,7 @@ class Reportes extends CI_Controller
 		if($this->input->post('articulo') && $this->input->post('articulo') != '') $this->Reportes_model->setArticulo($this->input->post('articulo'));
 		if($this->input->post('productor') && $this->input->post('productor') != '') $this->Reportes_model->setProductor($this->input->post('productor'));
 		if($this->input->post('productor') && $this->input->post('productor') != '') $this->Reportes_model->setNombre($this->input->post('productor'));
+		if($this->input->post('tipoop') && $this->input->post('tipoop') != '') $this->Reportes_model->setOp($this->input->post('tipoop'));
 		
 		$segmento = $this->input->post('segmento'); $reporte = [];
 		
@@ -45,6 +48,7 @@ class Reportes extends CI_Controller
 		elseif($segmento === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
 		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repPagar();
 		elseif($segmento === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
+		elseif($segmento === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
 		echo json_encode(['data' => $reporte]);
 	}
@@ -61,6 +65,7 @@ class Reportes extends CI_Controller
 			$this->Reportes_model->setNombre($this->input->get('prod'));
 			$this->Reportes_model->setProductor($this->input->get('prod'));
 		}
+		if($this->input->get('tipo') != '') $this->Reportes_model->setOp($this->input->get('tipo'));
 		
 		if($this->input->get('rep') === 'reporte1' || $this->input->get('rep') === 'reporte2' || $this->input->get('rep') === 'reporte3'){
 			if($this->input->get('a') != '') $this->Reportes_model->setAnio($this->input->get('a'));
@@ -73,6 +78,7 @@ class Reportes extends CI_Controller
 		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
 		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
+		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
 		if(!empty($reporte)){
 			$data = ['reporte' => $reporte];
@@ -113,6 +119,7 @@ class Reportes extends CI_Controller
 			$this->Reportes_model->setNombre($this->input->get('prod'));
 			$this->Reportes_model->setProductor($this->input->get('prod'));
 		}
+		if($this->input->get('tipo') != '') $this->Reportes_model->setOp($this->input->get('tipo'));
 		
 		if($this->input->get('rep') === 'reporte1' || $this->input->get('rep') === 'reporte2' || $this->input->get('rep') === 'reporte3'){
 			if($this->input->get('a') != '') $this->Reportes_model->setAnio($this->input->get('a'));
@@ -125,6 +132,7 @@ class Reportes extends CI_Controller
 		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
 		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
+		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
 		if(!empty($reporte)){
 			//$cabecera = json_decode(json_encode($reporte[0]), true);

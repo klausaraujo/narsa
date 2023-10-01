@@ -9,12 +9,14 @@ class Reportes_model extends CI_Model
 	private $articulo = [];
 	private $productor = [];
 	private $nombre = [];
+	private $op = [];
 	
 	public function setSucursal($data){ $this->idsucursal = [ 'r.idsucursal' => $this->db->escape_str($data) ]; }
 	public function setAnio($data){ $this->anio = [ 'anio' => $this->db->escape_str($data) ]; }
 	public function setArticulo($data){ $this->articulo = [ 'articulo' => $this->db->escape_str($data) ]; }
 	public function setProductor($data){ $this->productor = [ 'productor' => $this->db->escape_str($data) ]; }
 	public function setNombre($data){ $this->nombre = [ 'nombre' => $this->db->escape_str($data) ]; }
+	public function setOp($data){ $this->op = [ 'idtipooperacion' => $this->db->escape_str($data) ]; }
 	
 	public function __construct(){
 		parent::__construct();
@@ -141,4 +143,24 @@ class Reportes_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
+	public function tipoop()
+	{
+		$res = $this->db->select('*')->from('tipo_operacion_proveedor')->get();
+		//$res = $this->db->select('*')->from('tipo_operacion_proveedor')->where(['idtipooperacion' => 1,'combo_movimientos' => 1])->get();
+		//$res = $this->db->select('*')->from('tipo_operacion_proveedor')->where('idtipooperacion = 1 AND combo_movimientos = 1')->get();
+		//$this->db->select('*')->from('Employees')->like('Designation', 'Executive')->order_by('EmpName', 'desc')->limit(10, 1);
+		//$query = $this->db->get();
+		return ($res->num_rows() > 0)? $res->result() : array();
+	}
+	public function anulados()
+    {
+		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto,FORMAT(tasa,2) as tasa,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
+        $this->db->from('lista_movimientos_proveedor_anulados r');
+		if($this->idsucursal) $this->db->where($this->idsucursal);
+		if($this->nombre) $this->db->where($this->nombre);
+		if($this->op) $this->db->where($this->op);
+		$this->db->order_by('idtransaccion', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
 }

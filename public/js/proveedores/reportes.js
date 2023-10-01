@@ -67,7 +67,7 @@ jQuery(document).ready(function($){
 				]
 			}*/
 		});
-	}else if(segmento2 == 'reporte6'){
+	}else if(segmento2 == 'reporte6' || segmento2 == 'reporte7'){
 		tabla3 = $('#tablaReporte3').DataTable({
 			ajax:{
 				url: base_url + 'proveedores/tblreporte1',
@@ -76,6 +76,7 @@ jQuery(document).ready(function($){
 					d.sucursal = $('.sucursal').val();
 					d.productor = $('.productor').val();
 					d.segmento = $('#segmento').val();
+					d.tipoop = $('#tipoop').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
@@ -123,7 +124,7 @@ $('#generar').bind('click',function(e){
 	let btn = $(this), tabla =null;
 	if(segmento2 === 'reporte1' || segmento2 ==='reporte2' || segmento2 ==='reporte3') tabla = tabla1;
 	if(segmento2 === 'reporte4' || segmento2 ==='reporte5') tabla = tabla2;
-	if(segmento2 === 'reporte6') tabla = tabla3;
+	if(segmento2 === 'reporte6' || segmento2 === 'reporte7') tabla = tabla3;
 	
 	btn.html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
 	btn.addClass('disabled');
@@ -138,8 +139,9 @@ $('.exportar').bind('click', function(){
 	
 	if(segmento2 === 'reporte1' || segmento2 === 'reporte2' || segmento2 === 'reporte3')
 		url = 's='+$('#sucursal').val()+'&a='+$('#anio').val()+'&art='+$('#articulo').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val();
-	if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6')
+	if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6' || segmento2 === 'reporte7')
 		url = 's='+$('#sucursal').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val();
+	if(segmento2 === 'reporte7') url += '&tipo='+$('#tipoop').val();
 
 	if(this.id === 'pdf'){
 		$(this).attr('href', base_url + 'proveedores/reportes/pdf?' + url);
