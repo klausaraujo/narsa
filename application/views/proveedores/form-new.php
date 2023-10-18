@@ -40,7 +40,7 @@
 										</div>
 										<!--<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
 											<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
-										</div>-->
+										</div>
 										<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
 									</div>
 									<div class="row mt-3">
