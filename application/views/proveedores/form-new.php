@@ -38,9 +38,9 @@
 												<div class="invalid-feedback" id="error-doc">Documento requerido</div>
 											</div>
 										</div>
-										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+										<!--<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
 											<button type="button" class="btn btn-info btn-small btn_curl col-12 align-self-center"><i class="fa fa-search" aria-hidden="true"></i></button>
-										</div>
+										</div>-->
 										<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
 									</div>
 									<div class="row mt-3">
@@ -60,7 +60,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control borra nombres mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" required="" readonly />
+												<input type="text" class="form-control borra nombres mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" required="" />
 												<div class="invalid-feedback" id="error-razon">Debe indicar una Raz&oacute;n social</div>
 											</div>
 										</div>
