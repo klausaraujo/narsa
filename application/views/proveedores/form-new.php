@@ -48,8 +48,8 @@
 										<div class="col-md-4 col-lg-2">
 											<div class="row">
 												<input type="text" class="form-control ruc borra num" name="ruc" id="ruc" placeholder="RUC" value="" minlength="11" 
-													maxlength="11" required=""/>
-												<div class="invalid-feedback" id="error-doc">Documento requerido</div>
+													maxlength="11"/>
+												<div class="invalid-feedback" id="error-doc">Documento opcional</div>
 											</div>
 										</div>
 										<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
@@ -57,11 +57,11 @@
 										</div>
 									</div>
 									<div class="row mt-3">
-										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
+										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social / Nombre Completo</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
-												<input type="text" class="form-control borra nombres mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" value="" required="" />
-												<div class="invalid-feedback" id="error-razon">Debe indicar una Raz&oacute;n social</div>
+												<input type="text" class="form-control borra nombres mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social / Nombre Completo" value="" required="" />
+												<div class="invalid-feedback" id="error-razon">Debe indicar una Raz&oacute;n social / Nombre Completo</div>
 											</div>
 										</div>
 									</div>
