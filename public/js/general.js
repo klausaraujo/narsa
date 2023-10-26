@@ -92,6 +92,7 @@ $('.tipodoc').bind('change',function(e){
 	else if(this.value === '2') $('.numcurl').prop('maxlength',9);
 	
 	if(this.value === '1' || this.value === '2'){
+		$('.ruc').val('00000000000');
 		/*$('.ruc').removeAttr('readonly'), $('.numcurl').removeAttr('readonly'), $('.nombres').attr('readonly', true), $('.apellidos').attr('readonly', true);
 		$('.btn_curl').removeClass('disabled'), $('.btn_ruc').removeClass('disabled'), $('.usuario').attr('readonly', true);*/
 	}
