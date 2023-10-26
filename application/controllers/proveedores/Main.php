@@ -9,6 +9,7 @@ class Main extends CI_Controller
 	{
 		parent::__construct();
 		//$this->load->library('User');
+		date_default_timezone_set('America/Lima');
 		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
 		else header('location:' .base_url());
 	}

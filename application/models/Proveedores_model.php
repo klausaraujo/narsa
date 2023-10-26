@@ -18,7 +18,7 @@ class Proveedores_model extends CI_Model
 		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		$this->db->where('idproveedor >',1);
 		$this->db->where('pr.activo',1);
-		$this->db->order_by('idproveedor', 'ASC');
+		$this->db->order_by('idproveedor', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
@@ -28,7 +28,7 @@ class Proveedores_model extends CI_Model
         $this->db->from('proveedor pr');
 		$this->db->join('tipo_documento td','td.idtipodocumento = pr.idtipodocumento');
 		$this->db->where($data);
-		$this->db->order_by('idproveedor', 'ASC');
+		$this->db->order_by('idproveedor', 'DESC');
 		$this->db->limit(1);
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
@@ -79,7 +79,7 @@ class Proveedores_model extends CI_Model
 		$this->db->select('idtipooperacion');
 		$this->db->from('tipo_operacion_caja');
 		$this->db->where($data);
-		$this->db->order_by('idtipooperacion', 'ASC');
+		$this->db->order_by('idtipooperacion', 'DESC');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
