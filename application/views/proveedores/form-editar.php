@@ -12,7 +12,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
-												<select class="form-control tipodoc" name="tipodoc" id="tipodoc" disabled >
+												<select class="form-control tipodoc" name="tipodoc" id="tipodoc" >
 												<?
 														foreach($tipodoc as $row):	?>
 															<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $proveedor->idtipodocumento)?'selected':'';?>>
@@ -26,22 +26,23 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
 										<div class="col-md-4 col-lg-2">
 											<div class="row">
-												<input type="text" class="form-control doc" name="doc" id="doc"
-													autocomplete="off" value="<?=$proveedor->numero_documento;?>" disabled />
+												<input type="text" class="form-control doc borra num numcurl" maxlength="8" minlength="8" name="doc" id="doc"
+													autocomplete="off" value="<?=$proveedor->numero_documento;?>" required="" />
 											</div>
 										<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 										</div>
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="ruc">RUC:</label>
-										<input type="text" class="form-control col-md-6 col-lg-4 ruc num" name="ruc" id="ruc" placeholder="RUC" value="<?=$proveedor->RUC;?>" minlength="11" /> 
+										<input type="text" class="form-control col-md-6 col-lg-4 ruc num" name="ruc" id="ruc" minlength="11" 
+													maxlength="11" value="<?=$proveedor->RUC;?>" /> 
 									</div>
 									<div class="row mt-3">
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
 												<input type="text" class="form-control nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social"
-													value="<?=$proveedor->nombre;?>" disabled />
+													value="<?=$proveedor->nombre;?>" />
 											</div>
 										</div>
 									</div>
