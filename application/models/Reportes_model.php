@@ -122,14 +122,17 @@ class Reportes_model extends CI_Model
 	public function repCobrar()
 	{
 		$query = 'SELECT idsucursal,sucursal,idproveedor,ANY_VALUE(idtransaccion) as nro_op,ANY_VALUE(tipo_operacion) as tipo_operacion,
-			ANY_VALUE(nombre) as nombre,FORMAT(ANY_VALUE(monto_factor_final), 2) as monto FROM lista_movimientos_proveedor WHERE ';
+			ANY_VALUE(nombre) as nombre,FORMAT(ANY_VALUE(monto_factor_final), 2) as monto FROM lista_movimientos_proveedor WHERE liquidado=0 and ';
 		if($this->idsucursal) $query .= 'idsucursal='.$this->idsucursal['r.idsucursal'];
-		if($this->nombre) $query .= 'AND nombre='.$this->nombre['nombre'];
-		$query .= ' GROUP BY idsucursal,sucursal,idproveedor HAVING SUM(monto_factor_final)<0 ORDER BY ANY_VALUE(idtransaccion) DESC';
+		if($this->nombre) $query .= " AND nombre='".$this->nombre['nombre']."'";
+		$query .= ' GROUP BY idsucursal,sucursal,idtransaccion,idproveedor,tipo_operacion HAVING SUM(monto_factor_final)<0 ORDER BY ANY_VALUE(idtransaccion) DESC';
 		$res = $this->db->query($query);
 		return ($res->num_rows() > 0)? $res->result() : array();		
 		
 		/*$this->db->select('ANY_VALUE(idtransaccion) as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto');
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Aca deberias usar la Vista: select * from cuentas_cobrar
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		$this->db->from('lista_movimientos_proveedor r');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->nombre) $this->db->where($this->nombre);
@@ -141,15 +144,18 @@ class Reportes_model extends CI_Model
 	}
 	public function repPagar()
 	{
-		$query = 'SELECT idsucursal,sucursal,idproveedor,ANY_VALUE(idtransaccion) as nro_op,ANY_VALUE(tipo_operacion) as tipo_operacion,
-			ANY_VALUE(nombre) as nombre,FORMAT(ANY_VALUE(monto_factor_final), 2) as monto FROM lista_movimientos_proveedor WHERE ';
-		if($this->idsucursal) $query .= 'idsucursal='.$this->idsucursal['r.idsucursal'];
-		if($this->nombre) $query .= 'AND nombre='.$this->nombre['nombre'];
-		$query .= ' GROUP BY idsucursal,sucursal,idproveedor HAVING SUM(monto_factor_final)>0 ORDER BY ANY_VALUE(idtransaccion) DESC';
+		$query = "SELECT idsucursal,sucursal,idproveedor,idtransaccion as nro_op,tipo_operacion as tipo_operacion,
+			nombre as nombre,FORMAT(monto_factor_final, 2) as monto FROM lista_movimientos_proveedor WHERE liquidado=0 and ";
+		if($this->idsucursal) $query .= "idsucursal='".$this->idsucursal['r.idsucursal']."'";
+		if($this->nombre) $query .=" AND nombre='".$this->nombre['nombre']."'";
+		$query .= " GROUP BY idsucursal,sucursal,idproveedor,idtransaccion,tipo_operacion HAVING SUM(monto_factor_final)>0 ORDER BY idtransaccion DESC";
 		$res = $this->db->query($query);
 		return ($res->num_rows() > 0)? $res->result() : array();
 		
 		/*$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto');
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Aca deberias usar la Vista: select * from cuentas_pagar
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		$this->db->from('lista_movimientos_proveedor r');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->nombre) $this->db->where($this->nombre);
