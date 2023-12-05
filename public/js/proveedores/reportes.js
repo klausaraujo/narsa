@@ -50,12 +50,12 @@ jQuery(document).ready(function($){
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable, order: [],
 			columns:[
-				{ data: 'nro_op', render: function(data){ return ceros( data, 6 ); } },{ data: 'tipo_operacion'},{ data: 'sucursal' },{ data: 'nombre' },
+				{ data: 'tipo_documento'},{ data: 'numero_documento'},{ data: 'nombre' },{ data: 'sucursal' },{ data: 'zona' },
 				{ data: 'monto' },
 			],
 			columnDefs:[
-				{ title: 'Nro.Op.', targets: 0 },{ title: 'Tipo Op.', targets: 1 },{ title: 'Sucursal', targets: 2 },{ title: 'Productor', targets: 3 },
-				{ title: 'Monto', targets: 4 },
+				{ title: 'Doc.', targets: 0 },{ title: 'Nro. Doc.', targets: 1 },{ title: 'Productor', targets: 2 },{ title: 'Sucursal', targets: 3 },{ title: 'Zona', targets: 4 },
+				{ title: 'Monto', targets: 5 },
 			]/*, dom: botones,
 			buttons: {
 				dom: { container: { tag: 'div', className: 'flexcontent' }, buttonLiner: { tag: null } },

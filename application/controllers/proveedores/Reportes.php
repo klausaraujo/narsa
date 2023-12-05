@@ -45,11 +45,10 @@ class Reportes extends CI_Controller
 		if($segmento === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($segmento === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($segmento === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
-		elseif($segmento === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
-		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repPagar();
+		elseif($segmento === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
+		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($segmento === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($segmento === 'reporte7') $reporte = $this->Reportes_model->anulados();
-		
 		echo json_encode(['data' => $reporte]);
 	}
 	public function pdf()
@@ -75,8 +74,8 @@ class Reportes extends CI_Controller
 		if($this->input->get('rep') === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($this->input->get('rep') === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($this->input->get('rep') === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
-		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
-		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repPagar();
+		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
+		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
@@ -129,8 +128,8 @@ class Reportes extends CI_Controller
 		if($this->input->get('rep') === 'reporte1') $reporte = $this->Reportes_model->repArticulos();
 		elseif($this->input->get('rep') === 'reporte2') $reporte = $this->Reportes_model->repValorizados();
 		elseif($this->input->get('rep') === 'reporte3') $reporte = $this->Reportes_model->repXValorizar();
-		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCobrar();
-		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repPagar();
+		elseif($this->input->get('rep') === 'reporte4') $reporte = $this->Reportes_model->repCtasCobrar();
+		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
