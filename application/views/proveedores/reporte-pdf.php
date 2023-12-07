@@ -16,22 +16,30 @@
     <body>
         <!-- Etiqueta principal del pdf -->
         <?
+			//var_dump($reporte[0]);
+			//echo count($reporte).'<br>';
+			$header = null;
 			echo '<table align="center" class="acciones" cellspacing="0" cellpadding="1">';
-			$header = array_keys((array)$reporte[0]);
-			foreach($header as $key):
-				if($key !== 'idsucursal' && $key !== 'idguia'){
-					echo '<th bgcolor="#CDCDCD">'.$key.'</th>';
-				}
-			endforeach;
-			foreach($reporte as $row):
-				//$valores = array_values((array)$row);
+			
+			if(count($reporte)){
+				$header = array_keys((array)$reporte[0]);
 				echo '<tr>';
-				foreach($row as $key=>$valor):
-					if($key !== 'idsucursal' && $key !== 'idguia')
-						echo '<td>'.$valor.'</td>';
+				foreach($header as $key):
+					if($key !== 'idsucursal' && $key !== 'idproveedor'){
+						echo '<th bgcolor="#CDCDCD">'.$key.'</th>';
+					}
 				endforeach;
 				echo '</tr>';
-			endforeach;
+				foreach($reporte as $row):
+					//$valores = array_values((array)$row);
+					echo '<tr>';
+					foreach($row as $key=>$valor):
+						if($key !== 'idsucursal' && $key !== 'idproveedor')
+							echo '<td>'.$valor.'</td>';
+					endforeach;
+					echo '</tr>';
+				endforeach;
+			}
 			echo '</table>';
 		?>
     </body>

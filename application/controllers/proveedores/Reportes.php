@@ -49,6 +49,7 @@ class Reportes extends CI_Controller
 		elseif($segmento === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($segmento === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($segmento === 'reporte7') $reporte = $this->Reportes_model->anulados();
+		
 		echo json_encode(['data' => $reporte]);
 	}
 	public function pdf()
