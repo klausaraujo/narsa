@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -58,6 +57,7 @@ $route['dologin'] = 'login/doLogin';
 $route['logout'] = 'login/logout';
 
 /* Programacion en general */
+$route['dashboard'] = 'main/dashboard';
 $route['proveedores'] = 'main/proveedores';
 $route['servicios'] = 'main/servicios';
 $route['certificaciones'] = 'main/servicios';
@@ -71,8 +71,12 @@ $route['main/cambiapass'] = 'main/password';
 $route['main/provincias'] = 'main/provincias';
 $route['main/distritos'] = 'main/distritos';
 $route['main/cargarLatLng'] = 'main/cargarLatLng';
+
 /* Cambiar perfil del usuario */
 $route['main/perfil'] = 'main/perfil';
+
+/* Dashboard */
+$route['dashboard/tabla'] = 'dashboard/main/tabla';
 
 /* Ventas */
 $route['clientes'] = 'ventas/main/base';

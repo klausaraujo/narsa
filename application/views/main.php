@@ -26,6 +26,7 @@
 					<?php 
 						//echo date_default_timezone_get();
 						if($this->uri->segment(1) == '') $this->load->view('modulos');
+						elseif($this->uri->segment(1) === 'dashboard' && $this->uri->segment(2) == '') $this->load->view('dashboard/dash');
 						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == '') $this->load->view('proveedores/proveedores');
 						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'nuevo') $this->load->view('proveedores/form-new');
 						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'editar') $this->load->view('proveedores/form-editar');

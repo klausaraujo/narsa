@@ -72,7 +72,87 @@
 			function mayus(e){e.value = e.value.toUpperCase();}
 		</script>
 		<!-- Rutinas Javascript por cada uno de los segmentos 1 -->
-		<?php if($this->uri->segment(1) === 'proveedores'){ ?>
+		<?php if($this->uri->segment(1) === 'dashboard'){ ?>
+		<script src="<?=base_url()?>/public/js/dashboard/dashboard.js"></script>
+		<script>
+			jQuery("#estadisticas").length && am4core.ready(function() {
+			var options = {
+				  series: [{
+				  name: 'Servicios',
+				  data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31]
+				}],
+				  annotations: {
+				  points: [{
+					x: 'Bananas',
+					seriesIndex: 0,
+					label: {
+					  borderColor: '#775DD0',
+					  offsetY: 0,
+					  style: {
+						color: '#fff',
+						background: '#775DD0',
+					  },
+					  text: 'Bananas are good',
+					}
+				  }]
+				},
+				chart: {
+				  height: 350,
+				  type: 'bar',
+				},
+				colors:['#089bab'],
+				plotOptions: {
+				  bar: {
+					columnWidth: '50%',
+					endingShape: 'rounded'  
+				  }
+				},
+				dataLabels: {
+				  enabled: true
+				},
+				stroke: {
+				  width: 2
+				},
+				
+				grid: {
+				  row: {
+					colors: ['#fff', '#f2f2f2']
+				  }
+				},
+				xaxis: {
+				  labels: {
+					rotate: -45
+				  },
+				  categories: ['A', 'B', 'C', 'D', 'E', 'F',
+					'G', 'H', 'I', 'J'
+				  ],
+				  tickPlacement: 'on'
+				},
+				yaxis: {
+				  title: {
+					text: 'Servicios',
+				  },
+				},
+				fill: {
+				  type: 'gradient',
+				  gradient: {
+					shade: 'light',
+					type: "horizontal",
+					shadeIntensity: 0.25,
+					gradientToColors: undefined,
+					inverseColors: true,
+					opacityFrom: 0.85,
+					opacityTo: 0.85,
+					stops: [50, 0, 100]
+				  },
+				}
+				};
+
+				var chart = new ApexCharts(document.querySelector("#estadisticas"), options);
+				chart.render();
+		   });
+		</script>
+		<?php }else if($this->uri->segment(1) === 'proveedores'){ ?>
 		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>
 		<script>
 			let botonesProv = JSON.parse('<?=$this->session->userdata('perProv')?>');
@@ -159,8 +239,9 @@
 			<?}?>
 		</script>
 		<?}?>
-		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
-				$this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas' || $this->uri->segment(1) === 'tostado') && $this->uri->segment(2) == ''){ ?>
+		<?if(($this->uri->segment(1) === 'dashboard' || $this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || 
+				$this->uri->segment(1) === 'servicios' || $this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas' || 
+				$this->uri->segment(1) === 'tostado') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
