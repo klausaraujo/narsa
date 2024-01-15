@@ -17,17 +17,33 @@ class Dashboard_model extends CI_Model
 	}
 	public function cobrar($where)
 	{
-		$res = $this->db->select('idsucursal,sucursal,(SUM(monto)*-1) as monto')->from('cuentas_cobrar')->where($where)->group_by('idsucursal,sucursal')->get();
+		$res = $this->db->select('idsucursal,sucursal,FORMAT((SUM(monto)*-1),2,"es-PE") as monto')->from('cuentas_cobrar')->where($where)->group_by('idsucursal,sucursal')->get();
 		return ($res->num_rows() > 0)? $res->row() : array();
 	}
 	public function pagar($where)
 	{
-		$res = $this->db->select('idsucursal,sucursal,SUM(monto) as monto')->from('cuentas_pagar')->where($where)->group_by('idsucursal,sucursal')->get();
+		$res = $this->db->select('idsucursal,sucursal,FORMAT(SUM(monto),2,"es-PE") as monto')->from('cuentas_pagar')->where($where)->group_by('idsucursal,sucursal')->get();
 		return ($res->num_rows() > 0)? $res->row() : array();
 	}
 	public function caja($where)
 	{
 		$res = $this->db->select('*')->from('saldos_caja')->where($where)->get();
 		return ($res->num_rows() > 0)? $res->row() : array();
+	}
+	public function articulos($where)
+	{
+		$res = $this->db->select('idsucursal,sucursal,articulo,SUM(cantidad) as cantidad')
+				->from('articulos_ingresados')->where($where)->group_by('idsucursal,sucursal,articulo')->get();
+		return ($res->num_rows() > 0)? $res->result() : array();
+	}
+	public function sucursales()
+	{
+		$res = $this->db->select('*')->from('sucursal')->where('activo = 1')->get();
+		return ($res->num_rows() > 0)? $res->result() : array();
+	}
+	public function anios()
+	{
+		$res = $this->db->select('*')->from('anio')->where('activo = 1')->get();
+		return ($res->num_rows() > 0)? $res->result() : array();
 	}
 }

@@ -30,23 +30,23 @@ class Main extends CI_Controller
 	
 	public function dashboard()
 	{
-		$this->load->model('Dashboard_model');
-		//$mod = $this->input->get('mod');
-		/*$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 1,'po.activo' => 1]);
-		$this->session->set_userdata('perProv', json_encode($bot));*/
-		$prod = $this->Dashboard_model->activos(['idproveedor <>','1']);
-		$cobrar = $this->Dashboard_model->cobrar(['idsucursal',1]);
-		$pagar = $this->Dashboard_model->pagar(['idsucursal',1]);
-		$caja = $this->Dashboard_model->caja(['idsucursal',1]);
+		$this->load->model('Dashboard_model'); $idsuc = 1; $anyo = date('Y');
+		$prod = $this->Dashboard_model->activos(['idproveedor <>', 1]);
+		$cobrar = $this->Dashboard_model->cobrar(['idsucursal',$idsuc]);
+		$pagar = $this->Dashboard_model->pagar(['idsucursal',$idsuc]);
+		$caja = $this->Dashboard_model->caja(['idsucursal',$idsuc]);
+		$art = $this->Dashboard_model->articulos('idsucursal = '.$idsuc.' AND YEAR(fecha) = '.$anyo);
+		$suc = $this->Dashboard_model->sucursales();
+		$anios = $this->Dashboard_model->anios();
 		
 		$headers = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
 			'4'=>['title' => 'RUC', 'targets' => 4],'5'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 5],'6'=>['title' => 'Direcci&oacute;n', 'targets' => 6],
 			'7'=>['title' => 'Zona', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 1, 'visible' => false],
 		);
-		$this->load->view('main',['headers'=>$headers,'activos'=>$prod,'cobrar'=>$cobrar,'pagar'=>$pagar,'caja'=>$caja]);
+		$this->load->view('main',['headers'=>$headers,'activos'=>$prod,'cobrar'=>$cobrar,'pagar'=>$pagar,'caja'=>$caja,
+				'articulos'=>$art,'sucursales'=>$suc,'anios'=>$anios]);
 	}
-	
 	public function proveedores()
 	{
 		$this->load->model('Usuarios_model');

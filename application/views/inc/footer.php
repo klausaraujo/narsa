@@ -75,63 +75,79 @@
 		<?php if($this->uri->segment(1) === 'dashboard'){ ?>
 		<script src="<?=base_url()?>/public/js/dashboard/dashboard.js"></script>
 		<script>
-			jQuery("#estadisticas").length && am4core.ready(function() {
+			var o = [], data = [], art = 0;
+			<?  foreach($articulos as $row):  ?>
+					o.push('<?=$row->articulo?>');
+			<?  endforeach; ?>
+			<?  foreach($articulos as $row):  ?>
+					data.push('<?=$row->cantidad?>');
+			<?  endforeach; ?>
+			
 			var options = {
-				  series: [{
-				  name: 'Servicios',
-				  data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31]
+				series: [{
+					name: '',
+					data: data
 				}],
-				  annotations: {
-				  points: [{
-					x: 'Bananas',
-					seriesIndex: 0,
-					label: {
-					  borderColor: '#775DD0',
-					  offsetY: 0,
-					  style: {
-						color: '#fff',
-						background: '#775DD0',
-					  },
-					  text: 'Bananas are good',
-					}
-				  }]
-				},
 				chart: {
-				  height: 350,
-				  type: 'bar',
+					id: 'barChart',
+					height: 373,
+					type: 'bar',
 				},
-				colors:['#089bab'],
+				colors: ['#089bab'],
 				plotOptions: {
 				  bar: {
-					columnWidth: '50%',
-					endingShape: 'rounded'  
+					columnWidth: '70%',
+					//barHeight: '100%',
+					endingShape: 'rounded',
+					dataLabels: {
+						position: 'top',
+						orientation: 'horizontal',
+					},
 				  }
 				},
 				dataLabels: {
-				  enabled: true
+				  enabled: true,
+				  formatter: function (val) {
+					return val.toLocaleString('es-PE', opt);
+				  },
+				  offsetY: -20,
+				  style: {
+					fontSize: '9px',
+					colors: ["#808081"]
+				  },
 				},
-				stroke: {
-				  width: 2
-				},
-				
+				stroke: { width: 2, },
 				grid: {
 				  row: {
-					colors: ['#fff', '#f2f2f2']
+					colors: ['#fff', /*'#f2f2f2'*/]
 				  }
 				},
 				xaxis: {
-				  labels: {
-					rotate: -45
-				  },
-				  categories: ['A', 'B', 'C', 'D', 'E', 'F',
-					'G', 'H', 'I', 'J'
-				  ],
-				  tickPlacement: 'on'
+					categories: o,
+					tickPlacement: 'between',
+					labels: {
+						show: true,
+						rotate: -45,
+						maxHeight: 150,
+						style: {
+							fontSize: '10px',
+						}
+					},
+				  
 				},
 				yaxis: {
-				  title: {
-					text: 'Servicios',
-				  },
+					title: { text: '', },
+				  //min: 0,
+				  //max: 500,
+					labels: {
+						show: true,
+						style: {
+							fontSize: '9px',
+						},
+						formatter: (val) => {
+							return val.toLocaleString('es-PE', { style:'decimal', minimumFractionDigits: 0 });
+						}
+					},
 				},
 				fill: {
 				  type: 'gradient',
@@ -145,12 +161,24 @@
 					opacityTo: 0.85,
 					stops: [50, 0, 100]
 				  },
-				}
-				};
+				},
+				tooltip: {
+					enabled: true,
+					style: {
+						fontSize: '9px',
+					},
+					marker: { show: false },
+					x: { show: true, },
+					y: {
+						formatter: function (val) {
+							return '<span style="font-size:10px">'+val.toLocaleString('es-PE', opt)+'</span>';
+						},
+					}
+				},
+			};
 
-				var chart = new ApexCharts(document.querySelector("#estadisticas"), options);
-				chart.render();
-		   });
+			var chart = new ApexCharts(document.querySelector("#estadisticas"), options);
+			chart.render();
 		</script>
 		<?php }else if($this->uri->segment(1) === 'proveedores'){ ?>
 		<script src="<?=base_url()?>/public/js/proveedores/proveedores.js"></script>

@@ -44,3 +44,45 @@ $(document).ready(function (){
 		});
 	}
 });
+
+$('.select').bind('change',function(){
+	$.ajax({
+		data: { sucursal: $('#sucursal').val(), anio: $('#anio').val() },
+		url: base_url + 'dashboard/dash',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function (){ },
+		success: function (data){
+			let seriesChart = [], catChart = [];
+			console.log(data);
+			if(data.cobrar.monto) $('#cobrar').html(data.cobrar.monto);
+			else $('#cobrar').html('0.00');
+			if(data.pagar.monto) $('#pagar').html(data.pagar.monto);
+			else $('#pagar').html('0.00');
+			if(data.caja.saldo) $('#caja').html(data.caja.saldo);
+			else $('#caja').html('0.00');
+			
+			$.each(data.articulos,function(i,e){
+				catChart.push(e.articulo);
+				seriesChart.push(e.cantidad);
+			});
+			console.log(seriesChart);
+			console.log(catChart);
+			ApexCharts.exec('barChart', 'updateOptions', {
+				xaxis: {
+					/*labels: {
+					  show: false
+					}*/
+					categories: catChart,
+				}
+			}, false, true);
+			ApexCharts.exec('barChart', 'updateSeries', [{
+				data: seriesChart
+			}], true);
+			jQuery('.counter').counterUp({
+				delay: 5,
+				time: 500
+			});
+		}
+	});
+});
