@@ -3264,11 +3264,17 @@ update menu_detalle set descripcion ='Productor Anulaciones',url='reporte7' wher
 INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (7,'Tablero de Mando - Dashboard','Dashboard','dashboard.png','dashboard/dash','1','fa fa-tachometer',7);
 INSERT INTO modulo_rol (idmodulo,idperfil) values (7,1);
 
+drop view IF EXISTS grafico_valorizados_reporte;
+drop view IF EXISTS grafico_valorizados;
+create view grafico_valorizados
+as
+select year(fecha) as anio,idsucursal,sucursal,articulo,sum(cantidad) as valorizado,0 as no_valorizado from lista_ingresos_valorizaciones_saldo group by idsucursal,sucursal,articulo
+union all
+select year(fecha) as anio,idsucursal,sucursal,articulo,0 as valorizado,sum(cantidad) as no_valorizado from lista_valorizaciones_proveedores group by idsucursal,sucursal,articulo;
 
-
-
-
-
+create view grafico_valorizados_reporte
+as
+select anio,sucursal,articulo,sum(valorizado) as valorizado,sum(no_valorizado) as no_valorizado from grafico_valorizados GROUP BY anio,sucursal,articulo;}
 
 
 
