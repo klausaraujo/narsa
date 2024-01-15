@@ -3258,3 +3258,20 @@ from movimientos_proveedor as mp inner join tipo_operacion_proveedor as top on t
 where mp.activo='0';
 
 update menu_detalle set descripcion ='Productor Anulaciones',url='reporte7' where idmenudetalle=7;
+
+/*Queryz adicionales para el pase del Dashboard*/
+
+INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (7,'Tablero de Mando - Dashboard','Dashboard','dashboard.png','dashboard/dash','1','fa fa-tachometer',7);
+INSERT INTO modulo_rol (idmodulo,idperfil) values (7,1);
+
+
+
+
+
+
+
+
+
+
+
+
