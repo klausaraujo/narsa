@@ -24,7 +24,7 @@
                                     <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-women-fill"></i></div>
                                     <div class="text-right">
                                        <h4 class="mb-0 counter" id="cobrar"><?=empty($cobrar)? '0.00' : $cobrar->monto?></h4>
-                                       <span>Acumulado por Cobrar</span>
+                                       <span>Acumulado por Cobrar (En Soles)</span>
                                     </div>
                                  </div>
                               </div>
@@ -37,7 +37,7 @@
                                     <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-group-fill"></i></div>
                                     <div class="text-right">
                                        <h4 class="mb-0 counter" id="pagar"><?=empty($pagar)? '0.00' : $pagar->monto?></h4>
-                                       <span>Acumulado por Pagar</span>
+                                       <span>Acumulado por Pagar (En Soles)</span>
                                     </div>
                                  </div>
                               </div>
@@ -50,7 +50,7 @@
                                     <div class="rounded-circle iq-card-icon bg-info"><i class="ri-hospital-line"></i></div>
                                     <div class="text-right">
                                        <h4 class="mb-0 counter" id="caja"><?=empty($caja)? '0.00' : $caja->saldo?></h4>
-                                       <span>Saldo Efectivo Caja</span>
+                                       <span>Saldo Efectivo Caja (En Soles)</span>
                                     </div>
                                  </div>
                               </div>
@@ -85,7 +85,7 @@
 						<div class="iq-card">
 							<div class="iq-card-header d-flex justify-content-between p-0 bg-white">
 								<div class="iq-header-title">
-									<h5 class="card-title text-primary ml-3">Cantidad de Art&iacute;culos</h5>
+									<h5 class="card-title text-primary ml-3">Cantidad de Art&iacute;culos (En Kilos)</h5>
 								</div>
 							</div>
 							<div class="iq-card-body p-2">
@@ -97,7 +97,7 @@
 						<div class="iq-card">
 							<div class="iq-card-header d-flex justify-content-between">
 								<div class="iq-header-title">
-									<h5 class="card-title">Valorizados y No Valorizados</h5>
+									<h5 class="card-title">Valorizados y No Valorizados (En Kilos)</h5>
 								</div>
 							</div>
 							<div class="iq-card-body">
