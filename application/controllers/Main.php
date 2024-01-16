@@ -36,6 +36,9 @@ class Main extends CI_Controller
 		$pagar = $this->Dashboard_model->pagar(['idsucursal',$idsuc]);
 		$caja = $this->Dashboard_model->caja(['idsucursal',$idsuc]);
 		$art = $this->Dashboard_model->articulos('idsucursal = '.$idsuc.' AND YEAR(fecha) = '.$anyo);
+		//select * from grafico_valorizados_reporte where anio=pene and idsucursal=vagina
+		$valoriz = $this->Dashboard_model->valorizados('sucursal="LA MERCED" AND anio='.$anyo);
+		
 		$suc = $this->Dashboard_model->sucursales();
 		$anios = $this->Dashboard_model->anios();
 		
@@ -45,7 +48,7 @@ class Main extends CI_Controller
 			'7'=>['title' => 'Zona', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 1, 'visible' => false],
 		);
 		$this->load->view('main',['headers'=>$headers,'activos'=>$prod,'cobrar'=>$cobrar,'pagar'=>$pagar,'caja'=>$caja,
-				'articulos'=>$art,'sucursales'=>$suc,'anios'=>$anios]);
+				'articulos'=>$art,'sucursales'=>$suc,'anios'=>$anios,'valorizados'=>$valoriz]);
 	}
 	public function proveedores()
 	{

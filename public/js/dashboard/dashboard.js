@@ -47,14 +47,14 @@ $(document).ready(function (){
 
 $('.select').bind('change',function(){
 	$.ajax({
-		data: { sucursal: $('#sucursal').val(), anio: $('#anio').val() },
+		data: { idsucursal: $('#sucursal').val(), anio: $('#anio').val(), sucursal: $('#sucursal').find(':selected').text() },
 		url: base_url + 'dashboard/dash',
 		method: 'POST',
 		dataType: 'JSON',
 		beforeSend: function (){ },
 		success: function (data){
-			let seriesChart = [], catChart = [];
-			console.log(data);
+			let seriesChart = [], catChart = [], series = [], series1 = [], catChart1 = [];
+			
 			if(data.cobrar.monto) $('#cobrar').html(data.cobrar.monto);
 			else $('#cobrar').html('0.00');
 			if(data.pagar.monto) $('#pagar').html(data.pagar.monto);
@@ -66,23 +66,26 @@ $('.select').bind('change',function(){
 				catChart.push(e.articulo);
 				seriesChart.push(e.cantidad);
 			});
-			console.log(seriesChart);
-			console.log(catChart);
-			ApexCharts.exec('barChart', 'updateOptions', {
-				xaxis: {
-					/*labels: {
-					  show: false
-					}*/
-					categories: catChart,
-				}
-			}, false, true);
-			ApexCharts.exec('barChart', 'updateSeries', [{
-				data: seriesChart
-			}], true);
+			$.each(data.valorizados,function(i,e){
+				catChart1.push(e.articulo);
+				series.push(e.valorizado);
+				series1.push(e.no_valorizado);
+			});
+			
+			ApexCharts.exec('barChart', 'updateOptions', { xaxis: { categories: catChart, } }, false, true);
+			ApexCharts.exec('barChart', 'updateSeries', [{ data: seriesChart }], true);
+			ApexCharts.exec('valorChart', 'updateOptions', { xaxis: { categories: catChart1, } }, false, true);
+			ApexCharts.exec('valorChart', 'updateSeries', [{ data: series }, { data: series1 }], true);
+			
 			jQuery('.counter').counterUp({
 				delay: 5,
 				time: 500
 			});
+			
+			console.log(data);
+			console.log(series);
+			console.log(series1);
+			console.log(catChart1);
 		}
 	});
 });

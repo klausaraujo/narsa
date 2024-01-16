@@ -75,14 +75,25 @@
 		<?php if($this->uri->segment(1) === 'dashboard'){ ?>
 		<script src="<?=base_url()?>/public/js/dashboard/dashboard.js"></script>
 		<script>
-			var o = [], data = [], art = 0;
+			var o = [], data = [], valor = [], novalor = [], categ = [];
 			<?  foreach($articulos as $row):  ?>
 					o.push('<?=$row->articulo?>');
 			<?  endforeach; ?>
 			<?  foreach($articulos as $row):  ?>
 					data.push('<?=$row->cantidad?>');
 			<?  endforeach; ?>
-			
+			<?  foreach($valorizados as $row):  ?>
+					categ.push('<?=$row->articulo?>');
+			<?  endforeach; ?>
+			<?  foreach($valorizados as $row):  ?>
+					valor.push('<?=$row->valorizado?>');
+			<?  endforeach; ?>
+			<?  foreach($valorizados as $row):  ?>
+					novalor.push('<?=$row->no_valorizado?>');
+			<?  endforeach; ?>
+			//--------------------
+			// Chart de Articulos
+			//--------------------
 			var options = {
 				series: [{
 					name: '',
@@ -178,6 +189,100 @@
 			};
 
 			var chart = new ApexCharts(document.querySelector("#estadisticas"), options);
+			chart.render();
+			
+			//----------------------
+			// Chart de Valorizados
+			//----------------------
+			var options = {
+				chart: {
+					id: 'valorChart',
+					height: 350,
+					type: 'bar',
+				},
+				plotOptions: {
+				  bar: {
+					horizontal: false,
+					columnWidth: '70%',
+					//barHeight: '100%',
+					endingShape: 'rounded',
+					dataLabels: {
+						position: 'top',
+						orientation: 'horizontal',
+					},
+				  }
+				},
+				dataLabels: {
+				  enabled: true,
+				  formatter: function (val) {
+					return val.toLocaleString('es-PE', opt);
+				  },
+				  offsetY: -20,
+				  style: {
+					fontSize: '9px',
+					colors: ["#808081"]
+				  },
+				},
+				stroke: {
+					show: true,
+					width: 2,
+					colors: ['transparent']
+				},
+				colors: ['#1E8DD6', '#FC9F5B'],
+				series: [{
+					name: 'Valorizado',
+					data: valor
+				}, {
+					name: 'No Valorizado',
+					data: novalor
+				}],
+				xaxis: {
+					categories: categ,
+					tickPlacement: 'between',
+					labels: {
+						show: true,
+						rotate: -45,
+						maxHeight: 150,
+						style: {
+							fontSize: '10px',
+						}
+					},
+				  
+				},
+				yaxis: {
+					title: { text: '', },
+				  //min: 0,
+				  //max: 500,
+					labels: {
+						show: true,
+						style: {
+							fontSize: '9px',
+						},
+						formatter: (val) => {
+							return val.toLocaleString('es-PE', { style:'decimal', minimumFractionDigits: 0 });
+						}
+					},
+				},
+				fill: {
+					opacity: 1
+				},
+				tooltip: {
+					enabled: true,
+					style: {
+						fontSize: '9px',
+					},
+					marker: { show: false },
+					x: { show: true, },
+					y: {
+						formatter: function (val) {
+							return '<span style="font-size:10px">'+val.toLocaleString('es-PE', opt)+'</span>';
+						},
+					}
+				},
+			}
+
+			var chart = new ApexCharts( document.querySelector("#valorizados"), options );
+
 			chart.render();
 		</script>
 		<?php }else if($this->uri->segment(1) === 'proveedores'){ ?>

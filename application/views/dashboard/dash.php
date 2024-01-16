@@ -85,7 +85,7 @@
 						<div class="iq-card">
 							<div class="iq-card-header d-flex justify-content-between p-0 bg-white">
 								<div class="iq-header-title">
-									<h5 class="card-title text-primary ml-3">Cantidad de Art&iacute;culos por Sucursal y A&ntilde;o</h5>
+									<h5 class="card-title text-primary ml-3">Cantidad de Art&iacute;culos</h5>
 								</div>
 							</div>
 							<div class="iq-card-body p-2">
@@ -97,11 +97,11 @@
 						<div class="iq-card">
 							<div class="iq-card-header d-flex justify-content-between">
 								<div class="iq-header-title">
-									<h4 class="card-title">Column Chart</h4>
+									<h5 class="card-title">Valorizados y No Valorizados</h5>
 								</div>
 							</div>
 							<div class="iq-card-body">
-								<div id="apex-column"></div>
+								<div id="valorizados"></div>
 							</div>
 						</div>
 					</div>

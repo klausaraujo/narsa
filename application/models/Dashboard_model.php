@@ -46,4 +46,9 @@ class Dashboard_model extends CI_Model
 		$res = $this->db->select('*')->from('anio')->where('activo = 1')->get();
 		return ($res->num_rows() > 0)? $res->result() : array();
 	}
+	public function valorizados($where)
+	{
+		$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
+		return ($res->num_rows() > 0)? $res->result() : array();
+	}
 }
