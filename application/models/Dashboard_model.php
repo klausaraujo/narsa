@@ -49,7 +49,7 @@ class Dashboard_model extends CI_Model
 	public function valorizados($where)
 	{
 		//$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
-		$query = $this->db->query('select anio,sucursal,articulo,ANY_VALUE(sum(valorizado)) as valorizado,ANY_VALUE(sum(no_valorizado)) 
+		$query = $this->db->query('select *,ANY_VALUE(sum(valorizado)) as valorizado,ANY_VALUE(sum(no_valorizado)) 
 			as no_valorizado from grafico_valorizados WHERE '.$where.' GROUP BY anio,sucursal,articulo');
 		return ($query->num_rows() > 0)? $query->result() : array();
 	}

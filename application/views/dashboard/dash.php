@@ -11,7 +11,7 @@
                                     <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-fill"></i></div>
                                     <div class="text-right">
                                        <h4 class="mb-0 counter"><?=empty($activos)? 0 : $activos->cantidad?></h4>
-                                       <span>Productores Activos</span>
+                                       <span>Productores Activos<br>(General)</span>
                                     </div>
                                  </div>
                               </div>
