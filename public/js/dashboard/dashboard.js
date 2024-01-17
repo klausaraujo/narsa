@@ -51,7 +51,7 @@ $('.select').bind('change',function(){
 		url: base_url + 'dashboard/dash',
 		method: 'POST',
 		dataType: 'JSON',
-		beforeSend: function (){ },
+		beforeSend: function (){ $('.spin1').html('<div class="spinner-border spinner-border-sm" role="status"></div>'); },
 		success: function (data){
 			let seriesChart = [], catChart = [], series = [], series1 = [], catChart1 = [];
 			
@@ -82,10 +82,7 @@ $('.select').bind('change',function(){
 				time: 500
 			});
 			
-			console.log(data);
-			console.log(series);
-			console.log(series1);
-			console.log(catChart1);
+			$('.spin1').html('');
 		}
 	});
 });
