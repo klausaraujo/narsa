@@ -49,10 +49,16 @@ class Dashboard_model extends CI_Model
 	public function valorizados($where)
 	{
 		//$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
-		/*$query = $this->db->query('select anio,sucursal,articulo,ANY_VALUE(sum(valorizado)) as valorizado,ANY_VALUE(sum(no_valorizado)) 
-			as no_valorizado from grafico_valorizados WHERE '.$where.' GROUP BY anio,sucursal,articulo');*/
 		$tmp = []; $data = null; $i = 0;
-		$res = $this->db->select('anio,sucursal,articulo')->from('grafico_valorizados')->where($where)->group_by('anio,sucursal,articulo')->get();
+			
+		$valor = 'select year(fecha) as anio,sucursal,articulo,ANY_VALUE(sum(cantidad)) as valorizado  
+			from lista_ingresos_valorizaciones_saldo group by anio,sucursal,articulo';
+		$novalor = 'select year(fecha) as anio,sucursal,articulo,ANY_VALUE(sum(cantidad)) as no_valorizado 
+			from lista_valorizaciones_proveedores group by anio,sucursal,articulo';
+		
+		$val = $this->db->query($valor);
+		$noval = $this->db->query($novalor);
+		/*$res = $this->db->select('anio,sucursal,articulo')->from('grafico_valorizados')->where($where)->group_by('anio,sucursal,articulo')->get();
 		if($res->num_rows() > 0){
 			foreach($res->result() as $row):
 				$valor = $this->db->select('SUM(valorizado) as valorizado,SUM(no_valorizado) as no_valorizado')->from('grafico_valorizados')
@@ -68,7 +74,8 @@ class Dashboard_model extends CI_Model
 			endforeach;
 			$data = json_decode(json_encode($tmp, JSON_FORCE_OBJECT));
 		}
-		return ($res->num_rows() > 0)? $data : array();
+		return ($res->num_rows() > 0)? $data : array();*/
+		return array();
 	}
 	
 }
