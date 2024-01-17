@@ -27,7 +27,7 @@ class Dashboard_model extends CI_Model
 	}
 	public function caja($where)
 	{
-		$res = $this->db->select('*')->from('saldos_caja')->where($where)->get();
+		$res = $this->db->select('idsucursal,sucursal,FORMAT(saldo,2,"es-PE") as saldo')->from('saldos_caja')->where($where)->get();
 		return ($res->num_rows() > 0)? $res->row() : array();
 	}
 	public function articulos($where)
@@ -48,7 +48,10 @@ class Dashboard_model extends CI_Model
 	}
 	public function valorizados($where)
 	{
-		$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
-		return ($res->num_rows() > 0)? $res->result() : array();
+		//$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
+		$query = $this->db->query('select anio,sucursal,articulo,ANY_VALUE(sum(valorizado)) as valorizado,ANY_VALUE(sum(no_valorizado)) 
+			as no_valorizado from grafico_valorizados WHERE '.$where.' GROUP BY anio,sucursal,articulo');
+		return ($query->num_rows() > 0)? $query->result() : array();
 	}
+	
 }
