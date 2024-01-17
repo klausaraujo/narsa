@@ -27,7 +27,7 @@ class Dashboard_model extends CI_Model
 	}
 	public function caja($where)
 	{
-		$res = $this->db->select('idsucursal,sucursal,FORMAT(saldo,2,"es-PE") as saldo')->from('saldos_caja')->where($where)->get();
+		$res = $this->db->select('idsucursal,sucursal,FORMAT(SUM(saldo),2,"es-PE") as saldo')->from('saldos_caja')->where($where)->get();
 		return ($res->num_rows() > 0)? $res->row() : array();
 	}
 	public function articulos($where)
@@ -48,34 +48,8 @@ class Dashboard_model extends CI_Model
 	}
 	public function valorizados($where)
 	{
-		//$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
-		$tmp = []; $data = null; $i = 0;
-			
-		$valor = 'select year(fecha) as anio,sucursal,articulo,ANY_VALUE(sum(cantidad)) as valorizado  
-			from lista_ingresos_valorizaciones_saldo group by anio,sucursal,articulo';
-		$novalor = 'select year(fecha) as anio,sucursal,articulo,ANY_VALUE(sum(cantidad)) as no_valorizado 
-			from lista_valorizaciones_proveedores group by anio,sucursal,articulo';
-		
-		$val = $this->db->query($valor);
-		$noval = $this->db->query($novalor);
-		/*$res = $this->db->select('anio,sucursal,articulo')->from('grafico_valorizados')->where($where)->group_by('anio,sucursal,articulo')->get();
-		if($res->num_rows() > 0){
-			foreach($res->result() as $row):
-				$valor = $this->db->select('SUM(valorizado) as valorizado,SUM(no_valorizado) as no_valorizado')->from('grafico_valorizados')
-					->where('sucursal="'.$row->sucursal.'" AND anio='.$row->anio.' AND articulo="'.$row->articulo.'"')->get();
-				foreach($valor->result() as $fil):
-					$tmp[$i]['anio'] = $row->anio;
-					$tmp[$i]['sucursal'] = $row->sucursal;
-					$tmp[$i]['articulo'] = $row->articulo;
-					$tmp[$i]['valorizado'] = $fil->valorizado;
-					$tmp[$i]['no_valorizado'] = $fil->no_valorizado;
-				endforeach;
-				$i++;
-			endforeach;
-			$data = json_decode(json_encode($tmp, JSON_FORCE_OBJECT));
-		}
-		return ($res->num_rows() > 0)? $data : array();*/
-		return array();
+		$res = $this->db->select('*')->from('grafico_valorizados_reporte')->where($where)->get();
+		return ($res->num_rows() > 0)? $res->result() : array();
+		//$data = json_decode(json_encode($data, JSON_FORCE_OBJECT));
 	}
-	
 }
