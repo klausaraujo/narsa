@@ -18,9 +18,9 @@ class Main extends CI_Controller
 		$this->load->model('Dashboard_model'); $idsuc = $this->input->post('idsucursal'); $anyo = $this->input->post('anio');
 		$suc = $this->input->post('sucursal');
 		
-		$cobrar = $this->Dashboard_model->cobrar(['idsucursal',$idsuc]);
-		$pagar = $this->Dashboard_model->pagar(['idsucursal',$idsuc]);
-		$caja = $this->Dashboard_model->caja(['idsucursal',$idsuc]);
+		$cobrar = $this->Dashboard_model->cobrar(['idsucursal'=>$idsuc]);
+		$pagar = $this->Dashboard_model->pagar(['idsucursal'=>$idsuc]);
+		$caja = $this->Dashboard_model->caja(['idsucursal'=>$idsuc]);
 		$art = $this->Dashboard_model->articulos('idsucursal = '.$idsuc.' AND YEAR(fecha)='.$anyo);
 		$valoriz = $this->Dashboard_model->valorizados('sucursal="'.$suc.'" AND anio='.$anyo);
 		

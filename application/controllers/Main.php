@@ -31,10 +31,10 @@ class Main extends CI_Controller
 	public function dashboard()
 	{
 		$this->load->model('Dashboard_model'); $idsuc = 1; $anyo = date('Y');
-		$prod = $this->Dashboard_model->activos(['idproveedor <>', 1]);
-		$cobrar = $this->Dashboard_model->cobrar(['idsucursal',$idsuc]);
-		$pagar = $this->Dashboard_model->pagar(['idsucursal',$idsuc]);
-		$caja = $this->Dashboard_model->caja(['idsucursal',$idsuc]);
+		$prod = $this->Dashboard_model->activos(['idproveedor <>'=> 1]);
+		$cobrar = $this->Dashboard_model->cobrar(['idsucursal'=>$idsuc]);
+		$pagar = $this->Dashboard_model->pagar(['idsucursal'=>$idsuc]);
+		$caja = $this->Dashboard_model->caja(['idsucursal'=>$idsuc]);
 		$art = $this->Dashboard_model->articulos('idsucursal = '.$idsuc.' AND YEAR(fecha) = '.$anyo);
 		//select * from grafico_valorizados_reporte where anio=pene and idsucursal=vagina
 		$valoriz = $this->Dashboard_model->valorizados('sucursal="LA MERCED" AND anio='.$anyo);

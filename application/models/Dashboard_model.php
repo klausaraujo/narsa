@@ -27,7 +27,7 @@ class Dashboard_model extends CI_Model
 	}
 	public function caja($where)
 	{
-		$res = $this->db->select('idsucursal,sucursal,FORMAT(SUM(saldo),2,"es-PE") as saldo')->from('saldos_caja')->where($where)->get();
+		$res = $this->db->select('*')->from('saldos_caja')->where($where)->get();
 		return ($res->num_rows() > 0)? $res->row() : array();
 	}
 	public function articulos($where)

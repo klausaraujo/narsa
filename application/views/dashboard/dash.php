@@ -11,7 +11,7 @@
                                     <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-fill"></i></div>
                                     <div class="text-right">
                                        <h4 class="mb-0 counter"><?=empty($activos)? 0 : $activos->cantidad?></h4>
-                                       <span>Productores Activos<br>(General)</span>
+                                       <span>Productores Activos (General)</span>
                                     </div>
                                  </div>
                               </div>
@@ -49,7 +49,7 @@
                                  <div class="d-flex align-items-center justify-content-between">
                                     <div class="rounded-circle iq-card-icon bg-info"><i class="ri-hospital-line"></i></div>
                                     <div class="text-right">
-                                       <h4 class="mb-0 counter" id="caja"><?=empty($caja)? '0.00' : $caja->saldo?></h4>
+                                       <h4 class="mb-0" id="caja"><?=empty($caja)? '0.00' : $caja->saldo?></h4>
                                        <span>Saldo Efectivo Caja (En Soles)</span>
                                     </div>
                                  </div>

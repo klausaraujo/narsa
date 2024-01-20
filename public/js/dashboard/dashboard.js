@@ -59,7 +59,7 @@ $('.select').bind('change',function(){
 			else $('#cobrar').html('0.00');
 			if(data.pagar.monto) $('#pagar').html(data.pagar.monto);
 			else $('#pagar').html('0.00');
-			if(data.caja.saldo) $('#caja').html(data.caja.saldo);
+			if(data.caja.saldo)$('#caja').html(data.caja.saldo);
 			else $('#caja').html('0.00');
 			
 			$.each(data.articulos,function(i,e){
