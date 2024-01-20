@@ -49,7 +49,7 @@
                                  <div class="d-flex align-items-center justify-content-between">
                                     <div class="rounded-circle iq-card-icon bg-info"><i class="ri-hospital-line"></i></div>
                                     <div class="text-right">
-                                       <h4 class="mb-0" id="caja"><?=empty($caja)? '0.00' : $caja->saldo?></h4>
+                                       <h4 class="mb-0" id="caja"><?=empty($caja)? '0.00' : number_format($caja->saldo,2,".",",")?></h4>
                                        <span>Saldo Efectivo Caja (En Soles)</span>
                                     </div>
                                  </div>

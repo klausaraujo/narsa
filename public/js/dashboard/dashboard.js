@@ -59,8 +59,10 @@ $('.select').bind('change',function(){
 			else $('#cobrar').html('0.00');
 			if(data.pagar.monto) $('#pagar').html(data.pagar.monto);
 			else $('#pagar').html('0.00');
-			if(data.caja.saldo)$('#caja').html(data.caja.saldo);
-			else $('#caja').html('0.00');
+			if(data.caja.saldo){
+				let caja = parseFloat(data.caja.saldo);
+				$('#caja').html(caja.toLocaleString('es-PE', opt));
+			}else $('#caja').html('0.00');
 			
 			$.each(data.articulos,function(i,e){
 				catChart.push(e.articulo);
@@ -77,10 +79,10 @@ $('.select').bind('change',function(){
 			ApexCharts.exec('valorChart', 'updateOptions', { xaxis: { categories: catChart1, } }, false, true);
 			ApexCharts.exec('valorChart', 'updateSeries', [{ data: series }, { data: series1 }], true);
 			
-			jQuery('.counter').counterUp({
+			/*jQuery('.counter').counterUp({
 				delay: 5,
 				time: 500
-			});
+			});*/
 			
 			$('.spin1').html('');
 		}
