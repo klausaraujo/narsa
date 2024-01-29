@@ -24,7 +24,7 @@
 								for($i = 0;$i < count($tabs);$i++){
 							?>
 								<div class="tab-pane fade <?=$i===0? 'active show':''?>" id="<?=$tabs[$i]?>" role="tabpanel" aria-labelledby="<?=$tabs[$i]?>">
-									<input type="text" id="hide<?=$tabs[$i]?>" value="<?=$tabs[$i]?>" class="hidden" />
+									<input type="hidden" id="hide<?=$tabs[$i]?>" value="<?=$tabs[$i]?>" class="hidden" />
 									<div class="row">
 										<div class="col-md-11 mx-auto">
 											<div class="row">
