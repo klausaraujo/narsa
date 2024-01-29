@@ -30,6 +30,10 @@ class Reportes extends CI_Controller
 		
 		$this->load->view('main',$data);
 	}
+	public function complementarios()
+	{
+		$this->load->view('main');
+	}
 	public function tblreporte1()
 	{
 		$this->load->model('Reportes_model');
@@ -50,6 +54,17 @@ class Reportes extends CI_Controller
 		elseif($segmento === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($segmento === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
+		echo json_encode(['data' => $reporte]);
+	}
+	public function tabs()
+	{
+		$this->load->model('Reportes_model');
+		$reporte = null; $suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta');
+		if($this->input->post('tab') === 'articulos'){
+			$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'"');
+		}else if($this->input->post('tab') === 'valorizados'){
+			$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
+		}
 		echo json_encode(['data' => $reporte]);
 	}
 	public function pdf()
@@ -79,6 +94,15 @@ class Reportes extends CI_Controller
 		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
+		
+		if($this->input->get('tab') != ''){
+			$tab = $this->input->get('tab'); $suc = $this->input->get('suc'); $d = $this->input->get('desde'); $h = $this->input->get('hasta');
+			if($tab === 'articulos'){
+				$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'"');
+			}elseif($tab === 'valorizados'){
+				$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
+			}
+		}
 		
 		if(!empty($reporte)){
 			$data = ['reporte' => $reporte];
@@ -133,6 +157,15 @@ class Reportes extends CI_Controller
 		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
+		
+		if($this->input->get('tab') != ''){
+			$tab = $this->input->get('tab'); $suc = $this->input->get('suc'); $d = $this->input->get('desde'); $h = $this->input->get('hasta');
+			if($tab === 'articulos'){
+				$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'"');
+			}elseif($tab === 'valorizados'){
+				$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
+			}
+		}
 		
 		if(!empty($reporte)){
 			//$cabecera = json_decode(json_encode($reporte[0]), true);

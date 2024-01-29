@@ -1,4 +1,4 @@
-var tabla1 = null, tabla2 = null, tabla3 = null, tablaProv = null;
+var tabla1 = null, tabla2 = null, tabla3 = null, tablaProv = null; tab1 = null; tab2 = null;
 
 jQuery(document).ready(function($){
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
@@ -90,23 +90,69 @@ jQuery(document).ready(function($){
 			]
 		});
 	}
-	
-	tablaProv = $('#tablaProveedores').DataTable({
-		processing: true,
-		serverSide: true,
-		ajax:{
-			url: base_url + 'certificaciones/proveedores',
-			type: 'GET',
-			error: function(){
-				$("#post_list_processing").css('display','none');
-			}
-		},
-		columns:[
-			{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },{ data: 4, visible: false }
-		],
-		dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
-		colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
-	});
+	if(segmento2 === 'reporte8'){
+		tab1 = $('#tablaArticulos').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/tabs',
+				type: 'POST',
+				data: function (d) {
+					let div = $('#tablaArticulos').parents('.tab-pane');
+					d.sucursal = div.find('.sucursal').val();
+					d.desde = div.find('.desde').val();
+					d.hasta = div.find('.hasta').val();
+					d.tab = $('#hidearticulos').val();
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
+			columns:[
+				{ data: 'numero' },{ data: 'sucursal' },{ data: 'tipo_documento'},{ data: 'numero_documento'},{ data: 'productor' },{ data: 'fecha' },
+				{ data: 'cantidad' },{ data: 'costo' }
+			],
+			columnDefs:[
+				{ title: 'Nro. Op.', targets: 0 },{ title: 'Sucursal', targets: 1 },{ title: 'Tipo Doc.', targets: 2 },{ title: 'Documento', targets: 3 },
+				{ title: 'Productor', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
+			],
+		});
+		tab2 = $('#tablaValorizados').DataTable({
+			ajax:{
+				url: base_url + 'proveedores/tabs',
+				type: 'POST',
+				data: function (d) {
+					let div = $('#tablaValorizados').parents('.tab-pane');
+					d.sucursal = div.find('.sucursal').val();
+					d.desde = div.find('.desde').val();
+					d.hasta = div.find('.hasta').val();
+					d.tab = $('#hidevalorizados').val();
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
+			columns:[
+				{ data: 'numero' },{ data: 'sucursal' },{ data: 'tipo_documento'},{ data: 'numero_documento'},{ data: 'productor' },{ data: 'fecha' },
+				{ data: 'cantidad' },{ data: 'costo' }
+			],
+			columnDefs:[
+				{ title: 'Nro. Op.', targets: 0 },{ title: 'Sucursal', targets: 1 },{ title: 'Tipo Doc.', targets: 2 },{ title: 'Documento', targets: 3 },
+				{ title: 'Productor', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
+			],
+		});
+	}else{
+		tablaProv = $('#tablaProveedores').DataTable({
+			processing: true,
+			serverSide: true,
+			ajax:{
+				url: base_url + 'certificaciones/proveedores',
+				type: 'GET',
+				error: function(){
+					$("#post_list_processing").css('display','none');
+				}
+			},
+			columns:[
+				{ data: 0 },{ data: 1 },{ data: 2, visible: false },{ data: 3, visible: false },{ data: 4, visible: false }
+			],
+			dom: '<"row"<"mx-auto"l><"mx-auto"f>>rtp',
+			colReorder: { order: [ 4, 3, 2, 1, 0 ] }, language: lngDataTable,
+		});
+	}
 });
 
 $('#buscar').bind('click',function(e){
@@ -134,19 +180,27 @@ $('#generar').bind('click',function(e){
 		btn.removeClass('disabled');
 	});
 });
-$('.exportar').bind('click', function(){
-	let data = {}, url = '';
+$('.exportar').bind('click', function(e){
+	let data = {}, url = '', cta = 0;
 	
 	if(segmento2 === 'reporte1' || segmento2 === 'reporte2' || segmento2 === 'reporte3')
-		url = 's='+$('#sucursal').val()+'&a='+$('#anio').val()+'&art='+$('#articulo').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val();
-	if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6' || segmento2 === 'reporte7')
-		url = 's='+$('#sucursal').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val();
+		url = 's='+$('#sucursal').val()+'&a='+$('#anio').val()+'&art='+$('#articulo').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val(), cta = 1;
+	else if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6' || segmento2 === 'reporte7')
+		url = 's='+$('#sucursal').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val(), cta = 1;
 	if(segmento2 === 'reporte7') url += '&tipo='+$('#tipoop').val();
-
-	if(this.id === 'pdf'){
-		$(this).attr('href', base_url + 'proveedores/reportes/pdf?' + url);
-	}else if(this.id === 'excel'){
-		$(this).attr('href', base_url + 'proveedores/reportes/excel?' + url);
+	if(segmento2 === 'reporte8'){
+		let div = $(this).parents('.tab-pane'), grilla = div.find('.table');
+		cta = $("#"+grilla.prop('id')).dataTable().fnSettings().aoData.length;
+		url = 'tab='+div.find('.hidden').val()+'&desde='+div.find('.desde').val()+'&hasta='+div.find('.hasta').val()+'&suc='+div.find('.sucursal').val();
+	}
+	if(cta > 0){
+		if(this.id === 'pdf')
+			$(this).attr('href', base_url + 'proveedores/reportes/pdf?' + url);
+		else if(this.id === 'excel')
+			$(this).attr('href', base_url + 'proveedores/reportes/excel?' + url);
+	}else{
+		e.preventDefault();
+		alert('No hay registros disponibles para el Informe');
 	}
 	//$(this).attr('target','_blank');
 	/*
@@ -160,4 +214,17 @@ $('.exportar').bind('click', function(){
 			console.log(data);
 		}
 	});*/
+});
+
+$('.generar').bind('click',function(){
+	let div = $(this).parents('.tab-pane'), grilla = div.find('.table'), tab = null;
+	$(this).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+	$(this).addClass('disabled');
+	if(grilla.prop('id') === 'tablaArticulos') tab = tab1;
+	if(grilla.prop('id') === 'tablaValorizados') tab = tab2;
+	
+	tab.ajax.reload(()=>{
+		$(this).html('Generar Reporte');
+		$(this).removeClass('disabled');
+	});
 });

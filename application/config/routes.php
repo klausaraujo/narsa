@@ -127,13 +127,14 @@ $route['proveedores/reporte4'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte5'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte6'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte7'] = 'proveedores/reportes/nuevoreporte';
-$route['proveedores/reporte8'] = 'proveedores/reportes/nuevoreporte';
+$route['proveedores/reporte8'] = 'proveedores/reportes/complementarios';
 $route['proveedores/reporte9'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/reporte10'] = 'proveedores/reportes/nuevoreporte';
 $route['proveedores/tblreporte1'] = 'proveedores/reportes/tblreporte1';
 $route['proveedores/pruebas'] = 'proveedores/main/pruebas';
 $route['proveedores/reportes/pdf'] = 'proveedores/reportes/pdf';
 $route['proveedores/reportes/excel'] = 'proveedores/reportes/excel';
+$route['proveedores/tabs'] = 'proveedores/reportes/tabs';
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';

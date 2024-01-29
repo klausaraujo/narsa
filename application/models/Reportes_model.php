@@ -61,7 +61,8 @@ class Reportes_model extends CI_Model
 	public function repValorizados()
     {
 		$this->db->distinct();
-        $this->db->select('va.numero as nro_op,r.*,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fecha,FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,ge.idvalorizacion');
+        $this->db->select('va.numero as nro_op,r.*,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fecha,FORMAT(r.cantidad,2) as cantidad,
+			FORMAT(r.costo,2) as costo,ge.idvalorizacion');
         $this->db->from('articulos_valorizados r');
 		$this->db->join('guia_entrada_detalle_valorizacion ge','ge.idguia = r.idguia');
 		$this->db->join('valorizacion va','va.idvalorizacion = ge.idvalorizacion');
@@ -111,7 +112,8 @@ class Reportes_model extends CI_Model
     }
 	public function repMovProv()
     {
-		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto,FORMAT(tasa,2) as tasa,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
+		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto,
+			FORMAT(tasa,2) as tasa,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
         $this->db->from('lista_movimientos_proveedor r');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->nombre) $this->db->where($this->nombre);
@@ -176,7 +178,8 @@ class Reportes_model extends CI_Model
 	}
 	public function anulados()
     {
-		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto,FORMAT(tasa,2) as tasa,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
+		$this->db->select('idtransaccion as nro_op,tipo_operacion,sucursal,nombre,FORMAT(monto_factor_final,2) as monto,FORMAT(tasa,2) as tasa,
+			DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
         $this->db->from('lista_movimientos_proveedor_anulados r');
 		if($this->idsucursal) $this->db->where($this->idsucursal);
 		if($this->nombre) $this->db->where($this->nombre);
@@ -185,4 +188,26 @@ class Reportes_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function rep2articulos($where)
+	{
+		$this->db->select('r.idsucursal,r.sucursal,r.tipo_documento,r.numero_documento,r.productor,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fecha,
+			FORMAT(r.cantidad,2) as cantidad,r.costo,ge.numero');
+		$this->db->from('articulos_ingresados r');
+		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
+		$this->db->where($where);
+		$this->db->order_by('numero', 'desc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function rep2valorizados($where)
+	{
+		$this->db->select('r.idsucursal,r.sucursal,r.tipo_documento,r.numero_documento,r.productor,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fecha,
+			FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,FORMAT(cantidad*costo,2) as importe,ge.numero');
+		$this->db->from('articulos_valorizados r');
+		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
+		$this->db->where($where);
+		$this->db->order_by('numero', 'desc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }
