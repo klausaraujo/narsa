@@ -62,19 +62,23 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let hrefEditar = (data.activo === '1' || btnEdit)?
+						let tipo = (data.liquidado !== '1');
+						let hrefEditar = (data.activo === '1' && btnEdit && tipo)?
 							'href="'+base_url+'ventas/ventascliente/editar?id='+data.idtransaccion+'" data-target="#modalVentas" data-toggle="modal" ' : '';
-						let hrefAnular = (data.activo === '1' || btnAnular)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
-						let hrefPdf = (data.activo === '1' || btnGuia)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=pdf"':'';
-						let hrefComp = (data.activo === '1' || btnComp)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=comp"':'';
+						let hrefAnular = (data.activo === '1' && btnAnular && tipo)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
+						/*let hrefPdf = (data.activo === '1' || btnGuia)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=pdf"':'';*/
+						let hrefPago = (data.activo === '1' && btnPago && tipo)?'href="'+base_url+'ventas/ventascliente/pago?id='+data.idtransaccion+'&mto='+data.monto+'"':'';
+						let hrefComp = (data.activo === '1' && btnComp)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=comp"':'';
 						let btnAccion =
 						'<div class="btn-group">'+
-							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+'">'+
+							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit || !tipo)?'disabled':'')+'">'+
 								'<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
-							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular)?'disabled':'')+'">'+
+							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular || !tipo)?'disabled':'')+'">'+
 								'<i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
-							'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
-								'" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+
+							/*'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
+								'" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+*/
+							'<a title="Ver Gu&iacute;a" '+hrefPago+' class="bg-primary btnTable pago '+((data.activo === '0' || !btnPago || !tipo)?'disabled':'')+
+								'" target="_blank"><i style="font-size:12px" class="fa fa-credit-card-alt mt-1" aria-hidden="true"></i></a>'+
 							'<a title="Ver Comprobante" '+hrefComp+' class="bg-success btnTable '+((data.activo === '0' || !btnComp)?'disabled':'')+
 								'" target="_blank"><i class="fa fa-file-o" aria-hidden="true"></i></a>'+
 						'</div>';
@@ -318,6 +322,7 @@ $('#modalVentas').on('hidden.bs.modal',function(e){
 	$('#generarSal').html('Generar Venta');
 	$('#generarSal').removeClass('disabled');
 	$('#cancelSal').removeClass('disabled');
+	$('#generarSal').html('Generar Venta');
 	
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
@@ -378,7 +383,7 @@ $('body').bind('click','a',function(e){
 			dataType: 'JSON',
 			beforeSend: function (){},
 			success: function (data) {
-				console.log(data);
+				/*console.log(data);
 				console.log(data.data.idtipooperacion);
 				/*$('#form_pago_venta select').removeAttr('disabled');
 				$('#form_pago_venta input').removeAttr('disabled');*/
@@ -406,6 +411,7 @@ $('body').bind('click','a',function(e){
 				tablaSalDetalle.rows.add(data.articulos).draw();
 				$('#guia_vta').val(data.data.idguia);
 				$('#idtrans').val(data.data.idtransaccion);
+				$('#generarSal').html('Editar Venta');
 			}
 		});
 	}else if(a.hasClass('anular')){
@@ -427,6 +433,32 @@ $('body').bind('click','a',function(e){
 					}else{
 						a.removeClass('disabled');
 						a.html('<i class="far fa-trash" aria-hidden="true"></i>');
+					}
+					$('html, body').animate({ scrollTop: 0 }, 'fast');
+					$('.resp').html(data.message);
+					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+				}
+			});
+		}
+	}else if(a.hasClass('pago')){
+		e.preventDefault();
+		
+		let confirmacion = confirm('Confirme si desea pagar la Venta?');
+		if(confirmacion){
+			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+			$.ajax({
+				data: {},
+				url: a.prop('href'),
+				method: 'GET',
+				dataType: 'JSON',
+				beforeSend: function () { a.addClass('disabled'); },
+				success: function (data) {
+					console.log(data);
+					if (parseInt(data.status) === 200){
+						tablaVentas.ajax.reload();
+					}else{
+						a.html('<i style="font-size:12px" class="fa fa-credit-card-alt mt-1" aria-hidden="true"></i>');
+						a.removeClass('disabled');
 					}
 					$('html, body').animate({ scrollTop: 0 }, 'fast');
 					$('.resp').html(data.message);

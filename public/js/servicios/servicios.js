@@ -32,13 +32,16 @@ jQuery(document).ready(function($){
 						if(btnAnular){
 							if(nulable) hrefAnular = 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"';
 							else{
-								if(data.idtipooperacion !== '6'){
+								if(data.idtipooperacion !== '6' && data.idtipooperacion !== '17' && data.idtipooperacion !== '16'){
 									hrefAnular = 'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+'&op=operaciones"';
+								}else if(data.idtipooperacion === '17' || data.idtipooperacion === '16'){
+									btnAnular = false; console.log(btnAnular);
 								}else{
 									hrefAnular = 'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+'&op=valorizop"';
 								}
 							}
 						}
+						
 						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						let hrefPdf = btnPdf? 'href="'+base_url+'servicios/comprobante?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
 						//if(! nulable){ hrefPdf = 'href="'+base_url+'proveedores/transacciones/impresion?id='+data.idtransaccion+'&op=impresion"'; }

@@ -148,7 +148,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
 		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; $idtrans = 0;
-		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $fcj = 1;
+		$tipoDesc = $pago->tipoPagoVta === '1'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $factor = 1;
 		$message = 'No se pudo registrar la venta'; $status = 500;
 		
 		if($pago->tipoComp === '01'){
@@ -159,10 +159,10 @@ class Main extends CI_Controller
 			}
 		}
 		
-		if($pago->medioPagoVta === '2') $fcj = 25; else $fcj = 26;
+		if($pago->tipoPagoVta === '2') $factor = 26; else $factor = 25;
 		
 		$f = $this->Proveedores_model->factor(['destino' => 3,'idtipooperacion' => $pago->tipoPagoVta,'activo' => 1]);
-		$fcli = (!empty($f)? $f->idfactor : 1);
+		$fcli = !empty($f)? $f->idfactor : 1;
 		$tpcaja = $this->Proveedores_model->tipoOperacion_caja(['tipo_operacion'=> $tipoDesc,'activo' => 1]);
 		$tpcj = !empty($tpcaja)? $tpcaja->idtipooperacion : 17;
 		
@@ -195,7 +195,7 @@ class Main extends CI_Controller
 					'fecha_registro' => date('Y-m-d H:i:s'),
 					'activo' => 1
 				);
-				$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$fcj,$pago);
+				$mov = $this->Ventas_model->regMovCliente($movCliente,$tpcj,$factor,$pago);
 				if($mov){
 					$message = 'Venta registrada exitosamente';
 					$status = 200;
@@ -220,7 +220,7 @@ class Main extends CI_Controller
 					'idusuario_modificacion' => $this->usuario->idusuario,
 					'fecha_modificacion' => date('Y-m-d H:i:s'),
 				);
-				$mov = $this->Ventas_model->editaMovCliente($dataCli,$tpcj,$fcj,$pago);
+				$mov = $this->Ventas_model->editaMovCliente($dataCli,$tpcj,$factor,$pago);
 				if($mov){
 					$message = 'Venta Actualizada';
 					$status = 200;
@@ -266,6 +266,31 @@ class Main extends CI_Controller
 		$resp = array(
 			'status' => $status,
 			'message' => $message,
+		);
+				
+		echo json_encode($resp);
+	}
+	public function pagoCredito()
+	{
+		$this->load->model('Ventas_model');
+		$status = 500; $message = 'No se pudo Liquidar el Cr&eacute;dito'; $id = $this->input->get('id'); $mto = $this->input->get('mto');
+		$cli = false; $cj = false; $guia = false;
+		$guia_salida = ['monto_pagado' => $mto,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+		$mov_cliente = ['idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+		$mov_caja = ['liquidado' => 1,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+		
+		$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
+		$idguia = $row->idguia;
+		
+		$guia = $this->Ventas_model->anularVenta('guia_salida',['idtransaccion' => $id],$guia_salida);
+		if($guia) $cli = $this->Ventas_model->anularVenta('movimientos_cliente',['idtransaccion' => $id],$mov_cliente);
+		if($cli) $cj = $this->Ventas_model->anularVenta('movimientos_caja',['idtransaccion' => $id],$mov_caja);
+		
+		if($cj){ $message = 'Venta Liquidada'; $status = 200; }
+		
+		$resp = array(
+			'status' => $status,
+			'message' => $message
 		);
 				
 		echo json_encode($resp);

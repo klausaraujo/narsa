@@ -468,12 +468,13 @@
 		<script>
 			const id = <?=$this->input->get('id')?>;
 			const headersSal = JSON.parse('<?=json_encode($headersSal)?>');
-			let btnEdit = false, btnAnular = false, btnGuia = false, btnComp = false;
+			let btnEdit = false, btnAnular = false, btnGuia = false, btnComp = false, btnPago = false;
 			$.each(botonesVtas,function(i,e){
 				if(e.idpermiso === '24') btnAnular = true;
 				else if(e.idpermiso === '25') btnEdit = true;
 				else if(e.idpermiso === '26') btnGuia = true;
 				else if(e.idpermiso === '27') btnComp = true;
+				else if(e.idpermiso === '32') btnPago = true;
 			});
 		</script>
 		<?}?>

@@ -48,8 +48,9 @@ class Ventas_model extends CI_Model
 	}
 	public function listaVentas($data)
     {
-        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre,DATE_FORMAT(fecha_movimiento,"%d/%m/%Y") as fecha');
+        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre,DATE_FORMAT(gs.fecha_movimiento,"%d/%m/%Y") as fecha,mc.liquidado');
         $this->db->from('movimientos_cliente gs');
+		$this->db->join('movimientos_caja mc','mc.idtransaccion = gs.idtransaccion');
 		$this->db->join('tipo_operacion_cliente tp','tp.idtipooperacion = gs.idtipooperacion');
 		$this->db->join('medio_pago mp','mp.idmediopago = gs.idmediopago');
 		$this->db->join('sucursal su','su.idsucursal = gs.idsucursal');
@@ -95,7 +96,7 @@ class Ventas_model extends CI_Model
 	}
 	public function ingresaVenta($data,$pago,$idtran)
 	{
-		$i = 0; $idguia = ''; $numero = 1;
+		$i = 0; $idguia = ''; $numero = 1; $mtopagado = 0;
 		
 		$this->db->trans_begin();
 		
@@ -109,8 +110,9 @@ class Ventas_model extends CI_Model
 					$result = $result->row();
 					$numero = floatval( $result->numero ) + 1;
 				}
+				if($pago->tipoPagoVta === '1') $mtopagado = $pago->total_vta;
 				$guia_salida = ['anio_guia'=>date('Y'),'numero'=>$numero,'fecha'=>date('Y-m-d H:i:s'),'idsucursal'=>$pago->idsucursal,'idcliente'=>$pago->idcliente,
-							'idtransaccion'=>$idtran,'monto_valor'=>$pago->total_vta,'monto_pagado'=>$pago->total_vta,'observaciones'=>$pago->obs,
+							'idtransaccion'=>$idtran,'monto_valor'=>$pago->total_vta,'monto_pagado'=>$mtopagado,'observaciones'=>$pago->obs,
 							'idusuario_registro'=>$this->usuario->idusuario,'fecha_registro'=>date('Y-m-d H:i:s'),'activo'=>1];
 				//$guia_entrada[] = $tran;
 				$this->db->insert('guia_salida',$guia_salida);
@@ -151,7 +153,7 @@ class Ventas_model extends CI_Model
 		$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
 		$data['observaciones'] = $pago->obs;
 		$data['check_igv'] = $pago->check;
-		
+		if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
 		/* Insertar en la tabla movimientos caja */
 		$this->db->insert('movimientos_caja', $data);
 		
@@ -190,11 +192,12 @@ class Ventas_model extends CI_Model
 	{
 		$this->db->trans_begin();
 		$this->db->db_debug = FALSE;
-		$i = 0;
+		$i = 0; $mtopagado = 0;
 		
 		foreach($data as $row):
 			if($i === 0){
-				$guia_salida = ['idsucursal'=>$pago->idsucursal,'monto_valor'=>$pago->total_vta,'monto_pagado'=>$pago->total_vta,'observaciones'=>$pago->obs,
+				if($pago->tipoPagoVta === '1') $mtopagado = $pago->total_vta;
+				$guia_salida = ['idsucursal'=>$pago->idsucursal,'monto_valor'=>$pago->total_vta,'monto_pagado'=>$mtopagado,'observaciones'=>$pago->obs,
 					'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 				$this->db->where(['idtransaccion' => $pago->idtrans]);
 				$this->db->update('guia_salida',$guia_salida);
@@ -232,6 +235,7 @@ class Ventas_model extends CI_Model
 		$data['idfactor'] = $f;
 		$data['observaciones'] = $pago->obs;
 		$data['check_igv'] = $pago->check;
+		if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
 		
 		/* Actualizar la tabla movimientos caja */
 		$this->db->where(['idtransaccion' => $pago->idtrans]);
