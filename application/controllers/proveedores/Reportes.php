@@ -32,7 +32,9 @@ class Reportes extends CI_Controller
 	}
 	public function complementarios()
 	{
-		$this->load->view('main');
+		$this->load->model('Reportes_model');
+		$art = $this->Reportes_model->articulos();
+		$this->load->view('main',['articulos'=>$art]);
 	}
 	public function tblreporte1()
 	{
@@ -60,12 +62,31 @@ class Reportes extends CI_Controller
 	{
 		$this->load->model('Reportes_model');
 		$reporte = null; $suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta');
+		$costo = ''; $art = '';
+		
+		if($this->input->post('articulo') !== '') $art = 'AND ged.idarticulo="'.$this->input->post('articulo').'"';
+		if($this->input->post('costo') !== '') $costo = 'AND r.costo >= "'.$this->input->post('costo').'"';
+		
 		if($this->input->post('tab') === 'articulos'){
-			$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'"');
+			$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
 		}else if($this->input->post('tab') === 'valorizados'){
 			$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
 		}
+		
 		echo json_encode(['data' => $reporte]);
+	}
+	public function costos()
+	{
+		$this->load->model('Reportes_model');
+		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta'); $costo = ''; $art = '';
+		if($this->input->post('articulo') !== '') $art = 'AND ged.idarticulo="'.$this->input->post('articulo').'"';
+		if($this->input->post('costo') !== '') $costo = 'AND r.costo >= "'.$this->input->post('costo').'"';
+		
+		$prom = $this->Reportes_model->promedio('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+		$total = $this->Reportes_model->total('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+		
+		echo json_encode(['promedio' => (!empty($prom)?number_format($prom->promedio,2,'.',','):'0.00'),
+				'total' => (!empty($total)?number_format($total->total,2,'.',','):'0.00')]);
 	}
 	public function pdf()
 	{
@@ -133,7 +154,7 @@ class Reportes extends CI_Controller
 	public function excel()
 	{
 		$this->load->model('Reportes_model');
-		$reporte = null;
+		$reporte = null; $cab = [];
 		
 		/*$data = json_decode($_POST['data']);*/
 		
@@ -157,24 +178,30 @@ class Reportes extends CI_Controller
 		elseif($this->input->get('rep') === 'reporte5') $reporte = $this->Reportes_model->repCtasPagar();
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
+		if(!empty($reporte))$cab = array_keys((array)$reporte[0]);
 		
 		if($this->input->get('tab') != ''){
 			$tab = $this->input->get('tab'); $suc = $this->input->get('suc'); $d = $this->input->get('desde'); $h = $this->input->get('hasta');
 			if($tab === 'articulos'){
-				$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'"');
+				$costo = ''; $art = '';
+				$cab = ['Nro.Op','Sucursal','Nro. Doc','Productor','Articulo','Fecha Ingreso','Cantidad Kg','Costo Promedio'];
+				if($this->input->get('articulo') !== '') $art = 'AND ged.idarticulo="'.$this->input->get('articulo').'"';
+				if($this->input->get('costo') !== '') $costo = 'AND r.costo >= "'.$this->input->get('costo').'"';
+				$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
 			}elseif($tab === 'valorizados'){
 				$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
+				if(!empty($reporte))$cab = array_keys((array)$reporte[0]);
 			}
 		}
 		
 		if(!empty($reporte)){
 			//$cabecera = json_decode(json_encode($reporte[0]), true);
-			
 			$filename = 'reporte.csv';
 			$fp = fopen('php://output', 'w');
 			header('Content-type: application/csv');
 			header('Content-Disposition: attachment; filename='.$filename);
-			fputcsv($fp,array_keys((array)$reporte[0]),';');
+			//fputcsv($fp,array_keys((array)$reporte[0]),';');
+			fputcsv($fp,$cab,';');
 			
 			foreach($reporte as $row):
 				fputcsv($fp,array_values((array)$row),';');

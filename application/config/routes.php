@@ -136,6 +136,7 @@ $route['proveedores/pruebas'] = 'proveedores/main/pruebas';
 $route['proveedores/reportes/pdf'] = 'proveedores/reportes/pdf';
 $route['proveedores/reportes/excel'] = 'proveedores/reportes/excel';
 $route['proveedores/tabs'] = 'proveedores/reportes/tabs';
+$route['proveedores/costos'] = 'proveedores/reportes/costos';
 
 /* Servicios */
 $route['servicios/lista'] = 'servicios/main/listaOperaciones';

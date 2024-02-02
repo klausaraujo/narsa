@@ -58,6 +58,33 @@
 														</div>
 													</div>
 												</div>
+												<?
+													if($tabs[$i] === 'articulos'){
+												?>
+												<div class="col-md-3">
+													<div class="row">
+														<label class="control-label col-md-4 align-self-center mb-0">Costo:</label>
+														<div class="col-md-5">
+															<input type="number" class="form-control form-control-sm costo blur" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row mt-3">
+												<div class="col-md-4">
+													<div class="row">
+														<label class="control-label col-md-4 align-self-center mb-0 text-left">Art&iacute;culo:</label>
+														<div class="col-md-8">
+															<select class="form-control form-control-sm articulo">
+																<option value="">-- Seleccione --</option>
+															<? foreach($articulos as $row): ?>
+																<option value="<?=$row->idarticulo;?>"><?=$row->articulo;?></option>	
+															<? endforeach;	?>
+															</select>
+														</div>
+													</div>
+												</div>
+												<? } ?>
 												<div class="col-md-3 px-0">
 													<a type="button" class="btn btn-narsa align-self-center text-white generar">Generar Reporte</a>
 												</div>
@@ -67,12 +94,26 @@
 									<hr>
 									<div class="container-fluid">
 										<div class="row"> <!--class="table-responsive" -->
-											<a href="#" class="btn btn-danger align-self-center ml-3 exportar" id="pdf" target="_blank" title="Exportar a PDF" >
+											<!--<a href="#" class="btn btn-danger align-self-center ml-3 exportar" id="pdf" target="_blank" title="Exportar a PDF" >
 												<i class="fa fa-file-pdf-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
-											</a>
-											<a href="#" class="btn btn-success align-self-center ml-1 exportar" id="excel" title="Exportar a EXCEL" >
-												<i class="fa fa-file-excel-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
-											</a>
+											</a>-->
+											<div class="col-md-3">
+												<a href="#" class="btn btn-success align-self-center ml-1 exportar" id="excel" title="Exportar a EXCEL" >
+													<i class="fa fa-file-excel-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
+												</a>
+											</div>
+											<?
+												if($tabs[$i] === 'articulos'){
+											?>
+											<div class="col-md-3 d-flex ml-auto ocultar">
+												<span>Total Kg:</span>&nbsp;&nbsp; 
+												<div class="alert alert-success kg" style="padding:0 10px">0</div>
+											</div>
+											<div class="col-md-3 d-flex ml-auto ocultar">
+												<span>Costo Promedio:</span>&nbsp;&nbsp;
+												<div class="alert alert-success prom" style="padding:0 10px">0</div>
+											</div>
+											<? } ?>
 											<div class="col-12 mx-auto mt-md-2" style="overflow-x:auto">
 												<table id="tabla<?=ucfirst($tabs[$i])?>" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 											</div>

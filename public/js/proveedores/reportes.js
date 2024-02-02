@@ -100,17 +100,19 @@ jQuery(document).ready(function($){
 					d.sucursal = div.find('.sucursal').val();
 					d.desde = div.find('.desde').val();
 					d.hasta = div.find('.hasta').val();
+					d.articulo = div.find('.articulo').val();
+					d.costo = div.find('.costo').val();
 					d.tab = $('#hidearticulos').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
 			columns:[
-				{ data: 'numero' },{ data: 'sucursal' },{ data: 'tipo_documento'},{ data: 'numero_documento'},{ data: 'productor' },{ data: 'fecha' },
-				{ data: 'cantidad' },{ data: 'costo' }
+				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'numero_documento'},{ data: 'productor' },
+				{ data: 'articulo' },{ data: 'fecha' },{ data: 'cantidad' },{ data: 'costo' }
 			],
 			columnDefs:[
-				{ title: 'Nro. Op.', targets: 0 },{ title: 'Sucursal', targets: 1 },{ title: 'Tipo Doc.', targets: 2 },{ title: 'Documento', targets: 3 },
-				{ title: 'Productor', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
+				{ title: 'Nro. Op.', targets: 0 },{ title: 'Documento', targets: 1 },{ title: 'Productor', targets: 2 },
+				{ title: 'Art&iacute;culo', targets: 3 },{ title: 'Fecha', targets: 4 },{ title: 'Cantidad', targets: 5 },{ title: 'Costo', targets: 6 }
 			],
 		});
 		tab2 = $('#tablaValorizados').DataTable({
@@ -191,7 +193,8 @@ $('.exportar').bind('click', function(e){
 	if(segmento2 === 'reporte8'){
 		let div = $(this).parents('.tab-pane'), grilla = div.find('.table');
 		cta = $("#"+grilla.prop('id')).dataTable().fnSettings().aoData.length;
-		url = 'tab='+div.find('.hidden').val()+'&desde='+div.find('.desde').val()+'&hasta='+div.find('.hasta').val()+'&suc='+div.find('.sucursal').val();
+		url = 'tab='+div.find('.hidden').val()+'&desde='+div.find('.desde').val()+'&hasta='+div.find('.hasta').val()+'&suc='+div.find('.sucursal').val()
+				+'&articulo='+div.find('.articulo').val()+'&costo='+div.find('.costo').val();
 	}
 	if(cta > 0){
 		if(this.id === 'pdf')
@@ -217,11 +220,24 @@ $('.exportar').bind('click', function(e){
 });
 
 $('.generar').bind('click',function(){
-	let div = $(this).parents('.tab-pane'), grilla = div.find('.table'), tab = null;
+	let div = $(this).parents('.tab-pane'), grilla = div.find('.table'), tab = null, url = base_url;
 	$(this).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-	$(this).addClass('disabled');
-	if(grilla.prop('id') === 'tablaArticulos') tab = tab1;
+	$(this).addClass('disabled'); let art = '', costo = '';
+	if(grilla.prop('id') === 'tablaArticulos') tab = tab1, url += 'proveedores/costos', art = div.find('.articulo').val(), costo = div.find('.costo').val();
 	if(grilla.prop('id') === 'tablaValorizados') tab = tab2;
+	
+	
+	$.ajax({
+		data:{ sucursal: div.find('.sucursal').val(),desde:div.find('.desde').val(),hasta:div.find('.hasta').val(),articulo:art,costo:costo },
+		url: url,
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function (){ },
+		success: function (data){
+			div.find('.kg').html(data.total);
+			div.find('.prom').html(data.promedio);
+		}
+	});
 	
 	tab.ajax.reload(()=>{
 		$(this).html('Generar Reporte');

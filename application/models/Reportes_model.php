@@ -190,10 +190,12 @@ class Reportes_model extends CI_Model
     }
 	public function rep2articulos($where)
 	{
-		$this->db->select('r.idsucursal,r.sucursal,r.tipo_documento,r.numero_documento,r.productor,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fecha,
-			FORMAT(r.cantidad,2) as cantidad,r.costo,ge.numero');
+		$this->db->select('ge.numero,r.sucursal,r.numero_documento,r.productor,a.articulo,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fecha,
+			FORMAT(r.cantidad,2) as cantidad,r.costo');
 		$this->db->from('articulos_ingresados r');
 		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
+		$this->db->join('guia_entrada_detalle ged','ged.idguia = r.idguia');
+		$this->db->join('articulo a','a.idarticulo = ged.idarticulo');
 		$this->db->where($where);
 		$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
@@ -209,5 +211,29 @@ class Reportes_model extends CI_Model
 		$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function promedio($where)
+	{
+		$this->db->select('AVG(r.costo) as promedio');
+		$this->db->from('articulos_ingresados r');
+		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
+		$this->db->join('guia_entrada_detalle ged','ged.idguia = r.idguia');
+		$this->db->join('articulo a','a.idarticulo = ged.idarticulo');
+		$this->db->where($where);
+		//$this->db->order_by('numero', 'desc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
+	public function total($where)
+	{
+		$this->db->select('SUM(r.cantidad) as total');
+		$this->db->from('articulos_ingresados r');
+		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
+		$this->db->join('guia_entrada_detalle ged','ged.idguia = r.idguia');
+		$this->db->join('articulo a','a.idarticulo = ged.idarticulo');
+		$this->db->where($where);
+		//$this->db->order_by('numero', 'desc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
 	}
 }
