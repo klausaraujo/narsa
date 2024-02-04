@@ -273,10 +273,11 @@ class Main extends CI_Controller
 	public function pagoCredito()
 	{
 		$this->load->model('Ventas_model');
-		$status = 500; $message = 'No se pudo Liquidar el Cr&eacute;dito'; $id = $this->input->get('id'); $mto = $this->input->get('mto');
+		$status = 500; $message = 'No se pudo Liquidar el Cr&eacute;dito'; $id = $this->input->post('idtransaccion'); $mto = $this->input->post('monto');
+		$medio = $this->input->post('medio');
 		$cli = false; $cj = false; $guia = false;
 		$guia_salida = ['monto_pagado' => $mto,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
-		$mov_cliente = ['idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+		$mov_cliente = ['idmediopago' => $medio,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		$mov_caja = ['liquidado' => 1,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		
 		$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
@@ -290,7 +291,10 @@ class Main extends CI_Controller
 		
 		$resp = array(
 			'status' => $status,
-			'message' => $message
+			'message' => $message,
+			'medio' => $medio,
+			'monto' => $mto,
+			'id' => $id
 		);
 				
 		echo json_encode($resp);

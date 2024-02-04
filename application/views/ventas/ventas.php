@@ -214,3 +214,48 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- Modal proveedores -->
+					<div class="modal fade" id="modalPagoVentas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">Pago de Ventas a Cr&eacute;dito</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<div class="container-fluid">
+										<input type="hidden" id="idtransaccioncredito" />
+										<input type="hidden" id="mtocreditopago" />
+										<div class="row">
+											<div class="col-md-12">
+												<div class="row my-2">
+													<label for="pagovta" class="col-md-5 align-self-center mb-0">Monto del Pago:</label>
+													<div class="col-md-5">
+														<input type="text" class="form-control form-control-sm montocredito" readonly />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="row my-2">
+													<label for="mediopagocredito" class="col-md-5 align-self-center mb-0">Medio Pago:</label>
+													<div class="col-md-5">
+														<select class="form-control form-control-sm mediopagocredito" >
+														<?
+															foreach($mediopago as $row):	?>
+															<option value="<?=$row->idmediopago;?>"><?=$row->medio_pago;?></option>
+														<?	endforeach;	?>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12 d-flex mt-4 mb-2">
+												<button class="btn btn-secondary mr-4" data-dismiss="modal" id="cancelcredito">Cancelar</button>
+												<button type="submit" class="btn btn-narsa" id="generarpagocredito">Pagar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>

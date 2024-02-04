@@ -26,20 +26,12 @@ jQuery(document).ready(function($){
 				{
 					data: null, orderable: false,
 					render: function(data){
-						let nulable = 0; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || data.idtipooperacion === '12' ||
-							data.idtipooperacion === '13') nulable = 1;
+						let nulable = 0; if(data.idtipooperacion === '7' || data.idtipooperacion === '9' || data.idtipooperacion === '11' || 
+							data.idtipooperacion === '12' || data.idtipooperacion === '13' || data.idtipooperacion === '14' || 
+							data.idtipooperacion === '19') nulable = 1;
 						let hrefAnular = '';
 						if(btnAnular){
 							if(nulable) hrefAnular = 'href="'+base_url+'servicios/anular?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"';
-							else{
-								if(data.idtipooperacion !== '6' && data.idtipooperacion !== '17' && data.idtipooperacion !== '16'){
-									hrefAnular = 'href="'+base_url+'proveedores/transacciones/anular?id='+data.idtransaccion+'&op=operaciones"';
-								}else if(data.idtipooperacion === '17' || data.idtipooperacion === '16'){
-									btnAnular = false; console.log(btnAnular);
-								}else{
-									hrefAnular = 'href="'+base_url+'proveedores/valorizaciones/anular?id='+data.idtransaccion+'&op=valorizop"';
-								}
-							}
 						}
 						
 						let hrefEdit = btnEdit && nulable ?  'href="'+base_url+'servicios/editar?id='+data.idmovimiento+'&suc='+$('.sucursal').val()+'"' : '';
@@ -49,7 +41,7 @@ jQuery(document).ready(function($){
 						'<div class="btn-group">'+
 							'<a title="Editar Operacion" '+hrefEdit+' class="bg-warning btnTable editar '+(!btnEdit || !nulable?'disabled':'')+'">'+
 								'<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
-							'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+(!btnAnular?'disabled':'')+'">'+
+							'<a title="Anular Operaci&oacute;n" '+hrefAnular+' class="bg-danger btnTable anular '+(!btnAnular || !nulable?'disabled':'')+'">'+
 								'<i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
 							'<a title="Ver Movimiento" '+hrefPdf+' class="bg-primary btnTable '+(!btnPdf?'disabled':'')+'" target="_blank">'+
 								'<i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+

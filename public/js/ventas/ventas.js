@@ -67,7 +67,7 @@ $(document).ready(function (){
 							'href="'+base_url+'ventas/ventascliente/editar?id='+data.idtransaccion+'" data-target="#modalVentas" data-toggle="modal" ' : '';
 						let hrefAnular = (data.activo === '1' && btnAnular && tipo)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
 						/*let hrefPdf = (data.activo === '1' || btnGuia)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=pdf"':'';*/
-						let hrefPago = (data.activo === '1' && btnPago && tipo)?'href="'+base_url+'ventas/ventascliente/pago?id='+data.idtransaccion+'&mto='+data.monto+'"':'';
+						let hrefPago = (data.activo === '1' && btnPago && tipo)? ' data-target="#modalPagoVentas" data-toggle="modal"':'';
 						let hrefComp = (data.activo === '1' && btnComp)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=comp"':'';
 						let btnAccion =
 						'<div class="btn-group">'+
@@ -95,10 +95,11 @@ $(document).ready(function (){
 				},
 				{
 					data: 'activo',
-					render: function(data){
+					render: function(data,type,row){
 						let var_status = '';
+						
 						switch(data){
-							case '1': var_status = '<span class="text-success">Activo</span>'; break;
+							case '1': var_status = row.liquidado==='1'?'<span class="text-primary">Liquidado</span>':'<span class="text-success">Activo</span>'; break;
 							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
@@ -326,6 +327,10 @@ $('#modalVentas').on('hidden.bs.modal',function(e){
 	
 	$('body,html').animate({ scrollTop: 0 }, 'fast');
 });
+$('#modalPagoVentas').on('hidden.bs.modal',function(e){
+	$(this).find('.mediopagocredito').prop('selectedIndex',0);
+	$(this).find('.montocredito').val('');
+});
 
 $('#sucursalSal').on('change',function(){
 	$('.detalleSal select').prop('selectedIndex',0);
@@ -427,7 +432,7 @@ $('body').bind('click','a',function(e){
 				dataType: 'JSON',
 				beforeSend: function () { a.addClass('disabled'); },
 				success: function (data) {
-					console.log(data);
+					//console.log(data);
 					if (parseInt(data.status) === 200){
 						tablaVentas.ajax.reload();
 					}else{
@@ -441,31 +446,8 @@ $('body').bind('click','a',function(e){
 			});
 		}
 	}else if(a.hasClass('pago')){
-		e.preventDefault();
-		
-		let confirmacion = confirm('Confirme si desea pagar la Venta?');
-		if(confirmacion){
-			a.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
-			$.ajax({
-				data: {},
-				url: a.prop('href'),
-				method: 'GET',
-				dataType: 'JSON',
-				beforeSend: function () { a.addClass('disabled'); },
-				success: function (data) {
-					console.log(data);
-					if (parseInt(data.status) === 200){
-						tablaVentas.ajax.reload();
-					}else{
-						a.html('<i style="font-size:12px" class="fa fa-credit-card-alt mt-1" aria-hidden="true"></i>');
-						a.removeClass('disabled');
-					}
-					$('html, body').animate({ scrollTop: 0 }, 'fast');
-					$('.resp').html(data.message);
-					setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
-				}
-			});
-		}
+		let fila = tablaVentas.row($(a).parents('tr')).data(), mto = parseFloat(fila.monto);
+		$('#idtransaccioncredito').val(fila.idtransaccion), $('.montocredito').val(mto.toLocaleString('es-PE', opt)), $('#mtocreditopago').val(fila.monto);
 	}
 });
 /* Cambios en el tipo de venta */
@@ -507,13 +489,6 @@ $('#form_cliente').validate({
 	validClass: 'success',
 	rules: {
 		tipodoc: { required: function (){ if ($('#tipodoc').css('display') != 'none') return true; else return false; } },
-		/*rucvalor: { required: function () { if ($('#rucvalor').css('display') != 'none') return true; else return false; } },
-		razonSoc: { required: function () { if ($('#razonSoc').css('display') != 'none') return true; else return false; } },
-		tipoComp: { required: function () { if ($('#tipoComp').css('display') != 'none') return true; else return false; } },
-		serie: { required: function () { if ($('#serie').css('display') != 'none') return true; else return false; } },
-		num: { required: function () { if ($('#num').css('display') != 'none') return true; else return false; } },
-		renta: { required: function () { if(!$('#renta').attr('disabled') && $('#renta').css('display') != 'none') return true; else return false; } },
-		baseImp: { required: function () { if ($('#baseImp').css('display') != 'none') return true; else return false; } },*/
 	},
 	messages: {
 		tipodoc: { required: '&nbsp;&nbsp;Tipo documento requerido' },
@@ -530,6 +505,30 @@ $('#form_cliente').validate({
 		form.submit();
 	}
 });
-$('#modalVtas').on('click',function(){
-	$('#tipo_registro').val('registrar');
+
+$('#modalVtas').on('click',function(){ $('#tipo_registro').val('registrar'); });
+
+$('#generarpagocredito').bind('click',function(){
+	let boton = $(this), mod = boton.closest('#modalPagoVentas'), mp = mod.find('.mediopagocredito').val(), mto = mod.find('#mtocreditopago').val();
+	let id = mod.find('#idtransaccioncredito').val();
+	boton.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+	
+	$.ajax({
+		data: { idtransaccion:id, medio:mp, monto:mto },
+		url: base_url + 'ventas/ventascliente/pago',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function () { boton.addClass('disabled'); },
+		success: function (data) {
+			console.log(data);
+			boton.html('Pagar');
+			boton.removeClass('disabled');
+			$('#modalPagoVentas').modal('hide');
+			if (parseInt(data.status) === 200) tablaVentas.ajax.reload();
+			
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			$('.resp').html(data.message);
+			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
+		}
+	});
 });
