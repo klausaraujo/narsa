@@ -12,7 +12,7 @@
 										<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="tipodoc">Tipo de Documento:</label>
 										<div class="col-md-6 col-lg-3">
 											<div class="row">
-												<select class="form-control tipodoc" name="tipodoc" id="tipodoc" disabled >
+												<select class="form-control tipodoc" name="tipodoc" id="tipodoc" >
 												<?
 														foreach($tipodoc as $row):	?>
 															<option value="<?=$row->idtipodocumento;?>" <?=($row->idtipodocumento === $cliente->idtipodocumento)?'selected':'';?>>
@@ -27,7 +27,7 @@
 										<div class="col-md-4 col-lg-2">
 											<div class="row">
 												<input type="text" class="form-control doc" name="doc" id="doc"
-													autocomplete="off" value="<?=$cliente->numero_documento;?>" disabled />
+													autocomplete="off" value="<?=$cliente->numero_documento;?>" />
 											</div>
 										<!--<button type="button" class="btn btn-info btn_curl"><i class="fa fa-search" aria-hidden="true"></i></button>-->
 										</div>
@@ -41,7 +41,7 @@
 										<div class="col-md-6 col-lg-4">
 											<div class="row">
 												<input type="text" class="form-control nombres" name="nombres" id="nombres" placeholder="Raz&oacute;n Social"
-													value="<?=$cliente->nombre;?>" disabled />
+													value="<?=$cliente->nombre;?>" />
 											</div>
 										</div>
 									</div>
