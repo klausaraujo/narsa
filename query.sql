@@ -3280,4 +3280,61 @@ select anio,sucursal,articulo,sum(valorizado) as valorizado,sum(no_valorizado) a
 
 
 
+/*Nuevas Ejecuciones en Bases de Datos al 08/02/2024*/
 
+drop table IF EXISTS movimientos_banco;
+
+create table movimientos_banco(
+	idmovimiento smallint(4) NOT NULL AUTO_INCREMENT,
+	idtipooperacion smallint(4) NOT NULL,
+	idsucursal smallint(4) NOT NULL,
+	idtransaccion smallint(4) NOT NULL,
+	monto decimal(20,2) NOT NULL,
+	interes decimal(20,2) DEFAULT 0,
+	idfactor smallint(4),
+	fecha_vencimiento datetime,
+	fecha_movimiento datetime NOT NULL,
+	idusuario_registro smallint(4),
+	fecha_registro datetime,
+	idusuario_modificacion smallint(4),
+	fecha_modificacion datetime,
+	idusuario_anulacion smallint(4),
+	fecha_anulacion datetime,
+	observaciones varchar(1000),
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idmovimiento),
+	FOREIGN KEY (idtipooperacion) REFERENCES tipo_operacion_caja (idtipooperacion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idsucursal) REFERENCES sucursal (idsucursal) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idtransaccion) REFERENCES transacciones (idtransaccion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idfactor) REFERENCES factor (idfactor) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+	alter table movimientos_banco add ruc_proveedor varchar(11) after observaciones;
+	alter table movimientos_banco add razon_social_proveedor varchar(200) after ruc_proveedor;
+	alter table movimientos_banco add tipo_comprobante varchar(2) after razon_social_proveedor;
+	alter table movimientos_banco add serie_comprobante varchar(5) after tipo_comprobante;
+	alter table movimientos_banco add numero_comprobante varchar(8) after serie_comprobante;
+	alter table movimientos_banco add base_imponible decimal(20,0) after numero_comprobante;
+	alter table movimientos_banco add impuesto_igv decimal(20,0) after base_imponible;
+	alter table movimientos_banco add impuesto_renta decimal(20,0) after impuesto_igv;
+	alter table movimientos_banco alter column base_imponible set default 0;
+	alter table movimientos_banco alter column impuesto_igv set default 0;
+	alter table movimientos_banco alter column impuesto_renta set default 0;
+	update movimientos_banco set base_imponible=0,impuesto_igv=0,impuesto_renta=0;
+	alter table movimientos_banco modify column base_imponible decimal(20,2);
+	alter table movimientos_banco modify column impuesto_igv decimal(20,2);
+	alter table movimientos_banco modify column impuesto_renta decimal(20,2);
+	alter table movimientos_banco add detalle_comprobante varchar(500) after impuesto_renta;
+	alter table movimientos_banco add check_igv char(1) after impuesto_igv;
+	alter table movimientos_banco add check_renta char(1) after impuesto_renta;
+	alter table movimientos_banco alter column check_igv set default '0';
+	alter table movimientos_banco alter column check_renta set default '0';
+	update movimientos_banco set check_igv='0',check_renta='0';
+	alter table movimientos_banco add liquidado char(1) after interes;
+	alter table movimientos_banco alter column liquidado set default '0';
+
+drop view IF EXISTS lista_movimientos_banco;
+create view lista_movimientos_banco
+as
+select mc.idmovimiento,mc.idtipooperacion,toc.tipo_operacion,mc.idsucursal,s.sucursal,mc.idtransaccion,mc.monto,mc.interes as 'tasa',IF(mc.liquidado='1',0,((DATEDIFF(NOW(),mc.fecha_movimiento) * mc.monto)  * ((mc.interes)/30)/100)) as 'intereses',f.idfactor,f.factor * mc.monto as monto_factor,f.factor * mc.monto as monto_factor_final,mc.fecha_vencimiento,mc.fecha_movimiento 
+from movimientos_banco as mc inner join tipo_operacion_caja as toc on toc.idtipooperacion=mc.idtipooperacion inner join sucursal as s on s.idsucursal = mc.idsucursal inner join factor as f on f.idfactor=mc.idfactor
+where mc.activo='1';
