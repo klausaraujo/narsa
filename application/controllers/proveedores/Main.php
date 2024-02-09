@@ -249,7 +249,7 @@ class Main extends CI_Controller
 		$id = $this->input->post('id'); $suc = $this->input->post('sucursal'); $tipo = $this->input->post('tipoop') !== null? $this->input->post('tipoop') : '';
 		
 		if($tipo !== ''){
-			$data = 'idproveedor ='.$id.' AND idsucursal='.$suc.' AND liquidado=0 AND (idtipooperacion=7 OR idtipooperacion=9)';
+			$data = 'lm.idproveedor ='.$id.' AND lm.idsucursal='.$suc.' AND lm.liquidado=0 AND (lm.idtipooperacion=7 OR lm.idtipooperacion=9)';
 			$lista = $this->Proveedores_model->listaOperacionesPagos($data);
 			echo json_encode(['data' => $lista]);
 		}else{
@@ -296,7 +296,7 @@ class Main extends CI_Controller
 		// Variables generales de los 3 modulos
 		$idproveedor = $this->input->post('idproveedor'); $suc = $this->input->post('sucursal'); $tipoop = $this->input->post('tipoop');
 		$tipoparcial = $this->input->post('tipoop'); $detalletipo = $this->input->post('tipodetalle'); $obs = $this->input->post('obstransacciones');
-		$fecha = date('Y-m-d H:i:s'); $check = 0; $inttotal = 0;
+		$fecha = date('Y-m-d H:i:s'); $check = 0; $inttotal = 0; $obsparcial = $this->input->post('hidobs');
 		
 		// Campos del modulo prestamos
 		$vence = date('Y-m-d'); $monto = 0; $interes = 0;
@@ -419,7 +419,7 @@ class Main extends CI_Controller
 						// Setear valores para la nueva op parcial
 						$dataOp['idfactor'] = !empty($factor)? $factor->idfactor : 1; $dataOp['idtipooperacion'] = $tipoop;
 						$monto = floatval($prestamo) - floatval($monto); $dataOp['interes_total'] = 0; $dataTransaccion['monto'] = $monto; $dataOp['monto'] = $monto;
-						$dataOp['interes'] = $interes; $dataOp['idproveedor'] = $idproveedor; $dataOp['liquidado'] = 0;
+						$dataOp['interes'] = $interes; $dataOp['idproveedor'] = $idproveedor; $dataOp['liquidado'] = 0; $dataOp['observaciones'] = $obsparcial;
 						
 						// Registra la nueva operacion parcial si no es un pago de valorizacion
 						if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){

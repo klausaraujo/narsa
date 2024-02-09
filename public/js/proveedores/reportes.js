@@ -112,7 +112,7 @@ jQuery(document).ready(function($){
 			],
 			columnDefs:[
 				{ title: 'Nro. Op.', targets: 0 },{ title: 'A&ntilde;o', targets: 1 },{ title: 'Documento', targets: 2 },{ title: 'Productor', targets: 3 },
-				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
+				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Fecha Ingreso', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
 			],
 		});
 		tab2 = $('#tablaValorizados').DataTable({
@@ -136,7 +136,7 @@ jQuery(document).ready(function($){
 			],
 			columnDefs:[
 				{ title: 'Nro. Op.', targets: 0 },{ title: 'A&ntilde;o', targets: 1 },{ title: 'Documento', targets: 2 },{ title: 'Productor', targets: 3 },
-				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
+				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Fecha Valorizaci&oacute;n', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
 			],
 		});
 	}else{

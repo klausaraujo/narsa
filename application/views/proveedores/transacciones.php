@@ -17,6 +17,7 @@
 								<div class="tab-pane active mx-auto" id="pill-operaciones">
 									<form method="post" id="form_transacciones" action="<?=base_url().$this->uri->segment(1).'/';?>transacciones/operaciones">
 										<input type="hidden" name="idproveedor" id="idproveedor" value="<?=$this->input->get('id')?>" />
+										<input type="hidden" name="hidobs" id="hidobs" />
 										<div class="row container mx-auto">
 											<div class="col-lg-10 mx-auto">
 												<div class="row">

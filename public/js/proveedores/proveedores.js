@@ -495,7 +495,7 @@ $('#tablaPagos').on('click','tr',function(){
 					$('#intpago').val((parseFloat(fila.intereses) * -1).toFixed(2)), $('#interespago').val((parseFloat(fila.intereses) * -1).toFixed(2));
 				else $('#intpago').val(parseFloat(fila.intereses)), $('#interespago').val(parseFloat(fila.intereses).toFixed(2));
 				
-				$('#idpago').val(fila.idtransaccion), $('#tasapago').val(fila.tasa);
+				$('#idpago').val(fila.idtransaccion), $('#tasapago').val(fila.tasa), $('#hidobs').val('SALDO DE LA TRANSACCION '+fila.idtransaccion);
 				
 				$('#montopago').val(parseFloat(fila.monto).toFixed(2)), $('#checkliquidapago').prop('checked', true);
 				$('#montopago').removeAttr('readonly'), $('#interespago').removeAttr('readonly'), $('#checkliquidapago').removeAttr('disabled');
