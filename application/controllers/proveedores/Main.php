@@ -295,7 +295,8 @@ class Main extends CI_Controller
 		$status = 500; $message = 'No se pudo registrar la Transacci&oacute;n';
 		// Variables generales de los 3 modulos
 		$idproveedor = $this->input->post('idproveedor'); $suc = $this->input->post('sucursal'); $tipoop = $this->input->post('tipoop');
-		$detalletipo = $this->input->post('tipodetalle'); $obs = $this->input->post('obstransacciones'); $fecha = date('Y-m-d H:i:s'); $check = 0; $inttotal = 0;
+		$tipoparcial = $this->input->post('tipoop'); $detalletipo = $this->input->post('tipodetalle'); $obs = $this->input->post('obstransacciones');
+		$fecha = date('Y-m-d H:i:s'); $check = 0; $inttotal = 0;
 		
 		// Campos del modulo prestamos
 		$vence = date('Y-m-d'); $monto = 0; $interes = 0;
@@ -424,7 +425,7 @@ class Main extends CI_Controller
 						if($idtran = $this->Proveedores_model->registrarOp($dataTransaccion, 'transacciones')){
 							$dataOp['idtransaccion'] = $idtran;
 							if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_proveedor')){
-								if($tipoop === '2' || $tipoop === '3'){
+								if($tipoparcial === '2' || $tipoparcial === '3'){
 									$dataOp = $this->dataMovCaja($dataOp, $detalletipo);
 									if($this->Proveedores_model->registrarOp($dataOp, 'movimientos_caja')){
 										$status = 200; $message = 'Transacci&oacute;n registrada exitosamente';

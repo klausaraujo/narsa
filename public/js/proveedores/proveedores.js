@@ -88,7 +88,7 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idmovimiento', render: function(data){ return ceros( data, 6 ); } },{ data: 'fecha' },{ data: 'tipo_operacion' },
+				{ data: 'idtransaccion', render: function(data){ return ceros( data, 6 ); } },{ data: 'fecha' },{ data: 'tipo_operacion' },
 				{ data: 'sucursal' },{ data: 'nombre' },
 				{ 
 					data: 'monto_factor_final', className: 'text-right',

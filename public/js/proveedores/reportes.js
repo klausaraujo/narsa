@@ -102,17 +102,17 @@ jQuery(document).ready(function($){
 					d.hasta = div.find('.hasta').val();
 					d.articulo = div.find('.articulo').val();
 					d.costo = div.find('.costo').val();
-					d.tab = $('#hidearticulos').val();
+					d.tab = div.find('.tabhide').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
 			columns:[
-				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'numero_documento'},{ data: 'productor' },
+				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'anio'},{ data: 'numero_documento'},{ data: 'nombre' },
 				{ data: 'articulo' },{ data: 'fecha' },{ data: 'cantidad' },{ data: 'costo' }
 			],
 			columnDefs:[
-				{ title: 'Nro. Op.', targets: 0 },{ title: 'Documento', targets: 1 },{ title: 'Productor', targets: 2 },
-				{ title: 'Art&iacute;culo', targets: 3 },{ title: 'Fecha', targets: 4 },{ title: 'Cantidad', targets: 5 },{ title: 'Costo', targets: 6 }
+				{ title: 'Nro. Op.', targets: 0 },{ title: 'A&ntilde;o', targets: 1 },{ title: 'Documento', targets: 2 },{ title: 'Productor', targets: 3 },
+				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
 			],
 		});
 		tab2 = $('#tablaValorizados').DataTable({
@@ -124,17 +124,19 @@ jQuery(document).ready(function($){
 					d.sucursal = div.find('.sucursal').val();
 					d.desde = div.find('.desde').val();
 					d.hasta = div.find('.hasta').val();
-					d.tab = $('#hidevalorizados').val();
+					d.articulo = div.find('.articulo').val();
+					d.costo = div.find('.costo').val();
+					d.tab = div.find('.tabhide').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,order: [],
 			columns:[
-				{ data: 'numero' },{ data: 'sucursal' },{ data: 'tipo_documento'},{ data: 'numero_documento'},{ data: 'productor' },{ data: 'fecha' },
-				{ data: 'cantidad' },{ data: 'costo' }
+				{ data: 'numero', render: function(data){ return ceros( data, 6 ); } },{ data: 'anio'},{ data: 'numero_documento'},{ data: 'nombre' },
+				{ data: 'articulo' },{ data: 'fecha' },{ data: 'cantidad' },{ data: 'costo' }
 			],
 			columnDefs:[
-				{ title: 'Nro. Op.', targets: 0 },{ title: 'Sucursal', targets: 1 },{ title: 'Tipo Doc.', targets: 2 },{ title: 'Documento', targets: 3 },
-				{ title: 'Productor', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
+				{ title: 'Nro. Op.', targets: 0 },{ title: 'A&ntilde;o', targets: 1 },{ title: 'Documento', targets: 2 },{ title: 'Productor', targets: 3 },
+				{ title: 'Art&iacute;culo', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Cantidad', targets: 6 },{ title: 'Costo', targets: 7 }
 			],
 		});
 	}else{
@@ -220,15 +222,16 @@ $('.exportar').bind('click', function(e){
 });
 
 $('.generar').bind('click',function(){
-	let div = $(this).parents('.tab-pane'), grilla = div.find('.table'), tab = null, url = base_url;
+	let div = $(this).parents('.tab-pane'), grilla = div.find('.table'), tab = null, url = base_url+'proveedores/costos', art = '', costo = '', pane = '';
 	$(this).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-	$(this).addClass('disabled'); let art = '', costo = '';
-	if(grilla.prop('id') === 'tablaArticulos') tab = tab1, url += 'proveedores/costos', art = div.find('.articulo').val(), costo = div.find('.costo').val();
+	$(this).addClass('disabled');
+	art = div.find('.articulo').val(), costo = div.find('.costo').val(), pane = div.find('.tabhide').val();
+	if(grilla.prop('id') === 'tablaArticulos') tab = tab1;
 	if(grilla.prop('id') === 'tablaValorizados') tab = tab2;
 	
 	
 	$.ajax({
-		data:{ sucursal: div.find('.sucursal').val(),desde:div.find('.desde').val(),hasta:div.find('.hasta').val(),articulo:art,costo:costo },
+		data:{ sucursal:div.find('.sucursal').val(),desde:div.find('.desde').val(),hasta:div.find('.hasta').val(),articulo:art,costo:costo,tab:pane },
 		url: url,
 		method: 'POST',
 		dataType: 'JSON',

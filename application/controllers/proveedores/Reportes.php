@@ -64,26 +64,28 @@ class Reportes extends CI_Controller
 		$reporte = null; $suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta');
 		$costo = ''; $art = '';
 		
-		if($this->input->post('articulo') !== '') $art = 'AND ged.idarticulo="'.$this->input->post('articulo').'"';
-		if($this->input->post('costo') !== '') $costo = 'AND r.costo >= "'.$this->input->post('costo').'"';
+		if($this->input->post('articulo') !== '') $art = 'AND idarticulo="'.$this->input->post('articulo').'"';
+		if($this->input->post('costo') !== '') $costo = 'AND costo >= "'.$this->input->post('costo').'"';
 		
-		if($this->input->post('tab') === 'articulos'){
-			$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
-		}else if($this->input->post('tab') === 'valorizados'){
-			$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
-		}
+		if($this->input->post('tab') === 'articulos')
+			$reporte = $this->Reportes_model->rep2articulos('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+		else if($this->input->post('tab') === 'valorizados')
+			$reporte = $this->Reportes_model->rep2valorizados('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
 		
 		echo json_encode(['data' => $reporte]);
 	}
 	public function costos()
 	{
 		$this->load->model('Reportes_model');
-		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta'); $costo = ''; $art = '';
-		if($this->input->post('articulo') !== '') $art = 'AND ged.idarticulo="'.$this->input->post('articulo').'"';
-		if($this->input->post('costo') !== '') $costo = 'AND r.costo >= "'.$this->input->post('costo').'"';
+		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta'); $costo = ''; $art = ''; $tabla = '';
+		if($this->input->post('articulo') !== '') $art = 'AND idarticulo="'.$this->input->post('articulo').'"';
+		if($this->input->post('costo') !== '') $costo = 'AND costo >= "'.$this->input->post('costo').'"';
 		
-		$prom = $this->Reportes_model->promedio('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
-		$total = $this->Reportes_model->total('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+		if($this->input->post('tab') === 'articulos') $tabla = 'lista_ingresos_proveedores';
+		elseif($this->input->post('tab') === 'valorizados') $tabla = 'lista_valorizaciones_proveedores';
+		
+		$prom = $this->Reportes_model->promedio('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo,$tabla);
+		$total = $this->Reportes_model->total('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo,$tabla);
 		
 		echo json_encode(['promedio' => (!empty($prom)?number_format($prom->promedio,2,'.',','):'0.00'),
 				'total' => (!empty($total)?number_format($total->total,2,'.',','):'0.00')]);

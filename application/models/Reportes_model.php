@@ -190,47 +190,37 @@ class Reportes_model extends CI_Model
     }
 	public function rep2articulos($where)
 	{
-		$this->db->select('ge.numero,r.sucursal,r.numero_documento,r.productor,a.articulo,DATE_FORMAT(r.fecha,"%d/%m/%Y") as fecha,
-			FORMAT(r.cantidad,2) as cantidad,r.costo');
-		$this->db->from('articulos_ingresados r');
-		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
-		$this->db->join('guia_entrada_detalle ged','ged.idguia = r.idguia');
-		$this->db->join('articulo a','a.idarticulo = ged.idarticulo');
+		$this->db->select('numero,anio_guia as anio,sucursal,numero_documento,nombre,articulo,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,FORMAT(cantidad,2) as cantidad,costo');
+		$this->db->from('lista_ingresos_proveedores');
 		$this->db->where($where);
+		$this->db->order_by('anio', 'desc');
 		$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
 	public function rep2valorizados($where)
 	{
-		$this->db->select('r.idsucursal,r.sucursal,r.tipo_documento,r.numero_documento,r.productor,DATE_FORMAT(r.fecha_guia,"%d/%m/%Y") as fecha,
-			FORMAT(r.cantidad,2) as cantidad,FORMAT(r.costo,2) as costo,FORMAT(cantidad*costo,2) as importe,ge.numero');
-		$this->db->from('articulos_valorizados r');
-		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
+		$this->db->select('numero,anio_valorizacion as anio,sucursal,numero_documento,nombre,articulo,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,FORMAT(cantidad,2) as cantidad,FORMAT(costo,2) as costo');
+		$this->db->from('lista_valorizaciones_proveedores');
 		$this->db->where($where);
+		$this->db->order_by('anio', 'desc');
 		$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function promedio($where)
+	public function promedio($where,$tabla)
 	{
-		$this->db->select('AVG(r.costo) as promedio');
-		$this->db->from('articulos_ingresados r');
-		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
-		$this->db->join('guia_entrada_detalle ged','ged.idguia = r.idguia');
-		$this->db->join('articulo a','a.idarticulo = ged.idarticulo');
+		$this->db->select('AVG(costo) as promedio');
+		$this->db->from($tabla);
 		$this->db->where($where);
 		//$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
 	}
-	public function total($where)
+	public function total($where,$tabla)
 	{
-		$this->db->select('SUM(r.cantidad) as total');
-		$this->db->from('articulos_ingresados r');
-		$this->db->join('guia_entrada ge','ge.idguia = r.idguia');
-		$this->db->join('guia_entrada_detalle ged','ged.idguia = r.idguia');
-		$this->db->join('articulo a','a.idarticulo = ged.idarticulo');
+		$this->db->select('SUM(cantidad) as total');
+		$this->db->from($tabla);
 		$this->db->where($where);
 		//$this->db->order_by('numero', 'desc');
         $result = $this->db->get();

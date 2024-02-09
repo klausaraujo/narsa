@@ -24,7 +24,7 @@
 								for($i = 0;$i < count($tabs);$i++){
 							?>
 								<div class="tab-pane fade <?=$i===0? 'active show':''?>" id="<?=$tabs[$i]?>" role="tabpanel" aria-labelledby="<?=$tabs[$i]?>">
-									<input type="hidden" id="hide<?=$tabs[$i]?>" value="<?=$tabs[$i]?>" class="hidden" />
+									<input type="hidden" id="hide<?=$tabs[$i]?>" value="<?=$tabs[$i]?>" class="hidden tabhide" />
 									<div class="row">
 										<div class="col-md-11 mx-auto">
 											<div class="row">
@@ -58,9 +58,6 @@
 														</div>
 													</div>
 												</div>
-												<?
-													if($tabs[$i] === 'articulos'){
-												?>
 												<div class="col-md-3">
 													<div class="row">
 														<label class="control-label col-md-4 align-self-center mb-0">Costo:</label>
@@ -84,7 +81,6 @@
 														</div>
 													</div>
 												</div>
-												<? } ?>
 												<div class="col-md-3 px-0">
 													<a type="button" class="btn btn-narsa align-self-center text-white generar">Generar Reporte</a>
 												</div>
@@ -102,9 +98,6 @@
 													<i class="fa fa-file-excel-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
 												</a>
 											</div>
-											<?
-												if($tabs[$i] === 'articulos'){
-											?>
 											<div class="col-md-3 d-flex ml-auto ocultar">
 												<span>Total Kg:</span>&nbsp;&nbsp; 
 												<div class="alert alert-success kg" style="padding:0 10px">0</div>
@@ -113,7 +106,6 @@
 												<span>Costo Promedio:</span>&nbsp;&nbsp;
 												<div class="alert alert-success prom" style="padding:0 10px">0</div>
 											</div>
-											<? } ?>
 											<div class="col-12 mx-auto mt-md-2" style="overflow-x:auto">
 												<table id="tabla<?=ucfirst($tabs[$i])?>" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 											</div>
