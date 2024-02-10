@@ -48,9 +48,8 @@ class Ventas_model extends CI_Model
 	}
 	public function listaVentas($data)
     {
-        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre,DATE_FORMAT(gs.fecha_movimiento,"%d/%m/%Y") as fecha,mc.liquidado');
+        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre,DATE_FORMAT(gs.fecha_movimiento,"%d/%m/%Y") as fecha');
         $this->db->from('movimientos_cliente gs');
-		$this->db->join('movimientos_caja mc','mc.idtransaccion = gs.idtransaccion');
 		$this->db->join('tipo_operacion_cliente tp','tp.idtipooperacion = gs.idtipooperacion');
 		$this->db->join('medio_pago mp','mp.idmediopago = gs.idmediopago');
 		$this->db->join('sucursal su','su.idsucursal = gs.idsucursal');
@@ -143,19 +142,26 @@ class Ventas_model extends CI_Model
 	{
 		$this->db->trans_begin();
 		
-		/* Insertar en la tabla movimientos proveedor */
+		/* Insertar en la tabla movimientos cliente */
 		$this->db->insert('movimientos_cliente', $data);
-		
-		unset($data['idmediopago']);
-		unset($data['idcliente']);
-		$data['idtipooperacion'] = $tp;
-		$data['idfactor'] = $f;
-		$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
-		$data['observaciones'] = $pago->obs;
-		$data['check_igv'] = $pago->check;
-		if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
-		/* Insertar en la tabla movimientos caja */
-		$this->db->insert('movimientos_caja', $data);
+		$data['liquidado'] = 1;
+		if(intval($pago->medioPagoVta) === 2){
+			unset($data['idmediopago']);
+			unset($data['idcliente']);
+			$data['idtipooperacion'] = $tp;
+			$data['idfactor'] = $f;
+			$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
+			$data['observaciones'] = $pago->obs;
+			$data['check_igv'] = $pago->check;
+			if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
+			/* Insertar en la tabla movimientos caja */
+			$this->db->insert('movimientos_caja', $data);
+		}elseif(intval($pago->medioPagoVta) > 2){
+			$data['idtipooperacion'] = 1;
+			unset($data['idmediopago']);
+			unset($data['idcliente']);
+			$this->db->insert('movimientos_banco', $data);
+		}
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
@@ -278,5 +284,15 @@ class Ventas_model extends CI_Model
 		$this->db->order_by('gsd.idarticulo', 'ASC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function traemov($where)
+	{
+		$result = $this->db->select('*')->from('movimientos_cliente')->where($where)->get();
+		return ($result->num_rows() > 0)? $result->row() : array();
+	}
+	public function guardar($data,$tabla)
+	{
+		if($this->db->insert($tabla, $data))return $this->db->insert_id();
+		else return 0;
 	}
 }

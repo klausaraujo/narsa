@@ -62,22 +62,21 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let tipo = (data.liquidado !== '1');
-						let hrefEditar = (data.activo === '1' && btnEdit && tipo)?
+						let hrefEditar = (data.activo === '1' && btnEdit)?
 							'href="'+base_url+'ventas/ventascliente/editar?id='+data.idtransaccion+'" data-target="#modalVentas" data-toggle="modal" ' : '';
-						let hrefAnular = (data.activo === '1' && btnAnular && tipo)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
+						let hrefAnular = (data.activo === '1' && btnAnular)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
 						/*let hrefPdf = (data.activo === '1' || btnGuia)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=pdf"':'';*/
-						let hrefPago = (data.activo === '1' && btnPago && tipo)? ' data-target="#modalPagoVentas" data-toggle="modal"':'';
+						let hrefPago = (data.activo === '1' && btnPago)? ' data-target="#modalPagoVentas" data-toggle="modal"':'';
 						let hrefComp = (data.activo === '1' && btnComp)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=comp"':'';
 						let btnAccion =
 						'<div class="btn-group">'+
-							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit || !tipo)?'disabled':'')+'">'+
+							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+'">'+
 								'<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
-							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular || !tipo)?'disabled':'')+'">'+
+							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular)?'disabled':'')+'">'+
 								'<i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
 							/*'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
 								'" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+*/
-							'<a title="Ver Gu&iacute;a" '+hrefPago+' class="bg-primary btnTable pago '+((data.activo === '0' || !btnPago || !tipo)?'disabled':'')+
+							'<a title="Ver Gu&iacute;a" '+hrefPago+' class="bg-primary btnTable pago '+((data.activo === '0' || !btnPago)?'disabled':'')+
 								'" target="_blank"><i style="font-size:12px" class="fa fa-credit-card-alt mt-1" aria-hidden="true"></i></a>'+
 							'<a title="Ver Comprobante" '+hrefComp+' class="bg-success btnTable '+((data.activo === '0' || !btnComp)?'disabled':'')+
 								'" target="_blank"><i class="fa fa-file-o" aria-hidden="true"></i></a>'+
@@ -277,8 +276,8 @@ $('#form_pago_venta').validate({
 				method: 'POST',
 				dataType: 'JSON',
 				beforeSend: function () { 
-					$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-					$('#generarSal').addClass('disabled'), $('#cancelSal').addClass('disabled');
+					//$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+					//$('#generarSal').addClass('disabled'), $('#cancelSal').addClass('disabled');
 				},
 				success: function (data) {
 					//console.log(data);
@@ -297,6 +296,7 @@ $('#form_pago_venta').validate({
 						$('.resp').html(data.message);
 						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 					}
+					console.log(data);
 				}
 			});
 		}else{ alert('No hay registros en el detalle'); }
@@ -330,6 +330,7 @@ $('#modalVentas').on('hidden.bs.modal',function(e){
 $('#modalPagoVentas').on('hidden.bs.modal',function(e){
 	$(this).find('.mediopagocredito').prop('selectedIndex',0);
 	$(this).find('.montocredito').val('');
+	$(this).find('.observaciones').val('');
 });
 
 $('#sucursalSal').on('change',function(){
@@ -447,7 +448,7 @@ $('body').bind('click','a',function(e){
 		}
 	}else if(a.hasClass('pago')){
 		let fila = tablaVentas.row($(a).parents('tr')).data(), mto = parseFloat(fila.monto);
-		$('#idtransaccioncredito').val(fila.idtransaccion), $('.montocredito').val(mto.toLocaleString('es-PE', opt)), $('#mtocreditopago').val(fila.monto);
+		$('.idtransaccion').val(fila.idtransaccion), $('.montocredito').val(mto.toLocaleString('es-PE', opt)), $('.mtocredito').val(mto);
 	}
 });
 /* Cambios en el tipo de venta */
@@ -509,24 +510,23 @@ $('#form_cliente').validate({
 $('#modalVtas').on('click',function(){ $('#tipo_registro').val('registrar'); });
 
 $('#generarpagocredito').bind('click',function(){
-	let boton = $(this), mod = boton.closest('#modalPagoVentas'), mp = mod.find('.mediopagocredito').val(), mto = mod.find('#mtocreditopago').val();
-	let id = mod.find('#idtransaccioncredito').val();
+	let boton = $(this), mod = boton.closest('.modal-body'), mp = mod.find('.mediopagocredito').val(), mto = mod.find('.mtocredito').val();
+	let id = mod.find('.idtransaccion').val(), obs = mod.find('.observaciones').val();
 	boton.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
 	
 	$.ajax({
-		data: { idtransaccion:id, medio:mp, monto:mto },
+		data: { idtransaccion:id, medio:mp, monto:mto, obs:obs },
 		url: base_url + 'ventas/ventascliente/pago',
 		method: 'POST',
 		dataType: 'JSON',
 		beforeSend: function () { boton.addClass('disabled'); },
 		success: function (data) {
-			console.log(data);
 			boton.html('Pagar');
 			boton.removeClass('disabled');
 			$('#modalPagoVentas').modal('hide');
 			if (parseInt(data.status) === 200) tablaVentas.ajax.reload();
 			
-			$('html, body').animate({ scrollTop: 0 }, 'fast');
+			//$('html, body').animate({ scrollTop: 0 }, 'fast');
 			$('.resp').html(data.message);
 			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 		}

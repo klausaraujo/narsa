@@ -225,8 +225,8 @@
 								</div>
 								<div class="modal-body">
 									<div class="container-fluid">
-										<input type="hidden" id="idtransaccioncredito" />
-										<input type="hidden" id="mtocreditopago" />
+										<input type="hidden" class="idtransaccion" />
+										<input type="hidden" class="mtocredito" />
 										<div class="row">
 											<div class="col-md-12">
 												<div class="row my-2">
@@ -246,6 +246,14 @@
 															<option value="<?=$row->idmediopago;?>"><?=$row->medio_pago;?></option>
 														<?	endforeach;	?>
 														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="row my-2">
+													<label class="col-md-5 align-self-center mb-0">Observaciones:</label>
+													<div class="col-md-7">
+														<input type="text" class="form-control form-control-sm observaciones" />
 													</div>
 												</div>
 											</div>

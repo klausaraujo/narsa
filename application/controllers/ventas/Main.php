@@ -148,7 +148,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
 		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; $idtrans = 0;
-		$tipoDesc = $pago->tipoPagoVta === '1'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $factor = 1;
+		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $factor = 1;
 		$message = 'No se pudo registrar la venta'; $status = 500;
 		
 		if($pago->tipoComp === '01'){
@@ -250,7 +250,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Ventas_model');
 		$status = 500; $message = 'No se pudo anular'; $id = $this->input->get('id'); $cli = false; $cj = false; $guia = false; $detalle = false;
-		$dataAnula = ['activo' => 0,'idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s')];
+		$dataAnula = ['activo' => 0,'idusuario_anulacion'=>$this->usuario->idusuario,'fecha_anulacion'=>date('Y-m-d H:i:s')];$bco = false;
 		
 		$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
 		$idguia = $row->idguia;
@@ -258,7 +258,8 @@ class Main extends CI_Controller
 		$tran = $this->Ventas_model->anularVenta('transacciones',['idtransaccion' => $id],['activo' => 0]);
 		if($tran) $cli = $this->Ventas_model->anularVenta('movimientos_cliente',['idtransaccion' => $id],$dataAnula);
 		if($cli) $cj = $this->Ventas_model->anularVenta('movimientos_caja',['idtransaccion' => $id],$dataAnula);
-		if($cj) $guia = $this->Ventas_model->anularVenta('guia_salida',['idtransaccion' => $id],$dataAnula);
+		if($cj) $bco = $this->Ventas_model->anularVenta('movimientos_banco',['idtransaccion' => $id],$dataAnula);
+		if($bco) $guia = $this->Ventas_model->anularVenta('guia_salida',['idtransaccion' => $id],$dataAnula);
 		if($guia) $detalle = $this->Ventas_model->anularVenta('guia_salida_detalle',['idguia' => $idguia],['activo' => 0]);
 		
 		if($detalle){ $message = 'Venta Anulada'; $status = 200; }
@@ -274,27 +275,35 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Ventas_model');
 		$status = 500; $message = 'No se pudo Liquidar el Cr&eacute;dito'; $id = $this->input->post('idtransaccion'); $mto = $this->input->post('monto');
-		$medio = $this->input->post('medio');
-		$cli = false; $cj = false; $guia = false;
+		$medio = $this->input->post('medio'); $obs = $this->input->post('obs'); $cli = false; $cj = false; $guarda = 0;
 		$guia_salida = ['monto_pagado' => $mto,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
-		$mov_cliente = ['idmediopago' => $medio,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
-		$mov_caja = ['liquidado' => 1,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+		$mov_cliente = ['idmediopago' => $medio,'idfactor' => 25,'fecha_movimiento'=>date('Y-m-d H:i:s'),
+				'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
+		//$mov_caja = ['liquidado' => 1,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		
-		$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
-		$idguia = $row->idguia;
+		/*$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
+		$idguia = $row->idguia;*/
 		
 		$guia = $this->Ventas_model->anularVenta('guia_salida',['idtransaccion' => $id],$guia_salida);
 		if($guia) $cli = $this->Ventas_model->anularVenta('movimientos_cliente',['idtransaccion' => $id],$mov_cliente);
-		if($cli) $cj = $this->Ventas_model->anularVenta('movimientos_caja',['idtransaccion' => $id],$mov_caja);
 		
-		if($cj){ $message = 'Venta Liquidada'; $status = 200; }
+		$movpago = $this->Ventas_model->traemov(['idtransaccion' => $id]);
+		unset($movpago->idmediopago); unset($movpago->idcliente);
+		$movpago->idfactor = 25; $movpago->liquidado = 1;
+		
+		if($medio === '2'){
+			$movpago->idtipooperacion = 16;
+			$guarda = $this->Ventas_model->guardar($movpago,'movimientos_caja');
+		}else{
+			$movpago->idtipooperacion = 1;
+			$guarda = $this->Ventas_model->guardar($movpago,'movimientos_banco');
+		}
+		
+		if($guarda){ $message = 'Venta Liquidada'; $status = 200; }
 		
 		$resp = array(
 			'status' => $status,
-			'message' => $message,
-			'medio' => $medio,
-			'monto' => $mto,
-			'id' => $id
+			'message' => $message
 		);
 				
 		echo json_encode($resp);
