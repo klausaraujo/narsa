@@ -183,7 +183,7 @@ $(document).ready(function (){
 						let var_status = '';
 						switch(data){
 							case '1': var_status = row.liquidado === '1'?
-									'<span class="text-primary">Liquidado</span>':'<span class="text-success">Pendiente</span>'; break;
+									'<span class="text-primary">Liquidado</span>':'<span class="text-warning">Pendiente</span>'; break;
 							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
