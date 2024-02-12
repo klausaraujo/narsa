@@ -1,4 +1,4 @@
-let tablaClientes, tablaVentas, tablaSalDetalle, medioPagoOpt = $('#medioPagoVta option');
+let tablaClientes, tablaVentas, tablaSalDetalle, medioPagoOpt = $('#medioPagoVta option'), tablareporte = null;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -159,6 +159,42 @@ $(document).ready(function (){
 				
 			],
 			dom: '<"row"rt>', order: [],
+		});
+	}else if(segmento2 === 'reporteventas'){
+		tablareporte = $('#tablareportesventas').DataTable({
+			ajax:{
+				url: base_url + 'ventas/listareporte',
+				type: 'POST',
+				data: function (d) {
+					d.sucursal = $('.sucursal').val();
+					d.desde = $('.desde').val();
+					d.hasta = $('.hasta').val();
+				}
+			},
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],
+			language: lngDataTable,order: [],
+			columns:[
+				{ data: 'idtransaccion', render: function(data){ return ceros( data, 6 ); } },{ data: 'tipo_operacion' },{ data: 'medio_pago' },
+				{ data: 'numero_documento' },{ data: 'nombre' },{ data: 'fecha' },
+				{ data: 'monto',className: 'text-right',render:function(data){ let number = parseFloat(data); return number.toLocaleString('es-PE', opt); } },
+				{
+					data: 'activo',
+					render: function(data,type,row){
+						let var_status = '';
+						
+						switch(data){
+							case '1': var_status = row.liquidado === '1'?
+									'<span class="text-primary">Liquidado</span>':'<span class="text-success">Activo</span>'; break;
+							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
+						}
+						return var_status;
+					}
+				},
+			],
+			columnDefs:[
+				{ title: 'Nro. Op.', targets: 0 },{ title: 'Tipo Op.', targets: 1 },{ title: 'Medio Pago', targets: 2 },{ title: 'Documento', targets: 3 },
+				{ title: 'Cliente', targets: 4 },{ title: 'Fecha', targets: 5 },{ title: 'Monto', targets: 6 },{ title: 'Status', targets: 7 }
+			],
 		});
 	}
 });
@@ -536,5 +572,53 @@ $('#generarpagocredito').bind('click',function(){
 			$('.resp').html(data.message);
 			setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 		}
+	});
+});
+
+$('.exportar').bind('click', function(e){
+	let data = {}, url = '', cta = 0;
+	
+	if(segmento2 === 'reporte1' || segmento2 === 'reporte2' || segmento2 === 'reporte3')
+		url = 's='+$('#sucursal').val()+'&a='+$('#anio').val()+'&art='+$('#articulo').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val(), cta = 1;
+	else if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6' || segmento2 === 'reporte7')
+		url = 's='+$('#sucursal').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val(), cta = 1;
+	if(segmento2 === 'reporte7') url += '&tipo='+$('#tipoop').val();
+	if(segmento2 === 'reporte8'){
+		let div = $(this).parents('.tab-pane'), grilla = div.find('.table');
+		cta = $("#"+grilla.prop('id')).dataTable().fnSettings().aoData.length;
+		url = 'tab='+div.find('.hidden').val()+'&desde='+div.find('.desde').val()+'&hasta='+div.find('.hasta').val()+'&suc='+div.find('.sucursal').val()
+				+'&articulo='+div.find('.articulo').val()+'&costo='+div.find('.costo').val();
+	}
+	if(cta > 0){
+		if(this.id === 'pdf')
+			$(this).attr('href', base_url + 'proveedores/reportes/pdf?' + url);
+		else if(this.id === 'excel')
+			$(this).attr('href', base_url + 'proveedores/reportes/excel?' + url);
+	}else{
+		e.preventDefault();
+		alert('No hay registros disponibles para el Informe');
+	}
+	//$(this).attr('target','_blank');
+	/*
+	$.ajax({
+		data: { data : JSON.stringify(data) },
+		url: base_url + 'proveedores/reportes/pdf',
+		method: 'POST',
+		dataType: 'JSON',
+		beforeSend: function (){ },
+		success: function (data){
+			console.log(data);
+		}
+	});*/
+});
+
+$('.generar').bind('click',function(){
+	//let div = $(this).parents('.tab-pane'), grilla = div.find('.table'), tab = null, url = base_url+'proveedores/costos', art = '', costo = '', pane = '';
+	$(this).html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+	$(this).addClass('disabled');
+	
+	tablareporte.ajax.reload(()=>{
+		$(this).html('Generar Reporte');
+		$(this).removeClass('disabled');
 	});
 });

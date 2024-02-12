@@ -30,6 +30,15 @@ class Main extends CI_Controller
 		$data = [];
 		$this->load->view('main',$data);
 	}
+	public function listareporteventas()
+	{
+		$this->load->model('Ventas_model');
+		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta');
+		
+		$lista = $this->Ventas_model->listaVentas('gs.idsucursal='.$suc.' AND DATE_FORMAT(gs.fecha_registro, "%Y-%m-%d") BETWEEN "'.$d.'" AND "'.$h.'"');
+		
+		echo json_encode(['data' => $lista]);
+	}
 	public function nuevo()
 	{
 		if($this->uri->segment(1) === 'nuevocliente')header('location:' .base_url(). 'ventas/cliente/nuevo');

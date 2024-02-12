@@ -48,7 +48,7 @@ class Ventas_model extends CI_Model
 	}
 	public function listaVentas($data)
     {
-        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre,DATE_FORMAT(gs.fecha_movimiento,"%d/%m/%Y") as fecha');
+        $this->db->select('gs.*,tp.tipo_operacion,mp.medio_pago,su.sucursal,cl.nombre,cl.numero_documento,DATE_FORMAT(gs.fecha_movimiento,"%d/%m/%Y") as fecha');
         $this->db->from('movimientos_cliente gs');
 		$this->db->join('tipo_operacion_cliente tp','tp.idtipooperacion = gs.idtipooperacion');
 		$this->db->join('medio_pago mp','mp.idmediopago = gs.idmediopago');
