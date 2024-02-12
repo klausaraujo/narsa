@@ -35,7 +35,8 @@ class Main extends CI_Controller
 		$this->load->model('Ventas_model');
 		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta');
 		
-		$lista = $this->Ventas_model->listaVentas('gs.idsucursal='.$suc.' AND DATE_FORMAT(gs.fecha_registro, "%Y-%m-%d") BETWEEN "'.$d.'" AND "'.$h.'"');
+		$lista = $this->Ventas_model->listaVentas('gs.idsucursal='.$suc.' AND DATE_FORMAT(gs.fecha_registro, "%Y-%m-%d") BETWEEN 
+			"'.$d.'" AND "'.$h.'" AND gs.activo=1');
 		
 		echo json_encode(['data' => $lista]);
 	}
@@ -349,6 +350,37 @@ class Main extends CI_Controller
 		}else{
 			$this->load->library('dom1');
 			$this->dom1->generate($direccion, $a5, $html, 'Guía Salida');
+		}
+	}
+	public function excel()
+	{
+		$this->load->model('Ventas_model');
+		$reporte = null; $cab = [];
+		
+		$suc = $this->input->get('suc'); $d = $this->input->get('desde'); $h = $this->input->get('hasta');
+		$cab = ['Nro.Op','Tipo Operacion','Medio de Pago','Documento','Cliente','Fecha Registro','Monto /S','Liquidado','Status'];
+		$reporte = $this->Ventas_model->listaventas('gs.idsucursal='.$suc.' AND DATE_FORMAT(gs.fecha_registro,"%Y-%m-%d") 
+			BETWEEN "'.$d.'" AND "'.$h.'" AND gs.activo=1');
+		
+		if(!empty($reporte)){
+			//$cabecera = json_decode(json_encode($reporte[0]), true);
+			$filename = 'reporte.csv';
+			$fp = fopen('php://output', 'w');
+			header('Content-type: application/csv');
+			header('Content-Disposition: attachment; filename='.$filename);
+			//fputcsv($fp,array_keys((array)$reporte[0]),';');
+			fputcsv($fp,$cab,';');
+			
+			foreach($reporte as $row):
+				$data = array(
+					$row->idtransaccion,$row->tipo_operacion,$row->medio_pago,$row->numero_documento,$row->nombre,$row->fecha,
+					$row->monto,($row->liquidado==='1'?'Liquidado':'Pendiente'),($row->activo==='1'?'Activo':'Anulado')
+				);
+				fputcsv($fp,$data,';');
+			endforeach;
+			
+			fclose($fp);
+			exit;
 		}
 	}
 }

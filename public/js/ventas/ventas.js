@@ -181,10 +181,9 @@ $(document).ready(function (){
 					data: 'activo',
 					render: function(data,type,row){
 						let var_status = '';
-						
 						switch(data){
 							case '1': var_status = row.liquidado === '1'?
-									'<span class="text-primary">Liquidado</span>':'<span class="text-success">Activo</span>'; break;
+									'<span class="text-primary">Liquidado</span>':'<span class="text-success">Pendiente</span>'; break;
 							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
@@ -578,38 +577,15 @@ $('#generarpagocredito').bind('click',function(){
 $('.exportar').bind('click', function(e){
 	let data = {}, url = '', cta = 0;
 	
-	if(segmento2 === 'reporte1' || segmento2 === 'reporte2' || segmento2 === 'reporte3')
-		url = 's='+$('#sucursal').val()+'&a='+$('#anio').val()+'&art='+$('#articulo').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val(), cta = 1;
-	else if(segmento2 === 'reporte4' || segmento2 === 'reporte5' || segmento2 === 'reporte6' || segmento2 === 'reporte7')
-		url = 's='+$('#sucursal').val()+'&prod='+$('#productor').val()+'&rep='+$('#reportename').val(), cta = 1;
-	if(segmento2 === 'reporte7') url += '&tipo='+$('#tipoop').val();
-	if(segmento2 === 'reporte8'){
-		let div = $(this).parents('.tab-pane'), grilla = div.find('.table');
-		cta = $("#"+grilla.prop('id')).dataTable().fnSettings().aoData.length;
-		url = 'tab='+div.find('.hidden').val()+'&desde='+div.find('.desde').val()+'&hasta='+div.find('.hasta').val()+'&suc='+div.find('.sucursal').val()
-				+'&articulo='+div.find('.articulo').val()+'&costo='+div.find('.costo').val();
-	}
+	cta = $('#tablareportesventas').dataTable().fnSettings().aoData.length;
+	url = 'desde='+$('.desde').val()+'&hasta='+$('.hasta').val()+'&suc='+$('.sucursal').val();
+	
 	if(cta > 0){
-		if(this.id === 'pdf')
-			$(this).attr('href', base_url + 'proveedores/reportes/pdf?' + url);
-		else if(this.id === 'excel')
-			$(this).attr('href', base_url + 'proveedores/reportes/excel?' + url);
+		$(this).attr('href', base_url + 'ventas/excel?' + url);
 	}else{
 		e.preventDefault();
 		alert('No hay registros disponibles para el Informe');
 	}
-	//$(this).attr('target','_blank');
-	/*
-	$.ajax({
-		data: { data : JSON.stringify(data) },
-		url: base_url + 'proveedores/reportes/pdf',
-		method: 'POST',
-		dataType: 'JSON',
-		beforeSend: function (){ },
-		success: function (data){
-			console.log(data);
-		}
-	});*/
 });
 
 $('.generar').bind('click',function(){

@@ -43,6 +43,13 @@
 								</div>
 							</div>
 							<hr>
+							<div class="col-12">
+								<div class="col-md-3">
+									<a href="#" class="btn btn-success align-self-center ml-1 exportar" id="excel" title="Exportar a EXCEL" >
+										<i class="fa fa-file-excel-o mr-0" aria-hidden="true" style="font-size:1.2em"></i>
+									</a>
+								</div>
+							</div>
 							<div class="col-12 mx-auto mt-md-2" style="overflow-x:auto">
 								<table id="tablareportesventas" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>
 							</div>

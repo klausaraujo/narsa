@@ -94,6 +94,7 @@ $route['ventas/ventascliente/pdf'] = 'ventas/main/reporte';
 $route['ventas/ventascliente/pago'] = 'ventas/main/pagoCredito';
 $route['ventas/reporteventas'] = 'ventas/main/reporteventas';
 $route['ventas/listareporte'] = 'ventas/main/listareporteventas';
+$route['ventas/excel'] = 'ventas/main/excel';
 
 /* Proveedores */
 $route['proveedores/edocta'] = 'proveedores/main/edocta';
