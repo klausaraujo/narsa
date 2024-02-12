@@ -62,21 +62,22 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let hrefEditar = (data.activo === '1' && btnEdit)?
+						let liq = data.liquidado === '1'? true : false;
+						let hrefEditar = (data.activo === '1' && btnEdit && !liq)?
 							'href="'+base_url+'ventas/ventascliente/editar?id='+data.idtransaccion+'" data-target="#modalVentas" data-toggle="modal" ' : '';
-						let hrefAnular = (data.activo === '1' && btnAnular)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
+						let hrefAnular = (data.activo === '1' && btnAnular && !liq)?'href="'+base_url+'ventas/ventascliente/anular?id='+data.idtransaccion+'"':'';
 						/*let hrefPdf = (data.activo === '1' || btnGuia)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=pdf"':'';*/
-						let hrefPago = (data.activo === '1' && btnPago)? ' data-target="#modalPagoVentas" data-toggle="modal"':'';
+						let hrefPago = (data.activo === '1' && btnPago && !liq)? ' data-target="#modalPagoVentas" data-toggle="modal"':'';
 						let hrefComp = (data.activo === '1' && btnComp)?'href="'+base_url+'ventas/ventascliente/pdf?id='+data.idtransaccion+'&op=comp"':'';
 						let btnAccion =
 						'<div class="btn-group">'+
-							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit)?'disabled':'')+'">'+
+							'<a title="Editar Venta" '+hrefEditar+' class="bg-warning btnTable editar '+((data.activo === '0' || !btnEdit || liq)?'disabled':'')+'">'+
 								'<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
-							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular)?'disabled':'')+'">'+
+							'<a title="Anular Gu&iacute;a Salida" '+hrefAnular+' class="bg-danger btnTable anular '+((data.activo === '0' || !btnAnular || liq)?'disabled':'')+'">'+
 								'<i class="fa fa-trash-o" aria-hidden="true"></i></a>'+
 							/*'<a title="Ver Gu&iacute;a" '+hrefPdf+' class="bg-primary btnTable '+((data.activo === '0' || !btnGuia)?'disabled':'')+
 								'" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'+*/
-							'<a title="Ver Gu&iacute;a" '+hrefPago+' class="bg-primary btnTable pago '+((data.activo === '0' || !btnPago)?'disabled':'')+
+							'<a title="Pagar Cr&eacute;dito" '+hrefPago+' class="bg-primary btnTable pago '+((data.activo === '0' || !btnPago || liq)?'disabled':'')+
 								'" target="_blank"><i style="font-size:12px" class="fa fa-credit-card-alt mt-1" aria-hidden="true"></i></a>'+
 							'<a title="Ver Comprobante" '+hrefComp+' class="bg-success btnTable '+((data.activo === '0' || !btnComp)?'disabled':'')+
 								'" target="_blank"><i class="fa fa-file-o" aria-hidden="true"></i></a>'+
@@ -260,7 +261,7 @@ $('#form_pago_venta').validate({
 	submitHandler: function (form, event) {
 		event.preventDefault();
 		//console.log(tablaSalDetalle.rows().data());
-		let json = [], i = 0, formData = new FormData(document.getElementById('form_pago_venta')), strForm = '', check = 0;
+		let json = [], i = 0, formData = new FormData(document.getElementById('form_pago_venta')), strForm = '', check = 0, venta = null;
 		if($('#checkigv').prop('checked')) check = 1;
 		
 		formData.set('idcliente',id), formData.set('idsucursal', $('#sucursalSal').val()), formData.set('obs', $('#obsSal').val()), formData.set('check', check);
@@ -276,8 +277,8 @@ $('#form_pago_venta').validate({
 				method: 'POST',
 				dataType: 'JSON',
 				beforeSend: function () { 
-					//$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
-					//$('#generarSal').addClass('disabled'), $('#cancelSal').addClass('disabled');
+					$('#generarSal').html('<span class="spinner-border spinner-border-sm"></span>&nbsp;&nbsp;Cargando...');
+					$('#generarSal').addClass('disabled'), $('#cancelSal').addClass('disabled');
 				},
 				success: function (data) {
 					//console.log(data);
@@ -296,7 +297,7 @@ $('#form_pago_venta').validate({
 						$('.resp').html(data.message);
 						setTimeout(function () { $('.resp').html('&nbsp;'); }, 2500);
 					}
-					console.log(data);
+					//console.log(data);
 				}
 			});
 		}else{ alert('No hay registros en el detalle'); }
@@ -417,6 +418,10 @@ $('body').bind('click','a',function(e){
 				tablaSalDetalle.rows.add(data.articulos).draw();
 				$('#guia_vta').val(data.data.idguia);
 				$('#idtrans').val(data.data.idtransaccion);
+				$('#idusuario').val(data.data.idusuario_registro);
+				$('#fecha_reg').val(data.data.fecha_registro);
+				$('#fecha_mov').val(data.data.fecha_movimiento);
+				$('#status').val(data.data.activo);
 				$('#generarSal').html('Editar Venta');
 			}
 		});
@@ -512,7 +517,7 @@ $('#modalVtas').on('click',function(){ $('#tipo_registro').val('registrar'); });
 $('#generarpagocredito').bind('click',function(){
 	let boton = $(this), mod = boton.closest('.modal-body'), mp = mod.find('.mediopagocredito').val(), mto = mod.find('.mtocredito').val();
 	let id = mod.find('.idtransaccion').val(), obs = mod.find('.observaciones').val();
-	boton.html('<i class="fas fa-spinner fa-pulse fa-1x"></i>');
+	boton.html('<i class="fa fa-spinner fa-pulse fa-1x"></i>');
 	
 	$.ajax({
 		data: { idtransaccion:id, medio:mp, monto:mto, obs:obs },
@@ -521,6 +526,7 @@ $('#generarpagocredito').bind('click',function(){
 		dataType: 'JSON',
 		beforeSend: function () { boton.addClass('disabled'); },
 		success: function (data) {
+			console.log(data);
 			boton.html('Pagar');
 			boton.removeClass('disabled');
 			$('#modalPagoVentas').modal('hide');

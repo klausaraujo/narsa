@@ -24,6 +24,12 @@ class Main extends CI_Controller
 		$clientes = $this->Ventas_model->listaClientes();
 		echo json_encode(['data' => $clientes]);
 	}
+	public function reporteventas()
+	{
+		$this->load->model('Ventas_model');
+		$data = [];
+		$this->load->view('main',$data);
+	}
 	public function nuevo()
 	{
 		if($this->uri->segment(1) === 'nuevocliente')header('location:' .base_url(). 'ventas/cliente/nuevo');
@@ -149,7 +155,7 @@ class Main extends CI_Controller
 		$this->load->model('Ventas_model'); $this->load->model('Proveedores_model');
 		$data = json_decode($_POST['data']); $pago = json_decode($_POST['pago']); $guia = 0; $idtrans = 0;
 		$tipoDesc = $pago->medioPagoVta === '2'? 'VENTA DE PRODUCTOS (EFECTIVO)' : 'VENTA DE PRODUCTOS (OTROS MEDIOS)'; $mov = 0; $factor = 1;
-		$message = 'No se pudo registrar la venta'; $status = 500;
+		$message = 'No se pudo registrar la venta'; $status = 500; $liqui = 0;
 		
 		if($pago->tipoComp === '01'){
 			$ruc = $this->Ventas_model->validaRuc($pago->idcliente,'cliente');
@@ -159,7 +165,7 @@ class Main extends CI_Controller
 			}
 		}
 		
-		if($pago->tipoPagoVta === '2') $factor = 26; else $factor = 25;
+		if($pago->tipoPagoVta === '2') $factor = 26; else{ $factor = 25; $liqui = 1; }
 		
 		$f = $this->Proveedores_model->factor(['destino' => 3,'idtipooperacion' => $pago->tipoPagoVta,'activo' => 1]);
 		$fcli = !empty($f)? $f->idfactor : 1;
@@ -190,6 +196,7 @@ class Main extends CI_Controller
 					'base_imponible' => $pago->base_imponible,
 					'impuesto_igv' => $pago->imp_igv,
 					'idfactor' => $fcli,
+					'liquidado' => $liqui,
 					'fecha_movimiento' => date('Y-m-d H:i:s'),
 					'idusuario_registro' => $this->usuario->idusuario,
 					'fecha_registro' => date('Y-m-d H:i:s'),
@@ -207,8 +214,10 @@ class Main extends CI_Controller
 			if($guia){
 				$dataCli = array(
 					'idtipooperacion' => $pago->tipoPagoVta,
+					'idtransaccion' => $pago->idtrans,
 					'idmediopago' => $pago->medioPagoVta,
 					'idsucursal' => $pago->idsucursal,
+					'idcliente' => $pago->idcliente,
 					'monto' => $pago->total_vta,
 					'tipo_comprobante' => $pago->tipoComp,
 					'serie_comprobante' => $pago->serie,
@@ -216,9 +225,13 @@ class Main extends CI_Controller
 					'base_imponible' => $pago->base_imponible,
 					'impuesto_igv' => $pago->imp_igv,
 					'idfactor' => $fcli,
-					'fecha_movimiento' => date('Y-m-d H:i:s'),
+					'liquidado' => $liqui,
+					'fecha_movimiento' => $pago->fecha_mov,
+					'idusuario_registro' => $pago->idusuario,
+					'fecha_registro' => $pago->fecha_reg,
 					'idusuario_modificacion' => $this->usuario->idusuario,
 					'fecha_modificacion' => date('Y-m-d H:i:s'),
+					'activo' => $pago->status,
 				);
 				$mov = $this->Ventas_model->editaMovCliente($dataCli,$tpcj,$factor,$pago);
 				if($mov){
@@ -277,7 +290,7 @@ class Main extends CI_Controller
 		$status = 500; $message = 'No se pudo Liquidar el Cr&eacute;dito'; $id = $this->input->post('idtransaccion'); $mto = $this->input->post('monto');
 		$medio = $this->input->post('medio'); $obs = $this->input->post('obs'); $cli = false; $cj = false; $guarda = 0;
 		$guia_salida = ['monto_pagado' => $mto,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
-		$mov_cliente = ['idmediopago' => $medio,'idfactor' => 25,'fecha_movimiento'=>date('Y-m-d H:i:s'),
+		$mov_cliente = ['idmediopago' => $medio,'idfactor' => 25,'liquidado' => 1,'fecha_movimiento'=>date('Y-m-d H:i:s'),
 				'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		//$mov_caja = ['liquidado' => 1,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		
@@ -288,8 +301,8 @@ class Main extends CI_Controller
 		if($guia) $cli = $this->Ventas_model->anularVenta('movimientos_cliente',['idtransaccion' => $id],$mov_cliente);
 		
 		$movpago = $this->Ventas_model->traemov(['idtransaccion' => $id]);
-		unset($movpago->idmediopago); unset($movpago->idcliente);
-		$movpago->idfactor = 25; $movpago->liquidado = 1;
+		unset($movpago->idcliente);
+		$movpago->idfactor = 25; $movpago->liquidado = 1; $movpago->observaciones = $obs;
 		
 		if($medio === '2'){
 			$movpago->idtipooperacion = 16;

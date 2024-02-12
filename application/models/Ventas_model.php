@@ -144,21 +144,19 @@ class Ventas_model extends CI_Model
 		
 		/* Insertar en la tabla movimientos cliente */
 		$this->db->insert('movimientos_cliente', $data);
-		$data['liquidado'] = 1;
+		
 		if(intval($pago->medioPagoVta) === 2){
-			unset($data['idmediopago']);
 			unset($data['idcliente']);
 			$data['idtipooperacion'] = $tp;
 			$data['idfactor'] = $f;
-			$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
+			//$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
 			$data['observaciones'] = $pago->obs;
 			$data['check_igv'] = $pago->check;
-			if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
+			//if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
 			/* Insertar en la tabla movimientos caja */
 			$this->db->insert('movimientos_caja', $data);
 		}elseif(intval($pago->medioPagoVta) > 2){
 			$data['idtipooperacion'] = 1;
-			unset($data['idmediopago']);
 			unset($data['idcliente']);
 			$this->db->insert('movimientos_banco', $data);
 		}
@@ -235,17 +233,45 @@ class Ventas_model extends CI_Model
 		$this->db->where(['idtransaccion' => $pago->idtrans]);
 		$this->db->update('movimientos_cliente',$data);
 		
-		unset($data['idmediopago']);
-		unset($data['idcliente']);
-		$data['idtipooperacion'] = $tp;
-		$data['idfactor'] = $f;
-		$data['observaciones'] = $pago->obs;
-		$data['check_igv'] = $pago->check;
-		if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
-		
-		/* Actualizar la tabla movimientos caja */
-		$this->db->where(['idtransaccion' => $pago->idtrans]);
-		$this->db->update('movimientos_caja',$data);
+		if(intval($pago->medioPagoVta) === 2){
+			unset($data['idcliente']);
+			$data['idtipooperacion'] = $tp;
+			$data['idfactor'] = $f;
+			$data['observaciones'] = $pago->obs;
+			$data['check_igv'] = $pago->check;
+			//$data['fecha_vencimiento'] = date('Y-m-d H:i:s');
+			//if($pago->tipoPagoVta === '1') $data['liquidado'] = 1;
+			/* Insertar en la tabla movimientos caja */
+			//$this->db->insert('movimientos_caja', $data);
+			//$this->db->where(['idtransaccion' => $pago->idtrans]);
+			//Validar si hay un registro en la tabla movimientos_banco y si hay borrarlo
+			$existe = $this->db->where(array('idtransaccion' => $pago->idtrans))->from('movimientos_banco')->count_all_results();
+			if($existe){ $this->db->delete('movimientos_banco',array('idtransaccion' => $pago->idtrans)); }
+			//Validar si hay un registro en la tabla movimientos_banco, si hay se actualiza, si no se crea
+			$existe = $this->db->where(array('idtransaccion' => $pago->idtrans))->from('movimientos_caja')->count_all_results();
+			if($existe > 0){
+				$this->db->where(['idtransaccion' => $pago->idtrans]);
+				$this->db->update('movimientos_caja', $data);
+			}else{
+				$this->db->insert('movimientos_caja', $data);
+			}
+		}elseif(intval($pago->medioPagoVta) > 2){
+			$data['idtipooperacion'] = 1;
+			$data['observaciones'] = $pago->obs;
+			$data['check_igv'] = $pago->check;
+			unset($data['idcliente']);
+			//Validar si hay un registro en la tabla movimientos_caja y si hay borrarlo
+			$existe = $this->db->where(array('idtransaccion' => $pago->idtrans))->from('movimientos_caja')->count_all_results();
+			if($existe){ $this->db->delete('movimientos_caja',array('idtransaccion' => $pago->idtrans)); }
+			//Validar si hay un registro en la tabla movimientos_banco, si hay se actualiza, si no se crea
+			$existe = $this->db->where(array('idtransaccion' => $pago->idtrans))->from('movimientos_banco')->count_all_results();
+			if($existe > 0){
+				$this->db->where(['idtransaccion' => $pago->idtrans]);
+				$this->db->update('movimientos_banco', $data);
+			}else{
+				$this->db->insert('movimientos_banco', $data);
+			}
+		}
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();

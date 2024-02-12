@@ -118,9 +118,13 @@
 										</div>
 									</div>
 									<form method="post" id="form_pago_venta">
-										<input type="hidden" value="" id="tipo_registro" name="tipo_registro" />
-										<input type="hidden" value="" id="guia_vta" name="guia_vta" />
-										<input type="hidden" value="" id="idtrans" name="idtrans" />
+										<input type="text" value="" id="tipo_registro" name="tipo_registro" />
+										<input type="text" value="" id="guia_vta" name="guia_vta" />
+										<input type="text" value="" id="idtrans" name="idtrans" />
+										<input type="text" value="" id="idusuario" name="idusuario" />
+										<input type="text" value="" id="fecha_reg" name="fecha_reg" />
+										<input type="text" value="" id="fecha_mov" name="fecha_mov" />
+										<input type="text" value="" id="status" name="status" />
 										<div class="row">
 											<div class="col-md-11 mx-auto">
 												<div class="row my-4">
@@ -253,7 +257,7 @@
 												<div class="row my-2">
 													<label class="col-md-5 align-self-center mb-0">Observaciones:</label>
 													<div class="col-md-7">
-														<input type="text" class="form-control form-control-sm observaciones" />
+														<input type="text" class="form-control form-control-sm observaciones mayusc" />
 													</div>
 												</div>
 											</div>
