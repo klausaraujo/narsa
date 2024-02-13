@@ -10,7 +10,7 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="row">
-										<label class="control-label col-md-5 align-self-center mb-0 text-left ">Sucursal:</label>
+										<label class="control-label col-md-5 align-self-center mb-0 text-left">Sucursal:</label>
 										<div class="col-md-7">
 											<select class="form-control form-control-sm sucursal">
 											<? foreach($usuario->sucursales as $row): ?>
@@ -38,7 +38,47 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3 px-0">
+							</div>
+							<div class="row mt-3">
+								<div class="col-md-3">
+									<div class="row">
+										<label class="control-label col-md-5 align-self-center mb-0 text-left">Tipo Op.:</label>
+										<div class="col-md-7">
+											<select class="form-control form-control-sm tipoop">
+												<option value=""> -- Seleccione -- </option>
+											<? foreach($tipo as $row): ?>
+												<option value="<?=$row->idtipooperacion;?>"><?=$row->tipo_operacion;?></option>	
+											<? endforeach;	?>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="row">
+										<label class="control-label col-md-5 align-self-center mb-0 text-left">Medio de Pago:</label>
+										<div class="col-md-7">
+											<select class="form-control form-control-sm mediopago">
+												<option value=""> -- Seleccione -- </option>
+											<? foreach($medio as $row): ?>
+												<option value="<?=$row->idmediopago;?>"><?=$row->medio_pago;?></option>	
+											<? endforeach;	?>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="row">
+										<label class="control-label col-md-4 align-self-center mb-0 text-left">Status:</label>
+										<div class="col-md-8">
+											<select class="form-control form-control-sm status">
+												<option value=""> -- Seleccione -- </option>
+												<option value="0">Pendiente</option>
+												<option value="1">Liquidado</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2 px-0">
 									<a type="button" class="btn btn-narsa align-self-center text-white generar">Generar Reporte</a>
 								</div>
 							</div>

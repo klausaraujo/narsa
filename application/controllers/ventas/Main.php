@@ -27,16 +27,28 @@ class Main extends CI_Controller
 	public function reporteventas()
 	{
 		$this->load->model('Ventas_model');
-		$data = [];
+		$tipo = null; $medio = null;
+		$tipo = $this->Ventas_model->tipoOp(['combo_movimientos' => 1, 'activo' => 1]);
+		$medio = $this->Ventas_model->medioPago(['activo' => 1]);
+		
+		$data = array(
+			'tipo' => $tipo,
+			'medio' => $medio
+		);
 		$this->load->view('main',$data);
 	}
 	public function listareporteventas()
 	{
 		$this->load->model('Ventas_model');
-		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta');
+		$suc = $this->input->post('sucursal'); $d = $this->input->post('desde'); $h = $this->input->post('hasta'); $query = '';
+		$idop = $this->input->post('idop'); $medio = $this->input->post('medio'); $status = $this->input->post('status');
+		
+		if($idop !== '') $query .= ' AND gs.idtipooperacion='.$idop;
+		if($medio !== '') $query .= ' AND gs.idmediopago='.$medio;
+		if($status !== '') $query .= ' AND gs.liquidado='.$status;
 		
 		$lista = $this->Ventas_model->listaVentas('gs.idsucursal='.$suc.' AND DATE_FORMAT(gs.fecha_registro, "%Y-%m-%d") BETWEEN 
-			"'.$d.'" AND "'.$h.'" AND gs.activo=1');
+			"'.$d.'" AND "'.$h.'" AND gs.activo=1'.$query);
 		
 		echo json_encode(['data' => $lista]);
 	}

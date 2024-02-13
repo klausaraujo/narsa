@@ -99,7 +99,8 @@ $(document).ready(function (){
 						let var_status = '';
 						
 						switch(data){
-							case '1': var_status = row.liquidado==='1'?'<span class="text-primary">Liquidado</span>':'<span class="text-success">Activo</span>'; break;
+							case '1': var_status = row.liquidado==='1'?
+								'<span class="text-primary">Liquidado</span>':'<span class="text-warning">Pendiente</span>'; break;
 							case '0': var_status = '<span class="text-danger">Anulado</span>'; break;
 						}
 						return var_status;
@@ -169,6 +170,9 @@ $(document).ready(function (){
 					d.sucursal = $('.sucursal').val();
 					d.desde = $('.desde').val();
 					d.hasta = $('.hasta').val();
+					d.idop = $('.tipoop').val();
+					d.medio = $('.mediopago').val();
+					d.status = $('.status').val();
 				}
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']],

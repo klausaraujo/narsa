@@ -55,7 +55,7 @@ class Ventas_model extends CI_Model
 		$this->db->join('sucursal su','su.idsucursal = gs.idsucursal');
 		$this->db->join('cliente cl','cl.idcliente = gs.idcliente');
 		$this->db->where($data);
-		$this->db->order_by('gs.idmovimiento', 'DESC');
+		$this->db->order_by('gs.idtransaccion', 'DESC');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
