@@ -34,7 +34,16 @@ class Reportes extends CI_Controller
 	{
 		$this->load->model('Reportes_model');
 		$art = $this->Reportes_model->articulos();
-		$this->load->view('main',['articulos'=>$art]);
+		$totart = $this->Reportes_model->total('idsucursal=1 AND fecha BETWEEN "'.date('Y-m-d').'" AND "'.date('Y-m-d').'"','lista_ingresos_proveedores');
+		$promart = $this->Reportes_model->promedio('idsucursal=1 AND fecha BETWEEN "'.date('Y-m-d').'" AND "'.date('Y-m-d').'"','lista_ingresos_proveedores');
+		
+		$totval = $this->Reportes_model->total('idsucursal=1 AND fecha BETWEEN "'.date('Y-m-d').'" AND "'.date('Y-m-d').'"','lista_valorizaciones_proveedores');
+		$promval = $this->Reportes_model->promedio('idsucursal=1 AND fecha BETWEEN "'.date('Y-m-d').'" AND "'.date('Y-m-d').'"','lista_valorizaciones_proveedores');
+		
+		$promart = floatval($promart) > 0 && floatval($totart) > 0? number_format(floatval($promart)/floatval($totart),2,'.',','):'0.00';
+		$promval = floatval($promval) > 0 && floatval($totval) > 0? number_format(floatval($promval)/floatval($totval),2,'.',','):'0.00';
+		
+		$this->load->view('main',['articulos'=>$art,'tot1'=>$totart,'tot2'=>$totval,'prom1'=>$promart,'prom2'=>$promval]);
 	}
 	public function tblreporte1()
 	{
@@ -87,8 +96,9 @@ class Reportes extends CI_Controller
 		$prom = $this->Reportes_model->promedio('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo,$tabla);
 		$total = $this->Reportes_model->total('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo,$tabla);
 		
-		echo json_encode(['promedio' => (!empty($prom)?number_format($prom->promedio,2,'.',','):'0.00'),
-				'total' => (!empty($total)?number_format($total->total,2,'.',','):'0.00')]);
+		$prom = floatval($prom) > 0 && floatval($total) > 0? number_format(floatval($prom)/floatval($total),2,'.',','):'0.00';
+		
+		echo json_encode(['promedio' => $prom,'total' => number_format($total,2,'.',',')]);
 	}
 	public function pdf()
 	{

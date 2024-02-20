@@ -58,14 +58,14 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-md-3">
+												<!--<div class="col-md-3">
 													<div class="row">
 														<label class="control-label col-md-4 align-self-center mb-0">Costo:</label>
 														<div class="col-md-5">
 															<input type="number" class="form-control form-control-sm costo blur" />
 														</div>
 													</div>
-												</div>
+												</div>-->
 											</div>
 											<div class="row mt-3">
 												<div class="col-md-4">
@@ -100,11 +100,21 @@
 											</div>
 											<div class="col-md-3 d-flex ml-auto ocultar">
 												<span>Total Kg:</span>&nbsp;&nbsp; 
-												<div class="alert alert-success kg" style="padding:0 10px">0</div>
+												<div class="alert alert-success kg" style="padding:0 10px">
+												<?
+													if($tabs[$i] === 'articulos') echo number_format($tot1,2,'.',',');
+													elseif($tabs[$i] === 'valorizados') echo number_format($tot2,2,'.',',');
+												?>
+												</div>
 											</div>
 											<div class="col-md-3 d-flex ml-auto ocultar">
-												<span>Costo Promedio:</span>&nbsp;&nbsp;
-												<div class="alert alert-success prom" style="padding:0 10px">0</div>
+												<span>Precio Promedio:</span>&nbsp;&nbsp;
+												<div class="alert alert-success prom" style="padding:0 10px">
+												<?
+													if($tabs[$i] === 'articulos') echo $prom1;
+													elseif($tabs[$i] === 'valorizados') echo $prom2;
+												?>
+												</div>
 											</div>
 											<div class="col-12 mx-auto mt-md-2" style="overflow-x:auto">
 												<table id="tabla<?=ucfirst($tabs[$i])?>" class="table table-striped table-hover table-bordered mb-0 mx-auto" style="width:100%"></table>

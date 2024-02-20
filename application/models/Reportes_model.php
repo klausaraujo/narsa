@@ -210,12 +210,14 @@ class Reportes_model extends CI_Model
 	}
 	public function promedio($where,$tabla)
 	{
-		$this->db->select('AVG(costo) as promedio');
+		$this->db->select('SUM(costo) as promedio');
 		$this->db->from($tabla);
 		$this->db->where($where);
 		//$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
-		return ($result->num_rows() > 0)? $result->row() : array();
+		$rs = ($result->num_rows() > 0)? $result->row() : array();
+		$costo = !empty($rs)? floatval($rs->promedio):0;
+		return $costo;
 	}
 	public function total($where,$tabla)
 	{
@@ -224,6 +226,8 @@ class Reportes_model extends CI_Model
 		$this->db->where($where);
 		//$this->db->order_by('numero', 'desc');
         $result = $this->db->get();
-		return ($result->num_rows() > 0)? $result->row() : array();
+		$rs = ($result->num_rows() > 0)? $result->row() : array();
+		$total = !empty($rs)? floatval($rs->total):0;
+		return $total;
 	}
 }

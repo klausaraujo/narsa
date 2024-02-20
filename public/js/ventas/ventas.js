@@ -228,7 +228,7 @@ $('#form_salidas').validate({
 	},
 	submitHandler: function (form, event) {
 		event.preventDefault();
-		if(parseInt($('#cantidadSal').val()) > 0 && parseInt($('#costoSal').val()) > 0){
+		if(parseFloat($('#cantidadSal').val()) > 0 && parseFloat($('#costoSal').val()) > 0){
 			let obs = $('#obsSal').val(), suc = $('#sucursalSal').prop('selectedIndex'), art = false, mto = 0;
 			
 			if(tablaSalDetalle.rows().count() === 0){
