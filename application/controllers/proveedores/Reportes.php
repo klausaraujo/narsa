@@ -202,7 +202,7 @@ class Reportes extends CI_Controller
 			}elseif($tab === 'valorizados'){
 				if($this->input->get('articulo') !== '') $art = 'AND idarticulo="'.$this->input->get('articulo').'"';
 				$reporte = $this->Reportes_model->rep2valorizados('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art);
-				if(!empty($reporte))$cab = array_keys((array)$reporte[0]);
+				$cab = ['Nro.Op','Año','Sucursal','Nro. Doc','Productor','Articulo','Fecha Ingreso','Cantidad Kg','Costo Valorizacion'];
 			}
 		}
 		
