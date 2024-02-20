@@ -9,6 +9,7 @@ class Reportes extends CI_Controller
 	{
 		parent::__construct();
 		//$this->load->library('User');
+		date_default_timezone_set('America/Lima');
 		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
 		else header('location:' .base_url());
 	}
@@ -40,8 +41,8 @@ class Reportes extends CI_Controller
 		$totval = $this->Reportes_model->total('idsucursal=1 AND fecha BETWEEN "'.date('Y-m-d').'" AND "'.date('Y-m-d').'"','lista_valorizaciones_proveedores');
 		$promval = $this->Reportes_model->promedio('idsucursal=1 AND fecha BETWEEN "'.date('Y-m-d').'" AND "'.date('Y-m-d').'"','lista_valorizaciones_proveedores');
 		
-		$promart = floatval($promart) > 0 && floatval($totart) > 0? number_format(floatval($promart)/floatval($totart),2,'.',','):'0.00';
-		$promval = floatval($promval) > 0 && floatval($totval) > 0? number_format(floatval($promval)/floatval($totval),2,'.',','):'0.00';
+		/*$promart = floatval($promart) > 0 && floatval($totart) > 0? number_format(floatval($promart)/floatval($totart),2,'.',','):'0.00';
+		$promval = floatval($promval) > 0 && floatval($totval) > 0? number_format(floatval($promval)/floatval($totval),2,'.',','):'0.00';*/
 		
 		$this->load->view('main',['articulos'=>$art,'tot1'=>$totart,'tot2'=>$totval,'prom1'=>$promart,'prom2'=>$promval]);
 	}
@@ -74,12 +75,11 @@ class Reportes extends CI_Controller
 		$costo = ''; $art = '';
 		
 		if($this->input->post('articulo') !== '') $art = 'AND idarticulo="'.$this->input->post('articulo').'"';
-		if($this->input->post('costo') !== '') $costo = 'AND costo >= "'.$this->input->post('costo').'"';
 		
 		if($this->input->post('tab') === 'articulos')
-			$reporte = $this->Reportes_model->rep2articulos('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+			$reporte = $this->Reportes_model->rep2articulos('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art);
 		else if($this->input->post('tab') === 'valorizados')
-			$reporte = $this->Reportes_model->rep2valorizados('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+			$reporte = $this->Reportes_model->rep2valorizados('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art);
 		
 		echo json_encode(['data' => $reporte]);
 	}
@@ -96,9 +96,9 @@ class Reportes extends CI_Controller
 		$prom = $this->Reportes_model->promedio('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo,$tabla);
 		$total = $this->Reportes_model->total('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo,$tabla);
 		
-		$prom = floatval($prom) > 0 && floatval($total) > 0? number_format(floatval($prom)/floatval($total),2,'.',','):'0.00';
+		//$prom = floatval($prom) > 0 && floatval($total) > 0? number_format(floatval($prom)/floatval($total),2,'.',','):'0.00';
 		
-		echo json_encode(['promedio' => $prom,'total' => number_format($total,2,'.',',')]);
+		echo json_encode(['promedio' => number_format($prom,2,'.',','),'total' => number_format($total,2,'.',',')]);
 	}
 	public function pdf()
 	{
@@ -128,14 +128,14 @@ class Reportes extends CI_Controller
 		elseif($this->input->get('rep') === 'reporte6') $reporte = $this->Reportes_model->repMovProv();
 		elseif($this->input->get('rep') === 'reporte7') $reporte = $this->Reportes_model->anulados();
 		
-		if($this->input->get('tab') != ''){
+		/*if($this->input->get('tab') != ''){
 			$tab = $this->input->get('tab'); $suc = $this->input->get('suc'); $d = $this->input->get('desde'); $h = $this->input->get('hasta');
 			if($tab === 'articulos'){
 				$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'"');
 			}elseif($tab === 'valorizados'){
 				$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
 			}
-		}
+		}*/
 		
 		if(!empty($reporte)){
 			$data = ['reporte' => $reporte];
@@ -194,14 +194,14 @@ class Reportes extends CI_Controller
 		
 		if($this->input->get('tab') != ''){
 			$tab = $this->input->get('tab'); $suc = $this->input->get('suc'); $d = $this->input->get('desde'); $h = $this->input->get('hasta');
+			$art = '';
 			if($tab === 'articulos'){
-				$costo = ''; $art = '';
-				$cab = ['Nro.Op','Sucursal','Nro. Doc','Productor','Articulo','Fecha Ingreso','Cantidad Kg','Costo Promedio'];
-				if($this->input->get('articulo') !== '') $art = 'AND ged.idarticulo="'.$this->input->get('articulo').'"';
-				if($this->input->get('costo') !== '') $costo = 'AND r.costo >= "'.$this->input->get('costo').'"';
-				$reporte = $this->Reportes_model->rep2articulos('r.idsucursal='.$suc.' AND r.fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art.' '.$costo);
+				$cab = ['Nro.Op','Año','Sucursal','Nro. Doc','Productor','Articulo','Fecha Ingreso','Cantidad Kg','Costo Promedio'];
+				if($this->input->get('articulo') !== '') $art = 'AND idarticulo="'.$this->input->get('articulo').'"';
+				$reporte = $this->Reportes_model->rep2articulos('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art);
 			}elseif($tab === 'valorizados'){
-				$reporte = $this->Reportes_model->rep2valorizados('r.idsucursal='.$suc.' AND r.fecha_guia BETWEEN "'.$d.'" AND "'.$h.'"');
+				if($this->input->get('articulo') !== '') $art = 'AND idarticulo="'.$this->input->get('articulo').'"';
+				$reporte = $this->Reportes_model->rep2valorizados('idsucursal='.$suc.' AND fecha BETWEEN "'.$d.'" AND "'.$h.'" '.$art);
 				if(!empty($reporte))$cab = array_keys((array)$reporte[0]);
 			}
 		}

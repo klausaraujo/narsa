@@ -111,8 +111,8 @@
 												<span>Precio Promedio:</span>&nbsp;&nbsp;
 												<div class="alert alert-success prom" style="padding:0 10px">
 												<?
-													if($tabs[$i] === 'articulos') echo $prom1;
-													elseif($tabs[$i] === 'valorizados') echo $prom2;
+													if($tabs[$i] === 'articulos') echo number_format($prom1,2,'.',',');
+													elseif($tabs[$i] === 'valorizados') echo number_format($prom2,2,'.',',');
 												?>
 												</div>
 											</div>

@@ -190,7 +190,8 @@ class Reportes_model extends CI_Model
     }
 	public function rep2articulos($where)
 	{
-		$this->db->select('numero,anio_guia as anio,sucursal,numero_documento,nombre,articulo,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,FORMAT(cantidad,2) as cantidad,costo');
+		$this->db->select('numero,anio_guia as anio,sucursal,numero_documento,nombre,articulo,DATE_FORMAT(fecha,"%d/%m/%Y") 
+				as fecha,FORMAT(cantidad,2) as cantidad,costo');
 		$this->db->from('lista_ingresos_proveedores');
 		$this->db->where($where);
 		$this->db->order_by('anio', 'desc');
@@ -200,7 +201,8 @@ class Reportes_model extends CI_Model
 	}
 	public function rep2valorizados($where)
 	{
-		$this->db->select('numero,anio_valorizacion as anio,sucursal,numero_documento,nombre,articulo,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,FORMAT(cantidad,2) as cantidad,FORMAT(costo,2) as costo');
+		$this->db->select('numero,anio_valorizacion as anio,sucursal,numero_documento,nombre,articulo,DATE_FORMAT(fecha,"%d/%m/%Y") 
+				as fecha,FORMAT(cantidad,2) as cantidad,FORMAT(costo,2) as costo');
 		$this->db->from('lista_valorizaciones_proveedores');
 		$this->db->where($where);
 		$this->db->order_by('anio', 'desc');
@@ -210,7 +212,7 @@ class Reportes_model extends CI_Model
 	}
 	public function promedio($where,$tabla)
 	{
-		$this->db->select('SUM(costo) as promedio');
+		$this->db->select('FORMAT(SUM(costo*cantidad)/SUM(cantidad),2) as promedio');
 		$this->db->from($tabla);
 		$this->db->where($where);
 		//$this->db->order_by('numero', 'desc');
