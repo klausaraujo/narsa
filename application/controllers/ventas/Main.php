@@ -316,14 +316,16 @@ class Main extends CI_Controller
 				'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		//$mov_caja = ['liquidado' => 1,'idfactor' => 25,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i:s')];
 		
-		/*$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
-		$idguia = $row->idguia;*/
+		$row = $this->Ventas_model->guiaVenta('guia_salida',$id);
+		$idguia = $row->idguia;
 		
 		$guia = $this->Ventas_model->anularVenta('guia_salida',['idtransaccion' => $id],$guia_salida);
 		if($guia) $cli = $this->Ventas_model->anularVenta('movimientos_cliente',['idtransaccion' => $id],$mov_cliente);
 		
 		$movpago = $this->Ventas_model->traemov(['idtransaccion' => $id]);
-		unset($movpago->idcliente);
+		unset($movpago->idcliente); unset($movpago->idmovimiento); unset($movpago->idusuario_modificacion); unset($movpago->fecha_modificacion);
+		unset($movpago->idusuario_anulacion); unset($movpago->fecha_anulacion);
+		$movpago->idusuario_registro = $this->usuario->idusuario; $movpago->fecha_registro = date('Y-m-d H:i:s');
 		$movpago->idfactor = 25; $movpago->liquidado = 1; $movpago->observaciones = $obs;
 		
 		if($medio === '2'){

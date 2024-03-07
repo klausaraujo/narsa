@@ -79,7 +79,7 @@
 					<td colspan="3"><b>FINCA</b></td><td colspan="3"></td><td colspan="3"><b>FECHA</b></td><td colspan="3"><?=date_format(date_create($certificado->fecha),'d-m-Y')?></td>
 				</tr>
 				<tr style="font-size:10px">
-					<td colspan="3"><b>ALTITUD</b></td><td colspan="3"><?=$certificado->altitud?></td><td colspan="3"><b>H2OVERDE</b></td><td colspan="3"><?=$certificado->h2overde?></td>
+					<td colspan="3"><b>ALTITUD</b></td><td colspan="3"><?=$certificado->altitud?></td><td colspan="3"><b>H2OVERDE</b></td><td colspan="3"><?=$certificado->h2overde?>%</td>
 				</tr>
 				<tr style="font-size:10px">
 					<td colspan="3"><b>ZONA</b></td><td colspan="3"><?=$certificado->sucursal?></td><td colspan="3"><b>PROCESO</b></td><td colspan="3"><?=$certificado->proceso?></td>

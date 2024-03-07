@@ -565,7 +565,7 @@ $('#generarpagocredito').bind('click',function(){
 		dataType: 'JSON',
 		beforeSend: function () { boton.addClass('disabled'); },
 		success: function (data) {
-			console.log(data);
+			//console.log(data);
 			boton.html('Pagar');
 			boton.removeClass('disabled');
 			$('#modalPagoVentas').modal('hide');
