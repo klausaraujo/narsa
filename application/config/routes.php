@@ -76,7 +76,7 @@ $route['main/cargarLatLng'] = 'main/cargarLatLng';
 $route['main/perfil'] = 'main/perfil';
 
 /* Dashboard */
-$route['dashboard/dash'] = 'dashboard/main/dash';
+$route['dashboard/lista'] = 'dashboard/main/lista';
 
 /* Ventas */
 $route['clientes'] = 'ventas/main/base';
